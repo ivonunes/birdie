@@ -55,7 +55,7 @@ PACKAGES
     libnotify>=0.7.5
     libcanberra>=0.28
 OPTIONS
-    --thread)
+    --thread --target-glib=2.32)
 
 #Here we define our executable name.
 add_executable(birdie

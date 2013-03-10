@@ -93,7 +93,7 @@ namespace Birdie.Widgets {
             
             this.favorite.clicked.connect (() => {
                 this.favorite.set_sensitive (false);
-                Thread.create<void*> (this.favorite_thread, true);
+                new Thread<void*> (null, this.favorite_thread);
 		    });
             
             if (this.tweet.favorited) {
@@ -116,7 +116,7 @@ namespace Birdie.Widgets {
                 
                 this.retweet.clicked.connect (() => {
                     this.retweet.set_sensitive (false);
-			        Thread.create<void*> (this.retweet_thread, true);
+			        new Thread<void*> (null, this.retweet_thread);
 		        });
                 
                 this.replybox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
@@ -141,7 +141,7 @@ namespace Birdie.Widgets {
                 
                 this.del.clicked.connect (() => {
 			        this.del.set_sensitive (false);
-			        Thread.create<void*> (this.delete_thread, true);
+			        new Thread<void*> (null, this.delete_thread);
 		        });
                 
                 this.right.pack_start (this.delbox, false, false, 5);
@@ -162,24 +162,32 @@ namespace Birdie.Widgets {
 			if (this.tweet.favorited) {
 			    code = this.birdie.api.favorite_destroy (this.tweet.id);
 			    
-			    Gdk.threads_enter ();
-			    if (code == 0) {
-			        this.favoritelabel.set_label (" ♥ ");
-			        this.favorite.set_tooltip_text (_("Favorite"));
-			        this.tweet.favorited = false;
-			    }
+			    Idle.add( () => {
+			        if (code == 0) {
+			            this.favoritelabel.set_label (" ♥ ");
+			            this.favorite.set_tooltip_text (_("Favorite"));
+			            this.tweet.favorited = false;
+			        }
+			        
+			        this.favorite.set_sensitive (true);
+			        
+			        return false;
+			    });
 			} else {
 			    code = this.birdie.api.favorite_create (this.tweet.id);
 			    
-			    Gdk.threads_enter ();
-			    if (code == 0) {
-			        this.favoritelabel.set_markup ("<span color='#D60B0B'> ♥ </span>");
-			        this.favorite.set_tooltip_text (_("Unfavorite"));
-			        this.tweet.favorited = true;
-			    }
+			    Idle.add( () => {
+			        if (code == 0) {
+			            this.favoritelabel.set_markup ("<span color='#D60B0B'> ♥ </span>");
+			            this.favorite.set_tooltip_text (_("Unfavorite"));
+			            this.tweet.favorited = true;
+			        }
+			        
+			        this.favorite.set_sensitive (true);
+			        
+			        return false;
+			    });
 			}
-			this.favorite.set_sensitive (true);
-			Gdk.threads_leave ();
 			
             return null;
         }
@@ -187,13 +195,14 @@ namespace Birdie.Widgets {
         private void* retweet_thread () {
             int code = this.birdie.api.retweet (this.tweet.id);
 			
-			Gdk.threads_enter ();   
-			if (code == 0) {
-			    this.retweet.set_label (" ✓ ");
-			} else {
-			    this.retweet.set_sensitive (true);
-			}
-			Gdk.threads_leave ();
+			Idle.add( () => {
+			    if (code == 0) {
+			        this.retweet.set_label (" ✓ ");
+			    } else {
+			        this.retweet.set_sensitive (true);
+			    }
+			    return false;
+			});
         
             return null;
         }
@@ -201,15 +210,17 @@ namespace Birdie.Widgets {
         private void* delete_thread () {
             int code = this.birdie.api.destroy (this.tweet.id);
 			
-			Gdk.threads_enter ();
-			if (code == 0) {
-			    this.birdie.home_list.remove (this.tweet);
-			    this.birdie.mentions_list.remove (this.tweet);
-			    this.birdie.own_list.remove (this.tweet);
-			} else {
-			    this.del.set_sensitive (true);
-			}
-			Gdk.threads_leave ();
+			Idle.add( () => {
+			    if (code == 0) {
+			        this.birdie.home_list.remove (this.tweet);
+			        this.birdie.mentions_list.remove (this.tweet);
+			        this.birdie.own_list.remove (this.tweet);
+			    } else {
+			        this.del.set_sensitive (true);
+			    }
+			    
+			    return false;
+			});
         
             return null;
         }

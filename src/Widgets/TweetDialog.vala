@@ -59,7 +59,7 @@ namespace Birdie.Widgets {
 			this.tweet.set_sensitive (false);
 			
 			this.tweet.clicked.connect (() => {
-			    Thread.create<void*> (this.tweet_thread, true);
+			    new Thread<void*> (null, this.tweet_thread);
             });
 			
 			Gtk.Box bottom = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);

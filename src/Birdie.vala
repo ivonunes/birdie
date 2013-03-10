@@ -141,7 +141,7 @@ namespace Birdie {
                 this.welcome = new Granite.Widgets.Welcome (_("Birdie"), _("Twitter Client"));
                 this.welcome.append ("twitter", _("Add account"), _("Add a Twitter account"));
                 this.welcome.activated.connect (() => {
-                    Thread.create<void*> (this.request, true);
+                    new Thread<void*> (null, this.request);
 		        });
 
                 this.notebook = new Granite.Widgets.StaticNotebook ();
@@ -164,7 +164,7 @@ namespace Birdie {
                 
                 Gtk.Button pin_button = new Gtk.Button.with_label (_("OK"));
                 pin_button.clicked.connect (() => {
-                    Thread.create<void*> (this.tokens, true);
+                    new Thread<void*> (null, this.tokens);
 		        });
 		        Gtk.Box pin_button_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
 		        pin_button_box.pack_start (new Gtk.Label (""), true, true, 0);
@@ -199,7 +199,7 @@ namespace Birdie {
                 if (this.api.token == "" || this.api.token_secret == "") {
                     this.switch_timeline ("welcome");
                 } else {
-                    Thread.create<void*> (this.init, true);
+                    new Thread<void*> (null, this.init);
                 }
             } else {
                 this.m_window.present();
@@ -218,7 +218,7 @@ namespace Birdie {
             int code = this.api.get_tokens (this.pin_entry.get_text ());
             
             if (code == 0) {
-                Thread.create<void*> (this.init, true);
+                new Thread<void*> (null, this.init);
             } else {
                 this.switch_timeline ("welcome");
             }
@@ -233,7 +233,6 @@ namespace Birdie {
             this.api.get_mentions_timeline ();
             this.api.get_own_timeline ();
 
-            Gdk.threads_enter ();
             this.api.home_timeline.foreach ((tweet) => {
                 this.home_list.append(tweet, this);
 	        });
@@ -245,7 +244,6 @@ namespace Birdie {
 	        this.api.own_timeline.foreach ((tweet) => {
                 this.own_list.append(tweet, this);
 	        });
-	        Gdk.threads_leave ();
 	        
 	        this.add_timeout_online ();
             this.add_timeout_offline ();
@@ -266,54 +264,56 @@ namespace Birdie {
         }
         
         public void switch_timeline (string new_timeline) {
-            Gdk.threads_enter ();
-            switch (new_timeline) {
-                case "loading":
-                    this.notebook.page = 0;
-                    break;
-                case "welcome":
-                    this.notebook.page = 1;
-                    break;
-                case "pin":
-                    this.notebook.page = 2;
-                    break;
-                case "home":
-                    this.notebook.page = 3;
-                    break;
-                case "mentions":
-                    this.notebook.page = 4;
-                    break;
-                case "dm":
-                    this.notebook.page = 5;
-                    break;
-                case "own":
-                    this.notebook.page = 6;
-                    break;
-                case "user":
-                    this.notebook.page = 7;
-                    break;
-                case "search":
-                    this.notebook.page = 8;
-                    break;
-                case "search_result":
-                    this.notebook.page = 9;
-                    break;
-            }
-            Gdk.threads_leave ();
+            Idle.add( () => {
+                switch (new_timeline) {
+                    case "loading":
+                        this.notebook.page = 0;
+                        break;
+                    case "welcome":
+                        this.notebook.page = 1;
+                        break;
+                    case "pin":
+                        this.notebook.page = 2;
+                        break;
+                    case "home":
+                        this.notebook.page = 3;
+                        break;
+                    case "mentions":
+                        this.notebook.page = 4;
+                        break;
+                    case "dm":
+                        this.notebook.page = 5;
+                        break;
+                    case "own":
+                        this.notebook.page = 6;
+                        break;
+                    case "user":
+                        this.notebook.page = 7;
+                        break;
+                    case "search":
+                        this.notebook.page = 8;
+                        break;
+                    case "search_result":
+                        this.notebook.page = 9;
+                        break;
+                }
+                
+                return false;
+            });
             
             this.current_timeline = new_timeline;
         }
         
         public void add_timeout_offline () {
             GLib.Timeout.add (60000, () => {
-                Thread.create<void*> (this.update_dates, true);
+                new Thread<void*> (null, this.update_dates);
                 return false;
             });
         }
         
         public void add_timeout_online () {
             GLib.Timeout.add (120000, () => {
-                Thread.create<void*> (this.update_timelines, true);
+                new Thread<void*> (null, this.update_timelines);
                 return false;
             });
         }
@@ -335,26 +335,30 @@ namespace Birdie {
         public void update_home () {
             this.api.get_home_timeline ();
             
-            Gdk.threads_enter ();
-            this.home_tmp.foreach ((tweet) => {
-                this.home_list.remove (tweet);
-                this.home_tmp.remove (tweet);
+            Idle.add( () => {
+                this.home_tmp.foreach ((tweet) => {
+                    this.home_list.remove (tweet);
+                    this.home_tmp.remove (tweet);
+	            });
+                
+                this.api.home_timeline_since_id.foreach ((tweet) => {
+                    this.home_list.append(tweet, this);
+	            });
+	            
+	            return false;
 	        });
-            
-            this.api.home_timeline_since_id.foreach ((tweet) => {
-                this.home_list.append(tweet, this);
-	        });
-	        Gdk.threads_leave ();
         }
         
         public void update_mentions () {
             this.api.get_mentions_timeline ();
             
-            Gdk.threads_enter ();
-            this.api.mentions_timeline_since_id.foreach ((tweet) => {
-                this.mentions_list.append(tweet, this);
+            Idle.add( () => {
+                this.api.mentions_timeline_since_id.foreach ((tweet) => {
+                    this.mentions_list.append(tweet, this);
+	            });
+	            
+	            return false;
 	        });
-	        Gdk.threads_leave ();
         }
         
         public void tweet_callback (string text, string id = "") {
@@ -366,11 +370,13 @@ namespace Birdie {
             if (code != 1) {
                 Tweet tweet_tmp = new Tweet (code.to_string (), this.api.account.name, this.api.account.screen_name, text_url, "", this.api.account.profile_image_url, this.api.account.profile_image_file);
 
-                Gdk.threads_enter ();
-                this.home_tmp.append (tweet_tmp);
-                this.home_list.append (tweet_tmp, this);
-                this.own_list.append (tweet_tmp, this);
-                Gdk.threads_leave ();
+                Idle.add( () => {
+                    this.home_tmp.append (tweet_tmp);
+                    this.home_list.append (tweet_tmp, this);
+                    this.own_list.append (tweet_tmp, this);
+                    
+                    return false;
+                });
             }
             
             this.switch_timeline ("home");

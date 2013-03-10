@@ -209,7 +209,7 @@ namespace Birdie {
                         
             if ("/" in profile_image_file)
                 profile_image_file = profile_image_file.split ("/")[4] + "_" + profile_image_file.split ("/")[5];
-                        
+
             if (".png" in profile_image_url) {
                 convert_png = false;
             } else {
@@ -234,7 +234,6 @@ namespace Birdie {
                 }
                         
                 // generate rounded avatar
-                Gdk.threads_enter ();
                 var surface = new Cairo.ImageSurface (Cairo.Format.ARGB32, 50, 50);
                 var ctx = new Cairo.Context (surface);
                         
@@ -252,7 +251,6 @@ namespace Birdie {
                 ctx.paint ();
 
                 surface.write_to_png (Environment.get_home_dir () + "/.cache/birdie/" + profile_image_file);
-                Gdk.threads_leave ();
             }
             
             return profile_image_file;
