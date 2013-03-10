@@ -11,12 +11,15 @@ namespace Birdie.Widgets {
         private Gtk.Label user_screen_name;
         private Gtk.Label text;
         private Gtk.Label created_at;
+        private Gtk.Box favoritebox;
         private Gtk.Box retweetbox;
         private Gtk.Box replybox;
         private Gtk.Box delbox;
+        private Gtk.Button favorite;
         private Gtk.Button retweet;
         private Gtk.Button reply;
         private Gtk.Button del;
+        private Gtk.Label favoritelabel;
         
         private int year;
         private int month;
@@ -79,6 +82,42 @@ namespace Birdie.Widgets {
             this.right = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             this.right.pack_start (this.created_at, false, false, 0);
             this.right.pack_start (new Gtk.Label (""), true, true, 0);
+            
+            this.favoritebox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+            this.favorite = new Gtk.Button ();
+            this.favoritelabel = new Gtk.Label (" ♥ ");
+            this.favorite.child = this.favoritelabel;
+            this.favorite.set_tooltip_text (_("Favorite"));
+            this.favoritebox.pack_start (new Gtk.Label (""), true, true, 0);
+            this.favoritebox.pack_start (favorite, false, false, 0);
+            
+            this.favorite.clicked.connect (() => {
+                int code;
+                
+			    if (this.tweet.favorited) {
+			        code = this.birdie.api.favorite_destroy (this.tweet.id);
+			        
+			        if (code == 0) {
+			            this.favoritelabel.set_label (" ♥ ");
+			            this.favorite.set_tooltip_text (_("Favorite"));
+			            this.tweet.favorited = false;
+			        }
+			    } else {
+			        code = this.birdie.api.favorite_create (this.tweet.id);
+			            
+			        if (code == 0) {
+			            this.favoritelabel.set_markup ("<span color='#D60B0B'> ♥ </span>");
+			            this.favorite.set_tooltip_text (_("Unfavorite"));
+			            this.tweet.favorited = true;
+			        }
+			    }
+		    });
+            
+            if (this.tweet.favorited) {
+                this.favoritelabel.set_markup ("<span color='#D60B0B'> ♥ </span>");
+            }
+            
+            this.right.pack_start (this.favoritebox, false, false, 5);
             
             if (this.tweet.user_screen_name != this.birdie.api.account.screen_name) {
                 this.retweetbox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);

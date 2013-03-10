@@ -130,6 +130,34 @@ namespace Birdie {
             return 0;
         }
         
+        public int favorite_create (string id) {
+            // setup call
+            Rest.ProxyCall call = proxy.new_call();
+            call.set_function ("1.1/favorites/create.json");
+            call.set_method ("POST");
+            call.add_param ("id", id);
+            try { call.sync (); } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+                return 1;
+            }
+            
+            return 0;
+        }
+        
+        public int favorite_destroy (string id) {
+            // setup call
+            Rest.ProxyCall call = proxy.new_call();
+            call.set_function ("1.1/favorites/destroy.json");
+            call.set_method ("POST");
+            call.add_param ("id", id);
+            try { call.sync (); } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+                return 1;
+            }
+            
+            return 0;
+        }
+        
         public int get_account () {
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("1.1/account/verify_credentials.json");
@@ -216,6 +244,30 @@ namespace Birdie {
             return profile_image_file;
         }
         
+        public Tweet get_tweet (Json.Node tweetnode) {
+            var tweetobject = tweetnode.get_object();
+                    
+            var id = tweetobject.get_string_member ("id_str");
+			var user_name = tweetobject.get_object_member ("user").get_string_member ("name");
+			var user_screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
+			var text = tweetobject.get_string_member ("text");
+			var created_at = tweetobject.get_string_member ("created_at");
+			var profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
+			var retweeted = tweetobject.get_boolean_member ("retweeted");
+			var favorited = tweetobject.get_boolean_member ("favorited");
+			        
+			if ("\n" in text)
+			    text = text.replace ("\n", " ");
+			            
+			// replace urls with markup links
+			Regex urls = new Regex("((http|https|ftp)://([\\S]+))");
+			text = urls.replace(text, -1, 0, "<a href='\\0'>\\0</a>");
+			       
+			var profile_image_file = get_avatar (profile_image_url);
+			
+			return new Tweet (id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited);
+        }
+        
         public int get_home_timeline (string count = "20") {
             // setup call
             Rest.ProxyCall call = proxy.new_call();
@@ -241,27 +293,8 @@ namespace Birdie {
 	            });
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
-                    var tweetobject = tweetnode.get_object();
-                    
-                    var id = tweetobject.get_string_member ("id_str");
-			        var user_name = tweetobject.get_object_member ("user").get_string_member ("name");
-			        var user_screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
-			        var text = tweetobject.get_string_member ("text");
-			        var created_at = tweetobject.get_string_member ("created_at");
-			        var profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
-			        var retweeted = tweetobject.get_boolean_member ("retweeted");
-			        
-			        if ("\n" in text)
-			            text = text.replace ("\n", " ");
-			            
-			        // replace urls with markup links
-			        Regex urls = new Regex("((http|https|ftp)://([\\S]+))");
-			        text = urls.replace(text, -1, 0, "<a href='\\0'>\\0</a>");
-			       
-			        var profile_image_file = get_avatar (profile_image_url);
-			        
-			        home_timeline_since_id.append (new Tweet (id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted));
-			       
+                    var tweet = this.get_tweet (tweetnode);
+			        home_timeline_since_id.append (tweet); 
                 }                
                 
                 this.home_timeline_since_id.reverse ();
@@ -309,27 +342,8 @@ namespace Birdie {
 	            });
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
-                    var tweetobject = tweetnode.get_object();
-                    
-                    var id = tweetobject.get_string_member ("id_str");
-			        var user_name = tweetobject.get_object_member ("user").get_string_member ("name");
-			        var user_screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
-			        var text = tweetobject.get_string_member ("text");
-			        var created_at = tweetobject.get_string_member ("created_at");
-			        var profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
-			        var retweeted = tweetobject.get_boolean_member ("retweeted");
-			        
-			        if ("\n" in text)
-			            text = text.replace ("\n", " ");
-			            
-			        // replace urls with markup links
-			        Regex urls = new Regex("((http|https|ftp)://([\\S]+))");
-			        text = urls.replace(text, -1, 0, "<a href='\\0'>\\0</a>");
-			       
-			        var profile_image_file = get_avatar (profile_image_url);
-			        
-			        mentions_timeline_since_id.append (new Tweet (id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted));
-			       
+                    var tweet = this.get_tweet (tweetnode);
+			        mentions_timeline_since_id.append (tweet);
                 }                
                 
                 this.mentions_timeline_since_id.reverse ();
@@ -370,26 +384,8 @@ namespace Birdie {
                 var root = parser.get_root ();
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
-                    var tweetobject = tweetnode.get_object();
-                    
-                    var id = tweetobject.get_string_member ("id_str");
-			        var user_name = tweetobject.get_object_member ("user").get_string_member ("name");
-			        var user_screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
-			        var text = tweetobject.get_string_member ("text");
-			        var created_at = tweetobject.get_string_member ("created_at");
-			        var profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
-			        var retweeted = tweetobject.get_boolean_member ("retweeted");
-			        
-			        if ("\n" in text)
-			            text = text.replace ("\n", " ");
-
-			        // replace urls with markup links
-			        Regex urls = new Regex("((http|https|ftp)://([\\S]+))");
-			        text = urls.replace(text, -1, 0, "<a href='\\0'>\\0</a>");
-			       
-			        var profile_image_file = get_avatar (profile_image_url);
-			        
-			        own_timeline.append (new Tweet (id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted)); 
+                    var tweet = this.get_tweet (tweetnode);
+			        own_timeline.append (tweet); 
                 }
                 
                 own_timeline.reverse ();
@@ -421,26 +417,8 @@ namespace Birdie {
                 var root = parser.get_root ();
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
-                    var tweetobject = tweetnode.get_object();
-                    
-                    var id = tweetobject.get_string_member ("id_str");
-			        var user_name = tweetobject.get_object_member ("user").get_string_member ("name");
-			        var user_screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
-			        var text = tweetobject.get_string_member ("text");
-			        var created_at = tweetobject.get_string_member ("created_at");
-			        var profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
-			        var retweeted = tweetobject.get_boolean_member ("retweeted");
-			        
-			        if ("\n" in text)
-			            text = text.replace ("\n", " ");
-
-			        // replace urls with markup links
-			        Regex urls = new Regex("((http|https|ftp)://([\\S]+))");
-			        text = urls.replace(text, -1, 0, "<a href='\\0'>\\0</a>");
-			       
-			        var profile_image_file = get_avatar (profile_image_url);
-			        
-			        user_timeline.append (new Tweet (id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted)); 
+                    var tweet = this.get_tweet (tweetnode);
+			        user_timeline.append (tweet); 
                 }
                 
                 user_timeline.reverse ();
