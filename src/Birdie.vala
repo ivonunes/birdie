@@ -6,12 +6,20 @@ namespace Birdie {
         public Widgets.TweetList own_list; 
         public Widgets.TweetList user_list; 
         
+        private Gtk.ToolButton new_tweet;
+        private Gtk.ToolButton home;
+        private Gtk.ToolButton mentions;
+        private Gtk.ToolButton dm;
+        private Gtk.ToolButton profile;
+        private Gtk.ToolButton search;
+        
         private Gtk.ScrolledWindow scrolled_home;
         private Gtk.ScrolledWindow scrolled_mentions;
         private Gtk.ScrolledWindow scrolled_own;
         private Gtk.ScrolledWindow scrolled_user;
         
         private Granite.Widgets.StaticNotebook notebook;
+        private Gtk.Spinner spinner;
         
         private GLib.List<Tweet> home_tmp;
         
@@ -45,12 +53,13 @@ namespace Birdie {
                 this.m_window.set_default_size (450, 600);
                 this.m_window.set_application (this);
                 
-                var new_tweet = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("mail-message-new", Gtk.IconSize.LARGE_TOOLBAR), _("New Tweet"));
+                this.new_tweet = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("mail-message-new", Gtk.IconSize.LARGE_TOOLBAR), _("New Tweet"));
                 new_tweet.set_tooltip_text (_("New Tweet"));
 		        new_tweet.clicked.connect (() => {
-			        Widgets.TweetDialog dialog = new Widgets.TweetDialog (this); 
+		            Widgets.TweetDialog dialog = new Widgets.TweetDialog (this); 
 			        dialog.show_all ();
 		        });
+		        new_tweet.set_sensitive (false);
 		        this.m_window.add_bar (new_tweet);
 		        
 		        var left_sep = new Gtk.SeparatorToolItem ();
@@ -58,39 +67,44 @@ namespace Birdie {
                 left_sep.set_expand (true);
                 this.m_window.add_bar (left_sep);
 		        
-		        var home = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("twitter-home", Gtk.IconSize.LARGE_TOOLBAR), _("Home"));
+		        this.home = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("twitter-home", Gtk.IconSize.LARGE_TOOLBAR), _("Home"));
 		        home.set_tooltip_text (_("Home"));
 		        home.clicked.connect (() => {
 			        this.switch_timeline ("home");
 		        });
+		        this.home.set_sensitive (false);
 		        this.m_window.add_bar (home);
 		        
-		        var mentions = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("twitter-mentions", Gtk.IconSize.LARGE_TOOLBAR), _("Mentions"));
+		        this.mentions = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("twitter-mentions", Gtk.IconSize.LARGE_TOOLBAR), _("Mentions"));
 		        mentions.set_tooltip_text (_("Mentions"));
 		        mentions.clicked.connect (() => {
 			        this.switch_timeline ("mentions");
 		        });
+		        this.mentions.set_sensitive (false);
 		        this.m_window.add_bar (mentions);
 		        
-		        var dm = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("twitter-dm", Gtk.IconSize.LARGE_TOOLBAR), _("Direct Messages"));
+		        this.dm = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("twitter-dm", Gtk.IconSize.LARGE_TOOLBAR), _("Direct Messages"));
 		        dm.set_tooltip_text (_("Direct Messages"));
 		        dm.clicked.connect (() => {
 			        this.switch_timeline ("dm");
 		        });
+		        this.dm.set_sensitive (false);
 		        this.m_window.add_bar (dm);
 		        
-		        var profile = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("twitter-profile", Gtk.IconSize.LARGE_TOOLBAR), _("Profile"));
+		        this.profile = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("twitter-profile", Gtk.IconSize.LARGE_TOOLBAR), _("Profile"));
 		        profile.set_tooltip_text (_("Profile"));
 		        profile.clicked.connect (() => {
 			        this.switch_timeline ("own");
 		        });
+		        this.profile.set_sensitive (false);
 		        this.m_window.add_bar (profile);
 		        
-		        var search = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("twitter-search", Gtk.IconSize.LARGE_TOOLBAR), _("Search"));
+		        this.search = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("twitter-search", Gtk.IconSize.LARGE_TOOLBAR), _("Search"));
 		        search.set_tooltip_text (_("Search"));
 		        search.clicked.connect (() => {
 			        this.switch_timeline ("search");
 		        });
+		        this.search.set_sensitive (false);
 		        this.m_window.add_bar (search);
 		        
 		        var right_sep = new Gtk.SeparatorToolItem ();
@@ -105,25 +119,6 @@ namespace Birdie {
                 this.mentions_list = new Widgets.TweetList ();
                 this.own_list = new Widgets.TweetList ();
                 this.user_list = new Widgets.TweetList ();
-
-                this.api = new Twitter ();
-                this.api.auth ();
-                this.api.get_account ();
-                this.api.get_home_timeline ();
-                this.api.get_mentions_timeline ();
-                this.api.get_own_timeline ();
-                
-                this.api.home_timeline.foreach ((tweet) => {
-                    this.home_list.append(tweet, this);
-	            });
-	            
-	            this.api.mentions_timeline.foreach ((tweet) => {
-                    this.mentions_list.append(tweet, this);
-	            });
-	            
-	            this.api.own_timeline.foreach ((tweet) => {
-                    this.own_list.append(tweet, this);
-	            });
                 
                 this.scrolled_home = new Gtk.ScrolledWindow (null, null);
                 this.scrolled_home.add_with_viewport (home_list);
@@ -144,7 +139,16 @@ namespace Birdie {
                 this.notebook = new Granite.Widgets.StaticNotebook ();
                 this.notebook.set_switcher_visible (false);
 
-                this.notebook.append_page (new Gtk.Label (_("In development")), new Gtk.Label (_("Loading")));
+                this.spinner = new Gtk.Spinner ();
+                this.spinner.set_size_request (32, 32);
+                this.spinner.start ();
+                
+                Gtk.Box spinner_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+                spinner_box.pack_start (new Gtk.Label (""), true, true, 0);
+                spinner_box.pack_start (this.spinner, false, false, 0);
+                spinner_box.pack_start (new Gtk.Label (""), true, true, 0);
+
+                this.notebook.append_page (spinner_box, new Gtk.Label (_("Loading")));
                 this.notebook.append_page (new Gtk.Label (_("In development")), new Gtk.Label (_("Welcome")));
                 this.notebook.append_page (this.scrolled_home, new Gtk.Label (_("Home")));
                 this.notebook.append_page (this.scrolled_mentions, new Gtk.Label (_("Mentions")));
@@ -157,13 +161,50 @@ namespace Birdie {
                 this.m_window.add (this.notebook);
                 this.m_window.show_all ();
                 
-                this.current_timeline = "home";
-                
-                this.add_timeout_online ();
-                this.add_timeout_offline ();
+                Thread.create<void*> (this.init, true);
             } else {
                 this.m_window.present();
             }
+        }
+        
+        private void* init () {
+            this.api = new Twitter ();
+            this.api.auth ();
+            this.api.get_account ();
+            this.api.get_home_timeline ();
+            this.api.get_mentions_timeline ();
+            this.api.get_own_timeline ();
+
+            Gdk.threads_enter ();
+            this.api.home_timeline.foreach ((tweet) => {
+                this.home_list.append(tweet, this);
+	        });
+	            
+	        this.api.mentions_timeline.foreach ((tweet) => {
+                this.mentions_list.append(tweet, this);
+	        });
+	            
+	        this.api.own_timeline.foreach ((tweet) => {
+                this.own_list.append(tweet, this);
+	        });
+	        Gdk.threads_leave ();
+	        
+	        this.add_timeout_online ();
+            this.add_timeout_offline ();
+            
+            this.current_timeline = "home";
+            this.notebook.page = 2;
+            
+            this.spinner.stop ();
+            
+            this.new_tweet.set_sensitive (true);
+            this.home.set_sensitive (true);
+            this.mentions.set_sensitive (true);
+            //this.dm.set_sensitive (true);
+            this.profile.set_sensitive (true);
+            //this.search.set_sensitive (true);
+            
+            return null;
         }
         
         public void switch_timeline (string new_timeline) {
@@ -202,25 +243,36 @@ namespace Birdie {
         
         public void add_timeout_offline () {
             GLib.Timeout.add (60000, () => {
-                this.home_list.update_date ();
-                this.mentions_list.update_date ();
-                this.add_timeout_offline ();
+                Thread.create<void*> (this.update_dates, true);
                 return false;
             });
         }
         
         public void add_timeout_online () {
             GLib.Timeout.add (120000, () => {
-                this.update_home ();
-                this.update_mentions ();
-                this.add_timeout_online ();
+                Thread.create<void*> (this.update_timelines, true);
                 return false;
             });
+        }
+
+        public void* update_dates () {
+            this.home_list.update_date ();
+            this.mentions_list.update_date ();
+            this.add_timeout_offline ();
+            return null;
+        }
+        
+        public void* update_timelines () {
+            this.update_home ();
+            this.update_mentions ();
+            this.add_timeout_online ();
+            return null;
         }
         
         public void update_home () {
             this.api.get_home_timeline ();
             
+            Gdk.threads_enter ();
             this.home_tmp.foreach ((tweet) => {
                 this.home_list.remove (tweet);
                 this.home_tmp.remove (tweet);
@@ -229,14 +281,17 @@ namespace Birdie {
             this.api.home_timeline_since_id.foreach ((tweet) => {
                 this.home_list.append(tweet, this);
 	        });
+	        Gdk.threads_leave ();
         }
         
         public void update_mentions () {
             this.api.get_mentions_timeline ();
             
+            Gdk.threads_enter ();
             this.api.mentions_timeline_since_id.foreach ((tweet) => {
                 this.mentions_list.append(tweet, this);
 	        });
+	        Gdk.threads_leave ();
         }
         
         public void tweet_callback (string text, string id = "") {
@@ -248,10 +303,11 @@ namespace Birdie {
             if (code != 1) {
                 Tweet tweet_tmp = new Tweet (code.to_string (), this.api.account.name, this.api.account.screen_name, text_url, "", this.api.account.profile_image_url, this.api.account.profile_image_file);
 
+                Gdk.threads_enter ();
                 this.home_tmp.append (tweet_tmp);
                 this.home_list.append (tweet_tmp, this);
-                
                 this.own_list.append (tweet_tmp, this);
+                Gdk.threads_leave ();
             }
             
             this.notebook.page = 2;

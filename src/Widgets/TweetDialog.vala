@@ -7,11 +7,14 @@ namespace Birdie.Widgets {
         Gtk.Button tweet;
         
         bool tweet_disabled;
+        
+        string id;
     
         Birdie birdie;
     
         public TweetDialog (Birdie birdie, string id = "", string user_screen_name = "") {
             this.birdie = birdie;
+            this.id = id;
             
             this.avatar = new Gtk.Image ();
             this.avatar.set_from_file (Environment.get_home_dir () + "/.cache/birdie/" + this.birdie.api.account.profile_image_file);
@@ -56,15 +59,7 @@ namespace Birdie.Widgets {
 			this.tweet.set_sensitive (false);
 			
 			this.tweet.clicked.connect (() => {
-			    Gtk.TextIter start;
-			    Gtk.TextIter end;
-			    
-			    this.view.buffer.get_start_iter (out start);
-			    this.view.buffer.get_end_iter (out end);
-
-			    birdie.tweet_callback (this.view.buffer.get_text (start, end, false), id);
-			    
-			    this.destroy ();
+			    Thread.create<void*> (this.tweet_thread, true);
             });
 			
 			Gtk.Box bottom = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
@@ -80,6 +75,20 @@ namespace Birdie.Widgets {
 			this.add (new Gtk.Label (""));
 			
 			this.show_all ();
+        }
+        
+        private void* tweet_thread () {
+            Gtk.TextIter start;
+			Gtk.TextIter end;
+			    
+			this.view.buffer.get_start_iter (out start);
+			this.view.buffer.get_end_iter (out end);
+
+            this.hide ();
+			birdie.tweet_callback (this.view.buffer.get_text (start, end, false), this.id);
+			this.destroy ();
+			
+            return null;
         }
     }
 }

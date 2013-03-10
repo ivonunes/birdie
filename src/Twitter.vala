@@ -222,6 +222,7 @@ namespace Birdie {
                 }
                         
                 // generate rounded avatar
+                Gdk.threads_enter ();
                 var surface = new Cairo.ImageSurface (Cairo.Format.ARGB32, 50, 50);
                 var ctx = new Cairo.Context (surface);
                         
@@ -239,6 +240,7 @@ namespace Birdie {
                 ctx.paint ();
 
                 surface.write_to_png (Environment.get_home_dir () + "/.cache/birdie/" + profile_image_file);
+                Gdk.threads_leave ();
             }
             
             return profile_image_file;
