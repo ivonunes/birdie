@@ -49,12 +49,12 @@ namespace Birdie.Widgets {
             this.count_label = new Gtk.Label (this.count.to_string ());
             this.count_label.set_markup ("<span color='#777777'>" + this.count.to_string () + "</span>");
         
-            Gtk.Button cancel = new Gtk.Button.with_label ("Cancel");
+            Gtk.Button cancel = new Gtk.Button.with_label (_("Cancel"));
             cancel.set_size_request (100, -1);
             cancel.clicked.connect (() => {
 			    this.destroy ();
             });
-			this.tweet = new Gtk.Button.with_label ("Tweet");
+			this.tweet = new Gtk.Button.with_label (_("Tweet"));
 			this.tweet.set_size_request (100, -1);
 			this.tweet.set_sensitive (false);
 			

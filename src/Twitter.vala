@@ -20,42 +20,54 @@ namespace Birdie {
         public GLib.List<Tweet> mentions_timeline_since_id;
         public GLib.List<Tweet> own_timeline;
         public GLib.List<Tweet> user_timeline;
+        
+        Settings settings;
+        public string token;
+        public string token_secret;
 
-        public int auth () {
-            var settings = new Settings ("org.pantheon.birdie");
+        public Twitter () {
+            this.proxy = new Rest.OAuthProxy (CONSUMER_KEY, CONSUMER_SECRET, URL_FORMAT, false);
+        
+            this.settings = new Settings ("org.pantheon.birdie");
             
-            var token = settings.get_string ("token");
-            var token_secret = settings.get_string ("token-secret");
+            this.token = settings.get_string ("token");
+            this.token_secret = settings.get_string ("token-secret");
+        }
 
+        public string get_request () {
+            // request token
+            try {
+                proxy.request_token ("oauth/request_token", "oob");
+            } catch (Error e) {
+                stderr.printf ("Couldn't get request token: %s\n", e.message);
+                return "";
+            }
+                
+            return "http://twitter.com/oauth/authorize?oauth_token=" + proxy.get_token ();
+        }
+        
+        public int get_tokens (string pin) {
+            // access token
+            try { 
+                proxy.access_token (FUNCTION_ACCESS_TOKEN, pin);
+                token = proxy.get_token();
+                token_secret = proxy.get_token_secret();
+                
+                settings.set_string ("token", token);
+                settings.set_string ("token-secret", token_secret);
+            } catch (Error e) {
+                stderr.printf ("Couldn't get access token: %s\n", e.message);
+                return 1;
+            }
+            
+            return 0;
+        }
+        
+        public int auth () {
             home_timeline = new GLib.List<Tweet> ();
-            proxy = new Rest.OAuthProxy (CONSUMER_KEY, CONSUMER_SECRET, URL_FORMAT, false);
 
             if (token == "" || token_secret == "") {
-                // request token
-                try {
-                    proxy.request_token ("oauth/request_token", "oob");
-                } catch (Error e) {
-                    stderr.printf ("Couldn't get request token: %s\n", e.message);
-                    return 1;
-                }
-
-                // prompt user for pin
-                stdout.printf ("Go to http://twitter.com/oauth/authorize?oauth_token=%s then enter the PIN\n", proxy.get_token ());
-                string pin = stdin.read_line ();
-
-                // access token
-                try { 
-                    proxy.access_token (FUNCTION_ACCESS_TOKEN, pin);
-                    token = proxy.get_token();
-                    token_secret = proxy.get_token_secret();
-                    
-                    settings.set_string ("token", token);
-                    settings.set_string ("token-secret", token_secret);
-                }
-                catch (Error e) {
-                    stderr.printf ("Couldn't get access token: %s\n", e.message);
-                    return 1;
-                }
+                return 1;
             } else {
                 proxy.set_token(token);
                 proxy.set_token_secret(token_secret);

@@ -17,9 +17,11 @@ namespace Birdie {
         private Gtk.ScrolledWindow scrolled_mentions;
         private Gtk.ScrolledWindow scrolled_own;
         private Gtk.ScrolledWindow scrolled_user;
+        private Granite.Widgets.Welcome welcome;
         
         private Granite.Widgets.StaticNotebook notebook;
         private Gtk.Spinner spinner;
+        private Gtk.Entry pin_entry;
         
         private GLib.List<Tweet> home_tmp;
         
@@ -135,6 +137,12 @@ namespace Birdie {
                 this.scrolled_user = new Gtk.ScrolledWindow (null, null);
                 this.scrolled_user.add_with_viewport (user_list);
                 this.scrolled_user.get_style_context ().add_class (Granite.StyleClass.CONTENT_VIEW);
+                
+                this.welcome = new Granite.Widgets.Welcome (_("Birdie"), _("Twitter Client"));
+                this.welcome.append ("twitter", _("Add account"), _("Add a Twitter account"));
+                this.welcome.activated.connect (() => {
+                    Thread.create<void*> (this.request, true);
+		        });
 
                 this.notebook = new Granite.Widgets.StaticNotebook ();
                 this.notebook.set_switcher_visible (false);
@@ -147,9 +155,34 @@ namespace Birdie {
                 spinner_box.pack_start (new Gtk.Label (""), true, true, 0);
                 spinner_box.pack_start (this.spinner, false, false, 0);
                 spinner_box.pack_start (new Gtk.Label (""), true, true, 0);
+                
+                this.pin_entry = new Gtk.Entry ();
+                Gtk.Box pin_entry_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+                pin_entry_box.pack_start (new Gtk.Label (""), true, true, 0);
+                pin_entry_box.pack_start (this.pin_entry);
+                pin_entry_box.pack_start (new Gtk.Label (""), true, true, 0);
+                
+                Gtk.Button pin_button = new Gtk.Button.with_label (_("OK"));
+                pin_button.clicked.connect (() => {
+                    Thread.create<void*> (this.tokens, true);
+		        });
+		        Gtk.Box pin_button_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+		        pin_button_box.pack_start (new Gtk.Label (""), true, true, 0);
+                pin_button_box.pack_start (pin_button);
+                pin_button_box.pack_start (new Gtk.Label (""), true, true, 0);
+                
+                Gtk.Box pin_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+                pin_box.pack_start (new Gtk.Label (""), true, true, 0);
+                pin_box.pack_start (new Gtk.Label (_("Please insert your PIN below:")), false, false, 0);
+                pin_box.pack_start (new Gtk.Label (""), false, false, 0);
+                pin_box.pack_start (pin_entry_box, false, false, 0);
+                pin_box.pack_start (new Gtk.Label (""), false, false, 0);
+                pin_box.pack_start (pin_button_box, false, false, 0);
+                pin_box.pack_start (new Gtk.Label (""), true, true, 0);
 
                 this.notebook.append_page (spinner_box, new Gtk.Label (_("Loading")));
-                this.notebook.append_page (new Gtk.Label (_("In development")), new Gtk.Label (_("Welcome")));
+                this.notebook.append_page (this.welcome, new Gtk.Label (_("Welcome")));
+                this.notebook.append_page (pin_box, new Gtk.Label (_("Welcome")));
                 this.notebook.append_page (this.scrolled_home, new Gtk.Label (_("Home")));
                 this.notebook.append_page (this.scrolled_mentions, new Gtk.Label (_("Mentions")));
                 this.notebook.append_page (new Gtk.Label (_("In development")), new Gtk.Label (_("Direct Messages")));
@@ -158,17 +191,42 @@ namespace Birdie {
                 this.notebook.append_page (new Gtk.Label (_("In development")), new Gtk.Label (_("Search")));
                 this.notebook.append_page (new Gtk.Label (_("In development")), new Gtk.Label (_("Search Results")));
 
+                this.api = new Twitter ();
+                
                 this.m_window.add (this.notebook);
                 this.m_window.show_all ();
                 
-                Thread.create<void*> (this.init, true);
+                if (this.api.token == "" || this.api.token_secret == "") {
+                    this.switch_timeline ("welcome");
+                } else {
+                    Thread.create<void*> (this.init, true);
+                }
             } else {
                 this.m_window.present();
             }
         }
         
+        private void* request () {
+            this.switch_timeline ("pin");
+            GLib.Process.spawn_command_line_async ("x-www-browser \"" + this.api.get_request () + "\"");
+			return null;
+        }
+        
+        private void* tokens () {
+            this.switch_timeline ("loading");
+        
+            int code = this.api.get_tokens (this.pin_entry.get_text ());
+            
+            if (code == 0) {
+                Thread.create<void*> (this.init, true);
+            } else {
+                this.switch_timeline ("welcome");
+            }
+            
+            return null;
+        }
+        
         private void* init () {
-            this.api = new Twitter ();
             this.api.auth ();
             this.api.get_account ();
             this.api.get_home_timeline ();
@@ -193,7 +251,7 @@ namespace Birdie {
             this.add_timeout_offline ();
             
             this.current_timeline = "home";
-            this.notebook.page = 2;
+            this.switch_timeline ("home");
             
             this.spinner.stop ();
             
@@ -208,6 +266,7 @@ namespace Birdie {
         }
         
         public void switch_timeline (string new_timeline) {
+            Gdk.threads_enter ();
             switch (new_timeline) {
                 case "loading":
                     this.notebook.page = 0;
@@ -215,28 +274,32 @@ namespace Birdie {
                 case "welcome":
                     this.notebook.page = 1;
                     break;
-                case "home":
+                case "pin":
                     this.notebook.page = 2;
                     break;
-                case "mentions":
+                case "home":
                     this.notebook.page = 3;
                     break;
-                case "dm":
+                case "mentions":
                     this.notebook.page = 4;
                     break;
-                case "own":
+                case "dm":
                     this.notebook.page = 5;
                     break;
-                case "user":
+                case "own":
                     this.notebook.page = 6;
                     break;
-                case "search":
+                case "user":
                     this.notebook.page = 7;
                     break;
-                case "search_result":
+                case "search":
                     this.notebook.page = 8;
                     break;
+                case "search_result":
+                    this.notebook.page = 9;
+                    break;
             }
+            Gdk.threads_leave ();
             
             this.current_timeline = new_timeline;
         }
@@ -310,7 +373,7 @@ namespace Birdie {
                 Gdk.threads_leave ();
             }
             
-            this.notebook.page = 2;
+            this.switch_timeline ("home");
         }
     }
 }
