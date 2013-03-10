@@ -1,7 +1,7 @@
 namespace Birdie {
     public class Twitter {
-        private static const string CONSUMER_KEY = "HPtJ0h2808qNXB8j1oC0w";
-        private static const string CONSUMER_SECRET = "qPGcpidPP5Po4DEINFX1g2SZQAQB78RVAstIUlNo";
+        private static const string CONSUMER_KEY = "zVamkAeSRTL349AgSjIMIQ";
+        private static const string CONSUMER_SECRET = "5aaldQWP4KQhv8dRkWsjYeLcbSkE3K8uv96A8yGjI";
         private static const string URL_FORMAT = "https://api.twitter.com";
         private static const string REQUEST_TOKEN_URL = "https://api.twitter.com/oauth/request_token";
         private static const string FUNCTION_ACCESS_TOKEN = "oauth/access_token";
