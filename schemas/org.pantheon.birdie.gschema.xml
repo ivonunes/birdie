@@ -1,0 +1,21 @@
+<schemalist>
+  <schema id="org.pantheon.birdie" path="/org/pantheon/birdie/" gettext-domain="birdie">
+
+    <key name="token" type="s">
+      <default l10n="messages">""</default>
+      <summary>Token</summary>
+      <description>
+        Token
+      </description>
+    </key>
+
+    <key name="token-secret" type="s">
+      <default l10n="messages">""</default>
+      <summary>Token secret</summary>
+      <description>
+        Token secret
+      </description>
+    </key>
+
+  </schema>
+</schemalist>

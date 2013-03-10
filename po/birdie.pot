@@ -1,0 +1,117 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-03-09 22:35+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../src/config.vala:8
+msgid "Twitter Client"
+msgstr ""
+
+#: ../../src/config.vala:9
+msgid "Twitter client for elementary OS"
+msgstr ""
+
+#: ../../src/main.vala:48 ../../src/main.vala:49
+msgid "New Tweet"
+msgstr ""
+
+#: ../../src/main.vala:61 ../../src/main.vala:62 ../../src/main.vala:149
+msgid "Home"
+msgstr ""
+
+#: ../../src/main.vala:68 ../../src/main.vala:69 ../../src/main.vala:150
+msgid "Mentions"
+msgstr ""
+
+#: ../../src/main.vala:75 ../../src/main.vala:76 ../../src/main.vala:151
+msgid "Direct Messages"
+msgstr ""
+
+#: ../../src/main.vala:82 ../../src/main.vala:83 ../../src/main.vala:152
+msgid "Profile"
+msgstr ""
+
+#: ../../src/main.vala:89 ../../src/main.vala:90 ../../src/main.vala:154
+msgid "Search"
+msgstr ""
+
+#: ../../src/main.vala:147 ../../src/main.vala:148 ../../src/main.vala:151
+#: ../../src/main.vala:154 ../../src/main.vala:155
+msgid "In development"
+msgstr ""
+
+#: ../../src/main.vala:147
+msgid "Loading"
+msgstr ""
+
+#: ../../src/main.vala:148
+msgid "Welcome"
+msgstr ""
+
+#: ../../src/main.vala:153
+msgid "User"
+msgstr ""
+
+#: ../../src/main.vala:155
+msgid "Search Results"
+msgstr ""
+
+#: ../../src/Widgets/TweetBox.vala:86
+msgid "Retweet"
+msgstr ""
+
+#: ../../src/Widgets/TweetBox.vala:108
+msgid "Reply"
+msgstr ""
+
+#: ../../src/Widgets/TweetBox.vala:122
+msgid "Delete"
+msgstr ""
+
+#: ../../src/Utils/Date.vala:48
+#, c-format
+msgid "%d y"
+msgstr ""
+
+#: ../../src/Utils/Date.vala:51
+#, c-format
+msgid "%d mo"
+msgstr ""
+
+#: ../../src/Utils/Date.vala:54
+#, c-format
+msgid "%d w"
+msgstr ""
+
+#: ../../src/Utils/Date.vala:57
+#, c-format
+msgid "%d d"
+msgstr ""
+
+#: ../../src/Utils/Date.vala:59
+#, c-format
+msgid "%d h"
+msgstr ""
+
+#: ../../src/Utils/Date.vala:61
+#, c-format
+msgid "%d m"
+msgstr ""
+
+#: ../../src/Utils/Date.vala:64
+msgid "now"
+msgstr ""

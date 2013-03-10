@@ -1,0 +1,96 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-03-09 18:12+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Ivo Nunes <ivo@elementaryos.org>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: Portuguese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../src/config.vala:8
+msgid "Twitter Client"
+msgstr "Cliente de Twitter"
+
+#: ../../src/config.vala:9
+msgid "Twitter client for elementary OS"
+msgstr "Cliente de Twitter para elementary OS"
+
+#: src/main.vala:38 src/main.vala:39
+msgid "New Tweet"
+msgstr "Novo Tweet"
+
+#: src/main.vala:51 src/main.vala:52
+msgid "Home"
+msgstr "Início"
+
+#: src/main.vala:58 src/main.vala:59
+msgid "Mentions"
+msgstr "Menções"
+
+#: src/main.vala:65 src/main.vala:66
+msgid "Direct Messages"
+msgstr "Mensagens Diretas"
+
+#: src/main.vala:72 src/main.vala:73
+msgid "Profile"
+msgstr "Perfil"
+
+#: src/main.vala:79 src/main.vala:80
+msgid "Search"
+msgstr "Pesquisa"
+
+#: src/Widgets/TweetBox.vala:86
+msgid "Retweet"
+msgstr "Retweetar"
+
+#: src/Widgets/TweetBox.vala:108
+msgid "Reply"
+msgstr "Responder"
+
+#: src/Widgets/TweetBox.vala:122
+msgid "Delete"
+msgstr "Apagar"
+
+#: src/Utils/Date.vala:48
+#, c-format
+msgid "%d y"
+msgstr "%d a"
+
+#: src/Utils/Date.vala:51
+#, c-format
+msgid "%d mo"
+msgstr "%d m"
+
+#: src/Utils/Date.vala:54
+#, c-format
+msgid "%d w"
+msgstr "%d s"
+
+#: src/Utils/Date.vala:57
+#, c-format
+msgid "%d d"
+msgstr "%d d"
+
+#: src/Utils/Date.vala:59
+#, c-format
+msgid "%d h"
+msgstr "%d h"
+
+#: ../../src/Utils/Date.vala:61
+#, c-format
+msgid "%d m"
+msgstr "%d min"
+
+#: src/Utils/Date.vala:64
+msgid "now"
+msgstr "agora"
