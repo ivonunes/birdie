@@ -29,6 +29,11 @@ namespace Birdie {
         
         public string current_timeline;
         
+        public Utils.Indicator indicator;  
+        public int unread_tweets;
+        public int unread_mentions;
+        public int unread_dm;
+        
         construct {
             program_name        = "Birdie";
             exec_name           = "birdie";
@@ -54,6 +59,11 @@ namespace Birdie {
                 this.m_window = new Widgets.UnifiedWindow ();
                 this.m_window.set_default_size (450, 600);
                 this.m_window.set_application (this);
+                
+                this.indicator = new Utils.Indicator (this);
+                this.unread_tweets = 0;
+                this.unread_mentions = 0;
+                this.unread_dm = 0;
                 
                 this.new_tweet = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("mail-message-new", Gtk.IconSize.LARGE_TOOLBAR), _("New Tweet"));
                 new_tweet.set_tooltip_text (_("New Tweet"));
@@ -203,6 +213,20 @@ namespace Birdie {
                 }
             } else {
                 this.m_window.present();
+                switch (this.current_timeline) {
+                    case "home":
+                        this.unread_tweets = 0;
+                        this.indicator.clean_tweets_indicator();
+                        break;
+                    case "mentions":
+                        this.unread_mentions = 0;
+                        this.indicator.clean_mentions_indicator();
+                        break;
+                    case "dm":
+                        this.unread_dm = 0;
+                        this.indicator.clean_dm_indicator();
+                        break;
+                }
             }
         }
         
@@ -277,12 +301,18 @@ namespace Birdie {
                         break;
                     case "home":
                         this.notebook.page = 3;
+                        this.unread_tweets = 0;
+                        this.indicator.clean_tweets_indicator();
                         break;
                     case "mentions":
                         this.notebook.page = 4;
+                        this.unread_mentions = 0;
+                        this.indicator.clean_mentions_indicator();
                         break;
                     case "dm":
                         this.notebook.page = 5;
+                        this.unread_dm = 0;
+                        this.indicator.clean_dm_indicator();
                         break;
                     case "own":
                         this.notebook.page = 6;
@@ -340,11 +370,12 @@ namespace Birdie {
                     this.home_list.remove (tweet);
                     this.home_tmp.remove (tweet);
 	            });
-                
-                this.api.home_timeline_since_id.foreach ((tweet) => {
-                    this.home_list.append(tweet, this);
-	            });
 	            
+                this.api.home_timeline_since_id.foreach ((tweet) => {
+                    this.home_list.append (tweet, this);
+                    this.unread_tweets++;
+	            });
+                this.indicator.update_tweets_indicator (this.unread_tweets);
 	            return false;
 	        });
         }
@@ -354,9 +385,10 @@ namespace Birdie {
             
             Idle.add( () => {
                 this.api.mentions_timeline_since_id.foreach ((tweet) => {
-                    this.mentions_list.append(tweet, this);
+                    this.mentions_list.append (tweet, this);
+                    this.unread_mentions++;
 	            });
-	            
+                this.indicator.update_mentions_indicator (this.unread_mentions);
 	            return false;
 	        });
         }
