@@ -365,32 +365,26 @@ namespace Birdie {
         public void update_home () {
             this.api.get_home_timeline ();
             
-            Idle.add( () => {
-                this.home_tmp.foreach ((tweet) => {
-                    this.home_list.remove (tweet);
-                    this.home_tmp.remove (tweet);
-	            });
-	            
-                this.api.home_timeline_since_id.foreach ((tweet) => {
-                    this.home_list.append (tweet, this);
-                    this.unread_tweets++;
-	            });
-                this.indicator.update_tweets_indicator (this.unread_tweets);
-	            return false;
+            this.home_tmp.foreach ((tweet) => {
+                this.home_list.remove (tweet);
+                this.home_tmp.remove (tweet);
 	        });
+	            
+            this.api.home_timeline_since_id.foreach ((tweet) => {
+                this.home_list.append (tweet, this);
+                this.unread_tweets++;
+	        });
+            this.indicator.update_tweets_indicator (this.unread_tweets);
         }
         
         public void update_mentions () {
             this.api.get_mentions_timeline ();
             
-            Idle.add( () => {
-                this.api.mentions_timeline_since_id.foreach ((tweet) => {
-                    this.mentions_list.append (tweet, this);
-                    this.unread_mentions++;
-	            });
-                this.indicator.update_mentions_indicator (this.unread_mentions);
-	            return false;
+            this.api.mentions_timeline_since_id.foreach ((tweet) => {
+                this.mentions_list.append (tweet, this);
+                this.unread_mentions++;
 	        });
+            this.indicator.update_mentions_indicator (this.unread_mentions);
         }
         
         public void tweet_callback (string text, string id = "") {
@@ -402,13 +396,9 @@ namespace Birdie {
             if (code != 1) {
                 Tweet tweet_tmp = new Tweet (code.to_string (), this.api.account.name, this.api.account.screen_name, text_url, "", this.api.account.profile_image_url, this.api.account.profile_image_file);
 
-                Idle.add( () => {
-                    this.home_tmp.append (tweet_tmp);
-                    this.home_list.append (tweet_tmp, this);
-                    this.own_list.append (tweet_tmp, this);
-                    
-                    return false;
-                });
+                this.home_tmp.append (tweet_tmp);
+                this.home_list.append (tweet_tmp, this);
+                this.own_list.append (tweet_tmp, this);
             }
             
             this.switch_timeline ("home");

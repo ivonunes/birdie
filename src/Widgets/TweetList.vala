@@ -11,30 +11,39 @@ namespace Birdie.Widgets {
         }
         
         public void append (Tweet tweet, Birdie birdie) {
-            TweetBox box = new TweetBox(tweet, birdie);
-            Gtk.Separator separator = new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
-            boxes.append (box);
-            separators.append (separator);
+            Idle.add( () => {
+                TweetBox box = new TweetBox(tweet, birdie);
+                Gtk.Separator separator = new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
             
-            if (!this.first)
-                this.pack_end (separator, false, false, 0);
-            this.pack_end (box, false, false, 0);
+                boxes.append (box);
+                separators.append (separator);
             
-            if (this.first)
-                this.first = false;
             
-            this.show_all ();
+                if (!this.first)
+                    this.pack_end (separator, false, false, 0);
+                this.pack_end (box, false, false, 0);
+            
+                if (this.first)
+                    this.first = false;
+            
+                this.show_all ();
+                
+                return false;
+            });
         }
         
         public new void remove (Tweet tweet) {
             this.boxes.foreach ((box) => {
                 if (box.tweet == tweet) {
-                    int separator_index = boxes.index (box);
-                    var separator = this.separators.nth_data ((uint) separator_index);
-                    base.remove (box);
-                    base.remove (separator);
-                    this.separators.remove (separator);
-                    this.boxes.remove (box);
+                    Idle.add( () => {
+                        int separator_index = boxes.index (box);
+                        var separator = this.separators.nth_data ((uint) separator_index);
+                        base.remove (box);
+                        base.remove (separator);
+                        this.separators.remove (separator);
+                        this.boxes.remove (box);
+                        return false;
+                    });
                 }
 	        });
         }
