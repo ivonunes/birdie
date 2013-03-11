@@ -7,6 +7,12 @@ install(FILES twitter-home.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/h
 install(FILES twitter-mentions.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/24x24/actions)
 install(FILES twitter-profile.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/24x24/actions)
 install(FILES twitter-search.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/24x24/actions)
+install(FILES twitter-reply.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/22x22/actions)
+install(FILES twitter-retweet.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/22x22/actions)
+install(FILES twitter-retweeted.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/22x22/actions)
+install(FILES twitter-fav.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/22x22/actions)
+install(FILES twitter-favd.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/22x22/actions)
+install(FILES twitter-delete.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/22x22/actions)
 
 install(FILES birdie.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/apps)
 
