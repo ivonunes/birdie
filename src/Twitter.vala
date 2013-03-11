@@ -1,7 +1,7 @@
 namespace Birdie {
     public class Twitter {
-        private static const string CONSUMER_KEY = "zVamkAeSRTL349AgSjIMIQ";
-        private static const string CONSUMER_SECRET = "5aaldQWP4KQhv8dRkWsjYeLcbSkE3K8uv96A8yGjI";
+        private string CONSUMER_KEY = "T1VkU2dySk9DRFlZbjJJcDdWSGZRdw==";
+        private string CONSUMER_SECRET = "UHZPdXcwWFJoVnJ5RU5yZXdGdDZWd1lGdnNoRlpwcHQxMUtkNDdvVWM=";
         private static const string URL_FORMAT = "https://api.twitter.com";
         private static const string REQUEST_TOKEN_URL = "https://api.twitter.com/oauth/request_token";
         private static const string FUNCTION_ACCESS_TOKEN = "oauth/access_token";
@@ -26,6 +26,9 @@ namespace Birdie {
         public string token_secret;
 
         public Twitter () {
+            this.CONSUMER_KEY = (string) Base64.decode (this.CONSUMER_KEY);
+            this.CONSUMER_SECRET = (string) Base64.decode (this.CONSUMER_SECRET);
+            
             this.proxy = new Rest.OAuthProxy (CONSUMER_KEY, CONSUMER_SECRET, URL_FORMAT, false);
         
             this.settings = new Settings ("org.pantheon.birdie");
