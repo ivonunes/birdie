@@ -45,7 +45,7 @@ namespace Birdie.Widgets {
             var close = new Gtk.ToolButton (new Gtk.Image.from_file ("/usr/share/themes/elementary/metacity-1/close.svg"), "Close");
             close.height_request = HEIGHT;
             close.width_request = HEIGHT;
-            close.clicked.connect (() => destroy ());
+            close.clicked.connect (() => on_delete_event ());
 
             var maximize = new Gtk.ToolButton (new Gtk.Image.from_file ("/usr/share/themes/elementary/metacity-1/maximize.svg"), "Close");
             maximize.height_request = HEIGHT;
@@ -57,7 +57,7 @@ namespace Birdie.Widgets {
             this.title = title;
      
             toolbar.insert (close, -1);
-            
+
             if (this.title != "") {
                 label = new Gtk.ToolItem ();
                 label.add (_title);
@@ -84,6 +84,11 @@ namespace Birdie.Widgets {
             });*/
      
             base.add (container);
+        }
+        
+        private bool on_delete_event() {
+            this.hide_on_delete();
+            return true;
         }
      
         public Gtk.ToolItem create_separator () {

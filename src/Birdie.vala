@@ -210,8 +210,8 @@ namespace Birdie {
                 this.m_window.focus_in_event.connect ((w, e) => {
                     this.activate();
                     return true;
-                });           
-                
+                });  
+
                 this.m_window.show_all ();
                 
                 if (this.api.token == "" || this.api.token_secret == "") {
