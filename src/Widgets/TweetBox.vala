@@ -263,7 +263,10 @@ namespace Birdie.Widgets {
                 this.date = Utils.pretty_date (this.year, this.month, this.day, this.hour, this.minute, this.second);
             }
             
-            this.created_at.set_markup ("<span color='#aaaaaa'>" + this.date + "</span>");
+            Idle.add ( () => {
+                this.created_at.set_markup ("<span color='#aaaaaa'>" + this.date + "</span>");
+                return false;
+            });
         }
     }
 }

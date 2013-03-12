@@ -10,8 +10,6 @@ namespace Birdie {
         
         private string since_id_home;
         private string since_id_mentions;
-        private bool first_run_home;
-        private bool first_run_mentions;
         
         public User account;
         public GLib.List<Tweet> home_timeline;
@@ -78,9 +76,6 @@ namespace Birdie {
             
             this.since_id_home = "";
             this.since_id_mentions = "";
-            
-            this.first_run_home = true;
-            this.first_run_mentions = true;
             
             return 0;
         }
@@ -315,19 +310,12 @@ namespace Birdie {
                 this.home_timeline_since_id.reverse ();
                 this.home_timeline_since_id.foreach ((tweet) => {
                     this.home_timeline.append(tweet);
-                    this.since_id_home = tweet.id;
-                    
-                    if (this.first_run_home == false && (this.account.screen_name != tweet.user_screen_name)) {
-			            Utils.notify ("New tweet from " + tweet.user_name, tweet.text);
-			        }
-                    
+                    this.since_id_home = tweet.id;             
 	            });
 	            
             } catch (Error e) {
                 stderr.printf ("Unable to parse home_timeline.json\n");
             }
-            
-            this.first_run_home = false;
 
             return 0;
         }
@@ -365,18 +353,11 @@ namespace Birdie {
                 this.mentions_timeline_since_id.foreach ((tweet) => {
                     this.mentions_timeline.append(tweet);
                     this.since_id_mentions = tweet.id;
-                    
-                    if (this.first_run_mentions == false && (this.account.screen_name != tweet.user_screen_name)) {
-			            Utils.notify ("New tweet from " + tweet.user_name, tweet.text);
-			        }
-                    
 	            });
 	            
             } catch (Error e) {
                 stderr.printf ("Unable to parse mentions_timeline.json\n");
             }
-            
-            this.first_run_mentions = false;
 
             return 0;
         }

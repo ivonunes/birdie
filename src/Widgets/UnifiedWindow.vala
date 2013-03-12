@@ -1,6 +1,8 @@
 namespace Birdie.Widgets {
     public class UnifiedWindow : Gtk.Window
     {
+        private bool hide_on_delete_enabled;
+    
         Gtk.Box container;
         Gtk.Toolbar toolbar;
         Gtk.ToolItem label;
@@ -46,6 +48,8 @@ namespace Birdie.Widgets {
             close.height_request = HEIGHT;
             close.width_request = HEIGHT;
             close.clicked.connect (() => on_delete_event ());
+            
+            this.hide_on_delete_enabled = false;
 
             var maximize = new Gtk.ToolButton (new Gtk.Image.from_file ("/usr/share/themes/elementary/metacity-1/maximize.svg"), "Close");
             maximize.height_request = HEIGHT;
@@ -86,9 +90,21 @@ namespace Birdie.Widgets {
             base.add (container);
         }
         
-        private bool on_delete_event() {
-            this.hide_on_delete();
+        private bool on_delete_event () {
+            if (this.hide_on_delete_enabled)
+                base.hide_on_delete ();
+            else
+                destroy ();
+            base.hide_on_delete ();
+            
             return true;
+        }
+        
+        public new void hide_on_delete (bool enable = true) {
+            if (enable)
+                this.hide_on_delete_enabled = true;
+            else
+                this.hide_on_delete_enabled = false;
         }
      
         public Gtk.ToolItem create_separator () {

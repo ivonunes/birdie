@@ -28,9 +28,10 @@ namespace Birdie {
         public Twitter api;
         
         public string current_timeline;
+
+        private Utils.Indicator indicator; 
+        private Utils.Launcher launcher; 
         
-        public Utils.Indicator indicator; 
-        public Utils.Launcher launcher; 
         public int unread_tweets;
         public int unread_mentions;
         public int unread_dm;
@@ -60,9 +61,10 @@ namespace Birdie {
                 this.m_window = new Widgets.UnifiedWindow ();
                 this.m_window.set_default_size (450, 600);
                 this.m_window.set_application (this);
+                this.m_window.hide_on_delete ();
                 
                 this.indicator = new Utils.Indicator (this);
-                this.launcher = new Utils.Launcher(this);
+                this.launcher = new Utils.Launcher (this);
                 this.unread_tweets = 0;
                 this.unread_mentions = 0;
                 this.unread_dm = 0;
@@ -126,7 +128,14 @@ namespace Birdie {
                 right_sep.set_expand (true);
                 this.m_window.add_bar (left_sep);
                 
-                var appmenu = create_appmenu (new Gtk.Menu ());
+                var menu = new Gtk.Menu ();
+                var quit_appmenu = new Gtk.MenuItem.with_label (_("Quit"));
+                quit_appmenu.activate.connect (() => {
+                    this.m_window.destroy ();
+                });
+                menu.add (quit_appmenu);
+                var appmenu = create_appmenu (menu);
+                
                 this.m_window.add_bar (appmenu);
                 
                 this.home_list = new Widgets.TweetList ();
@@ -294,7 +303,7 @@ namespace Birdie {
             //this.dm.set_sensitive (true);
             this.profile.set_sensitive (true);
             //this.search.set_sensitive (true);
-            
+
             return null;
         }
         
@@ -386,21 +395,24 @@ namespace Birdie {
 	            
             this.api.home_timeline_since_id.foreach ((tweet) => {
                 this.home_list.append (tweet, this);
+                Utils.notify ("New tweet from " + tweet.user_name, tweet.text);
                 this.unread_tweets++;
 	        });
-	        	        
+	                   
             this.indicator.update_tweets_indicator (this.unread_tweets);
             this.launcher.update_launcher_count (this.unread_tweets + this.unread_mentions + this.unread_dm);
         }
         
         public void update_mentions () {
+
             this.api.get_mentions_timeline ();
-           
+            
             this.api.mentions_timeline_since_id.foreach ((tweet) => {
                 this.mentions_list.append (tweet, this);
                 this.unread_mentions++;
-	        });
-            
+                Utils.notify ("New mention from " + tweet.user_name, tweet.text);
+            });
+
             this.indicator.update_mentions_indicator (this.unread_mentions);
             this.launcher.update_launcher_count (this.unread_tweets + this.unread_mentions + this.unread_dm);
         }
