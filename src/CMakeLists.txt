@@ -18,7 +18,7 @@ find_package(PkgConfig)
 
 #Now we're declaring GTK+ 3 and Granite as our REQUIRE dependancies.
 #If PkgConfig can't find these, you need to install them in Step 1.
-pkg_check_modules(DEPS REQUIRED gtk+-3.0 granite rest-0.7 json-glib-1.0 libnotify libcanberra indicate-0.7)
+pkg_check_modules(DEPS REQUIRED gtk+-3.0 granite rest-0.7 json-glib-1.0 libnotify libcanberra indicate-0.7 unity)
 
 #Now we're going to ready the libraries and get their directories to include them.
 set(CFLAGS
@@ -48,6 +48,7 @@ vala_precompile(VALA_C
     Utils/Date.vala
     Utils/Notifications.vala
     Utils/Indicator.vala
+    Utils/Launcher.vala
 PACKAGES
     gtk+-3.0
     granite
@@ -57,6 +58,7 @@ PACKAGES
     libcanberra>=0.28
     Indicate-0.7
     Dbusmenu-0.4
+    unity
 OPTIONS
     --thread --target-glib=2.32)
 

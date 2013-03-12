@@ -29,7 +29,8 @@ namespace Birdie {
         
         public string current_timeline;
         
-        public Utils.Indicator indicator;  
+        public Utils.Indicator indicator; 
+        public Utils.Launcher launcher; 
         public int unread_tweets;
         public int unread_mentions;
         public int unread_dm;
@@ -61,6 +62,7 @@ namespace Birdie {
                 this.m_window.set_application (this);
                 
                 this.indicator = new Utils.Indicator (this);
+                this.launcher = new Utils.Launcher(this);
                 this.unread_tweets = 0;
                 this.unread_mentions = 0;
                 this.unread_dm = 0;
@@ -204,6 +206,12 @@ namespace Birdie {
                 this.api = new Twitter ();
                 
                 this.m_window.add (this.notebook);
+                
+                this.m_window.focus_in_event.connect ((w, e) => {
+                    this.activate();
+                    return true;
+                });           
+                
                 this.m_window.show_all ();
                 
                 if (this.api.token == "" || this.api.token_secret == "") {
@@ -212,17 +220,20 @@ namespace Birdie {
                     new Thread<void*> (null, this.init);
                 }
             } else {
-                this.m_window.present();
+                this.m_window.show();
                 switch (this.current_timeline) {
                     case "home":
+                        this.launcher.clean_launcher_count (this.unread_tweets);
                         this.unread_tweets = 0;
                         this.indicator.clean_tweets_indicator();
                         break;
                     case "mentions":
+                        this.launcher.clean_launcher_count (this.unread_mentions);
                         this.unread_mentions = 0;
                         this.indicator.clean_mentions_indicator();
                         break;
                     case "dm":
+                        this.launcher.clean_launcher_count (this.unread_dm);
                         this.unread_dm = 0;
                         this.indicator.clean_dm_indicator();
                         break;
@@ -301,16 +312,19 @@ namespace Birdie {
                         break;
                     case "home":
                         this.notebook.page = 3;
+                        this.launcher.clean_launcher_count (this.unread_tweets);
                         this.unread_tweets = 0;
                         this.indicator.clean_tweets_indicator();
                         break;
                     case "mentions":
                         this.notebook.page = 4;
+                        this.launcher.clean_launcher_count (this.unread_mentions);
                         this.unread_mentions = 0;
                         this.indicator.clean_mentions_indicator();
                         break;
                     case "dm":
                         this.notebook.page = 5;
+                        this.launcher.clean_launcher_count (this.unread_dm);
                         this.unread_dm = 0;
                         this.indicator.clean_dm_indicator();
                         break;
@@ -374,17 +388,21 @@ namespace Birdie {
                 this.home_list.append (tweet, this);
                 this.unread_tweets++;
 	        });
+	        	        
             this.indicator.update_tweets_indicator (this.unread_tweets);
+            this.launcher.update_launcher_count (this.unread_tweets + this.unread_mentions + this.unread_dm);
         }
         
         public void update_mentions () {
             this.api.get_mentions_timeline ();
-            
+           
             this.api.mentions_timeline_since_id.foreach ((tweet) => {
                 this.mentions_list.append (tweet, this);
                 this.unread_mentions++;
 	        });
+            
             this.indicator.update_mentions_indicator (this.unread_mentions);
+            this.launcher.update_launcher_count (this.unread_tweets + this.unread_mentions + this.unread_dm);
         }
         
         public void tweet_callback (string text, string id = "") {
