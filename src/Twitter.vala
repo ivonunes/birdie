@@ -10,12 +10,16 @@ namespace Birdie {
         
         private string since_id_home;
         private string since_id_mentions;
+        private string since_id_dm;
         
         public User account;
         public GLib.List<Tweet> home_timeline;
         public GLib.List<Tweet> home_timeline_since_id;
         public GLib.List<Tweet> mentions_timeline;
         public GLib.List<Tweet> mentions_timeline_since_id;
+        public GLib.List<Tweet> dm_timeline;
+        public GLib.List<Tweet> dm_timeline_since_id;
+        public GLib.List<Tweet> dm_sent_timeline;
         public GLib.List<Tweet> own_timeline;
         public GLib.List<Tweet> user_timeline;
         
@@ -78,6 +82,7 @@ namespace Birdie {
             
             this.since_id_home = "";
             this.since_id_mentions = "";
+            this.since_id_dm = "";
             
             return 0;
         }
@@ -364,6 +369,127 @@ namespace Birdie {
 	            
             } catch (Error e) {
                 stderr.printf ("Unable to parse mentions_timeline.json\n");
+            }
+
+            return 0;
+        }
+        
+        public int get_direct_messages (string count = "20") {
+            // setup call
+            Rest.ProxyCall call = proxy.new_call();
+            call.set_function ("1.1/direct_messages.json");
+            call.set_method ("GET");
+            call.add_param ("count", count);
+            if (this.since_id_dm != "")
+                call.add_param ("since_id", this.since_id_dm);
+            try { call.sync (); } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+                return 1;
+            }
+            
+            try {
+                var parser = new Json.Parser ();
+                parser.load_from_data ((string) call.get_payload (), -1);
+
+                var root = parser.get_root ();
+
+                // clear since_id list
+                this.dm_timeline_since_id.foreach ((tweet) => {
+                    this.dm_timeline_since_id.remove(tweet);
+	            });
+
+                foreach (var tweetnode in root.get_array ().get_elements ()) {
+                    var tweetobject = tweetnode.get_object();
+                    
+                    var id = tweetobject.get_string_member ("id_str");
+			        var user_name = tweetobject.get_object_member ("sender").get_string_member ("name");
+			        var user_screen_name = tweetobject.get_object_member ("sender").get_string_member ("screen_name");
+			        var text = tweetobject.get_string_member ("text");
+			        var created_at = tweetobject.get_string_member ("created_at");
+			        var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
+			                
+			        if ("\n" in text)
+			            text = text.replace ("\n", " ");
+			                    
+			        // replace urls with markup links
+			        try {
+                        urls = new Regex("((http|https|ftp)://([\\S]+))");
+                    } catch (RegexError e) {
+                        warning ("regex error: %s", e.message);
+                    }
+                    
+			        text = urls.replace(text, -1, 0, "<a href='\\0'>\\0</a>");
+			               
+			        var profile_image_file = get_avatar (profile_image_url);
+			
+			        var tweet = new Tweet (id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, false, false, true);
+                    
+			        dm_timeline_since_id.append (tweet);
+                }
+                
+                this.dm_timeline_since_id.reverse ();
+                this.dm_timeline_since_id.foreach ((tweet) => {
+                    this.dm_timeline.append(tweet);
+                    this.since_id_dm = tweet.id;
+	            });
+	            
+            } catch (Error e) {
+                stderr.printf ("Unable to parse direct_messages.json\n");
+            }
+
+            return 0;
+        }
+        
+        public int get_direct_messages_sent (string count = "20") {
+            // setup call
+            Rest.ProxyCall call = proxy.new_call();
+            call.set_function ("1.1/direct_messages/sent.json");
+            call.set_method ("GET");
+            call.add_param ("count", count);
+            try { call.sync (); } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+                return 1;
+            }
+            
+            try {
+                var parser = new Json.Parser ();
+                parser.load_from_data ((string) call.get_payload (), -1);
+
+                var root = parser.get_root ();
+
+                foreach (var tweetnode in root.get_array ().get_elements ()) {
+                    var tweetobject = tweetnode.get_object();
+                    
+                    var id = tweetobject.get_string_member ("id_str");
+			        var user_name = tweetobject.get_object_member ("sender").get_string_member ("name");
+			        var user_screen_name = tweetobject.get_object_member ("recipient").get_string_member ("screen_name");
+			        var text = tweetobject.get_string_member ("text");
+			        var created_at = tweetobject.get_string_member ("created_at");
+			        var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
+			                
+			        if ("\n" in text)
+			            text = text.replace ("\n", " ");
+			                    
+			        // replace urls with markup links
+			        try {
+                        urls = new Regex("((http|https|ftp)://([\\S]+))");
+                    } catch (RegexError e) {
+                        warning ("regex error: %s", e.message);
+                    }
+                    
+			        text = urls.replace(text, -1, 0, "<a href='\\0'>\\0</a>");
+			               
+			        var profile_image_file = get_avatar (profile_image_url);
+			
+			        var tweet = new Tweet (id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, false, false, true);
+                    
+			        dm_sent_timeline.append (tweet);
+                }
+                
+                this.dm_sent_timeline.reverse ();
+	            
+            } catch (Error e) {
+                stderr.printf ("Unable to parse sent.json\n");
             }
 
             return 0;

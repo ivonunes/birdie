@@ -3,6 +3,8 @@ namespace Birdie {
         public Widgets.UnifiedWindow m_window;
         public Widgets.TweetList home_list; 
         public Widgets.TweetList mentions_list; 
+        public Widgets.TweetList dm_list; 
+        public Widgets.TweetList dm_sent_list; 
         public Widgets.TweetList own_list; 
         public Widgets.TweetList user_list; 
         
@@ -15,11 +17,14 @@ namespace Birdie {
         
         private Gtk.ScrolledWindow scrolled_home;
         private Gtk.ScrolledWindow scrolled_mentions;
+        private Gtk.ScrolledWindow scrolled_dm;
+        private Gtk.ScrolledWindow scrolled_dm_sent;
         private Gtk.ScrolledWindow scrolled_own;
         private Gtk.ScrolledWindow scrolled_user;
         private Granite.Widgets.Welcome welcome;
         
         private Granite.Widgets.StaticNotebook notebook;
+        private Granite.Widgets.StaticNotebook notebook_dm;
         private Gtk.Spinner spinner;
         private Gtk.Entry pin_entry;
         
@@ -161,6 +166,8 @@ namespace Birdie {
                 
                 this.home_list = new Widgets.TweetList ();
                 this.mentions_list = new Widgets.TweetList ();
+                this.dm_list = new Widgets.TweetList ();
+                this.dm_sent_list = new Widgets.TweetList ();
                 this.own_list = new Widgets.TweetList ();
                 this.user_list = new Widgets.TweetList ();
                 
@@ -169,6 +176,11 @@ namespace Birdie {
                 
                 this.scrolled_mentions = new Gtk.ScrolledWindow (null, null);
                 this.scrolled_mentions.add_with_viewport (mentions_list);
+                
+                this.scrolled_dm = new Gtk.ScrolledWindow (null, null);
+                this.scrolled_dm.add_with_viewport (dm_list);
+                this.scrolled_dm_sent = new Gtk.ScrolledWindow (null, null);
+                this.scrolled_dm_sent.add_with_viewport (dm_sent_list);
                 
                 this.scrolled_own = new Gtk.ScrolledWindow (null, null);
                 this.scrolled_own.add_with_viewport (own_list);
@@ -181,7 +193,11 @@ namespace Birdie {
                 this.welcome.activated.connect (() => {
                     new Thread<void*> (null, this.request);
 		        });
-
+		        
+		        this.notebook_dm = new Granite.Widgets.StaticNotebook (false);
+		        this.notebook_dm.append_page (this.scrolled_dm, new Gtk.Label (_("Received")));
+		        this.notebook_dm.append_page (this.scrolled_dm_sent, new Gtk.Label (_("Sent")));
+		        
                 this.notebook = new Granite.Widgets.StaticNotebook ();
                 this.notebook.set_switcher_visible (false);
                 this.notebook.get_style_context ().add_class (Granite.StyleClass.CONTENT_VIEW);
@@ -224,7 +240,7 @@ namespace Birdie {
                 this.notebook.append_page (pin_box, new Gtk.Label (_("Welcome")));
                 this.notebook.append_page (this.scrolled_home, new Gtk.Label (_("Home")));
                 this.notebook.append_page (this.scrolled_mentions, new Gtk.Label (_("Mentions")));
-                this.notebook.append_page (new Gtk.Label (_("In development")), new Gtk.Label (_("Direct Messages")));
+                this.notebook.append_page (this.notebook_dm, new Gtk.Label (_("Direct Messages")));
                 this.notebook.append_page (this.scrolled_own, new Gtk.Label (_("Profile")));
                 this.notebook.append_page (this.scrolled_user, new Gtk.Label (_("User")));
                 this.notebook.append_page (new Gtk.Label (_("In development")), new Gtk.Label (_("Search")));
@@ -297,6 +313,8 @@ namespace Birdie {
             this.api.get_account ();
             this.api.get_home_timeline ();
             this.api.get_mentions_timeline ();
+            this.api.get_direct_messages ();
+            this.api.get_direct_messages_sent ();
             this.api.get_own_timeline ();
 
             this.api.home_timeline.foreach ((tweet) => {
@@ -306,7 +324,15 @@ namespace Birdie {
 	        this.api.mentions_timeline.foreach ((tweet) => {
                 this.mentions_list.append(tweet, this);
 	        });
-	            
+	        
+	        this.api.dm_timeline.foreach ((tweet) => {
+                this.dm_list.append(tweet, this);
+	        });
+	        
+	        this.api.dm_sent_timeline.foreach ((tweet) => {
+                this.dm_sent_list.append(tweet, this);
+	        });
+
 	        this.api.own_timeline.foreach ((tweet) => {
                 this.own_list.append(tweet, this);
 	        });
@@ -322,7 +348,7 @@ namespace Birdie {
             this.new_tweet.set_sensitive (true);
             this.home.set_sensitive (true);
             this.mentions.set_sensitive (true);
-            //this.dm.set_sensitive (true);
+            this.dm.set_sensitive (true);
             this.profile.set_sensitive (true);
             //this.search.set_sensitive (true);
 
@@ -403,6 +429,7 @@ namespace Birdie {
         public void* update_timelines () {
             this.update_home ();
             this.update_mentions ();
+            this.update_dm ();
             this.add_timeout_online ();
             return null;
         }
@@ -447,6 +474,26 @@ namespace Birdie {
 
             if (this.mention_notification) {
                 this.indicator.update_mentions_indicator (this.unread_mentions);
+                this.launcher.update_launcher_count (this.unread_tweets + this.unread_mentions + this.unread_dm);
+            }
+        }
+        
+        public void update_dm () {
+
+            this.api.get_direct_messages ();
+            
+            this.api.dm_timeline_since_id.foreach ((tweet) => {
+                this.dm_list.append (tweet, this);
+                if (this.dm_notification) {
+                    if (this.api.account.screen_name != tweet.user_screen_name) {
+                        Utils.notify ("New direct message from " + tweet.user_name, tweet.text);
+                    }
+                    this.unread_dm++;
+                }
+            });
+
+            if (this.dm_notification) {
+                this.indicator.update_dm_indicator (this.unread_dm);
                 this.launcher.update_launcher_count (this.unread_tweets + this.unread_mentions + this.unread_dm);
             }
         }
