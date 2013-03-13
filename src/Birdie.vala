@@ -72,6 +72,7 @@ namespace Birdie {
             if (get_windows () == null) {
                 this.m_window = new Widgets.UnifiedWindow ();
                 this.m_window.set_default_size (450, 600);
+                this.m_window.set_size_request (430, 325);
                 this.m_window.set_application (this);
                 
                 this.indicator = new Utils.Indicator (this);
