@@ -19,7 +19,7 @@ namespace Birdie.Utils {
             var home = new Dbusmenu.Menuitem ();
             var mentions = new Dbusmenu.Menuitem ();
             var profile = new Dbusmenu.Menuitem ();
-            //var dm = new Dbusmenu.Menuitem ();
+            var dm = new Dbusmenu.Menuitem ();
 
             // new tweet
             new_tweet.property_set (Dbusmenu.MENUITEM_PROP_LABEL, _("New Tweet"));
@@ -46,10 +46,10 @@ namespace Birdie.Utils {
             launcher.quicklist = ql;
             
             // dm timeline
-            //dm.property_set (Dbusmenu.MENUITEM_PROP_LABEL, _("Messages"));
-            //dm.property_set_bool (Dbusmenu.MENUITEM_PROP_VISIBLE, true);
-            //ql.child_append (dm);
-            //launcher.quicklist = ql;
+            dm.property_set (Dbusmenu.MENUITEM_PROP_LABEL, _("Messages"));
+            dm.property_set_bool (Dbusmenu.MENUITEM_PROP_VISIBLE, true);
+            ql.child_append (dm);
+            launcher.quicklist = ql;
                   
             // events connections
             new_tweet.item_activated.connect (() => {

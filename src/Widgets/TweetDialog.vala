@@ -18,18 +18,22 @@ namespace Birdie.Widgets {
             
             this.avatar = new Gtk.Image ();
             this.avatar.set_from_file (Environment.get_home_dir () + "/.cache/birdie/" + this.birdie.api.account.profile_image_file);
-            this.avatar.set_padding (5, 0);
         
             this.view = new Gtk.TextView ();
             this.view.set_wrap_mode (Gtk.WrapMode.WORD_CHAR);
-            this.view.set_size_request(300, 100);
+            this.view.set_size_request(300, 80);
             
             if (id != "" && user_screen_name != "")
                 this.view.buffer.insert_at_cursor ("@" + user_screen_name + " ", -1);
 
             var top = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-            top.add (this.avatar);
+            var avatarbox = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+            avatarbox.pack_start (this.avatar, false, false, 0);
+            avatarbox.pack_start (new Gtk.Label (""), true, true, 0);
+            avatarbox.margin_right = 12;
+            top.add (avatarbox);
             top.add (this.view);
+            top.margin = 12;
             
             this.view.buffer.changed.connect (() => {
 			    this.count = 140 - this.view.buffer.get_char_count ();
@@ -54,25 +58,25 @@ namespace Birdie.Widgets {
             cancel.clicked.connect (() => {
 			    this.destroy ();
             });
+            
 			this.tweet = new Gtk.Button.with_label (_("Tweet"));
 			this.tweet.set_size_request (100, -1);
 			this.tweet.set_sensitive (false);
+			this.tweet.margin_left = 6;
 			
 			this.tweet.clicked.connect (() => {
 			    new Thread<void*> (null, this.tweet_thread);
             });
 			
 			Gtk.Box bottom = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-			bottom.pack_start (this.count_label, false, false, 5);
+			bottom.pack_start (this.count_label, false, false, 0);
 			bottom.pack_start (new Gtk.Label (""), true, true, 0);
 			bottom.pack_start (cancel, false, false, 0);
-			bottom.pack_start (this.tweet, false, false, 5);
+			bottom.pack_start (this.tweet, false, false, 0);
+			bottom.margin = 12;
 			
-			this.add (new Gtk.Label (""));
 			this.add (top);
-			this.add (new Gtk.Label (""));
 			this.add (bottom);
-			this.add (new Gtk.Label (""));
 			
 			this.show_all ();
         }
