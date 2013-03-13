@@ -166,19 +166,15 @@ namespace Birdie {
                 
                 this.scrolled_home = new Gtk.ScrolledWindow (null, null);
                 this.scrolled_home.add_with_viewport (home_list);
-                this.scrolled_home.get_style_context ().add_class (Granite.StyleClass.CONTENT_VIEW);
                 
                 this.scrolled_mentions = new Gtk.ScrolledWindow (null, null);
                 this.scrolled_mentions.add_with_viewport (mentions_list);
-                this.scrolled_mentions.get_style_context ().add_class (Granite.StyleClass.CONTENT_VIEW);
                 
                 this.scrolled_own = new Gtk.ScrolledWindow (null, null);
                 this.scrolled_own.add_with_viewport (own_list);
-                this.scrolled_own.get_style_context ().add_class (Granite.StyleClass.CONTENT_VIEW);
                 
                 this.scrolled_user = new Gtk.ScrolledWindow (null, null);
                 this.scrolled_user.add_with_viewport (user_list);
-                this.scrolled_user.get_style_context ().add_class (Granite.StyleClass.CONTENT_VIEW);
                 
                 this.welcome = new Granite.Widgets.Welcome (_("Birdie"), _("Twitter Client"));
                 this.welcome.append ("twitter", _("Add account"), _("Add a Twitter account"));
@@ -188,6 +184,7 @@ namespace Birdie {
 
                 this.notebook = new Granite.Widgets.StaticNotebook ();
                 this.notebook.set_switcher_visible (false);
+                this.notebook.get_style_context ().add_class (Granite.StyleClass.CONTENT_VIEW);
 
                 this.spinner = new Gtk.Spinner ();
                 this.spinner.set_size_request (32, 32);
