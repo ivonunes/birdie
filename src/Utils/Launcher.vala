@@ -19,7 +19,7 @@ namespace Birdie.Utils {
             var home = new Dbusmenu.Menuitem ();
             var mentions = new Dbusmenu.Menuitem ();
             var profile = new Dbusmenu.Menuitem ();
-            var dm = new Dbusmenu.Menuitem ();
+            //var dm = new Dbusmenu.Menuitem ();
 
             // new tweet
             new_tweet.property_set (Dbusmenu.MENUITEM_PROP_LABEL, _("New Tweet"));

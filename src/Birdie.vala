@@ -32,9 +32,11 @@ namespace Birdie {
         private Utils.Indicator indicator; 
         private Utils.Launcher launcher; 
         
-        public int unread_tweets;
-        public int unread_mentions;
-        public int unread_dm;
+        private int unread_tweets;
+        private int unread_mentions;
+        private int unread_dm;
+        
+        private Regex urls;
         
         construct {
             program_name        = "Birdie";
@@ -252,7 +254,11 @@ namespace Birdie {
         
         private void* request () {
             this.switch_timeline ("pin");
-            GLib.Process.spawn_command_line_async ("x-www-browser \"" + this.api.get_request () + "\"");
+            try {
+                GLib.Process.spawn_command_line_async ("x-www-browser \"" + this.api.get_request () + "\"");
+            } catch (GLib.Error error) {
+                warning ("error opening url: %s", error.message);  
+		    }
 			return null;
         }
         
@@ -395,7 +401,9 @@ namespace Birdie {
 	            
             this.api.home_timeline_since_id.foreach ((tweet) => {
                 this.home_list.append (tweet, this);
-                Utils.notify ("New tweet from " + tweet.user_name, tweet.text);
+                if (this.api.account.screen_name != tweet.user_screen_name) {
+                    Utils.notify ("New tweet from " + tweet.user_name, tweet.text);
+                }
                 this.unread_tweets++;
 	        });
 	                   
@@ -410,7 +418,9 @@ namespace Birdie {
             this.api.mentions_timeline_since_id.foreach ((tweet) => {
                 this.mentions_list.append (tweet, this);
                 this.unread_mentions++;
-                Utils.notify ("New mention from " + tweet.user_name, tweet.text);
+                if (this.api.account.screen_name != tweet.user_screen_name) {
+                    Utils.notify ("New mention from " + tweet.user_name, tweet.text);
+                }
             });
 
             this.indicator.update_mentions_indicator (this.unread_mentions);
@@ -420,7 +430,12 @@ namespace Birdie {
         public void tweet_callback (string text, string id = "") {
             int64 code = this.api.update (text, id);
             
-            Regex urls = new Regex("((http|https|ftp)://([\\S]+))");
+            try {
+                urls = new Regex("((http|https|ftp)://([\\S]+))");
+            } catch (RegexError e) {
+                warning ("regex error: %s", e.message);
+            }
+            
 			var text_url = urls.replace(text, -1, 0, "<a href='\\0'>\\0</a>");
             
             if (code != 1) {

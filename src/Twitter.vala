@@ -22,6 +22,8 @@ namespace Birdie {
         Settings settings;
         public string token;
         public string token_secret;
+        
+        private Regex urls;
 
         public Twitter () {
             this.CONSUMER_KEY = (string) Base64.decode (this.CONSUMER_KEY);
@@ -270,7 +272,12 @@ namespace Birdie {
 			    text = text.replace ("\n", " ");
 			            
 			// replace urls with markup links
-			Regex urls = new Regex("((http|https|ftp)://([\\S]+))");
+			try {
+                urls = new Regex("((http|https|ftp)://([\\S]+))");
+            } catch (RegexError e) {
+                warning ("regex error: %s", e.message);
+            }
+            
 			text = urls.replace(text, -1, 0, "<a href='\\0'>\\0</a>");
 			       
 			var profile_image_file = get_avatar (profile_image_url);
