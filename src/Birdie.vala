@@ -36,7 +36,13 @@ namespace Birdie {
         private int unread_mentions;
         private int unread_dm;
         
+        private bool tweet_notification;
+        private bool mention_notification;
+        private bool dm_notification;
+        
         private Regex urls;
+        
+        Settings settings;
         
         construct {
             program_name        = "Birdie";
@@ -70,6 +76,13 @@ namespace Birdie {
                 this.unread_tweets = 0;
                 this.unread_mentions = 0;
                 this.unread_dm = 0;
+                
+                // notification settings
+                settings = new Settings ("org.pantheon.birdie");
+                
+                this.tweet_notification = settings.get_boolean ("tweet-notification");
+                this.mention_notification = settings.get_boolean ("mention-notification");
+                this.dm_notification = settings.get_boolean ("dm-notification");
                 
                 this.new_tweet = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("mail-message-new", Gtk.IconSize.LARGE_TOOLBAR), _("New Tweet"));
                 new_tweet.set_tooltip_text (_("New Tweet"));
@@ -401,14 +414,18 @@ namespace Birdie {
 	            
             this.api.home_timeline_since_id.foreach ((tweet) => {
                 this.home_list.append (tweet, this);
-                if (this.api.account.screen_name != tweet.user_screen_name) {
-                    Utils.notify ("New tweet from " + tweet.user_name, tweet.text);
+                if (this.tweet_notification == true) {
+                    if (this.api.account.screen_name != tweet.user_screen_name) {
+                        Utils.notify ("New tweet from " + tweet.user_name, tweet.text);
+                    }
+                    this.unread_tweets++;
                 }
-                this.unread_tweets++;
 	        });
-	                   
-            this.indicator.update_tweets_indicator (this.unread_tweets);
-            this.launcher.update_launcher_count (this.unread_tweets + this.unread_mentions + this.unread_dm);
+	           
+	        if (this.tweet_notification == true) {           
+                this.indicator.update_tweets_indicator (this.unread_tweets);
+                this.launcher.update_launcher_count (this.unread_tweets + this.unread_mentions + this.unread_dm);
+            }
         }
         
         public void update_mentions () {
@@ -417,14 +434,18 @@ namespace Birdie {
             
             this.api.mentions_timeline_since_id.foreach ((tweet) => {
                 this.mentions_list.append (tweet, this);
-                this.unread_mentions++;
-                if (this.api.account.screen_name != tweet.user_screen_name) {
-                    Utils.notify ("New mention from " + tweet.user_name, tweet.text);
+                if (this.mention_notification == true) {
+                    if (this.api.account.screen_name != tweet.user_screen_name) {
+                        Utils.notify ("New mention from " + tweet.user_name, tweet.text);
+                    }
+                    this.unread_mentions++;
                 }
             });
 
-            this.indicator.update_mentions_indicator (this.unread_mentions);
-            this.launcher.update_launcher_count (this.unread_tweets + this.unread_mentions + this.unread_dm);
+            if (this.mention_notification == true) {
+                this.indicator.update_mentions_indicator (this.unread_mentions);
+                this.launcher.update_launcher_count (this.unread_tweets + this.unread_mentions + this.unread_dm);
+            }
         }
         
         public void tweet_callback (string text, string id = "") {
