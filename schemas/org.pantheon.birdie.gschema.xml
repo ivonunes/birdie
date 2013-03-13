@@ -16,6 +16,30 @@
         Token secret
       </description>
     </key>
+    
+    <key name="tweet-notification" type="b">
+      <default>false</default>
+      <summary>tweet-notification</summary>
+      <description>
+        Desktop notifications for new tweets
+      </description>
+    </key>
+    
+    <key name="mention-notification" type="b">
+      <default>true</default>
+      <summary>mention-notification</summary>
+      <description>
+        Desktop notifications for new mentions
+      </description>
+    </key>
+    
+    <key name="dm-notification" type="b">
+      <default>true</default>
+      <summary>dm-notification</summary>
+      <description>
+        Desktop notifications for new direct messages
+      </description>
+    </key>
 
   </schema>
 </schemalist>
