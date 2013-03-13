@@ -39,9 +39,6 @@ namespace Birdie {
         private bool tweet_notification;
         private bool mention_notification;
         private bool dm_notification;
-        private bool tweet_badges;
-        private bool mention_badges;
-        private bool dm_badges;
         
         private Regex urls;
         private Settings settings;
@@ -148,13 +145,18 @@ namespace Birdie {
                 this.m_window.add_bar (left_sep);
                 
                 var menu = new Gtk.Menu ();
+                var about_appmenu = new Gtk.MenuItem.with_label (_("About"));
+                about_appmenu.activate.connect (() => {
+                    show_about (this.m_window);
+                });
                 var quit_appmenu = new Gtk.MenuItem.with_label (_("Quit"));
                 quit_appmenu.activate.connect (() => {
                     this.m_window.destroy ();
                 });
+                menu.add (about_appmenu);
                 menu.add (quit_appmenu);
-                var appmenu = create_appmenu (menu);
-                
+                var appmenu = new Granite.Widgets.ToolButtonWithMenu (new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU), _("Menu"), menu);
+
                 this.m_window.add_bar (appmenu);
                 
                 this.home_list = new Widgets.TweetList ();
