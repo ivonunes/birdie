@@ -288,8 +288,13 @@ namespace Birdie {
 			var retweeted = tweetobject.get_boolean_member ("retweeted");
 			var favorited = tweetobject.get_boolean_member ("favorited");       
 			var profile_image_file = get_avatar (profile_image_url);
+			var in_reply_to_screen_name = tweetobject.get_string_member ("in_reply_to_screen_name");
 			
-			return new Tweet (id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited);
+			if (in_reply_to_screen_name == null) {
+			    in_reply_to_screen_name = "";
+			}
+			
+			return new Tweet (id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited, false, in_reply_to_screen_name);
         }
         
         public int get_home_timeline (string count = "20") {

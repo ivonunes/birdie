@@ -10,6 +10,7 @@ namespace Birdie.Widgets {
         private Gtk.Label user_name;
         private Gtk.Label user_screen_name;
         private Gtk.Label text;
+        private Gtk.Label footer;
         private Gtk.Label created_at;
         private Gtk.Box favoritebox;
         private Gtk.Box retweetbox;
@@ -71,6 +72,8 @@ namespace Birdie.Widgets {
             this.text.set_alignment (0, 0);
             this.created_at = new Gtk.Label ("");
             this.created_at.set_alignment (1, 0);
+            this.footer = new Gtk.Label ("");
+            this.footer.set_alignment (0, 0.5f);
             
             this.userbox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
             this.userbox.pack_start (this.user_name, false, false, 0);
@@ -80,7 +83,7 @@ namespace Birdie.Widgets {
             this.infobox.pack_start (new Gtk.Label (""), true, true, 0);
             this.infobox.pack_start (this.userbox, false, false, 0);
             this.infobox.pack_start (this.text, false, false, 0);
-            this.infobox.pack_start (new Gtk.Label (""), true, true, 0);
+            this.infobox.pack_start (this.footer, true, true, 0);
             
             this.right = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             this.right.pack_start (this.created_at, false, false, 0);
@@ -163,6 +166,7 @@ namespace Birdie.Widgets {
             this.set_size_request (-1, 100);
             
             this.update_date ();
+            this.set_footer ();
         }
         
         private void* favorite_thread () {
@@ -267,6 +271,12 @@ namespace Birdie.Widgets {
                 this.created_at.set_markup ("<span color='#aaaaaa'>" + this.date + "</span>");
                 return false;
             });
+        }
+        
+        private void set_footer () {
+            if (this.tweet.in_reply_to_screen_name != "") {
+                this.footer.set_markup ("<span color='#aaaaaa'>" + _("in reply to @%s").printf (this.tweet.in_reply_to_screen_name) + "</span>");
+            }
         }
     }
 }
