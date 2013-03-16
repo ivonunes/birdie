@@ -274,7 +274,9 @@ namespace Birdie.Widgets {
         }
         
         private void set_footer () {
-            if (this.tweet.in_reply_to_screen_name != "") {
+            if (this.tweet.retweeted_by != "") {
+                this.footer.set_markup ("<span color='#aaaaaa'>" + _("retweeted by @%s").printf (this.tweet.retweeted_by) + "</span>");
+            } else if (this.tweet.in_reply_to_screen_name != "") {
                 this.footer.set_markup ("<span color='#aaaaaa'>" + _("in reply to @%s").printf (this.tweet.in_reply_to_screen_name) + "</span>");
             }
         }

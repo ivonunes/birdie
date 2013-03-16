@@ -278,7 +278,15 @@ namespace Birdie {
         
         public Tweet get_tweet (Json.Node tweetnode) {
             var tweetobject = tweetnode.get_object();
-                    
+            
+            var retweet = tweetobject.get_member ("retweeted_status");
+            string retweeted_by = "";
+            
+            if (retweet != null) {
+                retweeted_by = tweetobject.get_object_member ("user").get_string_member ("screen_name");
+                tweetobject = tweetobject.get_object_member ("retweeted_status");
+            }
+   
             var id = tweetobject.get_string_member ("id_str");
 			var user_name = tweetobject.get_object_member ("user").get_string_member ("name");
 			var user_screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
@@ -286,6 +294,7 @@ namespace Birdie {
 			var created_at = tweetobject.get_string_member ("created_at");
 			var profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
 			var retweeted = tweetobject.get_boolean_member ("retweeted");
+			
 			var favorited = tweetobject.get_boolean_member ("favorited");       
 			var profile_image_file = get_avatar (profile_image_url);
 			var in_reply_to_screen_name = tweetobject.get_string_member ("in_reply_to_screen_name");
@@ -294,7 +303,7 @@ namespace Birdie {
 			    in_reply_to_screen_name = "";
 			}
 			
-			return new Tweet (id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited, false, in_reply_to_screen_name);
+			return new Tweet (id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited, false, in_reply_to_screen_name, retweeted_by);
         }
         
         public int get_home_timeline (string count = "20") {
