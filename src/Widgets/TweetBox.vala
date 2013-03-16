@@ -83,7 +83,7 @@ namespace Birdie.Widgets {
             this.infobox.pack_start (new Gtk.Label (""), true, true, 0);
             this.infobox.pack_start (this.userbox, false, false, 0);
             this.infobox.pack_start (this.text, false, false, 0);
-            this.infobox.pack_start (this.footer, true, true, 0);
+            //this.infobox.pack_start (this.footer, true, true, 0);
             
             this.right = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             this.right.pack_start (this.created_at, false, false, 0);
@@ -115,7 +115,7 @@ namespace Birdie.Widgets {
                 this.retweetbox.pack_start (new Gtk.Label (""), true, true, 0);
                 this.retweetbox.pack_start (retweet, false, false, 0);
                 
-                if (this.tweet.retweeted) {
+                if (this.tweet.retweeted || this.tweet.retweeted_by != "" ) {
                     this.retweet.set_sensitive (false);
                     this.retweeticon.set_from_icon_name ("twitter-retweeted", Gtk.IconSize.MENU);
                 }
@@ -275,9 +275,27 @@ namespace Birdie.Widgets {
         
         private void set_footer () {
             if (this.tweet.retweeted_by != "") {
+                var retweeted_img = new Gtk.Image ();
+                retweeted_img.set_from_icon_name ("twitter-retweet", Gtk.IconSize.MENU);
+                var retweeted_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+                retweeted_box.pack_start (retweeted_img, false, false, 0);
+                retweeted_box.pack_start (this.footer, true, true, 0);
+                this.infobox.add (retweeted_box);
+                this.infobox.pack_start (new Gtk.Label (""), true, true, 0);
+                this.footer.set_alignment (0, 2);
                 this.footer.set_markup ("<span color='#aaaaaa'>" + _("retweeted by @%s").printf (this.tweet.retweeted_by) + "</span>");
             } else if (this.tweet.in_reply_to_screen_name != "") {
+                var reply_img = new Gtk.Image ();
+                reply_img.set_from_icon_name ("twitter-reply", Gtk.IconSize.MENU);
+                var reply_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+                reply_box.pack_start (reply_img, false, false, 0);
+                reply_box.pack_start (this.footer, true, true, 0);
+                this.infobox.add (reply_box);
+                this.infobox.pack_start (new Gtk.Label (""), true, true, 0);
+                this.footer.set_alignment (0, 2);
                 this.footer.set_markup ("<span color='#aaaaaa'>" + _("in reply to @%s").printf (this.tweet.in_reply_to_screen_name) + "</span>");
+            } else {
+                this.infobox.pack_start (this.footer, true, true, 0);
             }
         }
     }
