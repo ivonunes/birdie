@@ -94,7 +94,13 @@ namespace Birdie {
                 this.new_tweet = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("mail-message-new", Gtk.IconSize.LARGE_TOOLBAR), _("New Tweet"));
                 new_tweet.set_tooltip_text (_("New Tweet"));
 		        new_tweet.clicked.connect (() => {
-		            Widgets.TweetDialog dialog = new Widgets.TweetDialog (this); 
+		            bool is_dm = false;
+		        
+		            if (this.current_timeline == "dm")
+		                is_dm = true;
+		            
+		            Widgets.TweetDialog dialog = new Widgets.TweetDialog (this, "", "", is_dm); 
+		                
 			        dialog.show_all ();
 		        });
 		        new_tweet.set_sensitive (false);
@@ -499,8 +505,13 @@ namespace Birdie {
             }
         }
         
-        public void tweet_callback (string text, string id = "") {
-            int64 code = this.api.update (text, id);
+        public void tweet_callback (string text, string id = "", string user_screen_name, bool dm) {
+            int64 code;
+        
+            if (dm)
+                code = this.api.send_direct_message (user_screen_name, text);
+            else
+                code = this.api.update (text, id);
             
             try {
                 urls = new Regex("((http|https|ftp)://([\\S]+))");
@@ -511,14 +522,32 @@ namespace Birdie {
 			var text_url = urls.replace(text, -1, 0, "<a href='\\0'>\\0</a>");
             
             if (code != 1) {
-                Tweet tweet_tmp = new Tweet (code.to_string (), this.api.account.name, this.api.account.screen_name, text_url, "", this.api.account.profile_image_url, this.api.account.profile_image_file);
-
-                this.home_tmp.append (tweet_tmp);
-                this.home_list.append (tweet_tmp, this);
-                this.own_list.append (tweet_tmp, this);
-            }
+                string user = user_screen_name;
             
-            this.switch_timeline ("home");
+                if ("@" in user_screen_name)
+                    user = user.replace ("@", "");
+            
+                if (user == "")
+                    user = this.api.account.screen_name;
+            
+                Tweet tweet_tmp = new Tweet (code.to_string (), this.api.account.name, user, text_url, "", this.api.account.profile_image_url, this.api.account.profile_image_file, false, false, dm);
+
+                if (dm) {
+                    this.dm_sent_list.append (tweet_tmp, this);
+                    this.switch_timeline ("dm");
+                    Idle.add (() => {
+                        this.notebook_dm.page = 1;
+                        return false;
+                    });
+                } else {
+                    this.home_tmp.append (tweet_tmp);
+                    this.home_list.append (tweet_tmp, this);
+                    this.own_list.append (tweet_tmp, this);
+                    
+                    this.switch_timeline ("home");
+                }
+            }
         }
     }
 }
+

@@ -2,6 +2,7 @@ namespace Birdie.Widgets {
     public class TweetDialog : LightDialog {
         Gtk.Image avatar;
         Gtk.TextView view;
+        Gtk.Entry entry;
         Gtk.Label count_label;
         int count;
         Gtk.Button tweet;
@@ -9,12 +10,16 @@ namespace Birdie.Widgets {
         bool tweet_disabled;
         
         string id;
+        string user_screen_name;
+        bool dm;
     
         Birdie birdie;
     
-        public TweetDialog (Birdie birdie, string id = "", string user_screen_name = "") {
+        public TweetDialog (Birdie birdie, string id = "", string user_screen_name = "", bool dm = false) {
             this.birdie = birdie;
             this.id = id;
+            this.user_screen_name = user_screen_name;
+            this.dm = dm;
             
             this.avatar = new Gtk.Image ();
             this.avatar.set_from_file (Environment.get_home_dir () + "/.cache/birdie/" + this.birdie.api.account.profile_image_file);
@@ -23,8 +28,18 @@ namespace Birdie.Widgets {
             this.view.set_wrap_mode (Gtk.WrapMode.WORD_CHAR);
             this.view.set_size_request(300, 80);
             
-            if (id != "" && user_screen_name != "")
-                this.view.buffer.insert_at_cursor ("@" + user_screen_name + " ", -1);
+            var dm_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
+            if (dm && user_screen_name == "") {
+                this.entry = new Gtk.Entry ();
+                this.entry.set_text ("@");
+                dm_box.add (this.entry);
+                dm_box.add (this.view);
+            }
+            
+            if (!dm) {
+                if (id != "" && user_screen_name != "")
+                    this.view.buffer.insert_at_cursor ("@" + user_screen_name + " ", -1);
+            }
 
             var top = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
             var avatarbox = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
@@ -32,7 +47,10 @@ namespace Birdie.Widgets {
             avatarbox.pack_start (new Gtk.Label (""), true, true, 0);
             avatarbox.margin_right = 12;
             top.add (avatarbox);
-            top.add (this.view);
+            if (dm && user_screen_name == "")
+                top.add (dm_box);
+            else
+                top.add (this.view);
             top.margin = 12;
             
             this.view.buffer.changed.connect (() => {
@@ -59,7 +77,10 @@ namespace Birdie.Widgets {
 			    this.destroy ();
             });
             
-			this.tweet = new Gtk.Button.with_label (_("Tweet"));
+            if (dm)
+                this.tweet = new Gtk.Button.with_label (_("Send"));
+            else
+			    this.tweet = new Gtk.Button.with_label (_("Tweet"));
 			this.tweet.set_size_request (100, -1);
 			this.tweet.set_sensitive (false);
 			this.tweet.margin_left = 6;
@@ -88,8 +109,11 @@ namespace Birdie.Widgets {
 			this.view.buffer.get_start_iter (out start);
 			this.view.buffer.get_end_iter (out end);
 
+            if (dm && this.user_screen_name == "")
+                this.user_screen_name = this.entry.get_text ();
+
             this.hide ();
-			birdie.tweet_callback (this.view.buffer.get_text (start, end, false), this.id);
+            birdie.tweet_callback (this.view.buffer.get_text (start, end, false), this.id, this.user_screen_name, this.dm);
 			this.destroy ();
 			
             return null;

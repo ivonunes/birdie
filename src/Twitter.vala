@@ -175,6 +175,21 @@ namespace Birdie {
             return 0;
         }
         
+        public int send_direct_message (string recipient, string status) {
+            // setup call
+            Rest.ProxyCall call = proxy.new_call();
+            call.set_function ("1.1/direct_messages/new.json");
+            call.set_method ("POST");
+            call.add_param ("screen_name", recipient);
+            call.add_param ("text", status);
+            try { call.sync (); } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+                return 1;
+            }
+            
+            return 0;
+        }
+        
         public int get_account () {
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("1.1/account/verify_credentials.json");
