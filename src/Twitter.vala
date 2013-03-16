@@ -260,6 +260,21 @@ namespace Birdie {
             
             return profile_image_file;
         }
+
+        public string highligh_links (owned string text) {
+            text = text.replace ("\n", " ");
+
+            try {
+                urls = new Regex("((http|https|ftp)://([\\S]+))");
+                text = urls.replace(text, -1, 0, "<a href='\\0'>\\0</a>");
+                urls = new Regex("([@#][a-zA-Z0-9_]+)");
+                text = urls.replace(text, -1, 0, "<a href='https://twitter.com/\\0'>\\0</a>");
+            } catch (RegexError e) {
+                warning ("regex error: %s", e.message);
+            }
+
+            return text;
+        }
         
         public Tweet get_tweet (Json.Node tweetnode) {
             var tweetobject = tweetnode.get_object();
@@ -267,24 +282,11 @@ namespace Birdie {
             var id = tweetobject.get_string_member ("id_str");
 			var user_name = tweetobject.get_object_member ("user").get_string_member ("name");
 			var user_screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
-			var text = tweetobject.get_string_member ("text");
+			var text = highligh_links(tweetobject.get_string_member ("text"));
 			var created_at = tweetobject.get_string_member ("created_at");
 			var profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
 			var retweeted = tweetobject.get_boolean_member ("retweeted");
-			var favorited = tweetobject.get_boolean_member ("favorited");
-			        
-			if ("\n" in text)
-			    text = text.replace ("\n", " ");
-			            
-			// replace urls with markup links
-			try {
-                urls = new Regex("((http|https|ftp)://([\\S]+))");
-            } catch (RegexError e) {
-                warning ("regex error: %s", e.message);
-            }
-            
-			text = urls.replace(text, -1, 0, "<a href='\\0'>\\0</a>");
-			       
+			var favorited = tweetobject.get_boolean_member ("favorited");       
 			var profile_image_file = get_avatar (profile_image_url);
 			
 			return new Tweet (id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited);
@@ -404,22 +406,9 @@ namespace Birdie {
                     var id = tweetobject.get_string_member ("id_str");
 			        var user_name = tweetobject.get_object_member ("sender").get_string_member ("name");
 			        var user_screen_name = tweetobject.get_object_member ("sender").get_string_member ("screen_name");
-			        var text = tweetobject.get_string_member ("text");
+			        var text = highligh_links(tweetobject.get_string_member ("text"));
 			        var created_at = tweetobject.get_string_member ("created_at");
-			        var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
-			                
-			        if ("\n" in text)
-			            text = text.replace ("\n", " ");
-			                    
-			        // replace urls with markup links
-			        try {
-                        urls = new Regex("((http|https|ftp)://([\\S]+))");
-                    } catch (RegexError e) {
-                        warning ("regex error: %s", e.message);
-                    }
-                    
-			        text = urls.replace(text, -1, 0, "<a href='\\0'>\\0</a>");
-			               
+			        var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");               
 			        var profile_image_file = get_avatar (profile_image_url);
 			
 			        var tweet = new Tweet (id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, false, false, true);
@@ -463,22 +452,9 @@ namespace Birdie {
                     var id = tweetobject.get_string_member ("id_str");
 			        var user_name = tweetobject.get_object_member ("sender").get_string_member ("name");
 			        var user_screen_name = tweetobject.get_object_member ("recipient").get_string_member ("screen_name");
-			        var text = tweetobject.get_string_member ("text");
+			        var text = highligh_links(tweetobject.get_string_member ("text"));
 			        var created_at = tweetobject.get_string_member ("created_at");
-			        var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
-			                
-			        if ("\n" in text)
-			            text = text.replace ("\n", " ");
-			                    
-			        // replace urls with markup links
-			        try {
-                        urls = new Regex("((http|https|ftp)://([\\S]+))");
-                    } catch (RegexError e) {
-                        warning ("regex error: %s", e.message);
-                    }
-                    
-			        text = urls.replace(text, -1, 0, "<a href='\\0'>\\0</a>");
-			               
+			        var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");			               
 			        var profile_image_file = get_avatar (profile_image_url);
 			
 			        var tweet = new Tweet (id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, false, false, true);
