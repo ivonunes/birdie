@@ -80,7 +80,12 @@ namespace Birdie.Widgets {
                 }
             
                 // replace urls with filler to fill them with 20 chars each
-			    virtual_text = urls.replace (virtual_text, -1, 0, filler);
+                try {
+			        virtual_text = urls.replace (virtual_text, -1, 0, filler);
+			    }
+			    catch (Error e) {
+			        warning ("url replacing error: %s", e.message);
+			    }
                 
 			    this.count = 140 - virtual_text.char_count ();
 			    this.count_label.set_markup ("<span color='#777777'>" + this.count.to_string () + "</span>");

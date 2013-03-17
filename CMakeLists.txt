@@ -22,6 +22,12 @@ configure_file (${CMAKE_SOURCE_DIR}/src/config.vala.cmake ${CMAKE_SOURCE_DIR}/sr
 #Here we load the modules we downloaded earlier and placed into the ./cmake directory
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake )
 
+# Vala
+find_package (Vala REQUIRED)
+include (ValaVersion)
+ensure_vala_version ("0.16.1" MINIMUM)
+include (ValaPrecompile)
+
 configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
     "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"

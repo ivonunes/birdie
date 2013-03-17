@@ -507,6 +507,7 @@ namespace Birdie {
         
         public void tweet_callback (string text, string id = "", string user_screen_name, bool dm) {
             int64 code;
+            var text_url = "";
         
             if (dm)
                 code = this.api.send_direct_message (user_screen_name, text);
@@ -518,8 +519,13 @@ namespace Birdie {
             } catch (RegexError e) {
                 warning ("regex error: %s", e.message);
             }
-            
-			var text_url = urls.replace(text, -1, 0, "<a href='\\0'>\\0</a>");
+			
+			try {
+	            text_url = urls.replace(text, -1, 0, "<a href='\\0'>\\0</a>");
+		    }
+		    catch (Error e) {
+		        warning ("url replacing error: %s", e.message);
+		    }
             
             if (code != 1) {
                 string user = user_screen_name;

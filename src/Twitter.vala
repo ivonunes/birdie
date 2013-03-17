@@ -226,6 +226,8 @@ namespace Birdie {
             var profile_image_file = profile_image_url;
             
             bool convert_png = false;
+            
+            Gdk.Pixbuf pixbuf = null;
                         
             if ("/" in profile_image_file)
                 profile_image_file = profile_image_file.split ("/")[4] + "_" + profile_image_file.split ("/")[5];
@@ -261,8 +263,13 @@ namespace Birdie {
                 ctx.set_line_width (2.0);
                 ctx.set_source_rgb (0.5, 0.5, 0.5);
                 ctx.stroke_preserve ();
-                        
-                Gdk.Pixbuf pixbuf = new Gdk.Pixbuf.from_file (Environment.get_home_dir () + "/.cache/birdie/" + profile_image_file);
+                  
+                try {      
+                    pixbuf = new Gdk.Pixbuf.from_file (Environment.get_home_dir () + "/.cache/birdie/" + profile_image_file);
+                } catch (Error e) {
+                    warning ("Pixbuf error: %s", e.message);
+                }
+                
                 if(pixbuf != null) {
                     Gdk.cairo_set_source_pixbuf(ctx, pixbuf, 1, 1);
                     ctx.clip ();
