@@ -12,6 +12,12 @@ namespace Birdie.Widgets {
         string id;
         string user_screen_name;
         bool dm;
+        
+        private string filler;
+        private int count_remaining;
+        private string virtual_text;
+        
+        private Regex urls;
     
         Birdie birdie;
     
@@ -54,10 +60,36 @@ namespace Birdie.Widgets {
             top.margin = 12;
             
             this.view.buffer.changed.connect (() => {
-			    this.count = 140 - this.view.buffer.get_char_count ();
+                Gtk.TextIter start;
+			    Gtk.TextIter end;
+			    
+			    this.count_remaining = 140;
+			    
+			    // a filler to fake virtual string controller with shortened urls
+                this.filler = "0123456789012345678901";
+                
+                this.view.buffer.get_start_iter (out start);
+			    this.view.buffer.get_end_iter (out end);
+			    
+                virtual_text = this.view.buffer.get_text (start, end, false);
+                
+                try {
+                    urls = new Regex("((http|https|ftp)://([\\S]+))");
+                } catch (RegexError e) {
+                    warning ("regex error: %s", e.message);
+                }
+            
+                // replace urls with filler to fill them with 20 chars each
+			    virtual_text = urls.replace (virtual_text, -1, 0, filler);
+                
+			    this.count = 140 - virtual_text.char_count ();
 			    this.count_label.set_markup ("<span color='#777777'>" + this.count.to_string () + "</span>");
 			    
 			    if (this.count < 0 || this.count == 140) {
+			        // make remaining chars indicator red to warn user
+			        if (this.count < 0) {
+			            this.count_label.set_markup ("<span color='#FF0000'>" + this.count.to_string () + "</span>");
+			        }
 			        this.tweet.set_sensitive (false);
 			        this.tweet_disabled = true;
 			    } else if (this.tweet_disabled) {
