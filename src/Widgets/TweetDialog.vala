@@ -119,12 +119,29 @@ namespace Birdie.Widgets {
             else
 			    this.tweet = new Gtk.Button.with_label (_("Tweet"));
 			this.tweet.set_size_request (100, -1);
-			this.tweet.set_sensitive (false);
 			this.tweet.margin_left = 6;
+			this.tweet.set_sensitive (false);
 			
 			this.tweet.clicked.connect (() => {
 			    new Thread<void*> (null, this.tweet_thread);
             });
+			
+			var d_provider = new Gtk.CssProvider ();
+            string css_dir = "/usr/share/themes/elementary/gtk-3.0";
+		    File file = File.new_for_path (css_dir);
+		    File child = file.get_child ("button.css");	    
+
+		    try
+		    {
+			    d_provider.load_from_file (child);
+		    }
+		    catch (GLib.Error error)
+		    {
+			    stderr.printf("Could not load css for button: %s", error.message);
+		    }
+			
+			this.tweet.get_style_context ().add_provider (d_provider, Gtk.STYLE_PROVIDER_PRIORITY_THEME);
+			this.tweet.get_style_context().add_class ("affirmative");
 			
 			Gtk.Box bottom = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
 			bottom.pack_start (this.count_label, false, false, 0);
@@ -132,11 +149,6 @@ namespace Birdie.Widgets {
 			bottom.pack_start (cancel, false, false, 0);
 			bottom.pack_start (this.tweet, false, false, 0);
 			bottom.margin = 12;
-			
-			// css
-	        Gtk.StyleContext ctz = this.tweet.get_style_context();
-	        ctz.add_class("tweet_button");
-	        //
 			
 			this.add (top);
 			this.add (bottom);

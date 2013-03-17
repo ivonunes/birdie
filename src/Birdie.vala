@@ -257,9 +257,9 @@ namespace Birdie {
 
                 this.api = new Twitter ();
                 
-                // css stuff
-                
                 this.m_window.add (this.notebook);
+                
+                // css provider
                 
                 d_provider = new Gtk.CssProvider ();
                 string css_dir = Constants.DATADIR + "/birdie";
