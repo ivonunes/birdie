@@ -1,0 +1,11 @@
+.tweet {
+    background-color: #3a81cc;
+}
+
+.tweet:hover {
+    background-color: #FFFFFF;
+}
+
+.tweet_button {
+    background-color: #3a81cc;
+}
