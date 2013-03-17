@@ -306,5 +306,9 @@ namespace Birdie.Widgets {
                 this.infobox.pack_start (this.footer, true, true, 0);
             }
         }
+        
+        public void set_selectable (bool select) {
+            this.text.set_selectable (select);
+        }
     }
 }

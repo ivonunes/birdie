@@ -397,28 +397,40 @@ namespace Birdie {
                         this.notebook.page = 2;
                         break;
                     case "home":
+                        this.home_list.set_selectable (false);
                         this.notebook.page = 3;
+                        this.home_list.set_selectable (true);
                         this.launcher.clean_launcher_count (this.unread_tweets);
                         this.unread_tweets = 0;
                         this.indicator.clean_tweets_indicator();
                         break;
                     case "mentions":
+                        this.mentions_list.set_selectable (false);
                         this.notebook.page = 4;
+                        this.mentions_list.set_selectable (true);
                         this.launcher.clean_launcher_count (this.unread_mentions);
                         this.unread_mentions = 0;
                         this.indicator.clean_mentions_indicator();
                         break;
                     case "dm":
+                        this.dm_list.set_selectable (false);
+                        this.dm_sent_list.set_selectable (false);
                         this.notebook.page = 5;
+                        this.dm_list.set_selectable (true);
+                        this.dm_sent_list.set_selectable (true);
                         this.launcher.clean_launcher_count (this.unread_dm);
                         this.unread_dm = 0;
                         this.indicator.clean_dm_indicator();
                         break;
                     case "own":
+                        this.own_list.set_selectable (false);
                         this.notebook.page = 6;
+                        this.own_list.set_selectable (true);
                         break;
                     case "user":
+                        this.user_list.set_selectable (false);
                         this.notebook.page = 7;
+                        this.user_list.set_selectable (true);
                         break;
                     case "search":
                         this.notebook.page = 8;
