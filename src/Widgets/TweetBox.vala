@@ -35,6 +35,7 @@ namespace Birdie.Widgets {
         private string date;
     
         public TweetBox (Tweet tweet, Birdie birdie) {
+            
             GLib.Object (orientation: Gtk.Orientation.HORIZONTAL);
             
             this.birdie = birdie;
@@ -53,10 +54,6 @@ namespace Birdie.Widgets {
             
             if ("&" in tweet.user_name)
                 tweet.user_name = tweet.user_name.replace ("&", "&amp;");
-                
-            if ("http://" in tweet.text) {
-                
-            }
             
             this.user_name = new Gtk.Label (tweet.user_name);
             this.user_name.set_markup ("<span font_weight='bold' size='large'>" + tweet.user_name + "</span>");
@@ -83,11 +80,15 @@ namespace Birdie.Widgets {
             this.infobox.pack_start (new Gtk.Label (""), true, true, 0);
             this.infobox.pack_start (this.userbox, false, false, 0);
             this.infobox.pack_start (this.text, false, false, 0);
-            //this.infobox.pack_start (this.footer, true, true, 0);
             
             this.right = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             this.right.pack_start (this.created_at, false, false, 0);
             this.right.pack_start (new Gtk.Label (""), true, true, 0);
+
+            // css
+			Gtk.StyleContext ctx = this.text.get_style_context();
+			ctx.add_class("tweet");
+			//
             
             if (!this.tweet.dm) {
                 this.favoritebox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
@@ -112,6 +113,7 @@ namespace Birdie.Widgets {
                 if (!this.tweet.dm) {
                     this.retweetbox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
                     this.retweet = new Gtk.Button ();
+                    
                     this.retweeticon = new Gtk.Image.from_icon_name ("twitter-retweet", Gtk.IconSize.MENU);
                     this.retweet.child = this.retweeticon;
                     this.retweet.set_tooltip_text (_("Retweet"));

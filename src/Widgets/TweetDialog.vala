@@ -133,6 +133,11 @@ namespace Birdie.Widgets {
 			bottom.pack_start (this.tweet, false, false, 0);
 			bottom.margin = 12;
 			
+			// css
+	        Gtk.StyleContext ctz = this.tweet.get_style_context();
+	        ctz.add_class("tweet_button");
+	        //
+			
 			this.add (top);
 			this.add (bottom);
 			

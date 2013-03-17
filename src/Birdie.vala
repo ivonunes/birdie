@@ -30,6 +30,8 @@ namespace Birdie {
         
         private GLib.List<Tweet> home_tmp;
         
+        private Gtk.CssProvider d_provider;
+        
         public Twitter api;
         
         public string current_timeline;
@@ -255,7 +257,27 @@ namespace Birdie {
 
                 this.api = new Twitter ();
                 
+                // css stuff
+                
                 this.m_window.add (this.notebook);
+                
+                d_provider = new Gtk.CssProvider ();
+                string css_dir = Constants.DATADIR + "/birdie";
+		        File file = File.new_for_path (css_dir);
+		        File child = file.get_child ("birdie.css");	    
+
+		        try
+		        {
+			        d_provider.load_from_file (child);
+		        }
+		        catch (GLib.Error error)
+		        {
+			        stderr.printf("Could not load css for birdie: %s", error.message);
+		        }
+
+		        Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default(), d_provider, 600);
+		                                         
+		        //
                 
                 this.m_window.focus_in_event.connect ((w, e) => {
                     this.activate();
