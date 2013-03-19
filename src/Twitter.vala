@@ -288,9 +288,9 @@ namespace Birdie {
 
             try {
                 urls = new Regex("((http|https|ftp)://([\\S]+))");
-                text = urls.replace(text, -1, 0, "<a href='\\0'>\\0</a>");
+                text = urls.replace(text, -1, 0, "<span underline='none'><a href='\\0'>\\0</a></span>");
                 urls = new Regex("([@#][a-zA-Z0-9_]+)");
-                text = urls.replace(text, -1, 0, "<a href='https://twitter.com/\\0'>\\0</a>");
+                text = urls.replace(text, -1, 0, "<span underline='none'><a href='https://twitter.com/\\0'>\\0</a></span>");
             } catch (RegexError e) {
                 warning ("regex error: %s", e.message);
             }
