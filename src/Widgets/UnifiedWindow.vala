@@ -74,19 +74,6 @@ namespace Birdie.Widgets {
                 toolbar.insert (maximize, -1);
             }
      
-            /*app_paintable = true;
-            set_visual (Gdk.Screen.get_default ().get_rgba_visual ());
-            draw.connect ((cr) => {
-                cr.set_operator (Cairo.Operator.SOURCE);
-                cr.set_source_rgba (0, 0, 0, 0);
-                cr.paint ();
-    
-                Granite.Drawing.Utilities.cairo_rounded_rectangle (cr, 0, 0, get_allocated_width (), get_allocated_height (), 10);
-                cr.set_source_rgb (1, 0, 0);
-                cr.fill ();
-                return false;
-            });*/
-     
             base.add (container);
         }
         

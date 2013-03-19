@@ -120,7 +120,7 @@ namespace Birdie.Widgets {
                     this.retweetbox.pack_start (new Gtk.Label (""), true, true, 0);
                     this.retweetbox.pack_start (retweet, false, false, 0);
                     
-                    if (this.tweet.retweeted || this.tweet.retweeted_by != "" ) {
+                    if (this.tweet.retweeted) {
                         this.retweet.set_sensitive (false);
                         this.retweeticon.set_from_icon_name ("twitter-retweeted", Gtk.IconSize.MENU);
                     }

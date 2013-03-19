@@ -22,10 +22,10 @@ namespace Birdie.Widgets {
                     var box_old = this.boxes.nth_data (0);
                     var separator_old = this.separators.nth_data (0);
 
-                    base.remove (box_old);
-                    base.remove (separator_old);
                     this.separators.remove (separator_old);
                     this.boxes.remove (box_old);
+                    box_old.destroy();
+                    separator_old.destroy();
                 }
 
                 boxes.append (box);
@@ -52,10 +52,10 @@ namespace Birdie.Widgets {
                     Idle.add( () => {
                         int separator_index = boxes.index (box);
                         var separator = this.separators.nth_data ((uint) separator_index);
-                        base.remove (box);
-                        base.remove (separator);
                         this.separators.remove (separator);
                         this.boxes.remove (box);
+                        box.destroy();
+                        separator.destroy();
                         return false;
                     });
                 }

@@ -303,21 +303,21 @@ namespace Birdie {
             
             var retweet = tweetobject.get_member ("retweeted_status");
             string retweeted_by = "";
-            
+
             if (retweet != null) {
                 retweeted_by = tweetobject.get_object_member ("user").get_string_member ("screen_name");
                 tweetobject = tweetobject.get_object_member ("retweeted_status");
             }
-   
+
             var id = tweetobject.get_string_member ("id_str");
+            var retweeted = tweetobject.get_boolean_member ("retweeted");
+			var favorited = tweetobject.get_boolean_member ("favorited");  
 			var user_name = tweetobject.get_object_member ("user").get_string_member ("name");
 			var user_screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
 			var text = highligh_links(tweetobject.get_string_member ("text"));
 			var created_at = tweetobject.get_string_member ("created_at");
 			var profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
-			var retweeted = tweetobject.get_boolean_member ("retweeted");
-			
-			var favorited = tweetobject.get_boolean_member ("favorited");       
+			     
 			var profile_image_file = get_avatar (profile_image_url);
 			var in_reply_to_screen_name = tweetobject.get_string_member ("in_reply_to_screen_name");
 			
@@ -526,6 +526,11 @@ namespace Birdie {
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
                     var tweet = this.get_tweet (tweetnode);
+
+                    if (tweet.retweeted_by != "") {
+                        tweet.retweeted = true;
+                    }
+                    
 			        own_timeline.append (tweet); 
                 }
                 
