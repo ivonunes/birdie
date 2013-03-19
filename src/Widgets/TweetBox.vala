@@ -56,7 +56,7 @@ namespace Birdie.Widgets {
                 tweet.user_name = tweet.user_name.replace ("&", "&amp;");
             
             this.user_name = new Gtk.Label (tweet.user_name);
-            this.user_name.set_markup ("<span font_weight='bold' size='large'>" + tweet.user_name + "</span>");
+            this.user_name.set_markup ("<span underline='none' color='#000000' font_weight='bold' size='large'><a href='https://twitter.com/" + tweet.user_screen_name + "'>" + tweet.user_name + "</a></span>");
             this.user_name.set_alignment (0, 0);
             this.user_screen_name = new Gtk.Label (tweet.user_screen_name);
             this.user_screen_name.set_markup ("<span font_weight='light' color='#aaaaaa'>@" + tweet.user_screen_name + "</span>");
