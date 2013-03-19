@@ -4,10 +4,13 @@ namespace Birdie.Widgets {
         public GLib.List<Gtk.Separator> separators;
         
         bool first;
+
+        int count;
     
         public TweetList () {
             GLib.Object (orientation: Gtk.Orientation.VERTICAL);
             this.first = true;
+            this.count = 0;
         }
         
         public void append (Tweet tweet, Birdie birdie) {
@@ -15,9 +18,18 @@ namespace Birdie.Widgets {
                 TweetBox box = new TweetBox(tweet, birdie);
                 Gtk.Separator separator = new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
             
+                if (this.count > 100) {
+                    var box_old = this.boxes.nth_data (0);
+                    var separator_old = this.separators.nth_data (0);
+
+                    base.remove (box_old);
+                    base.remove (separator_old);
+                    this.separators.remove (separator_old);
+                    this.boxes.remove (box_old);
+                }
+
                 boxes.append (box);
                 separators.append (separator);
-            
             
                 if (!this.first)
                     this.pack_end (separator, false, false, 0);
@@ -28,6 +40,8 @@ namespace Birdie.Widgets {
             
                 this.show_all ();
                 
+                this.count++;
+
                 return false;
             });
         }
