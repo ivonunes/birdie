@@ -67,9 +67,9 @@ namespace Birdie.Widgets {
 
             // content alignment
             this.content_alignment = new Gtk.Alignment (0,0,0,1);
-            this.content_alignment.top_padding = 12;
+            this.content_alignment.top_padding = 0;
             this.content_alignment.right_padding = 6;
-            this.content_alignment.bottom_padding = 12;
+            this.content_alignment.bottom_padding = 0;
             this.content_alignment.left_padding = 6;
             this.content_alignment.set_valign (Gtk.Align.CENTER);
             this.tweet_box.pack_start (this.content_alignment, false, false, 0);
@@ -195,7 +195,7 @@ namespace Birdie.Widgets {
 		        });
                 this.buttons_box.pack_start (delete_button, false, true, 0);
 		    }
-            this.set_size_request (-1, 100);
+            this.set_size_request (-1, 110);
         }
         
         private void* favorite_thread () {
@@ -229,8 +229,7 @@ namespace Birdie.Widgets {
 			        
 			        return false;
 			    });
-			}
-			
+			}            
             return null;
         }
         
