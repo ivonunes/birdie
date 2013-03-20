@@ -41,5 +41,13 @@
       </description>
     </key>
 
+    <key name="legacy-window" type="b">
+      <default>false</default>
+      <summary>legacy-window</summary>
+      <description>
+        Use the old window style
+      </description>
+    </key>
+
   </schema>
 </schemalist>

@@ -2,6 +2,7 @@ namespace Birdie.Widgets {
     public class UnifiedWindow : Gtk.Window
     {
         private bool hide_on_delete_enabled;
+        private bool legacy;
     
         Gtk.Box container;
         Gtk.Toolbar toolbar;
@@ -31,7 +32,9 @@ namespace Birdie.Widgets {
             }
         }
      
-        public UnifiedWindow (string title = "") {
+        public UnifiedWindow (string title = "", bool legacy = false) {
+            this.legacy = legacy;
+            
             css = new Gtk.CssProvider ();
             try {
                 css.load_from_data (CSS, -1);
@@ -60,10 +63,11 @@ namespace Birdie.Widgets {
             _title = new Gtk.Label (title);
             _title.override_font (Pango.FontDescription.from_string ("bold"));
             this.title = title;
-     
-            toolbar.insert (close, -1);
 
-            if (this.title != "") {
+            if (!legacy)
+                toolbar.insert (close, -1);
+
+            if (this.title != "" && !legacy) {
                 label = new Gtk.ToolItem ();
                 label.add (_title);
                 label.set_expand (true);
@@ -74,7 +78,11 @@ namespace Birdie.Widgets {
                 toolbar.insert (create_separator (), -1);
                 toolbar.insert (maximize, -1);
             }
-     
+
+            if (legacy) {
+                this.set_title (title);
+                this.delete_event.connect (on_delete_event);
+            }
             base.add (container);
         }
         
@@ -126,11 +134,12 @@ namespace Birdie.Widgets {
             
         public override void show () {
             base.show ();
-            get_window ().set_decorations (Gdk.WMDecoration.BORDER);
+            if (!legacy)
+                get_window ().set_decorations (Gdk.WMDecoration.BORDER);
         }
             
         public void add_bar (Gtk.ToolItem item, bool after_title = false) {
-            if (this.title != "") {
+            if (this.title != "" && !legacy) {
                 toolbar.insert (item, after_title ? toolbar.get_n_items () - 2 : toolbar.get_item_index (label));
             } else {
                 toolbar.insert (item, -1);
