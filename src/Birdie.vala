@@ -46,6 +46,7 @@ namespace Birdie {
         private bool tweet_notification;
         private bool mention_notification;
         private bool dm_notification;
+        private bool legacy_window;
         
         private Regex urls;
         private Settings settings;
@@ -72,7 +73,18 @@ namespace Birdie {
 
         public override void activate (){
             if (get_windows () == null) {
-                this.m_window = new Widgets.UnifiedWindow ();
+                // settings
+                this.settings = new Settings ("org.pantheon.birdie");
+                
+                this.tweet_notification = settings.get_boolean ("tweet-notification");
+                this.mention_notification = settings.get_boolean ("mention-notification");
+                this.dm_notification = settings.get_boolean ("dm-notification");
+                this.legacy_window = settings.get_boolean ("legacy-window");
+
+                if (this.legacy_window)
+                    this.m_window = new Widgets.UnifiedWindow ("Birdie", true);
+                else
+                    this.m_window = new Widgets.UnifiedWindow ();
                 this.m_window.set_default_size (450, 600);
                 this.m_window.set_size_request (430, 325);
                 this.m_window.set_application (this);
@@ -82,14 +94,7 @@ namespace Birdie {
                 this.unread_tweets = 0;
                 this.unread_mentions = 0;
                 this.unread_dm = 0;
-                
-                // settings
-                this.settings = new Settings ("org.pantheon.birdie");
-                
-                this.tweet_notification = settings.get_boolean ("tweet-notification");
-                this.mention_notification = settings.get_boolean ("mention-notification");
-                this.dm_notification = settings.get_boolean ("dm-notification");
-                
+
                 if (this.tweet_notification || this.mention_notification || this.dm_notification)
                     this.m_window.hide_on_delete ();
                 
@@ -165,7 +170,7 @@ namespace Birdie {
                 });
                 var quit_appmenu = new Gtk.MenuItem.with_label (_("Quit"));
                 quit_appmenu.activate.connect (() => {
-                    this.m_window.destroy ();
+                     m_window.destroy ();
                 });
                 menu.add (about_appmenu);
                 menu.add (quit_appmenu);
