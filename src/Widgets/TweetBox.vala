@@ -2,28 +2,26 @@ namespace Birdie.Widgets {
     public class TweetBox : Gtk.Box {
         public Tweet tweet;
         public Birdie birdie;
-        
-        private Gtk.Image avatar;
-        private Gtk.Box infobox;
-        private Gtk.Box userbox;
-        private Gtk.Box right;
-        private Gtk.Label user_name;
-        private Gtk.Label user_screen_name;
-        private Gtk.Label text;
-        private Gtk.Label footer;
-        private Gtk.Label created_at;
-        private Gtk.Box favoritebox;
-        private Gtk.Box retweetbox;
-        private Gtk.Box replybox;
-        private Gtk.Box delbox;
-        private Gtk.Button favorite;
-        private Gtk.Button retweet;
-        private Gtk.Button reply;
-        private Gtk.Button del;
-        private Gtk.Image favoriteicon;
-        private Gtk.Image retweeticon;
-        private Gtk.Image replyicon;
-        private Gtk.Image delicon;
+
+        private Gtk.Box tweet_box;
+        private Gtk.Alignment avatar_alignment;
+        private Gtk.Image avatar_img;
+        private Gtk.Alignment content_alignment;
+        private Gtk.Box content_box;
+        private Gtk.Label username_label;
+        private Gtk.Label tweet_label;
+        private Gtk.Label info_label;
+        private Gtk.Alignment buttons_alignment;
+        private Gtk.Box buttons_box;
+        private Gtk.Label time_label;
+        private Gtk.Button favorite_button;
+        private Gtk.Button retweet_button;
+        private Gtk.Button reply_button;
+        private Gtk.Button delete_button;
+        private Gtk.Image favorite_icon;
+        private Gtk.Image retweet_icon;
+        private Gtk.Image reply_icon;
+        private Gtk.Image delete_icon;
         
         private int year;
         private int month;
@@ -47,134 +45,157 @@ namespace Birdie.Widgets {
             this.day = 0;
             this.month = 0;
             this.year = 0;
-            
-            this.avatar = new Gtk.Image ();
-            this.avatar.set_from_file (Environment.get_home_dir () + "/.cache/birdie/" + tweet.profile_image_file);
-            this.avatar.set_padding (15, 0);
+
+            // tweet box
+            this.tweet_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+            this.pack_start (this.tweet_box, true, true, 0);
+
+            // avatar alignment
+            this.avatar_alignment = new Gtk.Alignment (0,0,0,1);
+            this.avatar_alignment.top_padding = 12;
+            this.avatar_alignment.right_padding = 6;
+            this.avatar_alignment.bottom_padding = 12;
+            this.avatar_alignment.left_padding = 12;
+            this.tweet_box.pack_start (this.avatar_alignment, false, true, 0);
+
+            // avatar image           
+            this.avatar_img = new Gtk.Image ();
+            this.avatar_img.set_from_file (Environment.get_home_dir () + "/.cache/birdie/" + tweet.profile_image_file);
+            this.avatar_img.set_halign (Gtk.Align.START);
+            this.avatar_img.set_valign (Gtk.Align.CENTER);
+            this.avatar_alignment.add (this.avatar_img);
+
+            // content alignment
+            this.content_alignment = new Gtk.Alignment (0,0,0,1);
+            this.content_alignment.top_padding = 12;
+            this.content_alignment.right_padding = 6;
+            this.content_alignment.bottom_padding = 12;
+            this.content_alignment.left_padding = 6;
+            this.content_alignment.set_valign (Gtk.Align.CENTER);
+            this.tweet_box.pack_start (this.content_alignment, false, false, 0);
+
+            // content box
+            this.content_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+            this.content_box.set_valign (Gtk.Align.CENTER);
+            this.content_alignment.add (this.content_box);
             
             if ("&" in tweet.user_name)
                 tweet.user_name = tweet.user_name.replace ("&", "&amp;");
-            
-            this.user_name = new Gtk.Label (tweet.user_name);
-            this.user_name.set_markup ("<span underline='none' color='#000000' font_weight='bold' size='large'><a href='https://twitter.com/" + tweet.user_screen_name + "'>" + tweet.user_name + "</a></span>");
-            this.user_name.set_alignment (0, 0);
-            this.user_screen_name = new Gtk.Label (tweet.user_screen_name);
-            this.user_screen_name.set_markup ("<span font_weight='light' color='#aaaaaa'>@" + tweet.user_screen_name + "</span>");
-            this.user_screen_name.set_alignment (0, 0.75f);
-            this.user_screen_name.set_padding (5, 0);
-            this.text = new Gtk.Label (tweet.text);
-            this.text.set_markup (tweet.text);
-            this.text.set_selectable (true);
-            this.text.set_line_wrap (true);
-            this.text.set_alignment (0, 0);
-            this.created_at = new Gtk.Label ("");
-            this.created_at.set_alignment (1, 0);
-            this.footer = new Gtk.Label ("");
-            this.footer.set_alignment (0, 0.5f);
-            
-            this.userbox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-            this.userbox.pack_start (this.user_name, false, false, 0);
-            this.userbox.pack_start (this.user_screen_name, false, false, 0);
-            
-            this.infobox = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-            this.infobox.pack_start (new Gtk.Label (""), true, true, 0);
-            this.infobox.pack_start (this.userbox, false, false, 0);
-            this.infobox.pack_start (this.text, false, false, 0);
-            
-            this.right = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-            this.right.pack_start (this.created_at, false, false, 0);
-            this.right.pack_start (new Gtk.Label (""), true, true, 0);
+
+            // user label
+            this.username_label = new Gtk.Label (tweet.user_name);
+            this.username_label.set_halign (Gtk.Align.START);
+            this.username_label.margin_bottom = 6;
+            this.username_label.set_markup ("<span underline='none' color='#000000' font_weight='bold' size='large'><a href='https://twitter.com/" + tweet.user_screen_name + "'>" + tweet.user_name + "</a></span> <span font_weight='light' color='#aaaaaa'>@" + tweet.user_screen_name + "</span>");
+            this.content_box.pack_start (this.username_label, false, true, 0);
+
+            // tweet
+            this.tweet_label = new Gtk.Label (tweet.text);
+            this.tweet_label.set_markup (tweet.text);
+            this.tweet_label.set_selectable (true);
+            this.tweet_label.set_line_wrap (true);
+            this.tweet_label.set_halign (Gtk.Align.START);
+            this.tweet_label.xalign = 0;
+            this.content_box.pack_start (this.tweet_label, false, true, 0);
 
             // css
-			Gtk.StyleContext ctx = this.text.get_style_context();
+			Gtk.StyleContext ctx = this.tweet_label.get_style_context();
 			ctx.add_class("tweet");
 			//
-            
+
+            // info footer
+            this.set_footer ();
+
+            // buttons alignment
+            this.buttons_alignment = new Gtk.Alignment (0,0,1,1);
+            this.buttons_alignment.top_padding = 6;
+            this.buttons_alignment.right_padding = 12;
+            this.buttons_alignment.bottom_padding = 6;
+            this.buttons_alignment.left_padding = 6;
+            this.buttons_alignment.set_valign (Gtk.Align.FILL);
+            this.tweet_box.pack_start (this.buttons_alignment, true, true, 0);
+
+            // buttons box
+            this.buttons_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+            this.buttons_box.set_valign (Gtk.Align.FILL);
+            this.buttons_alignment.add (this.buttons_box);
+
+            // time label
+            this.time_label = new Gtk.Label ("");
+            this.time_label.set_halign (Gtk.Align.END);
+            this.time_label.set_valign (Gtk.Align.START);
+            this.time_label.margin_bottom = 6;
+            this.buttons_box.pack_start (this.time_label, true, true, 0);
+            this.update_date ();
+
+            // favorite button
             if (!this.tweet.dm) {
-                this.favoritebox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-                this.favorite = new Gtk.Button ();
-                this.favoriteicon = new Gtk.Image.from_icon_name ("twitter-fav", Gtk.IconSize.MENU);
-                this.favorite.child = this.favoriteicon;
-                this.favorite.set_tooltip_text (_("Favorite"));
-                this.favoritebox.pack_start (new Gtk.Label (""), true, true, 0);
-                this.favoritebox.pack_start (favorite, false, false, 0);
-                
-                this.favorite.clicked.connect (() => {
-                    this.favorite.set_sensitive (false);
+                this.favorite_button = new Gtk.Button ();
+                this.favorite_button.set_halign (Gtk.Align.END);
+                this.favorite_icon = new Gtk.Image.from_icon_name ("twitter-fav", Gtk.IconSize.MENU);
+                this.favorite_button.child = this.favorite_icon;
+                this.favorite_button.set_tooltip_text (_("Favorite"));
+                this.buttons_box.pack_start (favorite_button, false, true, 0);
+
+                this.favorite_button.clicked.connect (() => {
+                    this.favorite_button.set_sensitive (false);
                     new Thread<void*> (null, this.favorite_thread);
 		        });
 		        
 		        if (this.tweet.favorited) {
-                    this.favoriteicon.set_from_icon_name ("twitter-favd", Gtk.IconSize.MENU);
+                    this.favorite_icon.set_from_icon_name ("twitter-favd", Gtk.IconSize.MENU);
                 }
 		    }
 
+            // retweet button
             if (this.tweet.user_screen_name != this.birdie.api.account.screen_name) {
                 if (!this.tweet.dm) {
-                    this.retweetbox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-                    this.retweet = new Gtk.Button ();
-                    
-                    this.retweeticon = new Gtk.Image.from_icon_name ("twitter-retweet", Gtk.IconSize.MENU);
-                    this.retweet.child = this.retweeticon;
-                    this.retweet.set_tooltip_text (_("Retweet"));
-                    this.retweetbox.pack_start (new Gtk.Label (""), true, true, 0);
-                    this.retweetbox.pack_start (retweet, false, false, 0);
+                    this.retweet_button = new Gtk.Button ();
+                    this.retweet_button.set_halign (Gtk.Align.END);
+                    this.retweet_icon = new Gtk.Image.from_icon_name ("twitter-retweet", Gtk.IconSize.MENU);
+                    this.retweet_button.child = this.retweet_icon;
+                    this.retweet_button.set_tooltip_text (_("Retweet"));
+                    this.buttons_box.pack_start (retweet_button, false, true, 0);
                     
                     if (this.tweet.retweeted) {
-                        this.retweet.set_sensitive (false);
-                        this.retweeticon.set_from_icon_name ("twitter-retweeted", Gtk.IconSize.MENU);
+                        this.retweet_button.set_sensitive (false);
+                        this.retweet_icon.set_from_icon_name ("twitter-retweeted", Gtk.IconSize.MENU);
                     }
                     
-                    this.retweet.clicked.connect (() => {
-                        this.retweet.set_sensitive (false);
+                    this.retweet_button.clicked.connect (() => {
+                        this.retweet_button.set_sensitive (false);
 			            new Thread<void*> (null, this.retweet_thread);
 		            });
 		        }
-                
-                this.replybox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-                this.reply = new Gtk.Button ();
-                this.replyicon = new Gtk.Image.from_icon_name ("twitter-reply", Gtk.IconSize.MENU);
-                this.reply.child = this.replyicon;
-                this.reply.set_tooltip_text (_("Reply"));
-                this.replybox.pack_start (new Gtk.Label (""), true, true, 0);
-                this.replybox.pack_start (reply, false, false, 0);
+
+                // reply button
+                this.reply_button = new Gtk.Button ();
+                this.reply_button.set_halign (Gtk.Align.END);
+                this.reply_icon = new Gtk.Image.from_icon_name ("twitter-reply", Gtk.IconSize.MENU);
+                this.reply_button.child = this.reply_icon;
+                this.reply_button.set_tooltip_text (_("Reply"));
                             
-                this.reply.clicked.connect (() => {
+                this.reply_button.clicked.connect (() => {
 			        Widgets.TweetDialog dialog = new TweetDialog (this.birdie, this.tweet.id, this.tweet.user_screen_name, this.tweet.dm);
 			        dialog.show_all ();
 		        });
 		        
-		        if (!this.tweet.dm) {
-		            this.right.pack_start (this.favoritebox, false, false, 5);
-		            this.right.pack_start (this.retweetbox, false, false, 0);
-		        }
-                this.right.pack_start (this.replybox, false, false, 5);
+                this.buttons_box.pack_start (this.reply_button, false, true, 0);
 		    } else {
-		        this.delbox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-                this.del = new Gtk.Button ();
-                this.delicon = new Gtk.Image.from_icon_name ("twitter-delete", Gtk.IconSize.MENU);
-                this.del.child = this.delicon;
-                this.del.set_tooltip_text (_("Delete"));
-                this.delbox.pack_start (new Gtk.Label (""), true, true, 0);
-                this.delbox.pack_start (del, false, false, 0);
+                // delete button
+                this.delete_button = new Gtk.Button ();
+                this.delete_button.set_halign (Gtk.Align.END);
+                this.delete_icon = new Gtk.Image.from_icon_name ("twitter-delete", Gtk.IconSize.MENU);
+                this.delete_button.child = this.delete_icon;
+                this.delete_button.set_tooltip_text (_("Delete"));
                 
-                this.del.clicked.connect (() => {
-			        this.del.set_sensitive (false);
+                this.delete_button.clicked.connect (() => {
+			        this.delete_button.set_sensitive (false);
 			        new Thread<void*> (null, this.delete_thread);
 		        });
-                
-                this.right.pack_start (this.favoritebox, false, false, 0);
-                this.right.pack_start (this.delbox, false, false, 5);
+                this.buttons_box.pack_start (delete_button, false, true, 0);
 		    }
-
-            this.pack_start (this.avatar, false, false, 0);
-            this.pack_start (this.infobox, true, true, 0);
-            this.pack_start (this.right, false, false, 5);
-            
             this.set_size_request (-1, 100);
-            
-            this.update_date ();
-            this.set_footer ();
         }
         
         private void* favorite_thread () {
@@ -185,12 +206,12 @@ namespace Birdie.Widgets {
 			    
 			    Idle.add( () => {
 			        if (code == 0) {
-			            this.favoriteicon.set_from_icon_name ("twitter-fav", Gtk.IconSize.MENU);
-			            this.favorite.set_tooltip_text (_("Favorite"));
+			            this.favorite_icon.set_from_icon_name ("twitter-fav", Gtk.IconSize.MENU);
+			            this.favorite_button.set_tooltip_text (_("Favorite"));
 			            this.tweet.favorited = false;
 			        }
 			        
-			        this.favorite.set_sensitive (true);
+			        this.favorite_button.set_sensitive (true);
 			        
 			        return false;
 			    });
@@ -199,12 +220,12 @@ namespace Birdie.Widgets {
 			    
 			    Idle.add( () => {
 			        if (code == 0) {
-			            this.favoriteicon.set_from_icon_name ("twitter-favd", Gtk.IconSize.MENU);
-			            this.favorite.set_tooltip_text (_("Unfavorite"));
+			            this.favorite_icon.set_from_icon_name ("twitter-favd", Gtk.IconSize.MENU);
+			            this.favorite_button.set_tooltip_text (_("Unfavorite"));
 			            this.tweet.favorited = true;
 			        }
 			        
-			        this.favorite.set_sensitive (true);
+			        this.favorite_button.set_sensitive (true);
 			        
 			        return false;
 			    });
@@ -218,9 +239,9 @@ namespace Birdie.Widgets {
 			
 			Idle.add( () => {
 			    if (code == 0) {
-			        this.retweeticon.set_from_icon_name ("twitter-retweeted", Gtk.IconSize.MENU);
+			        this.retweet_icon.set_from_icon_name ("twitter-retweeted", Gtk.IconSize.MENU);
 			    } else {
-			        this.retweet.set_sensitive (true);
+			        this.retweet_button.set_sensitive (true);
 			    }
 			    return false;
 			});
@@ -237,7 +258,7 @@ namespace Birdie.Widgets {
 			        this.birdie.mentions_list.remove (this.tweet);
 			        this.birdie.own_list.remove (this.tweet);
 			    } else {
-			        this.del.set_sensitive (true);
+			        this.delete_button.set_sensitive (true);
 			    }
 			    
 			    return false;
@@ -247,6 +268,7 @@ namespace Birdie.Widgets {
         }
         
         public void update_date () {
+            
             if (this.tweet.created_at == "") {
                 this.date = "now";
             } else if (this.day == 0 || this.month == 0 || this.year == 0) {
@@ -276,7 +298,7 @@ namespace Birdie.Widgets {
             }
             
             Idle.add ( () => {
-                this.created_at.set_markup ("<span color='#aaaaaa'>" + this.date + "</span>");
+                this.time_label.set_markup ("<span color='#aaaaaa'>" + this.date + "</span>");
                 return false;
             });
         }
@@ -286,29 +308,30 @@ namespace Birdie.Widgets {
                 var retweeted_img = new Gtk.Image ();
                 retweeted_img.set_from_icon_name ("twitter-retweet", Gtk.IconSize.MENU);
                 var retweeted_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+                this.info_label = new Gtk.Label ("");
+                this.info_label.set_halign (Gtk.Align.START);
+                this.info_label.set_markup ("<span color='#aaaaaa'>" + _("retweeted by @%s").printf (this.tweet.retweeted_by) + "</span>");
                 retweeted_box.pack_start (retweeted_img, false, false, 0);
-                retweeted_box.pack_start (this.footer, true, true, 0);
-                this.infobox.add (retweeted_box);
-                this.infobox.pack_start (new Gtk.Label (""), true, true, 0);
-                this.footer.set_alignment (0, 2);
-                this.footer.set_markup ("<span color='#aaaaaa'>" + _("retweeted by @%s").printf (this.tweet.retweeted_by) + "</span>");
+                retweeted_box.pack_start (this.info_label, false, false, 0);
+                retweeted_box.margin_top = 6;
+                this.content_box.add (retweeted_box);
             } else if (this.tweet.in_reply_to_screen_name != "") {
                 var reply_img = new Gtk.Image ();
                 reply_img.set_from_icon_name ("twitter-reply", Gtk.IconSize.MENU);
                 var reply_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+                this.info_label = new Gtk.Label ("");
+                this.info_label.set_halign (Gtk.Align.START);
+                this.info_label.set_markup ("<span color='#aaaaaa'>" + _("in reply to @%s").printf (this.tweet.in_reply_to_screen_name) + "</span>");
                 reply_box.pack_start (reply_img, false, false, 0);
-                reply_box.pack_start (this.footer, true, true, 0);
-                this.infobox.add (reply_box);
-                this.infobox.pack_start (new Gtk.Label (""), true, true, 0);
-                this.footer.set_alignment (0, 2);
-                this.footer.set_markup ("<span color='#aaaaaa'>" + _("in reply to @%s").printf (this.tweet.in_reply_to_screen_name) + "</span>");
+                reply_box.pack_start (this.info_label, false, false, 0);
+                reply_box.margin_top = 6;
+                this.content_box.add (reply_box);
             } else {
-                this.infobox.pack_start (this.footer, true, true, 0);
             }
         }
         
         public void set_selectable (bool select) {
-            this.text.set_selectable (select);
+            this.tweet_label.set_selectable (select);
         }
     }
 }

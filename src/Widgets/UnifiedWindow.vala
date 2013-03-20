@@ -41,6 +41,7 @@ namespace Birdie.Widgets {
             toolbar.icon_size = ICON_SIZE;
             toolbar.get_style_context ().add_class ("titlebar");
             toolbar.get_style_context ().add_provider (css, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+            
             container = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             container.pack_start (toolbar, false);
      
