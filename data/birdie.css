@@ -22,7 +22,3 @@
                      from (shade (@bg_color, 0.76)),
                      to (shade (@bg_color, 0.70)));
 }
-
-.titlebar {
-    background-color: #000000;
-}
