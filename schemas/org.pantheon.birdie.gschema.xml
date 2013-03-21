@@ -49,5 +49,28 @@
       </description>
     </key>
 
+    <key name="window-width" type="i">
+      <default>450</default>
+      <summary>Window Width</summary>
+      <description>Saves the window width for restoring it later.</description>
+    </key>
+    
+    <key name="window-height" type="i">
+      <default>600</default>
+      <summary>Window Height</summary>
+      <description>Saves the window height for restoring it later.</description>
+    </key>
+    
+    <key name="opening-x" type="i">
+      <default>-1</default>
+      <summary>X position of window</summary>
+      <description>Saves the window’s X position for restoring it later.</description>
+    </key>
+    
+    <key name="opening-y" type="i">
+      <default>-1</default>
+      <summary>Y position of window</summary>
+      <description>Saves the window’s Y position for restoring it later.</description>
+    </key>
   </schema>
 </schemalist>

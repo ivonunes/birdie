@@ -47,7 +47,11 @@ namespace Birdie {
         private bool mention_notification;
         private bool dm_notification;
         private bool legacy_window;
-        
+        private int opening_x;
+        private int opening_y;
+        private int window_width;
+        private int window_height;
+
         private Regex urls;
         private Settings settings;
         
@@ -80,7 +84,11 @@ namespace Birdie {
                 this.mention_notification = settings.get_boolean ("mention-notification");
                 this.dm_notification = settings.get_boolean ("dm-notification");
                 this.legacy_window = settings.get_boolean ("legacy-window");
-
+                this.opening_x = settings.get_int ("opening-x");
+                this.opening_y = settings.get_int ("opening-y");
+                this.window_width = settings.get_int ("window-width");
+                this.window_height = settings.get_int ("window-height");
+    
                 if (this.legacy_window)
                     this.m_window = new Widgets.UnifiedWindow ("Birdie", true);
                 else
@@ -88,6 +96,10 @@ namespace Birdie {
                 this.m_window.set_default_size (450, 600);
                 this.m_window.set_size_request (430, 325);
                 this.m_window.set_application (this);
+
+                // restore main window size and position
+                m_window.move (this.opening_x, this.opening_y);
+                m_window.set_default_size (this.window_width, this.window_height);
                 
                 this.indicator = new Utils.Indicator (this);
                 this.launcher = new Utils.Launcher (this);
@@ -170,7 +182,17 @@ namespace Birdie {
                 });
                 var quit_appmenu = new Gtk.MenuItem.with_label (_("Quit"));
                 quit_appmenu.activate.connect (() => {
-                     m_window.destroy ();
+                    
+                    // save window size and position
+                    int x, y, w, h;
+                    m_window.get_position (out x, out y);
+                    m_window.get_size (out w, out h);
+                    this.settings.set_int ("opening-x", x);
+                    this.settings.set_int ("opening-y", y);
+                    this.settings.set_int ("window-width", w);
+                    this.settings.set_int ("window-height", h);
+
+                    m_window.destroy ();
                 });
                 menu.add (about_appmenu);
                 menu.add (quit_appmenu);
