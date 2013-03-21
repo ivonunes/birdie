@@ -340,8 +340,12 @@ namespace Birdie {
                 
                 this.home_timeline_since_id.reverse ();
                 this.home_timeline_since_id.foreach ((tweet) => {
-                    this.home_timeline.append(tweet);
-                    this.since_id_home = tweet.id;
+                    if (tweet.id != this.since_id_home) {
+                        this.home_timeline.append(tweet);
+                        this.since_id_home = tweet.id;
+                    } else {
+                        this.home_timeline_since_id.remove (tweet);
+                    }
 	            });
 	            
             } catch (Error e) {
@@ -382,8 +386,12 @@ namespace Birdie {
                 
                 this.mentions_timeline_since_id.reverse ();
                 this.mentions_timeline_since_id.foreach ((tweet) => {
-                    this.mentions_timeline.append(tweet);
-                    this.since_id_mentions = tweet.id;
+                    if (tweet.id != this.since_id_mentions) {
+                        this.mentions_timeline.append(tweet);
+                        this.since_id_mentions = tweet.id;
+                    } else {
+                        this.mentions_timeline_since_id.remove (tweet);
+                    }
 	            });
 	            
             } catch (Error e) {
@@ -435,8 +443,12 @@ namespace Birdie {
                 
                 this.dm_timeline_since_id.reverse ();
                 this.dm_timeline_since_id.foreach ((tweet) => {
-                    this.dm_timeline.append(tweet);
-                    this.since_id_dm = tweet.id;
+                    if (tweet.id != this.since_id_dm) {
+                        this.dm_timeline.append(tweet);
+                        this.since_id_dm = tweet.id;
+                    } else {
+                        this.dm_timeline_since_id.remove (tweet);
+                    }
 	            });
 	            
             } catch (Error e) {
