@@ -1,0 +1,162 @@
+# Italian translation for birdie
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the birdie package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: birdie\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-03-11 21:49+0000\n"
+"PO-Revision-Date: 2013-03-20 23:11+0000\n"
+"Last-Translator: psylockeer <pierpa.r@gmail.com>\n"
+"Language-Team: Italian <it@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-03-21 05:04+0000\n"
+"X-Generator: Launchpad (build 16532)\n"
+
+#: ../../src/Birdie.vala:68 ../../src/Birdie.vala:69
+#: ../../src/Utils/Indicator.vala:34
+msgid "New Tweet"
+msgstr ""
+
+#: ../../src/Birdie.vala:82 ../../src/Birdie.vala:83 ../../src/Birdie.vala:196
+msgid "Home"
+msgstr ""
+
+#: ../../src/Birdie.vala:90 ../../src/Birdie.vala:91 ../../src/Birdie.vala:197
+#: ../../src/Utils/Indicator.vala:32
+msgid "Mentions"
+msgstr ""
+
+#: ../../src/Birdie.vala:98 ../../src/Birdie.vala:99 ../../src/Birdie.vala:198
+#: ../../src/Utils/Indicator.vala:33
+msgid "Direct Messages"
+msgstr ""
+
+#: ../../src/Birdie.vala:106 ../../src/Birdie.vala:107
+#: ../../src/Birdie.vala:199
+msgid "Profile"
+msgstr ""
+
+#: ../../src/Birdie.vala:114 ../../src/Birdie.vala:115
+#: ../../src/Birdie.vala:201
+msgid "Search"
+msgstr ""
+
+#: ../../src/Birdie.vala:151
+msgid "Birdie"
+msgstr "Birdie"
+
+#: ../../src/Birdie.vala:151 ../../src/config.vala:8
+msgid "Twitter Client"
+msgstr ""
+
+#: ../../src/Birdie.vala:152
+msgid "Add account"
+msgstr ""
+
+#: ../../src/Birdie.vala:152
+msgid "Add a Twitter account"
+msgstr ""
+
+#: ../../src/Birdie.vala:175
+msgid "OK"
+msgstr ""
+
+#: ../../src/Birdie.vala:186
+msgid "Please insert your PIN below:"
+msgstr ""
+
+#: ../../src/Birdie.vala:193
+msgid "Loading"
+msgstr ""
+
+#: ../../src/Birdie.vala:194 ../../src/Birdie.vala:195
+msgid "Welcome"
+msgstr ""
+
+#: ../../src/Birdie.vala:198 ../../src/Birdie.vala:201
+#: ../../src/Birdie.vala:202
+msgid "In development"
+msgstr ""
+
+#: ../../src/Birdie.vala:200
+msgid "User"
+msgstr ""
+
+#: ../../src/Birdie.vala:202
+msgid "Search Results"
+msgstr ""
+
+#: ../../src/config.vala:9
+msgid "Twitter client for elementary OS"
+msgstr ""
+
+#: ../../src/Widgets/TweetBox.vala:93 ../../src/Widgets/TweetBox.vala:177
+msgid "Favorite"
+msgstr "Preferiti"
+
+#: ../../src/Widgets/TweetBox.vala:111
+msgid "Retweet"
+msgstr ""
+
+#: ../../src/Widgets/TweetBox.vala:129
+msgid "Reply"
+msgstr ""
+
+#: ../../src/Widgets/TweetBox.vala:146
+msgid "Delete"
+msgstr ""
+
+#: ../../src/Widgets/TweetBox.vala:191
+msgid "Unfavorite"
+msgstr ""
+
+#: ../../src/Widgets/TweetDialog.vala:52
+msgid "Cancel"
+msgstr ""
+
+#: ../../src/Widgets/TweetDialog.vala:57
+msgid "Tweet"
+msgstr ""
+
+#: ../../src/Utils/Date.vala:49
+#, c-format
+msgid "%d y"
+msgstr "%d y"
+
+#: ../../src/Utils/Date.vala:52
+#, c-format
+msgid "%d mo"
+msgstr ""
+
+#: ../../src/Utils/Date.vala:55
+#, c-format
+msgid "%d w"
+msgstr ""
+
+#: ../../src/Utils/Date.vala:58
+#, c-format
+msgid "%d d"
+msgstr ""
+
+#: ../../src/Utils/Date.vala:60
+#, c-format
+msgid "%d h"
+msgstr ""
+
+#: ../../src/Utils/Date.vala:62
+#, c-format
+msgid "%d m"
+msgstr ""
+
+#: ../../src/Utils/Date.vala:65
+msgid "now"
+msgstr ""
+
+#: ../../src/Utils/Indicator.vala:31
+msgid "Tweets"
+msgstr ""
