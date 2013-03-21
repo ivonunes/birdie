@@ -35,8 +35,8 @@ namespace Birdie.Widgets {
             this.view.set_size_request(300, 80);
             
             var dm_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
+            this.entry = new Gtk.Entry ();
             if (dm && user_screen_name == "") {
-                this.entry = new Gtk.Entry ();
                 this.entry.set_text ("@");
 
                 this.entry.get_buffer ().inserted_text.connect (() => {

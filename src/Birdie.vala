@@ -32,25 +32,22 @@ namespace Birdie {
         
         private Gtk.CssProvider d_provider;
         
-        public Twitter api;
+        public API api;
         
         public string current_timeline;
 
         private Utils.Indicator indicator; 
         private Utils.Launcher launcher; 
-        
+
         private int unread_tweets;
         private int unread_mentions;
         private int unread_dm;
-        
+
+        public int service;
         private bool tweet_notification;
         private bool mention_notification;
         private bool dm_notification;
         private bool legacy_window;
-        private int opening_x;
-        private int opening_y;
-        private int window_width;
-        private int window_height;
 
         private Regex urls;
         private Settings settings;
@@ -79,15 +76,12 @@ namespace Birdie {
             if (get_windows () == null) {
                 // settings
                 this.settings = new Settings ("org.pantheon.birdie");
-                
+
+                this.service = settings.get_enum ("service");
                 this.tweet_notification = settings.get_boolean ("tweet-notification");
                 this.mention_notification = settings.get_boolean ("mention-notification");
                 this.dm_notification = settings.get_boolean ("dm-notification");
                 this.legacy_window = settings.get_boolean ("legacy-window");
-                this.opening_x = settings.get_int ("opening-x");
-                this.opening_y = settings.get_int ("opening-y");
-                this.window_width = settings.get_int ("window-width");
-                this.window_height = settings.get_int ("window-height");
     
                 if (this.legacy_window)
                     this.m_window = new Widgets.UnifiedWindow ("Birdie", true);
@@ -98,8 +92,11 @@ namespace Birdie {
                 this.m_window.set_application (this);
 
                 // restore main window size and position
-                m_window.move (this.opening_x, this.opening_y);
-                m_window.set_default_size (this.window_width, this.window_height);
+                this.m_window.opening_x = settings.get_int ("opening-x");
+                this.m_window.opening_y = settings.get_int ("opening-y");
+                this.m_window.window_width = settings.get_int ("window-width");
+                this.m_window.window_height = settings.get_int ("window-height");
+                m_window.restore_window ();
                 
                 this.indicator = new Utils.Indicator (this);
                 this.launcher = new Utils.Launcher (this);
@@ -282,7 +279,10 @@ namespace Birdie {
                 this.notebook.append_page (new Gtk.Label (_("In development")), new Gtk.Label (_("Search")));
                 this.notebook.append_page (new Gtk.Label (_("In development")), new Gtk.Label (_("Search Results")));
 
-                this.api = new Twitter ();
+                if (this.service == 0)
+                    this.api = new Twitter ();
+                else
+                    this.api = new Identica ();
                 
                 this.m_window.add (this.notebook);
                 

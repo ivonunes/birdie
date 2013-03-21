@@ -31,9 +31,18 @@ namespace Birdie.Widgets {
                 _title.label = value;
             }
         }
+
+        public int opening_x;
+        public int opening_y;
+        public int window_width;
+        public int window_height;
      
         public UnifiedWindow (string title = "", bool legacy = false) {
             this.legacy = legacy;
+            this.opening_x = -1;
+            this.opening_y = -1;
+            this.window_width = -1;
+            this.window_height = -1;
             
             css = new Gtk.CssProvider ();
             try {
@@ -87,10 +96,12 @@ namespace Birdie.Widgets {
         }
         
         private bool on_delete_event () {
-            if (this.hide_on_delete_enabled)
+            if (this.hide_on_delete_enabled) {
+                this.save_window ();
                 base.hide_on_delete ();
-            else
+            } else {
                 destroy ();
+            }
             base.hide_on_delete ();
             
             return true;
@@ -131,11 +142,24 @@ namespace Birdie.Widgets {
         public override void remove (Gtk.Widget widget) {
             container.remove (widget);
         }
+
+        public void save_window () {
+            this.get_position (out opening_x, out opening_y);
+            this.get_size (out window_width, out window_height);
+        }
+
+        public void restore_window () {
+            if (this.opening_x > 0 && this.opening_y > 0 && this.window_width > 0 && this.window_height > 0) {
+                this.move (this.opening_x, this.opening_y);
+                this.set_default_size (this.window_width, this.window_height);
+            }
+        }
             
         public override void show () {
             base.show ();
             if (!legacy)
                 get_window ().set_decorations (Gdk.WMDecoration.BORDER);
+            this.restore_window ();
         }
             
         public void add_bar (Gtk.ToolItem item, bool after_title = false) {

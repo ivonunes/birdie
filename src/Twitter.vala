@@ -1,35 +1,12 @@
 namespace Birdie {
-    public class Twitter {
-        private string CONSUMER_KEY = "T1VkU2dySk9DRFlZbjJJcDdWSGZRdw==";
-        private string CONSUMER_SECRET = "UHZPdXcwWFJoVnJ5RU5yZXdGdDZWd1lGdnNoRlpwcHQxMUtkNDdvVWM=";
-        private static const string URL_FORMAT = "https://api.twitter.com";
-        private static const string REQUEST_TOKEN_URL = "https://api.twitter.com/oauth/request_token";
-        private static const string FUNCTION_ACCESS_TOKEN = "oauth/access_token";
-
-        private Rest.OAuthProxy proxy;
-        
-        private string since_id_home;
-        private string since_id_mentions;
-        private string since_id_dm;
-        
-        public User account;
-        public GLib.List<Tweet> home_timeline;
-        public GLib.List<Tweet> home_timeline_since_id;
-        public GLib.List<Tweet> mentions_timeline;
-        public GLib.List<Tweet> mentions_timeline_since_id;
-        public GLib.List<Tweet> dm_timeline;
-        public GLib.List<Tweet> dm_timeline_since_id;
-        public GLib.List<Tweet> dm_sent_timeline;
-        public GLib.List<Tweet> own_timeline;
-        public GLib.List<Tweet> user_timeline;
-        
-        Settings settings;
-        public string token;
-        public string token_secret;
-        
-        private Regex urls;
-
+    public class Twitter : API {
         public Twitter () {
+            this.CONSUMER_KEY = "T1VkU2dySk9DRFlZbjJJcDdWSGZRdw==";
+            this.CONSUMER_SECRET = "UHZPdXcwWFJoVnJ5RU5yZXdGdDZWd1lGdnNoRlpwcHQxMUtkNDdvVWM=";
+            this.URL_FORMAT = "https://api.twitter.com";
+            this.REQUEST_TOKEN_URL = "https://api.twitter.com/oauth/request_token";
+            this.FUNCTION_ACCESS_TOKEN = "oauth/access_token";
+            
             this.CONSUMER_KEY = (string) Base64.decode (this.CONSUMER_KEY);
             this.CONSUMER_SECRET = (string) Base64.decode (this.CONSUMER_SECRET);
             
@@ -41,19 +18,19 @@ namespace Birdie {
             this.token_secret = settings.get_string ("token-secret");
         }
 
-        public string get_request () {
+        public override string get_request () {
             // request token
             try {
                 proxy.request_token ("oauth/request_token", "oob");
             } catch (Error e) {
                 stderr.printf ("Couldn't get request token: %s\n", e.message);
-                return "";
+                return "http://dl.dropbox.com/u/10382236/twitter.html";
             }
                 
             return "http://twitter.com/oauth/authorize?oauth_token=" + proxy.get_token ();
         }
         
-        public int get_tokens (string pin) {
+        public override int get_tokens (string pin) {
             // access token
             try { 
                 proxy.access_token (FUNCTION_ACCESS_TOKEN, pin);
@@ -70,7 +47,7 @@ namespace Birdie {
             return 0;
         }
         
-        public int auth () {
+        public override int auth () {
             home_timeline = new GLib.List<Tweet> ();
 
             if (token == "" || token_secret == "") {
@@ -87,7 +64,7 @@ namespace Birdie {
             return 0;
         }
 
-        public int64 update (string status, string id = "") {
+        public override int64 update (string status, string id = "") {
             // setup call
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("1.1/statuses/update.json");
@@ -117,7 +94,7 @@ namespace Birdie {
             return 0;
         }
         
-        public int destroy (string id) {
+        public override int destroy (string id) {
             // setup call
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("1.1/statuses/destroy/" + id + ".json");
@@ -131,7 +108,7 @@ namespace Birdie {
             return 0;
         }
         
-        public int retweet (string id) {
+        public override int retweet (string id) {
             // setup call
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("1.1/statuses/retweet/" + id + ".json");
@@ -147,7 +124,7 @@ namespace Birdie {
             return 0;
         }
         
-        public int favorite_create (string id) {
+        public override int favorite_create (string id) {
             // setup call
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("1.1/favorites/create.json");
@@ -161,7 +138,7 @@ namespace Birdie {
             return 0;
         }
         
-        public int favorite_destroy (string id) {
+        public override int favorite_destroy (string id) {
             // setup call
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("1.1/favorites/destroy.json");
@@ -175,7 +152,7 @@ namespace Birdie {
             return 0;
         }
         
-        public int send_direct_message (string recipient, string status) {
+        public override int send_direct_message (string recipient, string status) {
             // setup call
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("1.1/direct_messages/new.json");
@@ -190,7 +167,7 @@ namespace Birdie {
             return 0;
         }
         
-        public int get_account () {
+        public override int get_account () {
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("1.1/account/verify_credentials.json");
             call.set_method ("GET");
@@ -222,7 +199,7 @@ namespace Birdie {
             return 0;
         }
         
-        public string get_avatar (string profile_image_url) {
+        public override string get_avatar (string profile_image_url) {
             var profile_image_file = profile_image_url;
             
             bool convert_png = false;
@@ -283,8 +260,12 @@ namespace Birdie {
             return profile_image_file;
         }
 
-        public string highligh_links (owned string text) {
-            text = text.replace ("\n", " ");
+        public override string highligh_links (owned string text) {
+            if ("\n" in text)
+                text = text.replace ("\n", " ");
+
+            if ("&" in text)
+                text = text.replace ("&", "&amp;");
 
             try {
                 urls = new Regex("((http|https|ftp)://([\\S]+))");
@@ -298,7 +279,7 @@ namespace Birdie {
             return text;
         }
         
-        public Tweet get_tweet (Json.Node tweetnode) {
+        public override Tweet get_tweet (Json.Node tweetnode) {
             var tweetobject = tweetnode.get_object();
             
             var retweet = tweetobject.get_member ("retweeted_status");
@@ -328,7 +309,7 @@ namespace Birdie {
 			return new Tweet (id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited, false, in_reply_to_screen_name, retweeted_by);
         }
         
-        public int get_home_timeline (string count = "20") {
+        public override int get_home_timeline (string count = "20") {
             // setup call
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("1.1/statuses/home_timeline.json");
@@ -360,7 +341,7 @@ namespace Birdie {
                 this.home_timeline_since_id.reverse ();
                 this.home_timeline_since_id.foreach ((tweet) => {
                     this.home_timeline.append(tweet);
-                    this.since_id_home = tweet.id;             
+                    this.since_id_home = tweet.id;
 	            });
 	            
             } catch (Error e) {
@@ -370,7 +351,7 @@ namespace Birdie {
             return 0;
         }
         
-        public int get_mentions_timeline (string count = "20") {
+        public override int get_mentions_timeline (string count = "20") {
             // setup call
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("1.1/statuses/mentions_timeline.json");
@@ -412,7 +393,7 @@ namespace Birdie {
             return 0;
         }
         
-        public int get_direct_messages (string count = "20") {
+        public override int get_direct_messages (string count = "20") {
             // setup call
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("1.1/direct_messages.json");
@@ -465,7 +446,7 @@ namespace Birdie {
             return 0;
         }
         
-        public int get_direct_messages_sent (string count = "20") {
+        public override int get_direct_messages_sent (string count = "20") {
             // setup call
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("1.1/direct_messages/sent.json");
@@ -507,7 +488,7 @@ namespace Birdie {
             return 0;
         }
         
-        public int get_own_timeline (string count = "20") {
+        public override int get_own_timeline (string count = "20") {
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("1.1/statuses/user_timeline.json");
             call.set_method ("GET");
@@ -541,7 +522,7 @@ namespace Birdie {
             return 0;
         }
         
-        public int get_user_timeline (string user_id, string count = "20") {
+        public override int get_user_timeline (string user_id, string count = "20") {
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("1.1/statuses/user_timeline.json");
             call.set_method ("GET");

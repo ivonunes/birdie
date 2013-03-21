@@ -36,7 +36,9 @@ vala_precompile(VALA_C
     main.vala
     config.vala
     Birdie.vala
+    API.vala
     Twitter.vala
+    Identica.vala
     Tweet.vala
     User.vala
     Widgets/TweetBox.vala

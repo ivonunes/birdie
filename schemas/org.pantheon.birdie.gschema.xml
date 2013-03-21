@@ -1,4 +1,9 @@
 <schemalist>
+  <enum id="services">
+    <value value="0" nick="twitter"/>
+    <value value="1" nick="identica"/>
+  </enum>
+
   <schema id="org.pantheon.birdie" path="/org/pantheon/birdie/" gettext-domain="birdie">
 
     <key name="token" type="s">
@@ -42,7 +47,7 @@
     </key>
 
     <key name="legacy-window" type="b">
-      <default>false</default>
+      <default>true</default>
       <summary>legacy-window</summary>
       <description>
         Use the old window style
@@ -71,6 +76,12 @@
       <default>-1</default>
       <summary>Y position of window</summary>
       <description>Saves the window’s Y position for restoring it later.</description>
+    </key>
+
+    <key name="service" enum="services">
+      <default>'twitter'</default>
+      <summary>Service to use</summary>
+      <description>Determines which service API to use</description>
     </key>
   </schema>
 </schemalist>
