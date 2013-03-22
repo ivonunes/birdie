@@ -67,6 +67,17 @@ namespace Birdie.Widgets {
 	        });
         }
 
+        public void update_display (Tweet tweet) {
+            this.boxes.foreach ((box) => {
+                if (box.tweet == tweet) {
+                    Idle.add( () => {
+                        box.update_display ();
+                        return false;
+                    });
+                }
+	        });
+        }
+
         public void set_selectable (bool select) {
             if (this.boxes.length () > 0) {
                 Idle.add( () => {

@@ -215,9 +215,10 @@ namespace Birdie.Widgets {
 
 			    Idle.add( () => {
 			        if (code == 0) {
-			            this.favorite_icon.set_from_icon_name ("twitter-fav", Gtk.IconSize.MENU);
-			            this.favorite_button.set_tooltip_text (_("Favorite"));
 			            this.tweet.favorited = false;
+			            this.birdie.home_list.update_display (this.tweet);
+			            this.birdie.mentions_list.update_display (this.tweet);
+			            this.birdie.own_list.update_display (this.tweet);
 			            this.birdie.favorites.remove (this.tweet);
 			        }
 
@@ -231,9 +232,10 @@ namespace Birdie.Widgets {
 
 			    Idle.add( () => {
 			        if (code == 0) {
-			            this.favorite_icon.set_from_icon_name ("twitter-favd", Gtk.IconSize.MENU);
-			            this.favorite_button.set_tooltip_text (_("Unfavorite"));
 			            this.tweet.favorited = true;
+			            this.birdie.home_list.update_display (this.tweet);
+			            this.birdie.mentions_list.update_display (this.tweet);
+			            this.birdie.own_list.update_display (this.tweet);
 			            this.birdie.favorites.append (this.tweet, this.birdie);
 			        }
 
@@ -312,6 +314,16 @@ namespace Birdie.Widgets {
                 this.time_label.set_markup ("<span color='#aaaaaa'>" + this.date + "</span>");
                 return false;
             });
+        }
+
+        public void update_display () {
+            if (this.tweet.favorited) {
+                this.favorite_icon.set_from_icon_name ("twitter-favd", Gtk.IconSize.MENU);
+			    this.favorite_button.set_tooltip_text (_("Unfavorite"));
+            } else {
+                this.favorite_icon.set_from_icon_name ("twitter-fav", Gtk.IconSize.MENU);
+			    this.favorite_button.set_tooltip_text (_("Favorite"));
+            }
         }
 
         private void set_footer () {
