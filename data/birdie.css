@@ -10,6 +10,10 @@
     background-color: #FFFFFF;
 }
 
+.main_window {
+    background-color: #FFFFFF;
+}
+
 .button.affirmative:insensitive {
     background-image: -gtk-gradient (linear,
 				     left top,

@@ -265,7 +265,7 @@ namespace Birdie {
                 pin_button_box.pack_start (new Gtk.Label (""), true, true, 0);
                 
                 Gtk.Box pin_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-                pin_box.pack_start (new Gtk.Label (""), true, true, 0);
+                pin_box.pack_start (new Gtk.Label (""), true, true, 0);                
                 pin_box.pack_start (new Gtk.Label (_("Please insert your PIN below:")), false, false, 0);
                 pin_box.pack_start (new Gtk.Label (""), false, false, 0);
                 pin_box.pack_start (pin_entry_box, false, false, 0);
@@ -308,8 +308,9 @@ namespace Birdie {
 		        }
 
 		        Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default(), d_provider, 600);
-		                                         
-		        //
+                Gtk.StyleContext ctx = m_window.get_style_context();
+                ctx.add_class("main_window");
+                //
                 
                 this.m_window.focus_in_event.connect ((w, e) => {
                     this.activate();
