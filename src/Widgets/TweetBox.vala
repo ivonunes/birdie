@@ -52,9 +52,9 @@ namespace Birdie.Widgets {
 
             // avatar alignment
             this.avatar_alignment = new Gtk.Alignment (0,0,0,1);
-            this.avatar_alignment.top_padding = 12;
+            this.avatar_alignment.top_padding = 0;
             this.avatar_alignment.right_padding = 6;
-            this.avatar_alignment.bottom_padding = 12;
+            this.avatar_alignment.bottom_padding = 0;
             this.avatar_alignment.left_padding = 12;
             this.tweet_box.pack_start (this.avatar_alignment, false, true, 0);
 

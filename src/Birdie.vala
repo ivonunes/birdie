@@ -224,6 +224,7 @@ namespace Birdie {
                 this.scrolled_own.add_with_viewport (own_list);
                 
                 this.scrolled_user = new Gtk.ScrolledWindow (null, null);
+                
                 this.scrolled_user.add_with_viewport (user_list);
                 
                 this.welcome = new Granite.Widgets.Welcome (_("Birdie"), _("Twitter Client"));
