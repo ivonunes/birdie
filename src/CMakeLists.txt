@@ -46,6 +46,7 @@ vala_precompile(VALA_C
     Widgets/UnifiedWindow.vala
     Widgets/LightDialog.vala
     Widgets/TweetDialog.vala
+    Widgets/UserBox.vala
     Utils/Cairo.vala
     Utils/Date.vala
     Utils/Notifications.vala

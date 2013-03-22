@@ -7,11 +7,11 @@ namespace Birdie {
         public string FUNCTION_ACCESS_TOKEN;
 
         public Rest.OAuthProxy proxy;
-        
+
         public string since_id_home;
         public string since_id_mentions;
         public string since_id_dm;
-        
+
         public User account;
         public GLib.List<Tweet> home_timeline;
         public GLib.List<Tweet> home_timeline_since_id;
@@ -22,11 +22,12 @@ namespace Birdie {
         public GLib.List<Tweet> dm_sent_timeline;
         public GLib.List<Tweet> own_timeline;
         public GLib.List<Tweet> user_timeline;
-        
+        public GLib.List<Tweet> favorites;
+
         public Settings settings;
         public string token;
         public string token_secret;
-        
+
         public Regex urls;
 
         public abstract string get_request ();
@@ -35,7 +36,7 @@ namespace Birdie {
         public abstract int64 update (string status, string id = "");
         public abstract int destroy (string id);
         public abstract int retweet (string id);
-        public abstract int favorite_create (string id);   
+        public abstract int favorite_create (string id);
         public abstract int favorite_destroy (string id);
         public abstract int send_direct_message (string recipient, string status);
         public abstract int get_account ();
@@ -48,5 +49,6 @@ namespace Birdie {
         public abstract int get_direct_messages_sent (string count = "20");
         public abstract int get_own_timeline (string count = "20");
         public abstract int get_user_timeline (string user_id, string count = "20");
+        public abstract int get_favorites (string count = "20");
     }
 }
