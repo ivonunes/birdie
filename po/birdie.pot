@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-22 01:36+0000\n"
+"POT-Creation-Date: 2013-03-22 20:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,102 +17,110 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../src/Birdie.vala:107 ../../src/Utils/Indicator.vala:34
+#: ../../src/Birdie.vala:114 ../../src/Utils/Indicator.vala:34
 #: ../../src/Utils/Launcher.vala:25
 msgid "New Tweet"
 msgstr ""
 
-#: ../../src/Birdie.vala:110
+#: ../../src/Birdie.vala:117
 msgid "New Status"
 msgstr ""
 
-#: ../../src/Birdie.vala:135 ../../src/Birdie.vala:136
-#: ../../src/Birdie.vala:280
+#: ../../src/Birdie.vala:142 ../../src/Birdie.vala:143
+#: ../../src/Birdie.vala:306
 msgid "Home"
 msgstr ""
 
-#: ../../src/Birdie.vala:143 ../../src/Birdie.vala:144
-#: ../../src/Birdie.vala:281 ../../src/Utils/Indicator.vala:32
+#: ../../src/Birdie.vala:150 ../../src/Birdie.vala:151
+#: ../../src/Birdie.vala:307 ../../src/Utils/Indicator.vala:32
 #: ../../src/Utils/Launcher.vala:37
 msgid "Mentions"
 msgstr ""
 
-#: ../../src/Birdie.vala:151 ../../src/Birdie.vala:152
-#: ../../src/Birdie.vala:282 ../../src/Utils/Indicator.vala:33
+#: ../../src/Birdie.vala:158 ../../src/Birdie.vala:159
+#: ../../src/Birdie.vala:308 ../../src/Utils/Indicator.vala:33
 msgid "Direct Messages"
 msgstr ""
 
-#: ../../src/Birdie.vala:159 ../../src/Birdie.vala:160
-#: ../../src/Birdie.vala:283 ../../src/Utils/Launcher.vala:43
+#: ../../src/Birdie.vala:166 ../../src/Birdie.vala:167
+#: ../../src/Birdie.vala:309 ../../src/Utils/Launcher.vala:43
 msgid "Profile"
 msgstr ""
 
-#: ../../src/Birdie.vala:167 ../../src/Birdie.vala:168
-#: ../../src/Birdie.vala:285
+#: ../../src/Birdie.vala:174 ../../src/Birdie.vala:175
+#: ../../src/Birdie.vala:311
 msgid "Search"
 msgstr ""
 
-#: ../../src/Birdie.vala:181
+#: ../../src/Birdie.vala:188
 msgid "About"
 msgstr ""
 
-#: ../../src/Birdie.vala:185
+#: ../../src/Birdie.vala:192
 msgid "Quit"
 msgstr ""
 
-#: ../../src/Birdie.vala:201
+#: ../../src/Birdie.vala:208
 msgid "Menu"
 msgstr ""
 
-#: ../../src/Birdie.vala:230
+#: ../../src/Birdie.vala:238
 msgid "Birdie"
 msgstr ""
 
-#: ../../src/Birdie.vala:230 ../../src/config.vala:8
+#: ../../src/Birdie.vala:238 ../../src/config.vala:8
 msgid "Twitter Client"
 msgstr ""
 
-#: ../../src/Birdie.vala:231
+#: ../../src/Birdie.vala:239
 msgid "Add account"
 msgstr ""
 
-#: ../../src/Birdie.vala:231
+#: ../../src/Birdie.vala:239
 msgid "Add a Twitter account"
 msgstr ""
 
-#: ../../src/Birdie.vala:237
+#: ../../src/Birdie.vala:245
 msgid "Received"
 msgstr ""
 
-#: ../../src/Birdie.vala:238
+#: ../../src/Birdie.vala:246
 msgid "Sent"
 msgstr ""
 
-#: ../../src/Birdie.vala:259
+#: ../../src/Birdie.vala:267
 msgid "OK"
 msgstr ""
 
-#: ../../src/Birdie.vala:270
+#: ../../src/Birdie.vala:278
 msgid "Please insert your PIN below:"
 msgstr ""
 
-#: ../../src/Birdie.vala:277
+#: ../../src/Birdie.vala:299
+msgid "Timeline"
+msgstr ""
+
+#: ../../src/Birdie.vala:300
+msgid "Favorites"
+msgstr ""
+
+#: ../../src/Birdie.vala:303
 msgid "Loading"
 msgstr ""
 
-#: ../../src/Birdie.vala:278 ../../src/Birdie.vala:279
+#: ../../src/Birdie.vala:304 ../../src/Birdie.vala:305
 msgid "Welcome"
 msgstr ""
 
-#: ../../src/Birdie.vala:284
+#: ../../src/Birdie.vala:310
 msgid "User"
 msgstr ""
 
-#: ../../src/Birdie.vala:285 ../../src/Birdie.vala:286
+#: ../../src/Birdie.vala:311 ../../src/Birdie.vala:312
 msgid "In development"
 msgstr ""
 
-#: ../../src/Birdie.vala:286
+#: ../../src/Birdie.vala:312
 msgid "Search Results"
 msgstr ""
 
@@ -140,21 +148,21 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: ../../src/Widgets/TweetBox.vala:233
+#: ../../src/Widgets/TweetBox.vala:235
 msgid "Unfavorite"
 msgstr ""
 
-#: ../../src/Widgets/TweetBox.vala:315
+#: ../../src/Widgets/TweetBox.vala:318
 #, c-format
 msgid "retweeted by @%s"
 msgstr ""
 
-#: ../../src/Widgets/TweetBox.vala:323
+#: ../../src/Widgets/TweetBox.vala:326
 #, c-format
 msgid "repeated by @%s"
 msgstr ""
 
-#: ../../src/Widgets/TweetBox.vala:335
+#: ../../src/Widgets/TweetBox.vala:338
 #, c-format
 msgid "in reply to @%s"
 msgstr ""
