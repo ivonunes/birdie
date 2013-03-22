@@ -284,13 +284,13 @@ namespace Birdie {
         public override Tweet get_tweet (Json.Node tweetnode) {
             var tweetobject = tweetnode.get_object();
             
-            /*var retweet = tweetobject.get_member ("retweeted_status");
+            var retweet = tweetobject.get_member ("retweeted_status");
             string retweeted_by = "";
 
             if (retweet != null) {
                 retweeted_by = tweetobject.get_object_member ("user").get_string_member ("screen_name");
                 tweetobject = tweetobject.get_object_member ("retweeted_status");
-            }*/
+            }
 
             var id = tweetobject.get_int_member ("id").to_string ();
             var retweeted = false;
@@ -308,7 +308,7 @@ namespace Birdie {
 			    in_reply_to_screen_name = "";
 			}
 			
-			return new Tweet (id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited, false, in_reply_to_screen_name, "");
+			return new Tweet (id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited, false, in_reply_to_screen_name, retweeted_by);
         }
         
         public override int get_home_timeline (string count = "20") {
@@ -317,6 +317,9 @@ namespace Birdie {
             call.set_function ("statuses/home_timeline.json");
             call.set_method ("GET");
             call.add_param ("count", count);
+
+            debug (this.since_id_home);
+            
             if (this.since_id_home != "")
                 call.add_param ("since_id", this.since_id_home);
             try { call.sync (); } catch (Error e) {
@@ -342,12 +345,12 @@ namespace Birdie {
                 
                 this.home_timeline_since_id.reverse ();
                 this.home_timeline_since_id.foreach ((tweet) => {
-                    if (tweet.id != this.since_id_home) {
+                    if (tweet.id > this.since_id_home) {
                         this.home_timeline.append(tweet);
-                        this.since_id_home = tweet.id;
                     } else {
                         this.home_timeline_since_id.remove (tweet);
                     }
+                    this.since_id_home = tweet.id;
 	            });
 	            
             } catch (Error e) {
@@ -363,7 +366,6 @@ namespace Birdie {
             call.set_function ("statuses/mentions.json");
             call.set_method ("GET");
             call.add_param ("count", count);
-            debug (this.since_id_mentions);
             if (this.since_id_mentions != "")
                 call.add_param ("since_id", this.since_id_mentions);
             try { call.sync (); } catch (Error e) {
@@ -389,12 +391,12 @@ namespace Birdie {
                 
                 this.mentions_timeline_since_id.reverse ();
                 this.mentions_timeline_since_id.foreach ((tweet) => {
-                    if (tweet.id != this.since_id_mentions) {
+                    if (tweet.id > this.since_id_mentions) {
                         this.mentions_timeline.append(tweet);
-                        this.since_id_mentions = tweet.id;
                     } else {
                         this.mentions_timeline_since_id.remove (tweet);
                     }
+                    this.since_id_mentions = tweet.id;
 	            });
 	            
             } catch (Error e) {
@@ -444,14 +446,13 @@ namespace Birdie {
 			        dm_timeline_since_id.append (tweet);
                 }
                 
-                this.dm_timeline_since_id.reverse ();
                 this.dm_timeline_since_id.foreach ((tweet) => {
-                    if (tweet.id != this.since_id_dm) {
+                    if (tweet.id > this.since_id_dm) {
                         this.dm_timeline.append(tweet);
-                        this.since_id_dm = tweet.id;
                     } else {
                         this.dm_timeline_since_id.remove (tweet);
                     }
+                    this.since_id_dm = tweet.id;
 	            });
 	            
             } catch (Error e) {

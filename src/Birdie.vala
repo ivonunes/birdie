@@ -104,11 +104,16 @@ namespace Birdie {
                 this.unread_mentions = 0;
                 this.unread_dm = 0;
 
+                var new_tweet_label = _("New Tweet");
+
+                if (this.service == 1)
+                    new_tweet_label = _("New Status");
+
                 if (this.tweet_notification || this.mention_notification || this.dm_notification)
                     this.m_window.hide_on_delete ();
                 
-                this.new_tweet = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("mail-message-new", Gtk.IconSize.LARGE_TOOLBAR), _("New Tweet"));
-                new_tweet.set_tooltip_text (_("New Tweet"));
+                this.new_tweet = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("mail-message-new", Gtk.IconSize.LARGE_TOOLBAR), new_tweet_label);
+                new_tweet.set_tooltip_text (new_tweet_label);
 		        new_tweet.clicked.connect (() => {
 		            bool is_dm = false;
 		        
