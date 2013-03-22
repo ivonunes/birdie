@@ -1,4 +1,4 @@
-# Brazilian Portuguese translation for birdie
+# French translation for birdie
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
 # This file is distributed under the same license as the birdie package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: birdie\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-03-22 01:36+0000\n"
-"PO-Revision-Date: 2013-03-22 01:41+0000\n"
-"Last-Translator: vasco <Unknown>\n"
-"Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
+"PO-Revision-Date: 2013-03-21 15:47+0000\n"
+"Last-Translator: Rémi Patrizio <remi.patrizio@me.com>\n"
+"Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,7 +20,7 @@ msgstr ""
 #: ../../src/Birdie.vala:107 ../../src/Utils/Indicator.vala:34
 #: ../../src/Utils/Launcher.vala:25
 msgid "New Tweet"
-msgstr "Novo tweet"
+msgstr "Nouveau Tweet"
 
 #: ../../src/Birdie.vala:110
 msgid "New Status"
@@ -29,28 +29,28 @@ msgstr ""
 #: ../../src/Birdie.vala:135 ../../src/Birdie.vala:136
 #: ../../src/Birdie.vala:280
 msgid "Home"
-msgstr "Início"
+msgstr "Accueil"
 
 #: ../../src/Birdie.vala:143 ../../src/Birdie.vala:144
 #: ../../src/Birdie.vala:281 ../../src/Utils/Indicator.vala:32
 #: ../../src/Utils/Launcher.vala:37
 msgid "Mentions"
-msgstr "Citações"
+msgstr "Mentions"
 
 #: ../../src/Birdie.vala:151 ../../src/Birdie.vala:152
 #: ../../src/Birdie.vala:282 ../../src/Utils/Indicator.vala:33
 msgid "Direct Messages"
-msgstr "Mensagens diretas"
+msgstr "Messages privés"
 
 #: ../../src/Birdie.vala:159 ../../src/Birdie.vala:160
 #: ../../src/Birdie.vala:283 ../../src/Utils/Launcher.vala:43
 msgid "Profile"
-msgstr "Perfil"
+msgstr "Profil"
 
 #: ../../src/Birdie.vala:167 ../../src/Birdie.vala:168
 #: ../../src/Birdie.vala:285
 msgid "Search"
-msgstr "Pesquisar"
+msgstr "Rechercher"
 
 #: ../../src/Birdie.vala:181
 msgid "About"
@@ -70,15 +70,15 @@ msgstr "Birdie"
 
 #: ../../src/Birdie.vala:230 ../../src/config.vala:8
 msgid "Twitter Client"
-msgstr "Cliente do Twitter"
+msgstr "Client Twitter"
 
 #: ../../src/Birdie.vala:231
 msgid "Add account"
-msgstr "Adicionar conta"
+msgstr "Ajouter un compte"
 
 #: ../../src/Birdie.vala:231
 msgid "Add a Twitter account"
-msgstr "Adicionar uma conta do Twitter"
+msgstr "Ajouter un compte Twitter"
 
 #: ../../src/Birdie.vala:237
 msgid "Received"
@@ -90,43 +90,43 @@ msgstr ""
 
 #: ../../src/Birdie.vala:259
 msgid "OK"
-msgstr "OK"
+msgstr "Valider"
 
 #: ../../src/Birdie.vala:270
 msgid "Please insert your PIN below:"
-msgstr "Por favor, indique o seu PIN:"
+msgstr "Veuillez saisir votre code PIN :"
 
 #: ../../src/Birdie.vala:277
 msgid "Loading"
-msgstr "Carregando"
+msgstr "Chargement en cours"
 
 #: ../../src/Birdie.vala:278 ../../src/Birdie.vala:279
 msgid "Welcome"
-msgstr "Bem-vindo(a)"
+msgstr "Bienvenue"
 
 #: ../../src/Birdie.vala:284
 msgid "User"
-msgstr "Usuário"
+msgstr "Utilisateur"
 
 #: ../../src/Birdie.vala:285 ../../src/Birdie.vala:286
 msgid "In development"
-msgstr "Em desenvolvimento"
+msgstr "En cours de réalisation"
 
 #: ../../src/Birdie.vala:286
 msgid "Search Results"
-msgstr "Resultados de busca"
+msgstr "Résultats de la recherche"
 
 #: ../../src/config.vala:9
 msgid "Twitter client for elementary OS"
-msgstr "Cliente de Twitter para elementary OS"
+msgstr "Client Twitter pour elementary OS"
 
 #: ../../src/Widgets/TweetBox.vala:143 ../../src/Widgets/TweetBox.vala:219
 msgid "Favorite"
-msgstr "Favorito"
+msgstr "Favori"
 
 #: ../../src/Widgets/TweetBox.vala:164
 msgid "Retweet"
-msgstr "Retweetar"
+msgstr "Retweeter"
 
 #: ../../src/Widgets/TweetBox.vala:166
 msgid "Repeat"
@@ -134,15 +134,15 @@ msgstr ""
 
 #: ../../src/Widgets/TweetBox.vala:185
 msgid "Reply"
-msgstr "Responder"
+msgstr "Répondre"
 
 #: ../../src/Widgets/TweetBox.vala:199
 msgid "Delete"
-msgstr "Deletar"
+msgstr "Supprimer"
 
 #: ../../src/Widgets/TweetBox.vala:233
 msgid "Unfavorite"
-msgstr "Apagar favorito"
+msgstr "Retirer des favoris"
 
 #: ../../src/Widgets/TweetBox.vala:315
 #, c-format
@@ -161,7 +161,7 @@ msgstr ""
 
 #: ../../src/Widgets/TweetDialog.vala:80
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr "Annuler"
 
 #: ../../src/Widgets/TweetDialog.vala:87
 msgid "Send"
@@ -169,7 +169,7 @@ msgstr ""
 
 #: ../../src/Widgets/TweetDialog.vala:90
 msgid "Tweet"
-msgstr "Tweet"
+msgstr "Tweeter"
 
 #: ../../src/Widgets/TweetDialog.vala:92
 msgid "New status"
@@ -178,17 +178,17 @@ msgstr ""
 #: ../../src/Utils/Date.vala:49
 #, c-format
 msgid "%d y"
-msgstr "%d a"
+msgstr "%d y"
 
 #: ../../src/Utils/Date.vala:52
 #, c-format
 msgid "%d mo"
-msgstr "%d m"
+msgstr "%d mo"
 
 #: ../../src/Utils/Date.vala:55
 #, c-format
 msgid "%d w"
-msgstr "%d s"
+msgstr "%d w"
 
 #: ../../src/Utils/Date.vala:58
 #, c-format
@@ -203,11 +203,11 @@ msgstr "%d h"
 #: ../../src/Utils/Date.vala:62
 #, c-format
 msgid "%d m"
-msgstr "%d min"
+msgstr "%d m"
 
 #: ../../src/Utils/Date.vala:65
 msgid "now"
-msgstr "agora"
+msgstr "maintenant"
 
 #: ../../src/Utils/Indicator.vala:31 ../../src/Utils/Launcher.vala:31
 msgid "Tweets"
