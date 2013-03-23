@@ -67,10 +67,12 @@ namespace Birdie {
         private int unread_dm;
 
         public int service;
+        
         private bool tweet_notification;
         private bool mention_notification;
         private bool dm_notification;
         private bool legacy_window;
+        private int update_interval;
 
         private Regex urls;
         private Settings settings;
@@ -109,6 +111,7 @@ namespace Birdie {
                 this.mention_notification = settings.get_boolean ("mention-notification");
                 this.dm_notification = settings.get_boolean ("dm-notification");
                 this.legacy_window = settings.get_boolean ("legacy-window");
+                this.update_interval = settings.get_int ("update-interval");
 
                 if (this.legacy_window)
                     this.m_window = new Widgets.UnifiedWindow ("Birdie", true);
@@ -388,19 +391,18 @@ namespace Birdie {
                 }
             } else {
                 this.m_window.show();
+                this.launcher.clean_launcher_count ();
+                
                 switch (this.current_timeline) {
                     case "home":
-                        this.launcher.clean_launcher_count (this.unread_tweets);
                         this.unread_tweets = 0;
                         this.indicator.clean_tweets_indicator();
                         break;
                     case "mentions":
-                        this.launcher.clean_launcher_count (this.unread_mentions);
                         this.unread_mentions = 0;
                         this.indicator.clean_mentions_indicator();
                         break;
                     case "dm":
-                        this.launcher.clean_launcher_count (this.unread_dm);
                         this.unread_dm = 0;
                         this.indicator.clean_dm_indicator();
                         break;
@@ -565,7 +567,7 @@ namespace Birdie {
         }
 
         public void add_timeout_online () {
-            GLib.Timeout.add (120000, () => {
+            GLib.Timeout.add (this.update_interval * 60000, () => {
                 new Thread<void*> (null, this.update_timelines);
                 return false;
             });
@@ -606,7 +608,7 @@ namespace Birdie {
 
 	        if (this.tweet_notification) {
                 this.indicator.update_tweets_indicator (this.unread_tweets);
-                this.launcher.update_launcher_count (this.unread_tweets + this.unread_mentions + this.unread_dm);
+                this.launcher.set_count (this.unread_tweets + this.unread_mentions + this.unread_dm);
             }
         }
 
@@ -626,7 +628,7 @@ namespace Birdie {
 
             if (this.mention_notification) {
                 this.indicator.update_mentions_indicator (this.unread_mentions);
-                this.launcher.update_launcher_count (this.unread_tweets + this.unread_mentions + this.unread_dm);
+                this.launcher.set_count (this.unread_tweets + this.unread_mentions + this.unread_dm);
             }
         }
 
@@ -646,7 +648,7 @@ namespace Birdie {
 
             if (this.dm_notification) {
                 this.indicator.update_dm_indicator (this.unread_dm);
-                this.launcher.update_launcher_count (this.unread_tweets + this.unread_mentions + this.unread_dm);
+                this.launcher.set_count (this.unread_tweets + this.unread_mentions + this.unread_dm);
             }
         }
 

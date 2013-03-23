@@ -69,19 +69,23 @@ namespace Birdie.Utils {
                   
             // events connections
             new_tweet.item_activated.connect (() => {
-		            this.on_new_tweet();
+		            this.on_new_tweet ();
 		        });
 		        
 		    home.item_activated.connect (() => {
-		            this.on_home();
+		            this.on_home ();
 		        });
 		        
 		    mentions.item_activated.connect (() => {
-		            this.on_mentions();
+		            this.on_mentions ();
 		        });
 		        
 		    profile.item_activated.connect (() => {
-		            this.on_profile();
+		            this.on_profile ();
+		        });
+		        
+		    dm.item_activated.connect (() => {
+		            this.on_dm ();
 		        });
 
         }
@@ -101,29 +105,30 @@ namespace Birdie.Utils {
             this.birdie.activate ();
         }
         
+        private void on_dm () {
+            this.birdie.switch_timeline ("dm");
+            this.birdie.activate ();
+        }
+        
         private void on_profile () {
             this.birdie.switch_timeline ("own");
             this.birdie.activate ();
         }
         
-        private void set_count (int count) {
+        public void set_count (int count) {
             launcher.count = count;
-            if (launcher.count > 0) {
-                launcher.count_visible = true;
-            }
-            debug("set unity launcher entry count to %s", launcher.count.to_string());
-        }
-        
-        public void update_launcher_count (int count) {
-            set_count(count);
-        }
-        
-        public void clean_launcher_count (int count) {
-            launcher.count = 0;
-            debug ("launcher badge count %i", count);
+            launcher.count_visible = true;
+            
             if (launcher.count == 0) {
                 launcher.count_visible = false;
             }
+            
+            debug("set unity launcher entry count to %s", launcher.count.to_string());
+        }
+        
+        public void clean_launcher_count () {
+            launcher.count = 0;
+            launcher.count_visible = false;
         }
     }
 }

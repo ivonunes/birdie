@@ -22,6 +22,14 @@
       </description>
     </key>
     
+    <key name="update-interval" type="i">
+      <default>2</default>
+      <summary>update-interval</summary>
+      <description>
+        Interval to fetch updates
+      </description>
+    </key>
+    
     <key name="tweet-notification" type="b">
       <default>false</default>
       <summary>tweet-notification</summary>
