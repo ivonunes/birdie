@@ -94,6 +94,10 @@ namespace Birdie {
             about_translators   = {};*/
             about_license_type  = Gtk.License.GPL_3_0;
         }
+        
+        public Birdie () {
+            set_flags (ApplicationFlags.HANDLES_OPEN);
+        }
 
         public override void activate (){
             if (get_windows () == null) {
@@ -381,6 +385,21 @@ namespace Birdie {
                         break;
                 }
             }
+        }
+        
+        protected override void open (File[] files, string hint) {
+            foreach (File file in files) {
+                switch (file.get_uri ()) {
+                    case "birdie://mentions":
+                        debug ("mentions!!!!");
+                        break;
+                    default:
+                        debug (file.get_uri ());
+                        break;
+                }
+            }
+            
+            activate ();
         }
 
         private void* request () {
