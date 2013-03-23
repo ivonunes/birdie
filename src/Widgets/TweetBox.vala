@@ -109,12 +109,7 @@ namespace Birdie.Widgets {
             this.username_label.set_halign (Gtk.Align.START);
             this.username_label.margin_bottom = 6;
 
-            string user_url;
-            if (birdie.service == 0)
-                user_url = "https://twitter.com/";
-            else
-                user_url = "https://identi.ca/";
-            this.username_label.set_markup ("<span underline='none' color='#000000' font_weight='bold' size='large'><a href='" + user_url + tweet.user_screen_name + "'>" + tweet.user_name + "</a></span> <span font_weight='light' color='#aaaaaa'>@" + tweet.user_screen_name + "</span>");
+            this.username_label.set_markup ("<span underline='none' color='#000000' font_weight='bold' size='large'><a href='birdie://user/" + tweet.user_screen_name + "'>" + tweet.user_name + "</a></span> <span font_weight='light' color='#aaaaaa'>@" + tweet.user_screen_name + "</span>");
             this.content_box.pack_start (this.username_label, false, true, 0);
 
             // tweet

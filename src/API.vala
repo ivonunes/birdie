@@ -29,6 +29,7 @@ namespace Birdie {
         public string since_id_dm;
 
         public User account;
+        public User user;
         public GLib.List<Tweet> home_timeline;
         public GLib.List<Tweet> home_timeline_since_id;
         public GLib.List<Tweet> mentions_timeline;

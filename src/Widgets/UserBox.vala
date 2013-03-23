@@ -72,6 +72,12 @@ namespace Birdie.Widgets {
 
             if ("&" in user.screen_name)
                 user.screen_name = user.screen_name.replace ("&", "&amp;");
+            if ("&" in user.name)
+                user.name = user.name.replace ("&", "&amp;");
+            if ("&" in user.desc)
+                user.desc = user.desc.replace ("&", "&amp;");
+            if ("&" in user.location)
+                user.location = user.location.replace ("&", "&amp;");
 
             // user label
             this.username_label = new Gtk.Label (user.screen_name);
@@ -81,11 +87,7 @@ namespace Birdie.Widgets {
             string user_url;
             string tweets_txt;
 
-            if (birdie.service == 0)
-                user_url = "https://twitter.com/";
-            else
-                user_url = "https://identi.ca/";
-            this.username_label.set_markup ("<span underline='none' color='#000000' font_weight='bold' size='large'><a href='" + user_url + user.screen_name + "'>" + user.name + "</a></span> <span font_weight='light' color='#aaaaaa'>@" + user.screen_name + "</span>\n" + "<span size='small'>" + user.location + "</span>");
+            this.username_label.set_markup ("<span underline='none' color='#000000' font_weight='bold' size='large'>" + user.name + "</span> <span font_weight='light' color='#aaaaaa'>@" + user.screen_name + "</span>\n" + "<span size='small'>" + user.location + "</span>");
             this.content_box.pack_start (this.username_label, false, true, 0);
 
             // user info
@@ -116,6 +118,45 @@ namespace Birdie.Widgets {
 
             //this.set_size_request (-1, 200);
 
+            this.show_all ();
+        }
+        
+        public void update (User user) {
+            this.user = user;
+        
+            this.avatar_img.set_from_file (Environment.get_home_dir () + "/.cache/birdie/" + user.profile_image_file);
+
+            if ("&" in user.screen_name)
+                user.screen_name = user.screen_name.replace ("&", "&amp;");
+            if ("&" in user.name)
+                user.name = user.name.replace ("&", "&amp;");
+            if ("&" in user.desc)
+                user.desc = user.desc.replace ("&", "&amp;");
+            if ("&" in user.location)
+                user.location = user.location.replace ("&", "&amp;");
+
+            string user_url;
+            string tweets_txt;
+
+            this.username_label.set_markup ("<span underline='none' color='#000000' font_weight='bold' size='large'>" + user.name + "</span> <span font_weight='light' color='#aaaaaa'>@" + user.screen_name + "</span>\n" + "<span size='small'>" + user.location + "</span>");
+
+            // user info
+
+            if (this.birdie.service == 0)
+                tweets_txt = _("TWEETS");
+            else
+                tweets_txt = _("STATUSES");
+
+            string description_txt = user.desc +
+                "\n\n<span size='small' color='#666666'>" + tweets_txt +
+                " </span><span size='small' font_weight='bold'>" + user.statuses_count.to_string() + "</span>" +
+                "<span size='small' color='#666666'> " + _("FOLLOWING") +
+                " </span><span size='small' font_weight='bold'>" + user.friends_count.to_string() + "</span>" +
+                "<span size='small' color='#666666'> " + _("FOLLOWERS") +
+                " </span><span size='small' font_weight='bold'>" + user.followers_count.to_string() + "</span>";
+
+            this.description_label.set_markup (description_txt);
+            
             this.show_all ();
         }
     }

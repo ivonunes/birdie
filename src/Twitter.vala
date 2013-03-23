@@ -234,6 +234,38 @@ namespace Birdie {
 
             return 0;
         }
+        
+        public void get_user (Json.Node tweetnode) {
+            var tweetobject = tweetnode.get_object();
+
+            var id = tweetobject.get_object_member ("user").get_string_member ("id_str");
+            var name = tweetobject.get_object_member ("user").get_string_member ("name");
+			var screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
+			var profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
+		    var profile_image_file = get_avatar (profile_image_url);
+		    
+		    string location = "";
+		    string description = "";
+		    
+		    if (tweetobject.get_object_member ("user").has_member("location") &&
+			     tweetobject.get_object_member ("user").get_string_member ("location") != null) {
+                location = tweetobject.get_object_member ("user").get_string_member ("location");
+            }
+            
+            if (tweetobject.get_object_member ("user").has_member("description") &&
+			     tweetobject.get_object_member ("user").get_string_member ("description") != null) {
+                description = tweetobject.get_object_member ("user").get_string_member ("description");
+            }
+            
+            int64 friends_count = tweetobject.get_object_member ("user").get_int_member ("friends_count");
+            int64 followers_count = tweetobject.get_object_member ("user").get_int_member ("followers_count");
+            int64 statuses_count = tweetobject.get_object_member ("user").get_int_member ("statuses_count");
+			        
+			this.user = new User (id, name, screen_name,
+                profile_image_url, profile_image_file, location, description,
+                friends_count, followers_count, statuses_count
+            );
+        }
 
         public override string get_avatar (string profile_image_url) {
             var profile_image_file = profile_image_url;
@@ -306,8 +338,10 @@ namespace Birdie {
             try {
                 urls = new Regex("((http|https|ftp)://([\\S]+))");
                 text = urls.replace(text, -1, 0, "<span underline='none'><a href='\\0'>\\0</a></span>");
-                urls = new Regex("([@#][a-zA-Z0-9_]+)");
+                urls = new Regex("([#][a-zA-Z0-9_]+)");
                 text = urls.replace(text, -1, 0, "<span underline='none'><a href='https://twitter.com/\\0'>\\0</a></span>");
+                urls = new Regex("([@][a-zA-Z0-9_]+)");
+                text = urls.replace(text, -1, 0, "<span underline='none'><a href='birdie://user/\\0'>\\0</a></span>");
             } catch (RegexError e) {
                 warning ("regex error: %s", e.message);
             }
@@ -592,12 +626,12 @@ namespace Birdie {
             return 0;
         }
 
-        public override int get_user_timeline (string user_id, string count = "20") {
+        public override int get_user_timeline (string screen_name, string count = "20") {
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("1.1/statuses/user_timeline.json");
             call.set_method ("GET");
             call.add_param ("count", count);
-            call.add_param ("user_id", user_id);
+            call.add_param ("screen_name", screen_name);
             try { call.sync (); } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
                 return 1;
@@ -616,6 +650,8 @@ namespace Birdie {
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
                     var tweet = this.get_tweet (tweetnode);
 			        user_timeline.append (tweet);
+			        
+			        this.get_user (tweetnode);
                 }
 
                 user_timeline.reverse ();

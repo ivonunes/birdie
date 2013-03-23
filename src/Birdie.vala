@@ -34,6 +34,9 @@ namespace Birdie {
 
         private Widgets.UserBox own_box_info;
         private Gtk.Box own_box;
+        
+        private Widgets.UserBox user_box_info;
+        private Gtk.Box user_box;
 
         private Gtk.ScrolledWindow scrolled_home;
         private Gtk.ScrolledWindow scrolled_mentions;
@@ -47,6 +50,7 @@ namespace Birdie {
         private Granite.Widgets.StaticNotebook notebook;
         private Granite.Widgets.StaticNotebook notebook_dm;
         private Granite.Widgets.StaticNotebook notebook_own;
+        private Granite.Widgets.StaticNotebook notebook_user;
 
         private Gtk.Spinner spinner;
         private Gtk.Entry pin_entry;
@@ -76,6 +80,8 @@ namespace Birdie {
 
         private Regex urls;
         private Settings settings;
+        
+        private string user;
 
         construct {
             program_name        = "Birdie";
@@ -320,7 +326,18 @@ namespace Birdie {
 		        this.notebook_own.append_page (this.scrolled_own, new Gtk.Label (_("Timeline")));
 		        this.notebook_own.append_page (this.scrolled_favorites, new Gtk.Label (_("Favorites")));
 		        this.own_box.pack_start (this.notebook_own, true, true, 0);
-
+		        
+		        this.user_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+                this.user_box_info = new Widgets.UserBox ();
+                this.notebook_user = new Granite.Widgets.StaticNotebook (true);
+		        this.notebook_user.append_page (this.scrolled_user, new Gtk.Label (_("Timeline")));
+                this.user_box.pack_start (this.user_box_info, false, false, 0);
+                
+                // separator
+                this.user_box.pack_start (new Gtk.Separator (Gtk.Orientation.HORIZONTAL), false, false, 0);
+                this.user_box.pack_start (new Gtk.Separator (Gtk.Orientation.HORIZONTAL), false, false, 0);
+                
+		        this.user_box.pack_start (this.notebook_user, true, true, 0);
 
                 this.notebook.append_page (spinner_box, new Gtk.Label (_("Loading")));
                 this.notebook.append_page (this.welcome, new Gtk.Label (_("Welcome")));
@@ -329,7 +346,7 @@ namespace Birdie {
                 this.notebook.append_page (this.scrolled_mentions, new Gtk.Label (_("Mentions")));
                 this.notebook.append_page (this.notebook_dm, new Gtk.Label (_("Direct Messages")));
                 this.notebook.append_page (this.own_box, new Gtk.Label (_("Profile")));
-                this.notebook.append_page (this.scrolled_user, new Gtk.Label (_("User")));
+                this.notebook.append_page (this.user_box, new Gtk.Label (_("User")));
                 this.notebook.append_page (new Gtk.Label (_("In development")), new Gtk.Label (_("Search")));
                 this.notebook.append_page (new Gtk.Label (_("In development")), new Gtk.Label (_("Search Results")));
 
@@ -412,13 +429,16 @@ namespace Birdie {
         
         protected override void open (File[] files, string hint) {
             foreach (File file in files) {
-                switch (file.get_uri ()) {
-                    case "birdie://mentions":
-                        debug ("mentions!!!!");
-                        break;
-                    default:
-                        debug (file.get_uri ());
-                        break;
+                string url = file.get_uri ();
+                
+                if ("birdie://user/" in url) {
+                    user = url.replace ("birdie://user/", "");
+                    if ("/" in user)
+                        user = user.replace ("/", "");
+                    if ("@" in user)
+                        user = user.replace ("@", "");
+                        
+                    new Thread<void*> (null, show_user);
                 }
             }
             
@@ -485,6 +505,7 @@ namespace Birdie {
 
             Idle.add (() => {
                 this.own_box_info.init (this.api.account, this);
+                this.user_box_info.init (this.api.account, this);
                 return false;
             });
 
@@ -701,6 +722,33 @@ namespace Birdie {
                     this.switch_timeline ("home");
                 }
             }
+        }
+        
+        private void* show_user () {
+            Idle.add (() => {
+                this.switch_timeline ("loading");
+                this.spinner.start ();
+                return false;
+            });
+            
+            this.api.user_timeline.foreach ((tweet) => {
+                this.user_list.remove (tweet);
+	        });
+        
+            this.api.get_user_timeline (user);
+            
+            this.api.user_timeline.foreach ((tweet) => {
+                this.user_list.append (tweet, this);
+	        });
+            
+            Idle.add (() => {
+                this.user_box_info.update (this.api.user);
+                this.switch_timeline ("user");
+                this.spinner.stop ();
+                return false;
+            });
+            
+            return null;
         }
     }
 }
