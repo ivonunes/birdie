@@ -119,7 +119,8 @@ namespace Birdie.Utils {
         }
         
         public void clean_launcher_count (int count) {
-            launcher.count = launcher.count-count;
+            launcher.count = 0;
+            debug ("launcher badge count %i", count);
             if (launcher.count == 0) {
                 launcher.count_visible = false;
             }
