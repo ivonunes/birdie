@@ -287,17 +287,16 @@ namespace Birdie {
                 else
                     this.api = new Identica ();
 
-
                 this.own_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-                //this.own_box_info = new Widgets.UserBox (this.api.account, this);
-                //this.own_box.pack_start (this.own_box_info, false, false, 0);
+                this.own_box_info = new Widgets.UserBox ();
+                this.own_box.pack_start (this.own_box_info, false, false, 0);
                 this.scrolled_favorites.add_with_viewport (this.favorites);
                 this.scrolled_own.add_with_viewport (this.own_list);
-                this.own_box.pack_start (this.scrolled_own, true, true, 0);
 
-                this.notebook_own = new Granite.Widgets.StaticNotebook (false);
-		        this.notebook_own.append_page (this.own_box, new Gtk.Label (_("Timeline")));
+                this.notebook_own = new Granite.Widgets.StaticNotebook (true);
+		        this.notebook_own.append_page (this.scrolled_own, new Gtk.Label (_("Timeline")));
 		        this.notebook_own.append_page (this.scrolled_favorites, new Gtk.Label (_("Favorites")));
+		        this.own_box.pack_start (this.notebook_own, true, true, 0);
 
 
                 this.notebook.append_page (spinner_box, new Gtk.Label (_("Loading")));
@@ -306,7 +305,7 @@ namespace Birdie {
                 this.notebook.append_page (this.scrolled_home, new Gtk.Label (_("Home")));
                 this.notebook.append_page (this.scrolled_mentions, new Gtk.Label (_("Mentions")));
                 this.notebook.append_page (this.notebook_dm, new Gtk.Label (_("Direct Messages")));
-                this.notebook.append_page (this.notebook_own, new Gtk.Label (_("Profile")));
+                this.notebook.append_page (this.own_box, new Gtk.Label (_("Profile")));
                 this.notebook.append_page (this.scrolled_user, new Gtk.Label (_("User")));
                 this.notebook.append_page (new Gtk.Label (_("In development")), new Gtk.Label (_("Search")));
                 this.notebook.append_page (new Gtk.Label (_("In development")), new Gtk.Label (_("Search Results")));
@@ -425,6 +424,11 @@ namespace Birdie {
 	        this.api.favorites.foreach ((tweet) => {
                 this.favorites.append(tweet, this);
 	        });
+
+            Idle.add (() => {
+                this.own_box_info.init (this.api.account, this);
+                return false;
+            });
 
 	        this.add_timeout_online ();
             this.add_timeout_offline ();

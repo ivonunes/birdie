@@ -179,6 +179,8 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
+				var desc = "";
+                var location = "";
                 parser.load_from_data ((string) call.get_payload (), -1);
 
                 var root = parser.get_root ();
@@ -191,7 +193,26 @@ namespace Birdie {
 
 			    var profile_image_file = get_avatar (profile_image_url);
 
-                account = new User (id, name, screen_name, profile_image_url, profile_image_file);
+                if (userobject.has_member("location") &&
+			        userobject.get_string_member ("location") != null) {
+                     location = userobject.get_string_member ("location");
+                }
+
+
+			    if (userobject.has_member("description") &&
+			        userobject.get_string_member ("description") != null) {
+                     desc = userobject.get_string_member ("description");
+                }
+
+                int64 friends_count = userobject.get_int_member ("friends_count");
+                int64 followers_count = userobject.get_int_member ("followers_count");
+                int64 statuses_count = userobject.get_int_member ("statuses_count");
+
+                account = new User (id, name, screen_name,
+                    profile_image_url, profile_image_file, location, desc,
+                    friends_count, followers_count, statuses_count
+                );
+
             } catch (Error e) {
                 stderr.printf ("Unable to parse verify_credentials.json\n");
             }
@@ -318,8 +339,6 @@ namespace Birdie {
             call.set_method ("GET");
             call.add_param ("count", count);
 
-            debug (this.since_id_home);
-
             if (this.since_id_home != "")
                 call.add_param ("since_id", this.since_id_home);
             try { call.sync (); } catch (Error e) {
@@ -345,7 +364,7 @@ namespace Birdie {
 
                 this.home_timeline_since_id.reverse ();
                 this.home_timeline_since_id.foreach ((tweet) => {
-                    if (tweet.id > this.since_id_home) {
+                    if (int64.parse (tweet.id) > int64.parse (this.since_id_home)) {
                         this.home_timeline.append(tweet);
                     } else {
                         this.home_timeline_since_id.remove (tweet);
@@ -391,7 +410,7 @@ namespace Birdie {
 
                 this.mentions_timeline_since_id.reverse ();
                 this.mentions_timeline_since_id.foreach ((tweet) => {
-                    if (tweet.id > this.since_id_mentions) {
+                    if (int64.parse (tweet.id) > int64.parse (this.since_id_mentions)) {
                         this.mentions_timeline.append(tweet);
                     } else {
                         this.mentions_timeline_since_id.remove (tweet);
@@ -446,8 +465,9 @@ namespace Birdie {
 			        dm_timeline_since_id.append (tweet);
                 }
 
+				this.dm_timeline_since_id.reverse ();
                 this.dm_timeline_since_id.foreach ((tweet) => {
-                    if (tweet.id > this.since_id_dm) {
+                    if (int64.parse (tweet.id) > int64.parse (this.since_id_dm)) {
                         this.dm_timeline.append(tweet);
                     } else {
                         this.dm_timeline_since_id.remove (tweet);

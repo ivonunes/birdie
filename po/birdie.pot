@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-22 20:24+0000\n"
+"POT-Creation-Date: 2013-03-23 00:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,28 +27,28 @@ msgid "New Status"
 msgstr ""
 
 #: ../../src/Birdie.vala:142 ../../src/Birdie.vala:143
-#: ../../src/Birdie.vala:306
+#: ../../src/Birdie.vala:307
 msgid "Home"
 msgstr ""
 
 #: ../../src/Birdie.vala:150 ../../src/Birdie.vala:151
-#: ../../src/Birdie.vala:307 ../../src/Utils/Indicator.vala:32
+#: ../../src/Birdie.vala:308 ../../src/Utils/Indicator.vala:32
 #: ../../src/Utils/Launcher.vala:37
 msgid "Mentions"
 msgstr ""
 
 #: ../../src/Birdie.vala:158 ../../src/Birdie.vala:159
-#: ../../src/Birdie.vala:308 ../../src/Utils/Indicator.vala:33
+#: ../../src/Birdie.vala:309 ../../src/Utils/Indicator.vala:33
 msgid "Direct Messages"
 msgstr ""
 
 #: ../../src/Birdie.vala:166 ../../src/Birdie.vala:167
-#: ../../src/Birdie.vala:309 ../../src/Utils/Launcher.vala:43
+#: ../../src/Birdie.vala:310 ../../src/Utils/Launcher.vala:43
 msgid "Profile"
 msgstr ""
 
 #: ../../src/Birdie.vala:174 ../../src/Birdie.vala:175
-#: ../../src/Birdie.vala:311
+#: ../../src/Birdie.vala:312
 msgid "Search"
 msgstr ""
 
@@ -104,23 +104,23 @@ msgstr ""
 msgid "Favorites"
 msgstr ""
 
-#: ../../src/Birdie.vala:303
+#: ../../src/Birdie.vala:304
 msgid "Loading"
 msgstr ""
 
-#: ../../src/Birdie.vala:304 ../../src/Birdie.vala:305
+#: ../../src/Birdie.vala:305 ../../src/Birdie.vala:306
 msgid "Welcome"
 msgstr ""
 
-#: ../../src/Birdie.vala:310
+#: ../../src/Birdie.vala:311
 msgid "User"
 msgstr ""
 
-#: ../../src/Birdie.vala:311 ../../src/Birdie.vala:312
+#: ../../src/Birdie.vala:312 ../../src/Birdie.vala:313
 msgid "In development"
 msgstr ""
 
-#: ../../src/Birdie.vala:312
+#: ../../src/Birdie.vala:313
 msgid "Search Results"
 msgstr ""
 
@@ -128,7 +128,7 @@ msgstr ""
 msgid "Twitter client for elementary OS"
 msgstr ""
 
-#: ../../src/Widgets/TweetBox.vala:143 ../../src/Widgets/TweetBox.vala:219
+#: ../../src/Widgets/TweetBox.vala:143 ../../src/Widgets/TweetBox.vala:325
 msgid "Favorite"
 msgstr ""
 
@@ -148,21 +148,21 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: ../../src/Widgets/TweetBox.vala:235
+#: ../../src/Widgets/TweetBox.vala:322
 msgid "Unfavorite"
 msgstr ""
 
-#: ../../src/Widgets/TweetBox.vala:318
+#: ../../src/Widgets/TweetBox.vala:330
 #, c-format
 msgid "retweeted by @%s"
 msgstr ""
 
-#: ../../src/Widgets/TweetBox.vala:326
+#: ../../src/Widgets/TweetBox.vala:338
 #, c-format
 msgid "repeated by @%s"
 msgstr ""
 
-#: ../../src/Widgets/TweetBox.vala:338
+#: ../../src/Widgets/TweetBox.vala:350
 #, c-format
 msgid "in reply to @%s"
 msgstr ""
@@ -181,6 +181,18 @@ msgstr ""
 
 #: ../../src/Widgets/TweetDialog.vala:92
 msgid "New status"
+msgstr ""
+
+#: ../../src/Widgets/UserBox.vala:75
+msgid "TWEETS"
+msgstr ""
+
+#: ../../src/Widgets/UserBox.vala:77
+msgid "FOLLOWING"
+msgstr ""
+
+#: ../../src/Widgets/UserBox.vala:79
+msgid "FOLLOWERS"
 msgstr ""
 
 #: ../../src/Utils/Date.vala:49
