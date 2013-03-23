@@ -364,7 +364,7 @@ namespace Birdie {
 
                 this.home_timeline_since_id.reverse ();
                 this.home_timeline_since_id.foreach ((tweet) => {
-                    if (int64.parse (tweet.id) > int64.parse (this.since_id_home)) {
+                    if (int64.parse (tweet.id) > int64.parse (this.since_id_home) || tweet.retweeted_by != "") {
                         this.home_timeline.append(tweet);
                     } else {
                         this.home_timeline_since_id.remove (tweet);
@@ -410,7 +410,7 @@ namespace Birdie {
 
                 this.mentions_timeline_since_id.reverse ();
                 this.mentions_timeline_since_id.foreach ((tweet) => {
-                    if (int64.parse (tweet.id) > int64.parse (this.since_id_mentions)) {
+                    if (int64.parse (tweet.id) > int64.parse (this.since_id_mentions) || tweet.retweeted_by != "") {
                         this.mentions_timeline.append(tweet);
                     } else {
                         this.mentions_timeline_since_id.remove (tweet);
@@ -467,7 +467,7 @@ namespace Birdie {
 
 				this.dm_timeline_since_id.reverse ();
                 this.dm_timeline_since_id.foreach ((tweet) => {
-                    if (int64.parse (tweet.id) > int64.parse (this.since_id_dm)) {
+                    if (int64.parse (tweet.id) > int64.parse (this.since_id_dm) || tweet.retweeted_by != "") {
                         this.dm_timeline.append(tweet);
                     } else {
                         this.dm_timeline_since_id.remove (tweet);
