@@ -339,14 +339,35 @@ namespace Birdie {
 		        File file = File.new_for_path (css_dir);
 		        File child = file.get_child ("birdie.css");
 
-		        try
-		        {
-			        d_provider.load_from_file (child);
-		        }
-		        catch (GLib.Error error)
-		        {
-			        stderr.printf("Could not load css for birdie: %s", error.message);
-		        }
+                bool elementary = false;
+
+                var lsb = File.new_for_path ("/etc/lsb-release");
+
+                if (lsb.query_exists ()) {
+                    try {
+                        var dis = new DataInputStream (lsb.read ());
+                        string line;
+                        while ((line = dis.read_line (null)) != null) {
+                            if ("elementary" in line) {
+                                elementary = true;
+                            }
+                        }
+                    } catch (Error e) {
+                        error ("%s", e.message);
+                    }
+
+                }
+
+                if (elementary) {
+		            try
+		            {
+			            d_provider.load_from_file (child);
+		            }
+		            catch (GLib.Error error)
+		            {
+			            stderr.printf("Could not load css for birdie: %s", error.message);
+		            }
+                }
 
 		        Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default(), d_provider, 600);
                 Gtk.StyleContext ctx = m_window.get_style_context();
