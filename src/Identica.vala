@@ -364,11 +364,7 @@ namespace Birdie {
 
                 this.home_timeline_since_id.reverse ();
                 this.home_timeline_since_id.foreach ((tweet) => {
-                    if (int64.parse (tweet.id) > int64.parse (this.since_id_home) || tweet.retweeted_by != "") {
-                        this.home_timeline.append(tweet);
-                    } else {
-                        this.home_timeline_since_id.remove (tweet);
-                    }
+                    this.home_timeline.append(tweet);
                     this.since_id_home = tweet.id;
 	            });
 
@@ -382,11 +378,14 @@ namespace Birdie {
         public override int get_mentions_timeline (string count = "20") {
             // setup call
             Rest.ProxyCall call = proxy.new_call();
+            int64 tmp = 0;
             call.set_function ("statuses/mentions.json");
             call.set_method ("GET");
             call.add_param ("count", count);
             if (this.since_id_mentions != "")
-                call.add_param ("since_id", this.since_id_mentions);
+                tmp = int.parse (this.since_id_mentions);
+                tmp = tmp + 1;
+                call.add_param ("since_id", tmp.to_string ());
             try { call.sync (); } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
                 return 1;
@@ -410,11 +409,7 @@ namespace Birdie {
 
                 this.mentions_timeline_since_id.reverse ();
                 this.mentions_timeline_since_id.foreach ((tweet) => {
-                    if (int64.parse (tweet.id) > int64.parse (this.since_id_mentions) || tweet.retweeted_by != "") {
-                        this.mentions_timeline.append(tweet);
-                    } else {
-                        this.mentions_timeline_since_id.remove (tweet);
-                    }
+                    this.mentions_timeline.append(tweet);
                     this.since_id_mentions = tweet.id;
 	            });
 
@@ -452,7 +447,7 @@ namespace Birdie {
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
                     var tweetobject = tweetnode.get_object();
 
-                    var id = tweetobject.get_string_member ("id_str");
+                    var id = tweetobject.get_int_member ("id").to_string ();
 			        var user_name = tweetobject.get_object_member ("sender").get_string_member ("name");
 			        var user_screen_name = tweetobject.get_object_member ("sender").get_string_member ("screen_name");
 			        var text = highligh_links(tweetobject.get_string_member ("text"));
@@ -467,11 +462,7 @@ namespace Birdie {
 
 				this.dm_timeline_since_id.reverse ();
                 this.dm_timeline_since_id.foreach ((tweet) => {
-                    if (int64.parse (tweet.id) > int64.parse (this.since_id_dm) || tweet.retweeted_by != "") {
-                        this.dm_timeline.append(tweet);
-                    } else {
-                        this.dm_timeline_since_id.remove (tweet);
-                    }
+                    this.dm_timeline.append(tweet);
                     this.since_id_dm = tweet.id;
 	            });
 
@@ -502,7 +493,7 @@ namespace Birdie {
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
                     var tweetobject = tweetnode.get_object();
 
-                    var id = tweetobject.get_string_member ("id_str");
+                    var id = tweetobject.get_int_member ("id").to_string ();
 			        var user_name = tweetobject.get_object_member ("sender").get_string_member ("name");
 			        var user_screen_name = tweetobject.get_object_member ("recipient").get_string_member ("screen_name");
 			        var text = highligh_links(tweetobject.get_string_member ("text"));
@@ -560,7 +551,7 @@ namespace Birdie {
 
         public override int get_favorites (string count = "20") {
             Rest.ProxyCall call = proxy.new_call();
-            call.set_function ("1.1/favorites/list.json");
+            call.set_function ("favorites/%s.json".printf(this.account.screen_name));
             call.set_method ("GET");
             call.add_param ("count", count);
             call.add_param ("user_id", this.account.id);

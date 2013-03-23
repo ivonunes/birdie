@@ -63,6 +63,8 @@ namespace Birdie.Widgets {
             this.username_label.margin_bottom = 6;
 
             string user_url;
+            string tweets_txt;
+
             if (birdie.service == 0)
                 user_url = "https://twitter.com/";
             else
@@ -71,8 +73,14 @@ namespace Birdie.Widgets {
             this.content_box.pack_start (this.username_label, false, true, 0);
 
             // user info
+
+            if (this.birdie.service == 0)
+                tweets_txt = _("TWEETS");
+            else
+                tweets_txt = _("STATUSES");
+
             string description_txt = user.desc +
-                "\n\n<span size='small' color='#666666'>" + _("TWEETS") +
+                "\n\n<span size='small' color='#666666'>" + tweets_txt +
                 " </span><span size='small' font_weight='bold'>" + user.statuses_count.to_string() + "</span>" +
                 "<span size='small' color='#666666'> " + _("FOLLOWING") +
                 " </span><span size='small' font_weight='bold'>" + user.friends_count.to_string() + "</span>" +

@@ -82,6 +82,12 @@ namespace Birdie.Widgets {
             if ("&" in tweet.user_name)
                 tweet.user_name = tweet.user_name.replace ("&", "&amp;");
 
+            if ("< " in tweet.text)
+                tweet.text = tweet.text.replace ("< ", "&lt;");
+
+            if (" >" in tweet.text)
+                tweet.text = tweet.text.replace (" >", "&gt;");
+
             // user label
             this.username_label = new Gtk.Label (tweet.user_name);
             this.username_label.set_halign (Gtk.Align.START);
