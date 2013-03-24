@@ -606,7 +606,6 @@ namespace Birdie {
                         this.home_list.set_selectable (false);
                         this.notebook.page = 3;
                         this.home_list.set_selectable (true);
-                        this.
                         break;
                     case "mentions":
                         this.mentions_list.set_selectable (false);
