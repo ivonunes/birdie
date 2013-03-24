@@ -60,7 +60,7 @@ namespace Birdie.Widgets {
                 return false;
             });
         }
-
+        
         public new void remove (Tweet tweet) {
             this.boxes.foreach ((box) => {
                 if (box.tweet == tweet) {
@@ -71,6 +71,7 @@ namespace Birdie.Widgets {
                         this.boxes.remove (box);
                         box.destroy();
                         separator.destroy();
+                        this.count--;
                         return false;
                     });
                 }

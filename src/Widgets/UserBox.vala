@@ -200,8 +200,6 @@ namespace Birdie.Widgets {
 			this.unblock_button.get_style_context().add_class ("affirmative");
 			//
 
-            //this.set_size_request (-1, 200);
-
             this.show_all ();
             
             this.hide_buttons ();
