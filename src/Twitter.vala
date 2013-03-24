@@ -332,9 +332,6 @@ namespace Birdie {
             if ("\n" in text)
                 text = text.replace ("\n", " ");
 
-            if ("&" in text)
-                text = text.replace ("&", "&amp;");
-
             try {
                 urls = new Regex("((http|https|ftp)://([\\S]+))");
                 text = urls.replace(text, -1, 0, "<span underline='none'><a href='\\0'>\\0</a></span>");
