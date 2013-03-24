@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-24 03:54+0000\n"
+"POT-Creation-Date: 2013-03-24 14:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,110 +17,114 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../src/Birdie.vala:143 ../../src/Utils/Indicator.vala:50
+#: ../../src/Birdie.vala:148 ../../src/Utils/Indicator.vala:50
 #: ../../src/Utils/Launcher.vala:41
 msgid "New Tweet"
 msgstr ""
 
-#: ../../src/Birdie.vala:146
+#: ../../src/Birdie.vala:151
 msgid "New Status"
 msgstr ""
 
-#: ../../src/Birdie.vala:171 ../../src/Birdie.vala:172
-#: ../../src/Birdie.vala:345
+#: ../../src/Birdie.vala:176 ../../src/Birdie.vala:177
+#: ../../src/Birdie.vala:390
 msgid "Home"
 msgstr ""
 
-#: ../../src/Birdie.vala:179 ../../src/Birdie.vala:180
-#: ../../src/Birdie.vala:346 ../../src/Utils/Indicator.vala:48
+#: ../../src/Birdie.vala:184 ../../src/Birdie.vala:185
+#: ../../src/Birdie.vala:391 ../../src/Utils/Indicator.vala:48
 #: ../../src/Utils/Launcher.vala:53
 msgid "Mentions"
 msgstr ""
 
-#: ../../src/Birdie.vala:187 ../../src/Birdie.vala:188
-#: ../../src/Birdie.vala:347 ../../src/Utils/Indicator.vala:49
+#: ../../src/Birdie.vala:192 ../../src/Birdie.vala:193
+#: ../../src/Birdie.vala:392 ../../src/Utils/Indicator.vala:49
 msgid "Direct Messages"
 msgstr ""
 
-#: ../../src/Birdie.vala:195 ../../src/Birdie.vala:196
-#: ../../src/Birdie.vala:348 ../../src/Utils/Launcher.vala:65
+#: ../../src/Birdie.vala:200 ../../src/Birdie.vala:201
+#: ../../src/Birdie.vala:393 ../../src/Utils/Launcher.vala:65
 msgid "Profile"
 msgstr ""
 
-#: ../../src/Birdie.vala:203 ../../src/Birdie.vala:204
-#: ../../src/Birdie.vala:350
+#: ../../src/Birdie.vala:208 ../../src/Birdie.vala:209
+#: ../../src/Birdie.vala:395
 msgid "Search"
 msgstr ""
 
-#: ../../src/Birdie.vala:217
+#: ../../src/Birdie.vala:222
+msgid "Remove account"
+msgstr ""
+
+#: ../../src/Birdie.vala:263
 msgid "About"
 msgstr ""
 
-#: ../../src/Birdie.vala:221
+#: ../../src/Birdie.vala:267
 msgid "Quit"
 msgstr ""
 
-#: ../../src/Birdie.vala:237
+#: ../../src/Birdie.vala:285
 msgid "Menu"
 msgstr ""
 
-#: ../../src/Birdie.vala:267
+#: ../../src/Birdie.vala:315
 msgid "Birdie"
 msgstr ""
 
-#: ../../src/Birdie.vala:267 ../../src/config.vala:24
+#: ../../src/Birdie.vala:315 ../../src/config.vala:24
 msgid "Twitter Client"
 msgstr ""
 
-#: ../../src/Birdie.vala:268
+#: ../../src/Birdie.vala:316
 msgid "Add account"
 msgstr ""
 
-#: ../../src/Birdie.vala:268
+#: ../../src/Birdie.vala:316
 msgid "Add a Twitter account"
 msgstr ""
 
-#: ../../src/Birdie.vala:274
+#: ../../src/Birdie.vala:322
 msgid "Received"
 msgstr ""
 
-#: ../../src/Birdie.vala:275
+#: ../../src/Birdie.vala:323
 msgid "Sent"
 msgstr ""
 
-#: ../../src/Birdie.vala:296
+#: ../../src/Birdie.vala:344
 msgid "OK"
 msgstr ""
 
-#: ../../src/Birdie.vala:307
+#: ../../src/Birdie.vala:355
 msgid "Please insert your PIN below:"
 msgstr ""
 
-#: ../../src/Birdie.vala:326 ../../src/Birdie.vala:333
+#: ../../src/Birdie.vala:371 ../../src/Birdie.vala:378
 msgid "Timeline"
 msgstr ""
 
-#: ../../src/Birdie.vala:327
+#: ../../src/Birdie.vala:372
 msgid "Favorites"
 msgstr ""
 
-#: ../../src/Birdie.vala:342
+#: ../../src/Birdie.vala:387
 msgid "Loading"
 msgstr ""
 
-#: ../../src/Birdie.vala:343 ../../src/Birdie.vala:344
+#: ../../src/Birdie.vala:388 ../../src/Birdie.vala:389
 msgid "Welcome"
 msgstr ""
 
-#: ../../src/Birdie.vala:349
+#: ../../src/Birdie.vala:394
 msgid "User"
 msgstr ""
 
-#: ../../src/Birdie.vala:350 ../../src/Birdie.vala:351
+#: ../../src/Birdie.vala:395 ../../src/Birdie.vala:396
 msgid "In development"
 msgstr ""
 
-#: ../../src/Birdie.vala:351
+#: ../../src/Birdie.vala:396
 msgid "Search Results"
 msgstr ""
 
