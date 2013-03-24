@@ -254,9 +254,9 @@ namespace Birdie.Widgets {
             string followed_by;
             
             if (friendship.index (2) == "true") {
-                followed_by = _("Not following you.");
-            } else {
                 followed_by = _("Following you.");
+            } else {
+                followed_by = _("Not following you.");
             }
             
             string description_txt = user.desc + "\n\n<span size='small' color='#666666'>" + followed_by + "</span>" +
