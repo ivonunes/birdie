@@ -117,6 +117,7 @@ namespace Birdie.Widgets {
             this.tweet_label.set_markup (tweet.text);
             this.tweet_label.set_selectable (true);
             this.tweet_label.set_line_wrap (true);
+            this.tweet_label.wrap_mode = Pango.WrapMode.WORD_CHAR;
             this.tweet_label.set_halign (Gtk.Align.START);
             this.tweet_label.xalign = 0;
             this.content_box.pack_start (this.tweet_label, false, true, 0);
@@ -221,7 +222,7 @@ namespace Birdie.Widgets {
 		        });
                 this.buttons_box.pack_start (delete_button, false, true, 0);
 		    }
-            this.set_size_request (-1, 110);
+            this.set_size_request (-1, 150);
         }
 
         private void* favorite_thread () {
