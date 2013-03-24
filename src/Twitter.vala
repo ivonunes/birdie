@@ -737,7 +737,6 @@ namespace Birdie {
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
                     var tweet = this.get_tweet (tweetnode);
 			        user_timeline.append (tweet);
-			        
 			        this.get_user (tweetnode);
                 }
 

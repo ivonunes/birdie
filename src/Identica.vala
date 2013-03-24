@@ -236,6 +236,38 @@ namespace Birdie {
             return 0;
         }
 
+ 		public void get_user (Json.Node tweetnode) {
+            var tweetobject = tweetnode.get_object();
+
+            var id = tweetobject.get_object_member ("user").get_int_member ("id").to_string ();
+            var name = tweetobject.get_object_member ("user").get_string_member ("name");
+			var screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
+			var profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
+		    var profile_image_file = get_avatar (profile_image_url);
+		    
+		    string location = "";
+		    string description = "";
+		    
+		    if (tweetobject.get_object_member ("user").has_member("location") &&
+			     tweetobject.get_object_member ("user").get_string_member ("location") != null) {
+                location = tweetobject.get_object_member ("user").get_string_member ("location");
+            }
+            
+            if (tweetobject.get_object_member ("user").has_member("description") &&
+			     tweetobject.get_object_member ("user").get_string_member ("description") != null) {
+                description = tweetobject.get_object_member ("user").get_string_member ("description");
+            }
+            
+            int64 friends_count = tweetobject.get_object_member ("user").get_int_member ("friends_count");
+            int64 followers_count = tweetobject.get_object_member ("user").get_int_member ("followers_count");
+            int64 statuses_count = tweetobject.get_object_member ("user").get_int_member ("statuses_count");
+			        
+			this.user = new User (id, name, screen_name,
+                profile_image_url, profile_image_file, location, description,
+                friends_count, followers_count, statuses_count
+            );
+        }
+
         public override string get_avatar (string profile_image_url) {
             var profile_image_file = profile_image_url;
 
@@ -307,10 +339,10 @@ namespace Birdie {
             try {
                 urls = new Regex("((http|https|ftp)://([\\S]+))");
                 text = urls.replace(text, -1, 0, "<span underline='none'><a href='\\0'>\\0</a></span>");
-                urls = new Regex("([@#][a-zA-Z0-9_]+)");
-                text = urls.replace(text, -1, 0, "<span underline='none'><a href='https://identi.ca/tag/\\0'>\\0</a></span>");
-                if ("tag/#" in text)
-                    text = text.replace ("tag/#", "tag/");
+                urls = new Regex("([#][a-zA-Z0-9_]+)");
+                text = urls.replace(text, -1, 0, "<span underline='none'><a href='https://twitter.com/\\0'>\\0</a></span>");
+                urls = new Regex("([@][a-zA-Z0-9_]+)");
+                text = urls.replace(text, -1, 0, "<span underline='none'><a href='birdie://user/\\0'>\\0</a></span>");
             } catch (RegexError e) {
                 warning ("regex error: %s", e.message);
             }
@@ -354,7 +386,6 @@ namespace Birdie {
             call.set_function ("statuses/home_timeline.json");
             call.set_method ("GET");
             call.add_param ("count", count);
-
             if (this.since_id_home != "")
                 call.add_param ("since_id", this.since_id_home);
             try { call.sync (); } catch (Error e) {
@@ -594,7 +625,7 @@ namespace Birdie {
 
                 favorites.reverse ();
             } catch (Error e) {
-                stderr.printf ("Unable to parse user_timeline.json\n");
+                stderr.printf ("Unable to parse favorites.json\n");
             }
             return 0;
         }
@@ -607,7 +638,7 @@ namespace Birdie {
             bool followed = false;
             
             Rest.ProxyCall call = proxy.new_call();
-            call.set_function ("1.1/friendships/show.json");
+            call.set_function ("friendships/show.json");
             call.set_method ("GET");
             call.add_param ("source_screen_name", source_user);
             call.add_param ("target_screen_name", target_user);
@@ -640,7 +671,7 @@ namespace Birdie {
         
         public override int create_friendship (string screen_name) {
             Rest.ProxyCall call = proxy.new_call();
-            call.set_function ("1.1/friendships/create.json");
+            call.set_function ("friendships/create.json");
             call.set_method ("POST");
             call.add_param ("screen_name", screen_name);
             try { call.sync (); } catch (Error e) {
@@ -652,7 +683,7 @@ namespace Birdie {
         
         public override int create_block (string screen_name) {
             Rest.ProxyCall call = proxy.new_call();
-            call.set_function ("1.1/blocks/create.json");
+            call.set_function ("blocks/create.json");
             call.set_method ("POST");
             call.add_param ("screen_name", screen_name);
             try { call.sync (); } catch (Error e) {
@@ -664,7 +695,7 @@ namespace Birdie {
         
         public override int destroy_block (string screen_name) {
             Rest.ProxyCall call = proxy.new_call();
-            call.set_function ("1.1/blocks/destroy.json");
+            call.set_function ("blocks/destroy.json");
             call.set_method ("POST");
             call.add_param ("screen_name", screen_name);
             try { call.sync (); } catch (Error e) {
@@ -676,7 +707,7 @@ namespace Birdie {
         
         public override int destroy_friendship (string screen_name) {
             Rest.ProxyCall call = proxy.new_call();
-            call.set_function ("1.1/friendships/destroy.json");
+            call.set_function ("friendships/destroy.json");
             call.set_method ("POST");
             call.add_param ("screen_name", screen_name);
             try { call.sync (); } catch (Error e) {
@@ -686,12 +717,12 @@ namespace Birdie {
             return 0;
         }
 
-        public override int get_user_timeline (string user_id, string count = "20") {
+        public override int get_user_timeline (string screen_name, string count = "20") {
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("statuses/user_timeline.json");
             call.set_method ("GET");
             call.add_param ("count", count);
-            call.add_param ("user_id", user_id);
+            call.add_param ("screen_name", screen_name);
             try { call.sync (); } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
                 return 1;
@@ -710,6 +741,7 @@ namespace Birdie {
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
                     var tweet = this.get_tweet (tweetnode);
 			        user_timeline.append (tweet);
+					this.get_user (tweetnode);
                 }
 
                 user_timeline.reverse ();
