@@ -349,6 +349,7 @@ namespace Birdie {
         public override Tweet get_tweet (Json.Node tweetnode) {
             var tweetobject = tweetnode.get_object();
 
+            var actual_id = tweetobject.get_string_member ("id_str");
             var retweet = tweetobject.get_member ("retweeted_status");
             string retweeted_by = "";
 
@@ -373,7 +374,7 @@ namespace Birdie {
 			    in_reply_to_screen_name = "";
 			}
 
-			return new Tweet (id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited, false, in_reply_to_screen_name, retweeted_by);
+			return new Tweet (id, actual_id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited, false, in_reply_to_screen_name, retweeted_by);
         }
 
         public override int get_home_timeline (string count = "20") {
@@ -408,7 +409,7 @@ namespace Birdie {
                 this.home_timeline_since_id.reverse ();
                 this.home_timeline_since_id.foreach ((tweet) => {
                     this.home_timeline.append(tweet);
-                    this.since_id_home = tweet.id;
+                    this.since_id_home = tweet.actual_id;
 	            });
 
             } catch (Error e) {
@@ -450,7 +451,7 @@ namespace Birdie {
                 this.mentions_timeline_since_id.reverse ();
                 this.mentions_timeline_since_id.foreach ((tweet) => {
                     this.mentions_timeline.append(tweet);
-                    this.since_id_mentions = tweet.id;
+                    this.since_id_mentions = tweet.actual_id;
 	            });
 
             } catch (Error e) {
@@ -495,7 +496,7 @@ namespace Birdie {
 			        var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
 			        var profile_image_file = get_avatar (profile_image_url);
 
-			        var tweet = new Tweet (id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, false, false, true);
+			        var tweet = new Tweet (id, id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, false, false, true);
 
 			        dm_timeline_since_id.append (tweet);
                 }
@@ -503,7 +504,7 @@ namespace Birdie {
                 this.dm_timeline_since_id.reverse ();
                 this.dm_timeline_since_id.foreach ((tweet) => {
                     this.dm_timeline.append(tweet);
-                    this.since_id_dm = tweet.id;
+                    this.since_id_dm = tweet.actual_id;
 	            });
 
             } catch (Error e) {
@@ -541,7 +542,7 @@ namespace Birdie {
 			        var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
 			        var profile_image_file = get_avatar (profile_image_url);
 
-			        var tweet = new Tweet (id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, false, false, true);
+			        var tweet = new Tweet (id, id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, false, false, true);
 
 			        dm_sent_timeline.append (tweet);
                 }

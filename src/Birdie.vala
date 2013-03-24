@@ -767,7 +767,7 @@ namespace Birdie {
                 if (user == "")
                     user = this.api.account.screen_name;
 
-                Tweet tweet_tmp = new Tweet (code.to_string (), this.api.account.name, user, text_url, "", this.api.account.profile_image_url, this.api.account.profile_image_file, false, false, dm);
+                Tweet tweet_tmp = new Tweet (code.to_string (), code.to_string (), this.api.account.name, user, text_url, "", this.api.account.profile_image_url, this.api.account.profile_image_file, false, false, dm);
 
                 if (dm) {
                     this.dm_sent_list.append (tweet_tmp, this);

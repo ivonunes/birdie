@@ -17,6 +17,7 @@
 namespace Birdie {
     public class Tweet {
         public string id;
+        public string actual_id;
         public string user_name;
         public string user_screen_name;
         public string text;
@@ -29,8 +30,9 @@ namespace Birdie {
         public bool favorited;
         public bool dm;
 
-        public Tweet (string id = "", string user_name = "", string user_screen_name = "", string text = "", string created_at = "", string profile_image_url = "", string profile_image_file = "", bool retweeted = false, bool favorited = false, bool dm = false, string in_reply_to_screen_name = "", string retweeted_by = "") {
+        public Tweet (string id = "", string actual_id = "", string user_name = "", string user_screen_name = "", string text = "", string created_at = "", string profile_image_url = "", string profile_image_file = "", bool retweeted = false, bool favorited = false, bool dm = false, string in_reply_to_screen_name = "", string retweeted_by = "") {
             this.id = id;
+            this.actual_id = actual_id;
             this.user_name = user_name;
             this.user_screen_name = user_screen_name;
             this.text = text;
