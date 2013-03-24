@@ -62,7 +62,8 @@ namespace Birdie.Widgets {
             
             css = new Gtk.CssProvider ();
             try {
-                css.load_from_data (CSS, -1);
+                if (!legacy)
+                    css.load_from_data (CSS, -1);
             } catch (Error e) { warning (e.message); }
      
             toolbar = new Gtk.Toolbar ();
