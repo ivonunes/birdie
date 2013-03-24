@@ -25,6 +25,8 @@ namespace Birdie {
         public Widgets.TweetList favorites;
         public Widgets.TweetList user_list;
 
+        private Gtk.MenuItem account_appmenu;
+
         private Gtk.ToolButton new_tweet;
         private Gtk.ToolButton home;
         private Gtk.ToolButton mentions;
@@ -217,7 +219,7 @@ namespace Birdie {
                 this.m_window.add_bar (left_sep);
 
                 var menu = new Gtk.Menu ();
-                var account_appmenu = new Gtk.MenuItem.with_label (_("Remove account"));
+                this.account_appmenu = new Gtk.MenuItem.with_label (_("Remove account"));
                 account_appmenu.activate.connect (() => {
                     this.new_tweet.set_sensitive (false);
                     this.home.set_sensitive (false);
@@ -225,6 +227,7 @@ namespace Birdie {
                     this.dm.set_sensitive (false);
                     this.profile.set_sensitive (false);
                     this.search.set_sensitive (false);
+                    this.account_appmenu.set_sensitive (false);
 
                     this.settings.set_string ("token", "");
                     this.settings.set_string ("token-secret", "");
@@ -256,6 +259,7 @@ namespace Birdie {
                     init_api ();
                     this.switch_timeline ("welcome");
                 });
+                this.account_appmenu.set_sensitive (false);
                 var about_appmenu = new Gtk.MenuItem.with_label (_("About"));
                 about_appmenu.activate.connect (() => {
                     show_about (this.m_window);
@@ -574,6 +578,7 @@ namespace Birdie {
             this.dm.set_sensitive (true);
             this.profile.set_sensitive (true);
             //this.search.set_sensitive (true);
+            this.account_appmenu.set_sensitive (true);
 
             return null;
         }
