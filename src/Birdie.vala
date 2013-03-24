@@ -83,6 +83,8 @@ namespace Birdie {
         
         private string user;
 
+        private bool initialized;
+
         construct {
             program_name        = "Birdie";
             exec_name           = "birdie";
@@ -105,6 +107,7 @@ namespace Birdie {
         
         public Birdie () {
             set_flags (ApplicationFlags.HANDLES_OPEN);
+            this.initialized = false;
         }
 
         public override void activate (){
@@ -214,6 +217,45 @@ namespace Birdie {
                 this.m_window.add_bar (left_sep);
 
                 var menu = new Gtk.Menu ();
+                var account_appmenu = new Gtk.MenuItem.with_label (_("Remove account"));
+                account_appmenu.activate.connect (() => {
+                    this.new_tweet.set_sensitive (false);
+                    this.home.set_sensitive (false);
+                    this.mentions.set_sensitive (false);
+                    this.dm.set_sensitive (false);
+                    this.profile.set_sensitive (false);
+                    this.search.set_sensitive (false);
+
+                    this.settings.set_string ("token", "");
+                    this.settings.set_string ("token-secret", "");
+
+                    this.api.home_timeline.foreach ((tweet) => {
+                        this.home_list.remove (tweet);
+	                });
+
+	                this.api.mentions_timeline.foreach ((tweet) => {
+                        this.mentions_list.remove (tweet);
+	                });
+
+	                this.api.dm_timeline.foreach ((tweet) => {
+                        this.dm_list.remove (tweet);
+	                });
+
+	                this.api.dm_sent_timeline.foreach ((tweet) => {
+                        this.dm_sent_list.remove (tweet);
+	                });
+
+	                this.api.own_timeline.foreach ((tweet) => {
+                        this.own_list.remove (tweet);
+	                });
+
+	                this.api.favorites.foreach ((tweet) => {
+                        this.favorites.remove (tweet);
+	                });
+
+                    init_api ();
+                    this.switch_timeline ("welcome");
+                });
                 var about_appmenu = new Gtk.MenuItem.with_label (_("About"));
                 about_appmenu.activate.connect (() => {
                     show_about (this.m_window);
@@ -232,6 +274,8 @@ namespace Birdie {
 
                     m_window.destroy ();
                 });
+                menu.add (account_appmenu);
+                menu.add (new Gtk.SeparatorMenuItem ());
                 menu.add (about_appmenu);
                 menu.add (quit_appmenu);
                 var appmenu = new Granite.Widgets.ToolButtonWithMenu (new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU), _("Menu"), menu);
@@ -311,10 +355,7 @@ namespace Birdie {
                 pin_box.pack_start (pin_button_box, false, false, 0);
                 pin_box.pack_start (new Gtk.Label (""), true, true, 0);
 
-                if (this.service == 0)
-                    this.api = new Twitter ();
-                else
-                    this.api = new Identica ();
+                this.init_api ();
 
                 this.own_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
                 this.own_box_info = new Widgets.UserBox ();
@@ -504,8 +545,18 @@ namespace Birdie {
 	        });
 
             Idle.add (() => {
-                this.own_box_info.init (this.api.account, this);
-                this.user_box_info.init (this.api.account, this);
+                if (this.initialized) {
+                    this.own_box_info.update (this.api.account);
+                    this.user_box_info.update (this.api.account);
+
+                    this.own_box_info.hide_buttons ();
+                } else {
+                    this.own_box_info.init (this.api.account, this);
+                    this.user_box_info.init (this.api.account, this);
+                }
+                
+                this.initialized = true;
+
                 return false;
             });
 
@@ -525,6 +576,13 @@ namespace Birdie {
             //this.search.set_sensitive (true);
 
             return null;
+        }
+
+        private void init_api () {
+            if (this.service == 0)
+                this.api = new Twitter ();
+            else
+                this.api = new Identica ();
         }
 
         public void switch_timeline (string new_timeline) {

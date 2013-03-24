@@ -271,7 +271,7 @@ namespace Birdie.Widgets {
             
         }
         
-        private void hide_buttons () {
+        public void hide_buttons () {
             this.follow_button.hide ();
             this.unfollow_button.hide ();
             this.block_button.hide ();
