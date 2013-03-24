@@ -55,16 +55,16 @@ namespace Birdie.Utils {
             ql.child_append (mentions);
             launcher.quicklist = ql;
             
-            // profile timeline
-            profile.property_set (Dbusmenu.MENUITEM_PROP_LABEL, _("Profile"));
-            profile.property_set_bool (Dbusmenu.MENUITEM_PROP_VISIBLE, true);
-            ql.child_append (profile);
-            launcher.quicklist = ql;
-            
             // dm timeline
             dm.property_set (Dbusmenu.MENUITEM_PROP_LABEL, _("Messages"));
             dm.property_set_bool (Dbusmenu.MENUITEM_PROP_VISIBLE, true);
             ql.child_append (dm);
+            launcher.quicklist = ql;
+            
+            // profile timeline
+            profile.property_set (Dbusmenu.MENUITEM_PROP_LABEL, _("Profile"));
+            profile.property_set_bool (Dbusmenu.MENUITEM_PROP_VISIBLE, true);
+            ql.child_append (profile);
             launcher.quicklist = ql;
                   
             // events connections

@@ -67,5 +67,10 @@ namespace Birdie {
         public abstract int get_own_timeline (string count = "20");
         public abstract int get_user_timeline (string user_id, string count = "20");
         public abstract int get_favorites (string count = "20");
+        public abstract Array<string> get_friendship (string source_user, string target_user);
+        public abstract int create_friendship (string screen_name);
+        public abstract int destroy_friendship (string screen_name);
+        public abstract int create_block (string screen_name);
+        public abstract int destroy_block (string screen_name);
     }
 }

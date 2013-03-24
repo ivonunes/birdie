@@ -625,6 +625,93 @@ namespace Birdie {
             }
             return 0;
         }
+        
+        public override Array<string> get_friendship (string source_user, string target_user) {
+            Array<string> friendship = new Array<string> ();
+            
+            bool following = false;
+            bool blocking = false;
+            bool followed = false;
+            
+            Rest.ProxyCall call = proxy.new_call();
+            call.set_function ("1.1/friendships/show.json");
+            call.set_method ("GET");
+            call.add_param ("source_screen_name", source_user);
+            call.add_param ("target_screen_name", target_user);
+
+            try { call.sync (); } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+            }
+
+            try {
+                var parser = new Json.Parser ();
+                parser.load_from_data ((string) call.get_payload (), -1);
+                var root = parser.get_root ();
+                var userobject = root.get_object ();
+                var usermember = userobject.get_object_member ("relationship");
+                
+                following = usermember.get_object_member ("source").get_boolean_member ("following");
+                blocking = usermember.get_object_member ("source").get_boolean_member ("blocking");
+                followed = usermember.get_object_member ("source").get_boolean_member ("followed_by");
+                  
+            } catch (Error e) {
+                stderr.printf ("Unable to parse sent.json\n");
+            }
+            
+            friendship.append_val (following.to_string ());
+            friendship.append_val (blocking.to_string ());      
+            friendship.append_val (followed.to_string ());
+            
+            return friendship;
+        }
+        
+        public override int create_friendship (string screen_name) {
+            Rest.ProxyCall call = proxy.new_call();
+            call.set_function ("1.1/friendships/create.json");
+            call.set_method ("POST");
+            call.add_param ("screen_name", screen_name);
+            try { call.sync (); } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+                return 1;
+            }
+            return 0;
+        }
+        
+        public override int destroy_friendship (string screen_name) {
+            Rest.ProxyCall call = proxy.new_call();
+            call.set_function ("1.1/friendships/destroy.json");
+            call.set_method ("POST");
+            call.add_param ("screen_name", screen_name);
+            try { call.sync (); } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+                return 1;
+            }
+            return 0;
+        }
+        
+        public override int create_block (string screen_name) {
+            Rest.ProxyCall call = proxy.new_call();
+            call.set_function ("1.1/blocks/create.json");
+            call.set_method ("POST");
+            call.add_param ("screen_name", screen_name);
+            try { call.sync (); } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+                return 1;
+            }
+            return 0;
+        }
+        
+        public override int destroy_block (string screen_name) {
+            Rest.ProxyCall call = proxy.new_call();
+            call.set_function ("1.1/blocks/destroy.json");
+            call.set_method ("POST");
+            call.add_param ("screen_name", screen_name);
+            try { call.sync (); } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+                return 1;
+            }
+            return 0;
+        }
 
         public override int get_user_timeline (string screen_name, string count = "20") {
             Rest.ProxyCall call = proxy.new_call();
