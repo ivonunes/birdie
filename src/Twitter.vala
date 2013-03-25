@@ -333,11 +333,11 @@ namespace Birdie {
                 text = text.replace ("\n", " ");
 
             try {
-                urls = new Regex("((http|https|ftp)://([\\S]+))");
+                urls = new Regex("((http|https|ftp)://(([[:alpha:]0-9_]|[/.]|[~])*)\\b)");
                 text = urls.replace(text, -1, 0, "<span underline='none'><a href='\\0'>\\0</a></span>");
-                urls = new Regex("([#][a-zA-Z0-9_]+)");
+                urls = new Regex("([#][[:alpha:]0-9_]+)");
                 text = urls.replace(text, -1, 0, "<span underline='none'><a href='https://twitter.com/\\0'>\\0</a></span>");
-                urls = new Regex("([@][a-zA-Z0-9_]+)");
+                urls = new Regex("([@][[:alpha:]0-9_]+)");
                 text = urls.replace(text, -1, 0, "<span underline='none'><a href='birdie://user/\\0'>\\0</a></span>");
             } catch (RegexError e) {
                 warning ("regex error: %s", e.message);
