@@ -352,9 +352,11 @@ namespace Birdie {
             var actual_id = tweetobject.get_string_member ("id_str");
             var retweet = tweetobject.get_member ("retweeted_status");
             string retweeted_by = "";
+            string retweeted_by_name = "";
 
             if (retweet != null) {
                 retweeted_by = tweetobject.get_object_member ("user").get_string_member ("screen_name");
+                retweeted_by_name = tweetobject.get_object_member ("user").get_string_member ("name");
                 tweetobject = tweetobject.get_object_member ("retweeted_status");
             }
 
@@ -374,7 +376,7 @@ namespace Birdie {
 			    in_reply_to_screen_name = "";
 			}
 
-			return new Tweet (id, actual_id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited, false, in_reply_to_screen_name, retweeted_by);
+			return new Tweet (id, actual_id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited, false, in_reply_to_screen_name, retweeted_by, retweeted_by_name);
         }
 
         public override int get_home_timeline (string count = "20") {
