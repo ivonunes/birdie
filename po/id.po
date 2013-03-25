@@ -1,4 +1,4 @@
-# Polish translation for birdie
+# Indonesian translation for birdie
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
 # This file is distributed under the same license as the birdie package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: birdie\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-03-24 14:21+0000\n"
-"PO-Revision-Date: 2013-03-21 10:40+0000\n"
-"Last-Translator: Adrian Widerski <Unknown>\n"
-"Language-Team: Polish <pl@li.org>\n"
+"PO-Revision-Date: 2013-03-24 15:24+0000\n"
+"Last-Translator: Dani Pratomo <Unknown>\n"
+"Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,27 +20,27 @@ msgstr ""
 #: ../../src/Birdie.vala:148 ../../src/Utils/Indicator.vala:50
 #: ../../src/Utils/Launcher.vala:41
 msgid "New Tweet"
-msgstr "Nowy Tweet"
+msgstr "Tulis Tweet"
 
 #: ../../src/Birdie.vala:151
 msgid "New Status"
-msgstr ""
+msgstr "Update Status"
 
 #: ../../src/Birdie.vala:176 ../../src/Birdie.vala:177
 #: ../../src/Birdie.vala:390
 msgid "Home"
-msgstr "Strona główna"
+msgstr "Beranda"
 
 #: ../../src/Birdie.vala:184 ../../src/Birdie.vala:185
 #: ../../src/Birdie.vala:391 ../../src/Utils/Indicator.vala:48
 #: ../../src/Utils/Launcher.vala:53
 msgid "Mentions"
-msgstr "Wzmianki"
+msgstr "Mention"
 
 #: ../../src/Birdie.vala:192 ../../src/Birdie.vala:193
 #: ../../src/Birdie.vala:392 ../../src/Utils/Indicator.vala:49
 msgid "Direct Messages"
-msgstr "Wiadomości bezpośrednie"
+msgstr "Direct Message"
 
 #: ../../src/Birdie.vala:200 ../../src/Birdie.vala:201
 #: ../../src/Birdie.vala:393 ../../src/Utils/Launcher.vala:65
@@ -50,23 +50,23 @@ msgstr "Profil"
 #: ../../src/Birdie.vala:208 ../../src/Birdie.vala:209
 #: ../../src/Birdie.vala:395
 msgid "Search"
-msgstr "Szukaj"
+msgstr "Cari"
 
 #: ../../src/Birdie.vala:222
 msgid "Remove account"
-msgstr ""
+msgstr "Hapus akun"
 
 #: ../../src/Birdie.vala:263
 msgid "About"
-msgstr ""
+msgstr "Keterangan"
 
 #: ../../src/Birdie.vala:267
 msgid "Quit"
-msgstr ""
+msgstr "Keluar"
 
 #: ../../src/Birdie.vala:285
 msgid "Menu"
-msgstr ""
+msgstr "Menu"
 
 #: ../../src/Birdie.vala:315
 msgid "Birdie"
@@ -74,213 +74,213 @@ msgstr "Birdie"
 
 #: ../../src/Birdie.vala:315 ../../src/config.vala:24
 msgid "Twitter Client"
-msgstr "Klient Twittera"
+msgstr "Aplikasi Twitter"
 
 #: ../../src/Birdie.vala:316
 msgid "Add account"
-msgstr "Dodaj konto"
+msgstr "Tambah akun"
 
 #: ../../src/Birdie.vala:316
 msgid "Add a Twitter account"
-msgstr "Dodaj konto Twittera"
+msgstr "Tambah akun Twitter"
 
 #: ../../src/Birdie.vala:322
 msgid "Received"
-msgstr ""
+msgstr "Diterima"
 
 #: ../../src/Birdie.vala:323
 msgid "Sent"
-msgstr ""
+msgstr "Terkirim"
 
 #: ../../src/Birdie.vala:344
 msgid "OK"
-msgstr "OK"
+msgstr "Oke"
 
 #: ../../src/Birdie.vala:355
 msgid "Please insert your PIN below:"
-msgstr "Wstaw swój PIN poniżej:"
+msgstr "Masukkan PIN kamu di sini:"
 
 #: ../../src/Birdie.vala:371 ../../src/Birdie.vala:378
 msgid "Timeline"
-msgstr ""
+msgstr "Timeline"
 
 #: ../../src/Birdie.vala:372
 msgid "Favorites"
-msgstr ""
+msgstr "Favorit"
 
 #: ../../src/Birdie.vala:387
 msgid "Loading"
-msgstr "Ładowanie"
+msgstr "Memuat"
 
 #: ../../src/Birdie.vala:388 ../../src/Birdie.vala:389
 msgid "Welcome"
-msgstr "Witaj"
+msgstr "Selamat Datang"
 
 #: ../../src/Birdie.vala:394
 msgid "User"
-msgstr "Użytkownik"
+msgstr "User"
 
 #: ../../src/Birdie.vala:395 ../../src/Birdie.vala:396
 msgid "In development"
-msgstr "W trakcie rozwijania"
+msgstr "Sedang dikembangkan"
 
 #: ../../src/Birdie.vala:396
 msgid "Search Results"
-msgstr "Wyniki wyszukiwania"
+msgstr "Hasil Pencarian"
 
 #: ../../src/config.vala:25
 msgid "Twitter client for elementary OS"
-msgstr "Klient Twittera dla elementaryOS"
+msgstr "Aplikasi Twitter untuk elementary OS"
 
 #: ../../src/Widgets/TweetBox.vala:160 ../../src/Widgets/TweetBox.vala:342
 msgid "Favorite"
-msgstr "Ulubione"
+msgstr "Favorit"
 
 #: ../../src/Widgets/TweetBox.vala:181
 msgid "Retweet"
-msgstr "Odpowiedz"
+msgstr "Retweet"
 
 #: ../../src/Widgets/TweetBox.vala:183
 msgid "Repeat"
-msgstr ""
+msgstr "Ulangi"
 
 #: ../../src/Widgets/TweetBox.vala:202
 msgid "Reply"
-msgstr "Odpowiedz"
+msgstr "Balas"
 
 #: ../../src/Widgets/TweetBox.vala:216
 msgid "Delete"
-msgstr "Usuń"
+msgstr "Hapus"
 
 #: ../../src/Widgets/TweetBox.vala:339
 msgid "Unfavorite"
-msgstr "Usuń z ulubionych"
+msgstr "Bukan favorit"
 
 #: ../../src/Widgets/TweetBox.vala:347
 #, c-format
 msgid "retweeted by @%s"
-msgstr ""
+msgstr "di-retweet oleh @%s"
 
 #: ../../src/Widgets/TweetBox.vala:355
 #, c-format
 msgid "repeated by @%s"
-msgstr ""
+msgstr "diulangi oleh @%s"
 
 #: ../../src/Widgets/TweetBox.vala:367
 #, c-format
 msgid "in reply to @%s"
-msgstr ""
+msgstr "balasan ke @%s"
 
 #: ../../src/Widgets/TweetDialog.vala:96
 msgid "Cancel"
-msgstr "Anuluj"
+msgstr "Batal"
 
 #: ../../src/Widgets/TweetDialog.vala:103
 msgid "Send"
-msgstr ""
+msgstr "Kirim"
 
 #: ../../src/Widgets/TweetDialog.vala:106
 msgid "Tweet"
-msgstr "Tweetinij"
+msgstr "Tweet"
 
 #: ../../src/Widgets/TweetDialog.vala:108
 msgid "New status"
-msgstr ""
+msgstr "Update status"
 
 #: ../../src/Widgets/UserBox.vala:102 ../../src/Widgets/UserBox.vala:232
 msgid "TWEETS"
-msgstr ""
+msgstr "TWEET"
 
 #: ../../src/Widgets/UserBox.vala:104 ../../src/Widgets/UserBox.vala:234
 msgid "STATUSES"
-msgstr ""
+msgstr "STATUS"
 
 #: ../../src/Widgets/UserBox.vala:109 ../../src/Widgets/UserBox.vala:265
 msgid "FOLLOWING"
-msgstr ""
+msgstr "FOLLOWING"
 
 #: ../../src/Widgets/UserBox.vala:111 ../../src/Widgets/UserBox.vala:267
 msgid "FOLLOWERS"
-msgstr ""
+msgstr "FOLLOWER"
 
 #: ../../src/Widgets/UserBox.vala:136
 msgid "Follow"
-msgstr ""
+msgstr "Follow"
 
 #: ../../src/Widgets/UserBox.vala:138
 msgid "Follow user"
-msgstr ""
+msgstr "Follow user"
 
 #: ../../src/Widgets/UserBox.vala:146
 msgid "Unfollow"
-msgstr ""
+msgstr "Jangan follow"
 
 #: ../../src/Widgets/UserBox.vala:148
 msgid "Unfollow user"
-msgstr ""
+msgstr "Jangan follow user..."
 
 #: ../../src/Widgets/UserBox.vala:156
 msgid "Block"
-msgstr ""
+msgstr "Blokir"
 
 #: ../../src/Widgets/UserBox.vala:158
 msgid "Block user"
-msgstr ""
+msgstr "Blokir user"
 
 #: ../../src/Widgets/UserBox.vala:166
 msgid "Unblock"
-msgstr ""
+msgstr "Jangan blokir"
 
 #: ../../src/Widgets/UserBox.vala:168
 msgid "Unblock user"
-msgstr ""
+msgstr "Jangan blokir user..."
 
 #: ../../src/Widgets/UserBox.vala:257
 msgid "Following you."
-msgstr ""
+msgstr "Yang follow kamu."
 
 #: ../../src/Widgets/UserBox.vala:259
 msgid "Not following you."
-msgstr ""
+msgstr "Yang nggak follow kamu."
 
 #: ../../src/Utils/Date.vala:65
 #, c-format
 msgid "%d y"
-msgstr "%d r."
+msgstr "%d th"
 
 #: ../../src/Utils/Date.vala:68
 #, c-format
 msgid "%d mo"
-msgstr "%d msc."
+msgstr "%d bln"
 
 #: ../../src/Utils/Date.vala:71
 #, c-format
 msgid "%d w"
-msgstr "%d tyg."
+msgstr "%d mggu"
 
 #: ../../src/Utils/Date.vala:74
 #, c-format
 msgid "%d d"
-msgstr "%d d"
+msgstr "%d hari"
 
 #: ../../src/Utils/Date.vala:76
 #, c-format
 msgid "%d h"
-msgstr "%d godz."
+msgstr "%d jam"
 
 #: ../../src/Utils/Date.vala:78
 #, c-format
 msgid "%d m"
-msgstr "%d min."
+msgstr "%d mnt"
 
 #: ../../src/Utils/Date.vala:81
 msgid "now"
-msgstr "teraz"
+msgstr "sekarang"
 
 #: ../../src/Utils/Indicator.vala:47 ../../src/Utils/Launcher.vala:47
 msgid "Tweets"
-msgstr "Tweety"
+msgstr "Tweet"
 
 #: ../../src/Utils/Launcher.vala:59
 msgid "Messages"
-msgstr ""
+msgstr "Message"
