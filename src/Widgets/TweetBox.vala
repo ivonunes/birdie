@@ -15,7 +15,7 @@
  */
 
 namespace Birdie.Widgets {
-    public class TweetBox : Gtk.Box {
+    public class TweetBox : Gtk.EventBox {
         public Tweet tweet;
         public Birdie birdie;
 
@@ -27,7 +27,8 @@ namespace Birdie.Widgets {
         private Gtk.Label username_label;
         private Gtk.Label tweet_label;
         private Gtk.Label info_label;
-        private Gtk.Alignment buttons_alignment;
+        private Gtk.Alignment right_alignment;
+        private Gtk.Box right_box;
         private Gtk.Box buttons_box;
         private Gtk.Label time_label;
         private Gtk.Button favorite_button;
@@ -50,8 +51,6 @@ namespace Birdie.Widgets {
 
         public TweetBox (Tweet tweet, Birdie birdie) {
 
-            GLib.Object (orientation: Gtk.Orientation.HORIZONTAL);
-
             this.birdie = birdie;
             this.tweet = tweet;
 
@@ -64,7 +63,7 @@ namespace Birdie.Widgets {
 
             // tweet box
             this.tweet_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-            this.pack_start (this.tweet_box, true, true, 0);
+            this.add (this.tweet_box);
 
             // avatar alignment
             this.avatar_alignment = new Gtk.Alignment (0,0,0,1);
@@ -131,26 +130,33 @@ namespace Birdie.Widgets {
             this.set_footer ();
 
             // buttons alignment
-            this.buttons_alignment = new Gtk.Alignment (0,0,1,1);
-            this.buttons_alignment.top_padding = 6;
-            this.buttons_alignment.right_padding = 12;
-            this.buttons_alignment.bottom_padding = 6;
-            this.buttons_alignment.left_padding = 6;
-            this.buttons_alignment.set_valign (Gtk.Align.FILL);
-            this.tweet_box.pack_start (this.buttons_alignment, true, true, 0);
+            this.right_alignment = new Gtk.Alignment (0,0,1,1);
+            this.right_alignment.top_padding = 6;
+            this.right_alignment.right_padding = 12;
+            this.right_alignment.bottom_padding = 6;
+            this.right_alignment.left_padding = 6;
+            this.right_alignment.set_valign (Gtk.Align.FILL);
+            this.tweet_box.pack_start (this.right_alignment, true, true, 0);
 
-            // buttons box
-            this.buttons_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-            this.buttons_box.set_valign (Gtk.Align.FILL);
-            this.buttons_alignment.add (this.buttons_box);
+            // right box
+            this.right_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+            this.right_box.set_valign (Gtk.Align.FILL);
+            this.right_alignment.add (this.right_box);
 
             // time label
             this.time_label = new Gtk.Label ("");
             this.time_label.set_halign (Gtk.Align.END);
             this.time_label.set_valign (Gtk.Align.START);
             this.time_label.margin_bottom = 6;
-            this.buttons_box.pack_start (this.time_label, true, true, 0);
+            this.right_box.pack_start (this.time_label, true, true, 0);
             this.update_date ();
+            
+            // buttons box
+            this.buttons_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+            this.buttons_box.set_valign (Gtk.Align.FILL);
+            this.buttons_box.set_no_show_all (true);
+            this.buttons_box.hide ();
+            this.right_box.add (this.buttons_box);
 
             // favorite button
             if (!this.tweet.dm) {
@@ -222,7 +228,38 @@ namespace Birdie.Widgets {
 		        });
                 this.buttons_box.pack_start (delete_button, false, true, 0);
 		    }
+		    
+		    set_events(Gdk.EventMask.BUTTON_RELEASE_MASK);
+		    set_events(Gdk.EventMask.ENTER_NOTIFY_MASK);
+		    set_events(Gdk.EventMask.LEAVE_NOTIFY_MASK);
+		    
+		    this.enter_notify_event.connect ((event) => {
+		        this.show_buttons ();
+		        return false;
+		    });
+		    
+		    this.leave_notify_event.connect ((event) => {
+		        Gtk.Allocation allocation;
+		        this.get_allocation (out allocation);
+
+                if (event.x < 0 || event.x >= allocation.width ||
+                    event.y < 0 || event.y >= allocation.height) {
+		                this.hide_buttons ();
+		        }
+		        return false;
+		    });
+		    
             this.set_size_request (-1, 150);
+        }
+        
+        public void hide_buttons () {
+            this.buttons_box.hide ();
+        }
+        
+        public void show_buttons () {
+            this.buttons_box.set_no_show_all (false);
+            this.buttons_box.show_all ();
+            this.buttons_box.set_no_show_all (true);
         }
 
         private void* favorite_thread () {
