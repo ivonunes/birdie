@@ -16,7 +16,9 @@
 
 namespace Birdie {
     public class Twitter : API {
+        
         public Twitter () {
+        
             this.CONSUMER_KEY = "T1VkU2dySk9DRFlZbjJJcDdWSGZRdw==";
             this.CONSUMER_SECRET = "UHZPdXcwWFJoVnJ5RU5yZXdGdDZWd1lGdnNoRlpwcHQxMUtkNDdvVWM=";
             this.URL_FORMAT = "https://api.twitter.com";

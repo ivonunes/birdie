@@ -48,6 +48,7 @@ namespace Birdie {
         private Gtk.ScrolledWindow scrolled_favorites;
         private Gtk.ScrolledWindow scrolled_user;
         private Granite.Widgets.Welcome welcome;
+        private Granite.Widgets.Welcome error_page;
 
         private Granite.Widgets.StaticNotebook notebook;
         private Granite.Widgets.StaticNotebook notebook_dm;
@@ -318,6 +319,29 @@ namespace Birdie {
                     new Thread<void*> (null, this.request);
 		        });
 
+                this.error_page = new Granite.Widgets.Welcome (_("Unable to connect"), _("Please check your Internet Connection"));
+                this.error_page.append ("view-refresh", _("Retry"), _("Try to connect again"));
+                this.error_page.activated.connect (() => {
+                    this.new_tweet.set_sensitive (true);
+                    this.home.set_sensitive (true);
+                    this.mentions.set_sensitive (true);
+                    this.dm.set_sensitive (true);
+                    this.profile.set_sensitive (true);
+                    //this.search.set_sensitive (true);
+                    this.account_appmenu.set_sensitive (true);
+                
+                    if (this.initialized) {
+                        this.switch_timeline ("loading");
+                        this.spinner.start ();
+                        this.switch_timeline ("home");
+                        new Thread<void*> (null, this.update_timelines);
+                    } else {
+                        this.switch_timeline ("loading");
+                        this.spinner.start ();
+                        new Thread<void*> (null, this.init);
+                    }
+		        });
+
 		        this.notebook_dm = new Granite.Widgets.StaticNotebook (false);
 		        this.notebook_dm.append_page (this.scrolled_dm, new Gtk.Label (_("Received")));
 		        this.notebook_dm.append_page (this.scrolled_dm_sent, new Gtk.Label (_("Sent")));
@@ -394,6 +418,7 @@ namespace Birdie {
                 this.notebook.append_page (this.user_box, new Gtk.Label (_("User")));
                 this.notebook.append_page (new Gtk.Label (_("In development")), new Gtk.Label (_("Search")));
                 this.notebook.append_page (new Gtk.Label (_("In development")), new Gtk.Label (_("Search Results")));
+                this.notebook.append_page (this.error_page, new Gtk.Label (_("Error")));
 
                 this.m_window.add (this.notebook);
 
@@ -515,70 +540,74 @@ namespace Birdie {
         }
 
         private void* init () {
-            this.api.auth ();
-            this.api.get_account ();
-            this.api.get_home_timeline ();
-            this.api.get_mentions_timeline ();
-            this.api.get_direct_messages ();
-            this.api.get_direct_messages_sent ();
-            this.api.get_own_timeline ();
-            this.api.get_favorites ();
+            if (this.check_internet_connection ()) {
+                this.api.auth ();
+                this.api.get_account ();
+                this.api.get_home_timeline ();
+                this.api.get_mentions_timeline ();
+                this.api.get_direct_messages ();
+                this.api.get_direct_messages_sent ();
+                this.api.get_own_timeline ();
+                this.api.get_favorites ();
 
-            this.api.home_timeline.foreach ((tweet) => {
-                this.home_list.append(tweet, this);
-	        });
+                this.api.home_timeline.foreach ((tweet) => {
+                    this.home_list.append(tweet, this);
+	            });
 
-	        this.api.mentions_timeline.foreach ((tweet) => {
-                this.mentions_list.append(tweet, this);
-	        });
+	            this.api.mentions_timeline.foreach ((tweet) => {
+                    this.mentions_list.append(tweet, this);
+	            });
 
-	        this.api.dm_timeline.foreach ((tweet) => {
-                this.dm_list.append(tweet, this);
-	        });
+	            this.api.dm_timeline.foreach ((tweet) => {
+                    this.dm_list.append(tweet, this);
+	            });
 
-	        this.api.dm_sent_timeline.foreach ((tweet) => {
-                this.dm_sent_list.append(tweet, this);
-	        });
+	            this.api.dm_sent_timeline.foreach ((tweet) => {
+                    this.dm_sent_list.append(tweet, this);
+	            });
 
-	        this.api.own_timeline.foreach ((tweet) => {
-                this.own_list.append(tweet, this);
-	        });
+	            this.api.own_timeline.foreach ((tweet) => {
+                    this.own_list.append(tweet, this);
+	            });
 
-	        this.api.favorites.foreach ((tweet) => {
-                this.favorites.append(tweet, this);
-	        });
+	            this.api.favorites.foreach ((tweet) => {
+                    this.favorites.append(tweet, this);
+	            });
 
-            Idle.add (() => {
-                if (this.initialized) {
-                    this.own_box_info.update (this.api.account);
-                    this.user_box_info.update (this.api.account);
+                Idle.add (() => {
+                    if (this.initialized) {
+                        this.own_box_info.update (this.api.account);
+                        this.user_box_info.update (this.api.account);
 
-                    this.own_box_info.hide_buttons ();
-                } else {
-                    this.own_box_info.init (this.api.account, this);
-                    this.user_box_info.init (this.api.account, this);
-                }
-                
-                this.initialized = true;
+                        this.own_box_info.hide_buttons ();
+                    } else {
+                        this.own_box_info.init (this.api.account, this);
+                        this.user_box_info.init (this.api.account, this);
+                    }
+                    
+                    this.initialized = true;
 
-                return false;
-            });
+                    return false;
+                });
 
-	        this.add_timeout_online ();
-            this.add_timeout_offline ();
+	            this.add_timeout_online ();
+                this.add_timeout_offline ();
 
-            this.current_timeline = "home";
-            this.switch_timeline ("home");
+                this.current_timeline = "home";
+                this.switch_timeline ("home");
 
-            this.spinner.stop ();
+                this.spinner.stop ();
 
-            this.new_tweet.set_sensitive (true);
-            this.home.set_sensitive (true);
-            this.mentions.set_sensitive (true);
-            this.dm.set_sensitive (true);
-            this.profile.set_sensitive (true);
-            //this.search.set_sensitive (true);
-            this.account_appmenu.set_sensitive (true);
+                this.new_tweet.set_sensitive (true);
+                this.home.set_sensitive (true);
+                this.mentions.set_sensitive (true);
+                this.dm.set_sensitive (true);
+                this.profile.set_sensitive (true);
+                //this.search.set_sensitive (true);
+                this.account_appmenu.set_sensitive (true);
+            } else {
+                this.switch_timeline ("error");
+            }
 
             return null;
         }
@@ -639,6 +668,16 @@ namespace Birdie {
                     case "search_result":
                         this.notebook.page = 9;
                         break;
+                    case "error":
+                        this.new_tweet.set_sensitive (false);
+                        this.home.set_sensitive (false);
+                        this.mentions.set_sensitive (false);
+                        this.dm.set_sensitive (false);
+                        this.profile.set_sensitive (false);
+                        this.search.set_sensitive (false);
+                        this.account_appmenu.set_sensitive (false);
+                        this.notebook.page = 10;
+                        break;
                 }
 
                 return false;
@@ -669,9 +708,13 @@ namespace Birdie {
         }
 
         public void* update_timelines () {
-            this.update_home ();
-            this.update_mentions ();
-            this.update_dm ();
+            if (this.check_internet_connection ()) {
+                this.update_home ();
+                this.update_mentions ();
+                this.update_dm ();
+            } else {
+                this.switch_timeline ("error");
+            }
             this.add_timeout_online ();
             return null;
         }
@@ -792,30 +835,41 @@ namespace Birdie {
         }
         
         private void* show_user () {
-            Idle.add (() => {
-                this.switch_timeline ("loading");
-                this.spinner.start ();
-                return false;
-            });
+            if (this.check_internet_connection ()) {
+                Idle.add (() => {
+                    this.switch_timeline ("loading");
+                    this.spinner.start ();
+                    return false;
+                });
+                
+                this.api.user_timeline.foreach ((tweet) => {
+                    this.user_list.remove (tweet);
+	            });
             
-            this.api.user_timeline.foreach ((tweet) => {
-                this.user_list.remove (tweet);
-	        });
-        
-            this.api.get_user_timeline (user);
-            
-            this.api.user_timeline.foreach ((tweet) => {
-                this.user_list.append (tweet, this);
-	        });
-            
-            Idle.add (() => {
-                this.user_box_info.update (this.api.user);
-                this.switch_timeline ("user");
-                this.spinner.stop ();
-                return false;
-            });
+                this.api.get_user_timeline (user);
+                
+                this.api.user_timeline.foreach ((tweet) => {
+                    this.user_list.append (tweet, this);
+	            });
+                
+                Idle.add (() => {
+                    this.user_box_info.update (this.api.user);
+                    this.switch_timeline ("user");
+                    this.spinner.stop ();
+                    return false;
+                });
+            } else {
+                this.switch_timeline ("error");
+            }
             
             return null;
+        }
+        
+        private bool check_internet_connection() {
+            if (!Utils.check_internet_connection ()) {
+                return false;
+            }
+            return true;
         }
     }
 }

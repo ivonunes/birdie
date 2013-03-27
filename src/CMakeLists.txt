@@ -52,6 +52,7 @@ vala_precompile(VALA_C
     Utils/Notifications.vala
     Utils/Indicator.vala
     Utils/Launcher.vala
+    Utils/Networking.vala
 PACKAGES
     gtk+-3.0
     granite
