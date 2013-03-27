@@ -143,9 +143,8 @@ namespace Birdie {
         public override int favorite_create (string id) {
             // setup call
             Rest.ProxyCall call = proxy.new_call();
-            call.set_function ("favorites/create.json");
+            call.set_function ("favorites/create/%s.json".printf(id));
             call.set_method ("POST");
-            call.add_param ("id", id);
             try { call.sync (); } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
                 return 1;
@@ -157,9 +156,8 @@ namespace Birdie {
         public override int favorite_destroy (string id) {
             // setup call
             Rest.ProxyCall call = proxy.new_call();
-            call.set_function ("favorites/destroy.json");
+            call.set_function ("favorites/destroy/%s.json".printf(id));
             call.set_method ("POST");
-            call.add_param ("id", id);
             try { call.sync (); } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
                 return 1;
@@ -353,15 +351,20 @@ namespace Birdie {
         public override Tweet get_tweet (Json.Node tweetnode) {
             var tweetobject = tweetnode.get_object();
 
+            var actual_id = tweetobject.get_int_member ("id").to_string ();
             var retweet = tweetobject.get_member ("retweeted_status");
+
             string retweeted_by = "";
+            string retweeted_by_name = "";
 
             if (retweet != null) {
                 retweeted_by = tweetobject.get_object_member ("user").get_string_member ("screen_name");
+                retweeted_by_name = tweetobject.get_object_member ("user").get_string_member ("name");
                 tweetobject = tweetobject.get_object_member ("retweeted_status");
             }
 
             var id = tweetobject.get_int_member ("id").to_string ();
+            //var retweeted = tweetobject.get_object_member ("retweeted_status").get_boolean_member ("retweeted_status");
             var retweeted = false;
 			var favorited = tweetobject.get_boolean_member ("favorited");
 			var user_name = tweetobject.get_object_member ("user").get_string_member ("name");
@@ -377,7 +380,7 @@ namespace Birdie {
 			    in_reply_to_screen_name = "";
 			}
 
-			return new Tweet (id, id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited, false, in_reply_to_screen_name, retweeted_by);
+			return new Tweet (id, actual_id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited, false, in_reply_to_screen_name, retweeted_by);
         }
 
         public override int get_home_timeline (string count = "20") {
@@ -401,7 +404,7 @@ namespace Birdie {
 
                 // clear since_id list
                 this.home_timeline.foreach ((tweet) => {
-                    this.home_timeline.remove(tweet);
+                    this.home_timeline.remove (tweet);
 	            });
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
@@ -411,7 +414,7 @@ namespace Birdie {
 
                 this.home_timeline.reverse ();
                 this.home_timeline.foreach ((tweet) => {
-                    this.since_id_home = tweet.id;
+                    this.since_id_home = tweet.actual_id;
 	            });
 
             } catch (Error e) {
@@ -507,7 +510,7 @@ namespace Birdie {
 
 				this.dm_timeline.reverse ();
                 this.dm_timeline.foreach ((tweet) => {
-                    this.since_id_dm = tweet.id;
+                    this.since_id_dm = tweet.actual_id;
 	            });
 
             } catch (Error e) {
