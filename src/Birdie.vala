@@ -727,7 +727,7 @@ namespace Birdie {
                 this.home_tmp.remove (tweet);
 	        });
 
-            this.api.home_timeline_since_id.foreach ((tweet) => {
+            this.api.home_timeline.foreach ((tweet) => {
                 this.home_list.append (tweet, this);
                 if (this.tweet_notification) {
                     if (this.api.account.screen_name != tweet.user_screen_name) {
@@ -747,7 +747,7 @@ namespace Birdie {
 
             this.api.get_mentions_timeline ();
 
-            this.api.mentions_timeline_since_id.foreach ((tweet) => {
+            this.api.mentions_timeline.foreach ((tweet) => {
                 this.mentions_list.append (tweet, this);
                 if (this.mention_notification) {
                     if (this.api.account.screen_name != tweet.user_screen_name) {
@@ -767,7 +767,7 @@ namespace Birdie {
 
             this.api.get_direct_messages ();
 
-            this.api.dm_timeline_since_id.foreach ((tweet) => {
+            this.api.dm_timeline.foreach ((tweet) => {
                 this.dm_list.append (tweet, this);
                 if (this.dm_notification) {
                     if (this.api.account.screen_name != tweet.user_screen_name) {

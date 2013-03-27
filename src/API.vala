@@ -32,11 +32,8 @@ namespace Birdie {
         public User account;
         public User user;
         public GLib.List<Tweet> home_timeline;
-        public GLib.List<Tweet> home_timeline_since_id;
         public GLib.List<Tweet> mentions_timeline;
-        public GLib.List<Tweet> mentions_timeline_since_id;
         public GLib.List<Tweet> dm_timeline;
-        public GLib.List<Tweet> dm_timeline_since_id;
         public GLib.List<Tweet> dm_sent_timeline;
         public GLib.List<Tweet> own_timeline;
         public GLib.List<Tweet> user_timeline;

@@ -401,18 +401,17 @@ namespace Birdie {
                 var root = parser.get_root ();
 
                 // clear since_id list
-                this.home_timeline_since_id.foreach ((tweet) => {
-                    this.home_timeline_since_id.remove(tweet);
+                this.home_timeline.foreach ((tweet) => {
+                    this.home_timeline.remove (tweet);
 	            });
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
                     var tweet = this.get_tweet (tweetnode);
-			        home_timeline_since_id.append (tweet);
+			        home_timeline.append (tweet);
                 }
 
-                this.home_timeline_since_id.reverse ();
-                this.home_timeline_since_id.foreach ((tweet) => {
-                    this.home_timeline.append(tweet);
+                this.home_timeline.reverse ();
+                this.home_timeline.foreach ((tweet) => {
                     this.since_id_home = tweet.actual_id;
 	            });
 
@@ -443,18 +442,17 @@ namespace Birdie {
                 var root = parser.get_root ();
 
                 // clear since_id list
-                this.mentions_timeline_since_id.foreach ((tweet) => {
-                    this.mentions_timeline_since_id.remove(tweet);
+                this.mentions_timeline.foreach ((tweet) => {
+                    this.mentions_timeline.remove(tweet);
 	            });
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
                     var tweet = this.get_tweet (tweetnode);
-			        mentions_timeline_since_id.append (tweet);
+			        mentions_timeline.append (tweet);
                 }
 
-                this.mentions_timeline_since_id.reverse ();
-                this.mentions_timeline_since_id.foreach ((tweet) => {
-                    this.mentions_timeline.append(tweet);
+                this.mentions_timeline.reverse ();
+                this.mentions_timeline.foreach ((tweet) => {
                     this.since_id_mentions = tweet.actual_id;
 	            });
 
@@ -485,8 +483,8 @@ namespace Birdie {
                 var root = parser.get_root ();
 
                 // clear since_id list
-                this.dm_timeline_since_id.foreach ((tweet) => {
-                    this.dm_timeline_since_id.remove(tweet);
+                this.dm_timeline.foreach ((tweet) => {
+                    this.dm_timeline.remove(tweet);
 	            });
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
@@ -502,12 +500,11 @@ namespace Birdie {
 
 			        var tweet = new Tweet (id, id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, false, false, true);
 
-			        dm_timeline_since_id.append (tweet);
+			        dm_timeline.append (tweet);
                 }
 
-                this.dm_timeline_since_id.reverse ();
-                this.dm_timeline_since_id.foreach ((tweet) => {
-                    this.dm_timeline.append(tweet);
+                this.dm_timeline.reverse ();
+                this.dm_timeline.foreach ((tweet) => {
                     this.since_id_dm = tweet.actual_id;
 	            });
 
