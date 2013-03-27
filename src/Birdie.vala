@@ -606,11 +606,13 @@ namespace Birdie {
                         this.home_list.set_selectable (false);
                         this.notebook.page = 3;
                         this.home_list.set_selectable (true);
+                        this.scrolled_home.get_vadjustment().set_value(0);
                         break;
                     case "mentions":
                         this.mentions_list.set_selectable (false);
                         this.notebook.page = 4;
                         this.mentions_list.set_selectable (true);
+                        this.scrolled_mentions.get_vadjustment().set_value(0);
                         break;
                     case "dm":
                         this.dm_list.set_selectable (false);
@@ -618,11 +620,13 @@ namespace Birdie {
                         this.notebook.page = 5;
                         this.dm_list.set_selectable (true);
                         this.dm_sent_list.set_selectable (true);
+                        this.scrolled_dm.get_vadjustment().set_value(0);
                         break;
                     case "own":
                         this.own_list.set_selectable (false);
                         this.notebook.page = 6;
                         this.own_list.set_selectable (true);
+                        this.scrolled_own.get_vadjustment().set_value(0);
                         break;
                     case "user":
                         this.user_list.set_selectable (false);
