@@ -37,6 +37,7 @@ namespace Birdie {
         public GLib.List<Tweet> dm_sent_timeline;
         public GLib.List<Tweet> own_timeline;
         public GLib.List<Tweet> user_timeline;
+        public GLib.List<Tweet> search_timeline;
         public GLib.List<Tweet> favorites;
 
         public Settings settings;
@@ -64,6 +65,7 @@ namespace Birdie {
         public abstract int get_direct_messages_sent (string count = "20");
         public abstract int get_own_timeline (string count = "20");
         public abstract int get_user_timeline (string user_id, string count = "20");
+        public abstract int get_search_timeline (string search_term, string count = "20");
         public abstract int get_favorites (string count = "20");
         public abstract Array<string> get_friendship (string source_user, string target_user);
         public abstract int create_friendship (string screen_name);

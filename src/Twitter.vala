@@ -104,7 +104,7 @@ namespace Birdie {
 
                 var user_id = userobject.get_int_member ("id");
 
-			    return user_id;
+                return user_id;
             } catch (Error e) {
                 stderr.printf ("Unable to parse update.json\n");
             }
@@ -205,19 +205,19 @@ namespace Birdie {
                 var userobject = root.get_object ();
 
                 var id = userobject.get_string_member ("id_str");
-			    var name = userobject.get_string_member ("name");
-			    var screen_name = userobject.get_string_member ("screen_name");
-			    var profile_image_url = userobject.get_string_member ("profile_image_url");
-			    var profile_image_file = get_avatar (profile_image_url);
+                var name = userobject.get_string_member ("name");
+                var screen_name = userobject.get_string_member ("screen_name");
+                var profile_image_url = userobject.get_string_member ("profile_image_url");
+                var profile_image_file = get_avatar (profile_image_url);
 
                 if (userobject.has_member("location") &&
-			        userobject.get_string_member ("location") != null) {
+                    userobject.get_string_member ("location") != null) {
                      location = userobject.get_string_member ("location");
                 }
 
 
-			    if (userobject.has_member("description") &&
-			        userobject.get_string_member ("description") != null) {
+                if (userobject.has_member("description") &&
+                    userobject.get_string_member ("description") != null) {
                      desc = userobject.get_string_member ("description");
                 }
 
@@ -242,28 +242,28 @@ namespace Birdie {
 
             var id = tweetobject.get_object_member ("user").get_string_member ("id_str");
             var name = tweetobject.get_object_member ("user").get_string_member ("name");
-			var screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
-			var profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
-		    var profile_image_file = get_avatar (profile_image_url);
-		    
-		    string location = "";
-		    string description = "";
-		    
-		    if (tweetobject.get_object_member ("user").has_member("location") &&
-			     tweetobject.get_object_member ("user").get_string_member ("location") != null) {
+            var screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
+            var profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
+            var profile_image_file = get_avatar (profile_image_url);
+            
+            string location = "";
+            string description = "";
+            
+            if (tweetobject.get_object_member ("user").has_member("location") &&
+                 tweetobject.get_object_member ("user").get_string_member ("location") != null) {
                 location = tweetobject.get_object_member ("user").get_string_member ("location");
             }
             
             if (tweetobject.get_object_member ("user").has_member("description") &&
-			     tweetobject.get_object_member ("user").get_string_member ("description") != null) {
+                 tweetobject.get_object_member ("user").get_string_member ("description") != null) {
                 description = tweetobject.get_object_member ("user").get_string_member ("description");
             }
             
             int64 friends_count = tweetobject.get_object_member ("user").get_int_member ("friends_count");
             int64 followers_count = tweetobject.get_object_member ("user").get_int_member ("followers_count");
             int64 statuses_count = tweetobject.get_object_member ("user").get_int_member ("statuses_count");
-			        
-			this.user = new User (id, name, screen_name,
+                    
+            this.user = new User (id, name, screen_name,
                 profile_image_url, profile_image_file, location, description,
                 friends_count, followers_count, statuses_count
             );
@@ -338,7 +338,7 @@ namespace Birdie {
                 urls = new Regex("((http|https|ftp)://(([[:alpha:]0-9_]|[/.]|[~])*)\\b)");
                 text = urls.replace(text, -1, 0, "<span underline='none'><a href='\\0'>\\0</a></span>");
                 urls = new Regex("([#][[:alpha:]0-9_]+)");
-                text = urls.replace(text, -1, 0, "<span underline='none'><a href='https://twitter.com/\\0'>\\0</a></span>");
+                text = urls.replace(text, -1, 0, "<span underline='none'><a href='birdie://search/\\0'>\\0</a></span>");
                 urls = new Regex("([@][[:alpha:]0-9_]+)");
                 text = urls.replace(text, -1, 0, "<span underline='none'><a href='birdie://user/\\0'>\\0</a></span>");
             } catch (RegexError e) {
@@ -364,21 +364,21 @@ namespace Birdie {
 
             var id = tweetobject.get_string_member ("id_str");
             var retweeted = tweetobject.get_boolean_member ("retweeted");
-			var favorited = tweetobject.get_boolean_member ("favorited");
-			var user_name = tweetobject.get_object_member ("user").get_string_member ("name");
-			var user_screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
-			var text = highligh_links(tweetobject.get_string_member ("text"));
-			var created_at = tweetobject.get_string_member ("created_at");
-			var profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
+            var favorited = tweetobject.get_boolean_member ("favorited");
+            var user_name = tweetobject.get_object_member ("user").get_string_member ("name");
+            var user_screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
+            var text = highligh_links(tweetobject.get_string_member ("text"));
+            var created_at = tweetobject.get_string_member ("created_at");
+            var profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
 
-			var profile_image_file = get_avatar (profile_image_url);
-			var in_reply_to_screen_name = tweetobject.get_string_member ("in_reply_to_screen_name");
+            var profile_image_file = get_avatar (profile_image_url);
+            var in_reply_to_screen_name = tweetobject.get_string_member ("in_reply_to_screen_name");
 
-			if (in_reply_to_screen_name == null) {
-			    in_reply_to_screen_name = "";
-			}
+            if (in_reply_to_screen_name == null) {
+                in_reply_to_screen_name = "";
+            }
 
-			return new Tweet (id, actual_id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited, false, in_reply_to_screen_name, retweeted_by, retweeted_by_name);
+            return new Tweet (id, actual_id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited, false, in_reply_to_screen_name, retweeted_by, retweeted_by_name);
         }
 
         public override int get_home_timeline (string count = "20") {
@@ -403,17 +403,17 @@ namespace Birdie {
                 // clear since_id list
                 this.home_timeline.foreach ((tweet) => {
                     this.home_timeline.remove (tweet);
-	            });
+                });
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
                     var tweet = this.get_tweet (tweetnode);
-			        home_timeline.append (tweet);
+                    home_timeline.append (tweet);
                 }
 
                 this.home_timeline.reverse ();
                 this.home_timeline.foreach ((tweet) => {
                     this.since_id_home = tweet.actual_id;
-	            });
+                });
 
             } catch (Error e) {
                 stderr.printf ("Unable to parse home_timeline.json\n");
@@ -444,17 +444,17 @@ namespace Birdie {
                 // clear since_id list
                 this.mentions_timeline.foreach ((tweet) => {
                     this.mentions_timeline.remove(tweet);
-	            });
+                });
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
                     var tweet = this.get_tweet (tweetnode);
-			        mentions_timeline.append (tweet);
+                    mentions_timeline.append (tweet);
                 }
 
                 this.mentions_timeline.reverse ();
                 this.mentions_timeline.foreach ((tweet) => {
                     this.since_id_mentions = tweet.actual_id;
-	            });
+                });
 
             } catch (Error e) {
                 stderr.printf ("Unable to parse mentions_timeline.json\n");
@@ -485,28 +485,28 @@ namespace Birdie {
                 // clear since_id list
                 this.dm_timeline.foreach ((tweet) => {
                     this.dm_timeline.remove(tweet);
-	            });
+                });
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
                     var tweetobject = tweetnode.get_object();
 
                     var id = tweetobject.get_string_member ("id_str");
-			        var user_name = tweetobject.get_object_member ("sender").get_string_member ("name");
-			        var user_screen_name = tweetobject.get_object_member ("sender").get_string_member ("screen_name");
-			        var text = highligh_links(tweetobject.get_string_member ("text"));
-			        var created_at = tweetobject.get_string_member ("created_at");
-			        var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
-			        var profile_image_file = get_avatar (profile_image_url);
+                    var user_name = tweetobject.get_object_member ("sender").get_string_member ("name");
+                    var user_screen_name = tweetobject.get_object_member ("sender").get_string_member ("screen_name");
+                    var text = highligh_links(tweetobject.get_string_member ("text"));
+                    var created_at = tweetobject.get_string_member ("created_at");
+                    var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
+                    var profile_image_file = get_avatar (profile_image_url);
 
-			        var tweet = new Tweet (id, id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, false, false, true);
+                    var tweet = new Tweet (id, id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, false, false, true);
 
-			        dm_timeline.append (tweet);
+                    dm_timeline.append (tweet);
                 }
 
                 this.dm_timeline.reverse ();
                 this.dm_timeline.foreach ((tweet) => {
                     this.since_id_dm = tweet.actual_id;
-	            });
+                });
 
             } catch (Error e) {
                 stderr.printf ("Unable to parse direct_messages.json\n");
@@ -536,16 +536,16 @@ namespace Birdie {
                     var tweetobject = tweetnode.get_object();
 
                     var id = tweetobject.get_string_member ("id_str");
-			        var user_name = tweetobject.get_object_member ("sender").get_string_member ("name");
-			        var user_screen_name = tweetobject.get_object_member ("recipient").get_string_member ("screen_name");
-			        var text = highligh_links(tweetobject.get_string_member ("text"));
-			        var created_at = tweetobject.get_string_member ("created_at");
-			        var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
-			        var profile_image_file = get_avatar (profile_image_url);
+                    var user_name = tweetobject.get_object_member ("sender").get_string_member ("name");
+                    var user_screen_name = tweetobject.get_object_member ("recipient").get_string_member ("screen_name");
+                    var text = highligh_links(tweetobject.get_string_member ("text"));
+                    var created_at = tweetobject.get_string_member ("created_at");
+                    var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
+                    var profile_image_file = get_avatar (profile_image_url);
 
-			        var tweet = new Tweet (id, id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, false, false, true);
+                    var tweet = new Tweet (id, id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, false, false, true);
 
-			        dm_sent_timeline.append (tweet);
+                    dm_sent_timeline.append (tweet);
                 }
 
                 this.dm_sent_timeline.reverse ();
@@ -581,7 +581,7 @@ namespace Birdie {
                         tweet.retweeted = true;
                     }
 
-			        own_timeline.append (tweet);
+                    own_timeline.append (tweet);
                 }
 
                 own_timeline.reverse ();
@@ -615,7 +615,7 @@ namespace Birdie {
                         tweet.retweeted = true;
                     }
 
-			        favorites.append (tweet);
+                    favorites.append (tweet);
                 }
 
                 favorites.reverse ();
@@ -725,7 +725,7 @@ namespace Birdie {
 
             this.user_timeline.foreach ((tweet) => {
                 this.user_timeline.remove (tweet);
-	        });
+            });
 
             try {
                 var parser = new Json.Parser ();
@@ -735,8 +735,8 @@ namespace Birdie {
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
                     var tweet = this.get_tweet (tweetnode);
-			        user_timeline.append (tweet);
-			        this.get_user (tweetnode);
+                    user_timeline.append (tweet);
+                    this.get_user (tweetnode);
                 }
 
                 user_timeline.reverse ();
@@ -746,5 +746,43 @@ namespace Birdie {
 
             return 0;
         }
+
+        public override int get_search_timeline (string search_term, string count = "20") {
+            Rest.ProxyCall call = proxy.new_call();
+            call.set_function ("1.1/search/tweets.json");
+            call.set_method ("GET");
+            call.add_param ("count", count);
+            call.add_param ("q", search_term);
+            try { call.sync (); } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+                return 1;
+            }
+
+            this.search_timeline.foreach ((tweet) => {
+                this.search_timeline.remove (tweet);
+            });
+
+            try {
+                var parser = new Json.Parser ();
+                parser.load_from_data ((string) call.get_payload (), -1);
+
+                var root = parser.get_root ();
+
+                var tweetobject = root.get_object ();
+                var statuses_member = tweetobject.get_array_member ("statuses");
+
+                foreach (var tweetnode in statuses_member.get_elements ()) {
+                    var tweet = this.get_tweet (tweetnode);
+                    search_timeline.append (tweet);
+                }
+
+                search_timeline.reverse ();
+            } catch (Error e) {
+                stderr.printf ("Unable to parse tweets.json\n");
+            }
+
+            return 0;
+        }
+
     }
 }
