@@ -43,6 +43,7 @@ namespace Birdie {
         public Settings settings;
         public string token;
         public string token_secret;
+        public string retrieve_count;
 
         public Regex urls;
 
@@ -59,14 +60,14 @@ namespace Birdie {
         public abstract string get_avatar (string profile_image_url);
         public abstract string highligh_links (owned string text);
         public abstract Tweet get_tweet (Json.Node tweetnode);
-        public abstract int get_home_timeline (string count = "20");
-        public abstract int get_mentions_timeline (string count = "20");
-        public abstract int get_direct_messages (string count = "20");
-        public abstract int get_direct_messages_sent (string count = "20");
-        public abstract int get_own_timeline (string count = "20");
-        public abstract int get_user_timeline (string user_id, string count = "20");
-        public abstract int get_search_timeline (string search_term, string count = "20");
-        public abstract int get_favorites (string count = "20");
+        public abstract int get_home_timeline ();
+        public abstract int get_mentions_timeline ();
+        public abstract int get_direct_messages ();
+        public abstract int get_direct_messages_sent ();
+        public abstract int get_own_timeline ();
+        public abstract int get_user_timeline (string user_id);
+        public abstract int get_search_timeline (string search_term);
+        public abstract int get_favorites ();
         public abstract Array<string> get_friendship (string source_user, string target_user);
         public abstract int create_friendship (string screen_name);
         public abstract int destroy_friendship (string screen_name);

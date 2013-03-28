@@ -91,5 +91,12 @@
       <summary>Service to use</summary>
       <description>Determines which service API to use</description>
     </key>
+
+    <key name="retrieve-count" type="s">
+      <default>"20"</default>
+      <summary>Retrieve count</summary>
+      <description>Specifies the maximum number of records to retrieve in each update. Must be less than or equal to 200.</description>
+    </key>
+
   </schema>
 </schemalist>

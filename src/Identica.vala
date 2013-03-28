@@ -32,6 +32,7 @@ namespace Birdie {
 
             this.token = settings.get_string ("token");
             this.token_secret = settings.get_string ("token-secret");
+            this.retrieve_count = settings.get_string ("retrieve-count");
         }
 
         public override string get_request () {
@@ -410,12 +411,12 @@ namespace Birdie {
             return new Tweet (id, actual_id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited, false, in_reply_to_screen_name, retweeted_by);
         }
 
-        public override int get_home_timeline (string count = "20") {
+        public override int get_home_timeline () {
             // setup call
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("statuses/home_timeline.json");
             call.set_method ("GET");
-            call.add_param ("count", count);
+            call.add_param ("count", this.retrieve_count);
             if (this.since_id_home != "")
                 call.add_param ("since_id", this.since_id_home);
             try { call.sync (); } catch (Error e) {
@@ -451,13 +452,13 @@ namespace Birdie {
             return 0;
         }
 
-        public override int get_mentions_timeline (string count = "20") {
+        public override int get_mentions_timeline () {
             // setup call
             Rest.ProxyCall call = proxy.new_call();
             int64 tmp = 0;
             call.set_function ("statuses/mentions.json");
             call.set_method ("GET");
-            call.add_param ("count", count);
+            call.add_param ("count", this.retrieve_count);
             if (this.since_id_mentions != "")
                 tmp = int.parse (this.since_id_mentions);
                 tmp = tmp + 1;
@@ -495,12 +496,12 @@ namespace Birdie {
             return 0;
         }
 
-        public override int get_direct_messages (string count = "20") {
+        public override int get_direct_messages () {
             // setup call
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("direct_messages.json");
             call.set_method ("GET");
-            call.add_param ("count", count);
+            call.add_param ("count", this.retrieve_count);
             if (this.since_id_dm != "")
                 call.add_param ("since_id", this.since_id_dm);
             try { call.sync (); } catch (Error e) {
@@ -547,12 +548,12 @@ namespace Birdie {
             return 0;
         }
 
-        public override int get_direct_messages_sent (string count = "20") {
+        public override int get_direct_messages_sent () {
             // setup call
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("direct_messages/sent.json");
             call.set_method ("GET");
-            call.add_param ("count", count);
+            call.add_param ("count", this.retrieve_count);
             try { call.sync (); } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
                 return 1;
@@ -589,11 +590,11 @@ namespace Birdie {
             return 0;
         }
 
-        public override int get_own_timeline (string count = "20") {
+        public override int get_own_timeline () {
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("statuses/user_timeline.json");
             call.set_method ("GET");
-            call.add_param ("count", count);
+            call.add_param ("count", this.retrieve_count);
             call.add_param ("user_id", this.account.id);
             try { call.sync (); } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
@@ -623,11 +624,11 @@ namespace Birdie {
             return 0;
         }
 
-        public override int get_favorites (string count = "20") {
+        public override int get_favorites () {
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("favorites/%s.json".printf(this.account.screen_name));
             call.set_method ("GET");
-            call.add_param ("count", count);
+            call.add_param ("count", this.retrieve_count);
             call.add_param ("user_id", this.account.id);
             try { call.sync (); } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
@@ -744,11 +745,11 @@ namespace Birdie {
             return 0;
         }
 
-        public override int get_user_timeline (string screen_name, string count = "20") {
+        public override int get_user_timeline (string screen_name) {
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("statuses/user_timeline.json");
             call.set_method ("GET");
-            call.add_param ("count", count);
+            call.add_param ("count", this.retrieve_count);
             call.add_param ("screen_name", screen_name);
             try { call.sync (); } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
@@ -779,11 +780,11 @@ namespace Birdie {
             return 0;
         }
 
-        public override int get_search_timeline (string search_term, string count = "20") {
+        public override int get_search_timeline (string search_term) {
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("search.json");
             call.set_method ("GET");
-            call.add_param ("count", count);
+            call.add_param ("count", this.retrieve_count);
             call.add_param ("q", search_term);
             try { call.sync (); } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
