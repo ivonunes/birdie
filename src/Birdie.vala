@@ -828,20 +828,19 @@ namespace Birdie {
 
             try {
                 text_url = urls.replace(text, -1, 0, "<a href='\\0'>\\0</a>");
-            }
-            catch (Error e) {
+            } catch (Error e) {
                 warning ("url replacing error: %s", e.message);
             }
 
+            string user = user_screen_name;
+
+            if ("@" in user_screen_name)
+                user = user.replace ("@", "");
+
+            if (user == "")
+                user = this.api.account.screen_name;
+
             if (code != 1) {
-                string user = user_screen_name;
-
-                if ("@" in user_screen_name)
-                    user = user.replace ("@", "");
-
-                if (user == "")
-                    user = this.api.account.screen_name;
-
                 Tweet tweet_tmp = new Tweet (code.to_string (), code.to_string (), this.api.account.name, user, text_url, "", this.api.account.profile_image_url, this.api.account.profile_image_file, false, false, dm);
 
                 if (dm) {
