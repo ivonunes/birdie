@@ -1,5 +1,5 @@
 .tweet {
-    background-color: #3a81cc;
+    background-color: @selected_bg_color;
 }
 
 .tweet:hover {
@@ -16,13 +16,17 @@
 
 .button.affirmative:insensitive {
     background-image: -gtk-gradient (linear,
-				     left top,
-				     left bottom,
-                     from (alpha (#fff, 0.20)),
-                     to (alpha (#000, 0.05)));
+        left top,
+        left bottom,
+        from (alpha (#fff, 0.20)),
+        to (alpha (#000, 0.05)));
 
     -unico-border-gradient: -gtk-gradient (linear,
-                     left top, left bottom,
-                     from (shade (@bg_color, 0.76)),
-                     to (shade (@bg_color, 0.70)));
+        left top, left bottom,
+        from (shade (@bg_color, 0.76)),
+        to (shade (@bg_color, 0.70)));
+}
+
+.scrollbar {
+    background-color: @selected_bg_color;
 }
