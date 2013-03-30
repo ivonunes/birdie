@@ -105,9 +105,9 @@ namespace Birdie {
             help_url            = "http://answers.launchpad.net/birdie";
             translate_url       = "http://translations.launchpad.net/birdie";
             about_authors       = {"Ivo Nunes <ivo@elementaryos.org>", "Vasco Nunes <vascomfnunes@gmail.com>"};
-            about_artists       = {"Daniel Foré <daniel@elementaryos.org>"};
-            /*about_documenters   = {};
-            about_comments      = {};
+            about_artists       = {"Daniel Foré <daniel@elementaryos.org>", "Mustapha Asbbar"};
+            /*about_comments      = "";
+            about_documenters   = {};
             about_translators   = {};*/
             about_license_type  = Gtk.License.GPL_3_0;
         }
