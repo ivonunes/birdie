@@ -490,7 +490,8 @@ namespace Birdie {
                 //
 
                 this.m_window.focus_in_event.connect ((w, e) => {
-                    this.activate();
+                    this.launcher.clean_launcher_count ();
+                    this.activate ();
                     return true;
                 });
 
@@ -503,7 +504,6 @@ namespace Birdie {
                 }
             } else {
                 this.m_window.show();
-                this.launcher.clean_launcher_count ();
 
                 switch (this.current_timeline) {
                     case "home":

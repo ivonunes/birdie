@@ -22,6 +22,7 @@ namespace Birdie.Widgets {
         private Gtk.Box tweet_box;
         private Gtk.Alignment avatar_alignment;
         private Gtk.Image avatar_img;
+        private Gtk.Image status_img;
         private Gtk.Alignment content_alignment;
         private Gtk.Box content_box;
         private Gtk.Label username_label;
@@ -122,17 +123,17 @@ namespace Birdie.Widgets {
             this.content_box.pack_start (this.tweet_label, false, true, 0);
 
             // css
-			Gtk.StyleContext ctx = this.tweet_label.get_style_context();
-			ctx.add_class("tweet");
-			//
+            Gtk.StyleContext ctx = this.tweet_label.get_style_context();
+            ctx.add_class("tweet");
+            //
 
             // info footer
             this.set_footer ();
 
             // buttons alignment
             this.right_alignment = new Gtk.Alignment (0,0,1,1);
-            this.right_alignment.top_padding = 6;
-            this.right_alignment.right_padding = 12;
+            this.right_alignment.top_padding = 0;
+            this.right_alignment.right_padding = 0;
             this.right_alignment.bottom_padding = 6;
             this.right_alignment.left_padding = 6;
             this.right_alignment.set_valign (Gtk.Align.FILL);
@@ -148,15 +149,23 @@ namespace Birdie.Widgets {
             this.time_label.set_halign (Gtk.Align.END);
             this.time_label.set_valign (Gtk.Align.START);
             this.time_label.margin_bottom = 6;
-            this.right_box.pack_start (this.time_label, true, true, 0);
+            this.time_label.margin_top = 6;
+            this.time_label.margin_right = 12;
             this.update_date ();
-            
+
             // buttons box
             this.buttons_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             this.buttons_box.set_valign (Gtk.Align.FILL);
             this.buttons_box.set_no_show_all (true);
+            this.buttons_box.margin_right = 12;
             this.buttons_box.hide ();
-            this.right_box.add (this.buttons_box);
+
+            this.status_img = new Gtk.Image ();
+            this.status_img.set_halign (Gtk.Align.END);
+            this.status_img.set_valign (Gtk.Align.START);
+
+            if ((this.tweet.favorited || this.tweet.retweeted) && !this.tweet.dm)
+                this.right_box.pack_start (this.status_img, false, false, 0);
 
             // favorite button
             if (!this.tweet.dm) {
@@ -170,12 +179,13 @@ namespace Birdie.Widgets {
                 this.favorite_button.clicked.connect (() => {
                     this.favorite_button.set_sensitive (false);
                     new Thread<void*> (null, this.favorite_thread);
-		        });
+                });
 
-		        if (this.tweet.favorited) {
+                if (this.tweet.favorited) {
                     this.favorite_icon.set_from_icon_name ("twitter-favd", Gtk.IconSize.MENU);
+                    this.status_img.set_from_icon_name("twitter-fav-banner",  Gtk.IconSize.LARGE_TOOLBAR);
                 }
-		    }
+            }
 
             // retweet button
             if (this.tweet.user_screen_name != this.birdie.api.account.screen_name) {
@@ -193,13 +203,19 @@ namespace Birdie.Widgets {
                     if (this.tweet.retweeted) {
                         this.retweet_button.set_sensitive (false);
                         this.retweet_icon.set_from_icon_name ("twitter-retweeted", Gtk.IconSize.MENU);
+                        this.status_img.set_from_icon_name ("twitter-ret-banner",  Gtk.IconSize.LARGE_TOOLBAR);
                     }
 
                     this.retweet_button.clicked.connect (() => {
                         this.retweet_button.set_sensitive (false);
-			            new Thread<void*> (null, this.retweet_thread);
-		            });
-		        }
+                        new Thread<void*> (null, this.retweet_thread);
+                    });
+                }
+
+                if (this.tweet.retweeted && this.tweet.favorited) {
+                        this.status_img.set_from_icon_name ("twitter-favret-banner",  Gtk.IconSize.LARGE_TOOLBAR);
+                    }
+
 
                 // reply button
                 this.reply_button = new Gtk.Button ();
@@ -209,12 +225,12 @@ namespace Birdie.Widgets {
                 this.reply_button.set_tooltip_text (_("Reply"));
 
                 this.reply_button.clicked.connect (() => {
-			        Widgets.TweetDialog dialog = new TweetDialog (this.birdie, this.tweet.id, this.tweet.user_screen_name, this.tweet.dm);
-			        dialog.show_all ();
-		        });
+                    Widgets.TweetDialog dialog = new TweetDialog (this.birdie, this.tweet.id, this.tweet.user_screen_name, this.tweet.dm);
+                    dialog.show_all ();
+                });
 
                 this.buttons_box.pack_start (this.reply_button, false, true, 0);
-		    } else {
+            } else {
                 // delete button
                 this.delete_button = new Gtk.Button ();
                 this.delete_button.set_halign (Gtk.Align.END);
@@ -223,39 +239,42 @@ namespace Birdie.Widgets {
                 this.delete_button.set_tooltip_text (_("Delete"));
 
                 this.delete_button.clicked.connect (() => {
-			        this.delete_button.set_sensitive (false);
-			        new Thread<void*> (null, this.delete_thread);
-		        });
+                    this.delete_button.set_sensitive (false);
+                    new Thread<void*> (null, this.delete_thread);
+                });
                 this.buttons_box.pack_start (delete_button, false, true, 0);
-		    }
-		    
-		    set_events(Gdk.EventMask.BUTTON_RELEASE_MASK);
-		    set_events(Gdk.EventMask.ENTER_NOTIFY_MASK);
-		    set_events(Gdk.EventMask.LEAVE_NOTIFY_MASK);
-		    
-		    this.enter_notify_event.connect ((event) => {
-		        this.show_buttons ();
-		        return false;
-		    });
-		    
-		    this.leave_notify_event.connect ((event) => {
-		        Gtk.Allocation allocation;
-		        this.get_allocation (out allocation);
+            }
+
+            this.right_box.pack_start (this.time_label, true, true, 0);
+            this.right_box.add (this.buttons_box);
+
+            set_events(Gdk.EventMask.BUTTON_RELEASE_MASK);
+            set_events(Gdk.EventMask.ENTER_NOTIFY_MASK);
+            set_events(Gdk.EventMask.LEAVE_NOTIFY_MASK);
+
+            this.enter_notify_event.connect ((event) => {
+                this.show_buttons ();
+                return false;
+            });
+
+            this.leave_notify_event.connect ((event) => {
+                Gtk.Allocation allocation;
+                this.get_allocation (out allocation);
 
                 if (event.x < 0 || event.x >= allocation.width ||
                     event.y < 0 || event.y >= allocation.height) {
-		                this.hide_buttons ();
-		        }
-		        return false;
-		    });
-		    
+                        this.hide_buttons ();
+                }
+                return false;
+            });
+
             this.set_size_request (-1, 150);
         }
-        
+
         public void hide_buttons () {
             this.buttons_box.hide ();
         }
-        
+
         public void show_buttons () {
             this.buttons_box.set_no_show_all (false);
             this.buttons_box.show_all ();
@@ -265,54 +284,89 @@ namespace Birdie.Widgets {
         private void* favorite_thread () {
             int code;
 
-			if (this.tweet.favorited) {
-			    code = this.birdie.api.favorite_destroy (this.tweet.id);
+            if (this.tweet.favorited) {
+                code = this.birdie.api.favorite_destroy (this.tweet.id);
 
-			    Idle.add( () => {
-			        if (code == 0) {
-			            this.tweet.favorited = false;
-			            this.birdie.home_list.update_display (this.tweet);
-			            this.birdie.mentions_list.update_display (this.tweet);
-			            this.birdie.own_list.update_display (this.tweet);
-			            this.birdie.favorites.remove (this.tweet);
-			        }
+                Idle.add( () => {
+                    if (code == 0) {
+                        if (this.tweet.retweeted) {
+                            this.status_img.set_from_icon_name("twitter-ret-banner",  Gtk.IconSize.LARGE_TOOLBAR);
+                        } else {
+                            this.right_box.remove (this.status_img);
+                        }
 
-			        return false;
-			    });
+                        this.tweet.favorited = false;
+                        this.birdie.home_list.update_display (this.tweet);
+                        this.birdie.mentions_list.update_display (this.tweet);
+                        this.birdie.own_list.update_display (this.tweet);
+                        this.birdie.favorites.remove (this.tweet);
+                    }
 
-			    this.favorite_button.set_sensitive (true);
+                    return false;
+                });
 
-			} else {
-			    code = this.birdie.api.favorite_create (this.tweet.id);
+                this.favorite_button.set_sensitive (true);
 
-			    Idle.add( () => {
-			        if (code == 0) {
-			            this.tweet.favorited = true;
-			            this.birdie.home_list.update_display (this.tweet);
-			            this.birdie.mentions_list.update_display (this.tweet);
-			            this.birdie.own_list.update_display (this.tweet);
-			            this.birdie.favorites.append (this.tweet, this.birdie);
-			        }
+            } else {
+                code = this.birdie.api.favorite_create (this.tweet.id);
 
-			        this.favorite_button.set_sensitive (true);
+                Idle.add( () => {
+                    if (code == 0) {
+                        if (this.tweet.retweeted) {
+                            this.status_img.set_from_icon_name ("twitter-favret-banner", Gtk.IconSize.LARGE_TOOLBAR);
+                        } else {
+                            this.right_box.remove (this.time_label);
+                            this.right_box.remove (this.buttons_box);
 
-			        return false;
-			    });
-			}
+                            this.status_img.set_from_icon_name("twitter-fav-banner",  Gtk.IconSize.LARGE_TOOLBAR);
+
+                            this.right_box.pack_start (this.status_img, false, false, 0);
+                            this.right_box.pack_start (this.time_label, true, true, 0);
+                            this.right_box.add (this.buttons_box);
+                            this.right_box.show_all ();
+                        }
+
+                        this.tweet.favorited = true;
+                        this.birdie.home_list.update_display (this.tweet);
+                        this.birdie.mentions_list.update_display (this.tweet);
+                        this.birdie.own_list.update_display (this.tweet);
+                        this.birdie.favorites.append (this.tweet, this.birdie);
+                    }
+
+                    this.favorite_button.set_sensitive (true);
+
+                    return false;
+                });
+            }
             return null;
         }
 
         private void* retweet_thread () {
             int code = this.birdie.api.retweet (this.tweet.id);
 
-			Idle.add( () => {
-			    if (code == 0) {
-			        this.retweet_icon.set_from_icon_name ("twitter-retweeted", Gtk.IconSize.MENU);
-			    } else {
-			        this.retweet_button.set_sensitive (true);
-			    }
-			    return false;
-			});
+            Idle.add( () => {
+                if (code == 0) {
+                    if (this.tweet.favorited) {
+                        this.status_img.set_from_icon_name("twitter-favret-banner",  Gtk.IconSize.LARGE_TOOLBAR);
+                    } else {
+                        this.right_box.remove (this.time_label);
+                        this.right_box.remove (this.buttons_box);
+
+                        this.status_img.set_from_icon_name("twitter-ret-banner",  Gtk.IconSize.LARGE_TOOLBAR);
+
+                        this.right_box.pack_start (this.status_img, false, false, 0);
+                        this.right_box.pack_start (this.time_label, true, true, 0);
+                        this.right_box.add (this.buttons_box);
+                        this.right_box.show_all ();
+                    }
+
+                    this.retweet_icon.set_from_icon_name ("twitter-retweeted", Gtk.IconSize.MENU);
+                    this.tweet.retweeted = true;
+                } else {
+                    this.retweet_button.set_sensitive (true);
+                }
+                return false;
+            });
 
             return null;
         }
@@ -320,17 +374,17 @@ namespace Birdie.Widgets {
         private void* delete_thread () {
             int code = this.birdie.api.destroy (this.tweet.id);
 
-			Idle.add( () => {
-			    if (code == 0) {
-			        this.birdie.home_list.remove (this.tweet);
-			        this.birdie.mentions_list.remove (this.tweet);
-			        this.birdie.own_list.remove (this.tweet);
-			    } else {
-			        this.delete_button.set_sensitive (true);
-			    }
+            Idle.add( () => {
+                if (code == 0) {
+                    this.birdie.home_list.remove (this.tweet);
+                    this.birdie.mentions_list.remove (this.tweet);
+                    this.birdie.own_list.remove (this.tweet);
+                } else {
+                    this.delete_button.set_sensitive (true);
+                }
 
-			    return false;
-			});
+                return false;
+            });
 
             return null;
         }
@@ -374,16 +428,16 @@ namespace Birdie.Widgets {
         public void update_display () {
             if (this.tweet.favorited) {
                 this.favorite_icon.set_from_icon_name ("twitter-favd", Gtk.IconSize.MENU);
-			    this.favorite_button.set_tooltip_text (_("Unfavorite"));
+                this.favorite_button.set_tooltip_text (_("Unfavorite"));
             } else {
                 this.favorite_icon.set_from_icon_name ("twitter-fav", Gtk.IconSize.MENU);
-			    this.favorite_button.set_tooltip_text (_("Favorite"));
+                this.favorite_button.set_tooltip_text (_("Favorite"));
             }
         }
 
         private void set_footer () {
             var retweeted_by_label = "";
-            
+
             retweeted_by_label = ("<span color='#aaaaaa'>" + _("retweeted by %s").printf ("<span underline='none'><a href='birdie://user/" + this.tweet.retweeted_by + "'>" + this.tweet.retweeted_by_name + "</a></span>") + "</span>");
             if (this.tweet.retweeted_by != "") {
                 var retweeted_img = new Gtk.Image ();
@@ -403,7 +457,7 @@ namespace Birdie.Widgets {
                 reply_img.set_from_icon_name ("twitter-reply", Gtk.IconSize.MENU);
                 var reply_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
                 this.info_label = new Gtk.Label ("");
-                this.info_label.set_halign (Gtk.Align.START);               
+                this.info_label.set_halign (Gtk.Align.START);
                 var in_reply_label = ("<span color='#aaaaaa'>" + _("in reply to @%s").printf ("<span underline='none'><a href='birdie://user/" + this.tweet.in_reply_to_screen_name + "'>" + this.tweet.in_reply_to_screen_name + "</a></span>") + "</span>");
                 this.info_label.set_markup (in_reply_label);
                 reply_box.pack_start (reply_img, false, false, 0);

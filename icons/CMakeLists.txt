@@ -13,12 +13,14 @@ install(FILES twitter-retweeted.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/ic
 install(FILES twitter-fav.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/22x22/actions)
 install(FILES twitter-favd.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/22x22/actions)
 install(FILES twitter-delete.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/22x22/actions)
-
+install(FILES twitter-fav-banner.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/24x24/status)
+install(FILES twitter-ret-banner.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/24x24/status)
+install(FILES twitter-favret-banner.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/24x24/status)
 install(FILES birdie.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/apps)
 
-install(	
-    CODE	
-        "execute_process (COMMAND gtk-update-icon-cache -t -f ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor)"	
+install(    
+    CODE    
+        "execute_process (COMMAND gtk-update-icon-cache -t -f ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor)" 
     CODE
         "message (STATUS \"Updated icon cache in ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor\")"
 )
