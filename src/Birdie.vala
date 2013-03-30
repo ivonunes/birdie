@@ -13,7 +13,7 @@
  * Authored by: Ivo Nunes <ivo@elementaryos.org>
  *              Vasco Nunes <vascomfnunes@gmail.com>
  */
- 
+
 namespace Birdie {
     public class Birdie : Granite.Application {
         public Widgets.UnifiedWindow m_window;
@@ -85,7 +85,7 @@ namespace Birdie {
         private int update_interval;
 
         private Regex urls;
-        private Settings settings;
+        public Settings settings;
 
         private string user;
         private string search_term;
@@ -504,7 +504,7 @@ namespace Birdie {
             } else {
                 this.m_window.show();
                 this.launcher.clean_launcher_count ();
-                
+
                 switch (this.current_timeline) {
                     case "home":
                         this.unread_tweets = 0;
@@ -521,28 +521,28 @@ namespace Birdie {
                 }
             }
         }
-        
+
         protected override void open (File[] files, string hint) {
             foreach (File file in files) {
                 string url = file.get_uri ();
-                
+
                 if ("birdie://user/" in url) {
                     user = url.replace ("birdie://user/", "");
                     if ("/" in user)
                         user = user.replace ("/", "");
                     if ("@" in user)
                         user = user.replace ("@", "");
-                        
+
                     new Thread<void*> (null, show_user);
                 } else if ("birdie://search/" in url) {
                     search_term = url.replace ("birdie://search/", "");
                     if ("/" in search_term)
                        search_term = search_term.replace ("/", "");
-                        
+
                     new Thread<void*> (null, show_search);
                 }
             }
-            
+
             activate ();
         }
 
@@ -615,7 +615,7 @@ namespace Birdie {
                         this.own_box_info.init (this.api.account, this);
                         this.user_box_info.init (this.api.account, this);
                     }
-                    
+
                     this.initialized = true;
 
                     return false;
@@ -861,7 +861,7 @@ namespace Birdie {
                 }
             }
         }
-        
+
         private void* show_user () {
             if (this.check_internet_connection ()) {
                 Idle.add (() => {
@@ -869,17 +869,17 @@ namespace Birdie {
                     this.spinner.start ();
                     return false;
                 });
-                
+
                 this.api.user_timeline.foreach ((tweet) => {
                     this.user_list.remove (tweet);
                 });
-            
+
                 this.api.get_user_timeline (user);
-                
+
                 this.api.user_timeline.foreach ((tweet) => {
                     this.user_list.append (tweet, this);
                 });
-                
+
                 Idle.add (() => {
                     this.user_box_info.update (this.api.user);
                     this.switch_timeline ("user");
@@ -889,7 +889,7 @@ namespace Birdie {
             } else {
                 this.switch_timeline ("error");
             }
-            
+
             return null;
         }
 
@@ -900,17 +900,17 @@ namespace Birdie {
                     this.spinner.start ();
                     return false;
                 });
-                
+
                 this.api.search_timeline.foreach ((tweet) => {
                     this.search_list.remove (tweet);
                 });
-            
+
                 this.api.get_search_timeline (search_term);
-                
+
                 this.api.search_timeline.foreach ((tweet) => {
                     this.search_list.append (tweet, this);
                 });
-                
+
                 Idle.add (() => {
                     this.switch_timeline ("search_results");
                     this.spinner.stop ();
@@ -919,10 +919,10 @@ namespace Birdie {
             } else {
                 this.switch_timeline ("error");
             }
-            
+
             return null;
         }
-        
+
         private bool check_internet_connection() {
             if (!Utils.check_internet_connection ()) {
                 return false;
