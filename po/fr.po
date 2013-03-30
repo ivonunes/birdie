@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: birdie\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-03-28 16:27+0000\n"
-"PO-Revision-Date: 2013-03-28 15:05+0000\n"
+"PO-Revision-Date: 2013-03-29 08:23+0000\n"
 "Last-Translator: Rémi Patrizio <remi.patrizio@me.com>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-03-29 05:11+0000\n"
+"X-Launchpad-Export-Date: 2013-03-30 06:09+0000\n"
 "X-Generator: Launchpad (build 16546)\n"
 
 #: ../../src/Birdie.vala:153 ../../src/Utils/Indicator.vala:50
@@ -86,19 +86,19 @@ msgstr "Ajouter un compte Twitter"
 
 #: ../../src/Birdie.vala:348
 msgid "Unable to connect"
-msgstr ""
+msgstr "Impossible de se connecter"
 
 #: ../../src/Birdie.vala:348
 msgid "Please check your Internet Connection"
-msgstr ""
+msgstr "Veuillez vérifier votre connexion Internet"
 
 #: ../../src/Birdie.vala:349
 msgid "Retry"
-msgstr ""
+msgstr "Réessayer"
 
 #: ../../src/Birdie.vala:349
 msgid "Try to connect again"
-msgstr ""
+msgstr "Essayer de se reconnecter"
 
 #: ../../src/Birdie.vala:372
 msgid "Received"
@@ -142,7 +142,7 @@ msgstr "Résultats de la recherche"
 
 #: ../../src/Birdie.vala:446
 msgid "Error"
-msgstr ""
+msgstr "Erreur"
 
 #: ../../src/config.vala:25
 msgid "Twitter client for elementary OS"
@@ -175,12 +175,12 @@ msgstr "Retirer des favoris"
 #: ../../src/Widgets/TweetBox.vala:387
 #, c-format
 msgid "retweeted by %s"
-msgstr ""
+msgstr "retweeté par %s"
 
 #: ../../src/Widgets/TweetBox.vala:395
 #, c-format
 msgid "repeated by %s"
-msgstr ""
+msgstr "répété par %s"
 
 #: ../../src/Widgets/TweetBox.vala:407
 #, c-format
