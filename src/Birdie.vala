@@ -29,11 +29,11 @@ namespace Birdie {
         private Gtk.MenuItem account_appmenu;
 
         private Gtk.ToolButton new_tweet;
-        private Gtk.ToolButton home;
-        private Gtk.ToolButton mentions;
-        private Gtk.ToolButton dm;
-        private Gtk.ToolButton profile;
-        private Gtk.ToolButton search;
+        private Gtk.ToggleToolButton home;
+        private Gtk.ToggleToolButton mentions;
+        private Gtk.ToggleToolButton dm;
+        private Gtk.ToggleToolButton profile;
+        private Gtk.ToggleToolButton search;
 
         private Widgets.UserBox own_box_info;
         private Gtk.Box own_box;
@@ -91,6 +91,7 @@ namespace Birdie {
         private string search_term;
 
         private bool initialized;
+        private bool changing_tab;
 
         construct {
             program_name        = "Birdie";
@@ -115,6 +116,7 @@ namespace Birdie {
         public Birdie () {
             set_flags (ApplicationFlags.HANDLES_OPEN);
             this.initialized = false;
+            this.changing_tab = false;
         }
 
         public override void activate (){
@@ -177,61 +179,108 @@ namespace Birdie {
                 left_sep.draw = false;
                 left_sep.set_expand (true);
                 this.m_window.add_bar (left_sep);
+                this.home = new Gtk.ToggleToolButton ();
+                this.home.set_icon_widget (new Gtk.Image.from_icon_name ("twitter-home", Gtk.IconSize.LARGE_TOOLBAR));
 
-                this.home = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("twitter-home", Gtk.IconSize.LARGE_TOOLBAR), _("Home"));
                 home.set_tooltip_text (_("Home"));
-                home.clicked.connect (() => {
-                    this.switch_timeline ("home");
+                home.toggled.connect (() => {
+                    if (!this.changing_tab)
+                        this.switch_timeline ("home");
                 });
                 this.home.set_sensitive (false);
                 this.m_window.add_bar (home);
 
-                this.mentions = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("twitter-mentions", Gtk.IconSize.LARGE_TOOLBAR), _("Mentions"));
+                this.mentions = new Gtk.ToggleToolButton ();
+                this.mentions.set_icon_widget (new Gtk.Image.from_icon_name ("twitter-mentions", Gtk.IconSize.LARGE_TOOLBAR));
                 mentions.set_tooltip_text (_("Mentions"));
-                mentions.clicked.connect (() => {
-                    this.switch_timeline ("mentions");
+                mentions.toggled.connect (() => {
+                    if (!this.changing_tab)
+                        this.switch_timeline ("mentions");
                 });
                 this.mentions.set_sensitive (false);
                 this.m_window.add_bar (mentions);
 
-                this.dm = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("twitter-dm", Gtk.IconSize.LARGE_TOOLBAR), _("Direct Messages"));
+                this.dm = new Gtk.ToggleToolButton ();
+                this.dm.set_icon_widget (new Gtk.Image.from_icon_name ("twitter-dm", Gtk.IconSize.LARGE_TOOLBAR));
                 dm.set_tooltip_text (_("Direct Messages"));
-                dm.clicked.connect (() => {
-                    this.switch_timeline ("dm");
+                dm.toggled.connect (() => {
+                    if (!this.changing_tab)
+                        this.switch_timeline ("dm");
                 });
                 this.dm.set_sensitive (false);
                 this.m_window.add_bar (dm);
 
-                this.profile = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("twitter-profile", Gtk.IconSize.LARGE_TOOLBAR), _("Profile"));
+
+                this.profile = new Gtk.ToggleToolButton ();
+                this.profile.set_icon_widget (new Gtk.Image.from_icon_name ("twitter-profile", Gtk.IconSize.LARGE_TOOLBAR));
                 profile.set_tooltip_text (_("Profile"));
-                profile.clicked.connect (() => {
-                    this.switch_timeline ("own");
+                profile.toggled.connect (() => {
+                    if (!this.changing_tab)
+                        this.switch_timeline ("own");
                 });
                 this.profile.set_sensitive (false);
                 this.m_window.add_bar (profile);
 
-                this.search = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("twitter-search", Gtk.IconSize.LARGE_TOOLBAR), _("Search"));
+                this.search = new Gtk.ToggleToolButton ();
+                this.search.set_icon_widget (new Gtk.Image.from_icon_name ("twitter-search", Gtk.IconSize.LARGE_TOOLBAR));
                 search.set_tooltip_text (_("Search"));
-                search.clicked.connect (() => {
-                    var pop = new Granite.Widgets.PopOver ();
+                search.toggled.connect (() => {
+                    if (!this.changing_tab) {
+                        this.changing_tab = true;
 
-                    var search_entry = new Granite.Widgets.SearchBar (_("Search"));
-                    search_entry.activate.connect (() => {
-                        this.search_term = search_entry.get_text ();
-                        new Thread<void*> (null, this.show_search);
+                        switch (current_timeline) {
+                            case "home":
+                                this.home.set_active (false);
+                                break;
+                            case "mentions":
+                                this.mentions.set_active (false);
+                                break;
+                            case "dm":
+                                this.dm.set_active (false);
+                                break;
+                            case "own":
+                                this.profile.set_active (false);
+                                break;
+                        }
+
+                        var pop = new Granite.Widgets.PopOver ();
+
+                        var search_entry = new Granite.Widgets.SearchBar (_("Search"));
+                        search_entry.activate.connect (() => {
+                            this.search_term = search_entry.get_text ();
+                            new Thread<void*> (null, this.show_search);
+                            pop.destroy ();
+                        });
+
+                        var pop_box = pop.get_content_area () as Gtk.Container;
+                        pop_box.add (search_entry);
+
+                        pop.set_parent_pop (m_window);
+                        pop.move_to_widget (this.search);
+
+                        pop.show_all ();
+                        pop.present ();
+                        pop.run ();
                         pop.destroy ();
-                    });
 
-                    var pop_box = pop.get_content_area () as Gtk.Container;
-                    pop_box.add (search_entry);
+                        switch (current_timeline) {
+                            case "home":
+                                this.home.set_active (true);
+                                break;
+                            case "mentions":
+                                this.mentions.set_active (true);
+                                break;
+                            case "dm":
+                                this.dm.set_active (true);
+                                break;
+                            case "own":
+                                this.profile.set_active (true);
+                                break;
+                        }
 
-                    pop.set_parent_pop (m_window);
-                    pop.move_to_widget (this.search);
-
-                    pop.show_all ();
-                    pop.present ();
-                    pop.run ();
-                    pop.destroy ();
+                        this.search.set_active (false);
+                        this.changing_tab = false;
+                    }
                 });
                 this.search.set_sensitive (false);
                 this.m_window.add_bar (search);
@@ -652,6 +701,34 @@ namespace Birdie {
 
         public void switch_timeline (string new_timeline) {
             Idle.add( () => {
+                this.changing_tab = true;
+
+                bool active = false;
+
+                if (this.current_timeline == new_timeline)
+                    active = true;
+
+                switch (current_timeline) {
+                    case "home":
+                        this.home.set_active (active);
+                        break;
+                    case "mentions":
+                        this.mentions.set_active (active);
+                        break;
+                    case "dm":
+                        this.dm.set_active (active);
+                        break;
+                    case "own":
+                        this.profile.set_active (active);
+                        break;
+                    case "search_results":
+                        this.search.set_active (active);
+                        break;
+                }
+
+                this.changing_tab = false;
+
+
                 switch (new_timeline) {
                     case "loading":
                         this.notebook.page = 0;
@@ -694,6 +771,9 @@ namespace Birdie {
                         this.user_list.set_selectable (true);
                         break;
                     case "search_results":
+                        this.changing_tab = true;
+                        this.search.set_active (true);
+                        this.changing_tab = false;
                         this.notebook.page = 8;
                         break;
                     case "error":
@@ -708,10 +788,19 @@ namespace Birdie {
                         break;
                 }
 
+                this.current_timeline = new_timeline;
+
                 return false;
             });
 
-            this.current_timeline = new_timeline;
+        }
+
+        private void deactivate_toggles () {
+            this.home.set_active (false);
+            this.dm.set_active (false);
+            this.mentions.set_active (false);
+            this.profile.set_active (false);
+            this.search.set_active (false);
         }
 
         public void add_timeout_offline () {
