@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: birdie\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-03-28 16:27+0000\n"
-"PO-Revision-Date: 2013-03-23 14:21+0000\n"
-"Last-Translator: vasco <Unknown>\n"
+"PO-Revision-Date: 2013-03-30 06:51+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-03-29 05:11+0000\n"
+"X-Launchpad-Export-Date: 2013-03-31 05:58+0000\n"
 "X-Generator: Launchpad (build 16546)\n"
 
 #: ../../src/Birdie.vala:153 ../../src/Utils/Indicator.vala:50
@@ -24,7 +24,7 @@ msgstr "Tuit nuevo"
 
 #: ../../src/Birdie.vala:156
 msgid "New Status"
-msgstr "Nuevo estado"
+msgstr "Estado nuevo"
 
 #: ../../src/Birdie.vala:181 ../../src/Birdie.vala:182
 #: ../../src/Birdie.vala:440
@@ -54,7 +54,7 @@ msgstr "Buscar"
 
 #: ../../src/Birdie.vala:245
 msgid "Remove account"
-msgstr ""
+msgstr "Eliminar la cuenta"
 
 #: ../../src/Birdie.vala:286
 msgid "About"
@@ -66,7 +66,7 @@ msgstr "Salir"
 
 #: ../../src/Birdie.vala:308
 msgid "Menu"
-msgstr ""
+msgstr "Menú"
 
 #: ../../src/Birdie.vala:342
 msgid "Birdie"
@@ -86,19 +86,19 @@ msgstr "Añadir una cuenta de Twitter"
 
 #: ../../src/Birdie.vala:348
 msgid "Unable to connect"
-msgstr ""
+msgstr "No se pudo conectar"
 
 #: ../../src/Birdie.vala:348
 msgid "Please check your Internet Connection"
-msgstr ""
+msgstr "Compruebe su conexión a Internet"
 
 #: ../../src/Birdie.vala:349
 msgid "Retry"
-msgstr ""
+msgstr "Reintentar"
 
 #: ../../src/Birdie.vala:349
 msgid "Try to connect again"
-msgstr ""
+msgstr "Intentar conectarse de nuevo"
 
 #: ../../src/Birdie.vala:372
 msgid "Received"
@@ -142,7 +142,7 @@ msgstr "Resultados de la búsqueda"
 
 #: ../../src/Birdie.vala:446
 msgid "Error"
-msgstr ""
+msgstr "Error"
 
 #: ../../src/config.vala:25
 msgid "Twitter client for elementary OS"
@@ -175,17 +175,17 @@ msgstr "Quitar de favoritos"
 #: ../../src/Widgets/TweetBox.vala:387
 #, c-format
 msgid "retweeted by %s"
-msgstr ""
+msgstr "retuiteado por %s"
 
 #: ../../src/Widgets/TweetBox.vala:395
 #, c-format
 msgid "repeated by %s"
-msgstr ""
+msgstr "repetido por %s"
 
 #: ../../src/Widgets/TweetBox.vala:407
 #, c-format
 msgid "in reply to @%s"
-msgstr ""
+msgstr "en respuesta a @%s"
 
 #: ../../src/Widgets/TweetDialog.vala:96
 msgid "Cancel"
@@ -201,11 +201,11 @@ msgstr "Tuitear"
 
 #: ../../src/Widgets/TweetDialog.vala:108
 msgid "New status"
-msgstr "Nuevo estado"
+msgstr "Estado nuevo"
 
 #: ../../src/Widgets/UserBox.vala:102 ../../src/Widgets/UserBox.vala:230
 msgid "TWEETS"
-msgstr "TWEETS"
+msgstr "TUITS"
 
 #: ../../src/Widgets/UserBox.vala:104 ../../src/Widgets/UserBox.vala:232
 msgid "STATUSES"
@@ -213,51 +213,51 @@ msgstr "ESTADOS"
 
 #: ../../src/Widgets/UserBox.vala:109 ../../src/Widgets/UserBox.vala:263
 msgid "FOLLOWING"
-msgstr ""
+msgstr "SIGUIENDO"
 
 #: ../../src/Widgets/UserBox.vala:111 ../../src/Widgets/UserBox.vala:265
 msgid "FOLLOWERS"
-msgstr ""
+msgstr "SEGUIDORES"
 
 #: ../../src/Widgets/UserBox.vala:136
 msgid "Follow"
-msgstr ""
+msgstr "Seguir"
 
 #: ../../src/Widgets/UserBox.vala:138
 msgid "Follow user"
-msgstr ""
+msgstr "Seguir al usuario"
 
 #: ../../src/Widgets/UserBox.vala:146
 msgid "Unfollow"
-msgstr ""
+msgstr "Dejar de seguir"
 
 #: ../../src/Widgets/UserBox.vala:148
 msgid "Unfollow user"
-msgstr ""
+msgstr "Dejar de seguir al usuario"
 
 #: ../../src/Widgets/UserBox.vala:156
 msgid "Block"
-msgstr ""
+msgstr "Bloquear"
 
 #: ../../src/Widgets/UserBox.vala:158
 msgid "Block user"
-msgstr ""
+msgstr "Bloquear al usuario"
 
 #: ../../src/Widgets/UserBox.vala:166
 msgid "Unblock"
-msgstr ""
+msgstr "Desbloquear"
 
 #: ../../src/Widgets/UserBox.vala:168
 msgid "Unblock user"
-msgstr ""
+msgstr "Desbloquear al usuario"
 
 #: ../../src/Widgets/UserBox.vala:255
 msgid "Following you."
-msgstr ""
+msgstr "Le sigue."
 
 #: ../../src/Widgets/UserBox.vala:257
 msgid "Not following you."
-msgstr ""
+msgstr "No le sigue."
 
 #: ../../src/Utils/Date.vala:65
 #, c-format

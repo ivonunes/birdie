@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: birdie\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-03-28 16:27+0000\n"
-"PO-Revision-Date: 2013-03-12 20:59+0000\n"
+"PO-Revision-Date: 2013-03-30 07:03+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitoschido@gmail.com>\n"
 "Language-Team: Catalan <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-03-29 05:11+0000\n"
+"X-Launchpad-Export-Date: 2013-03-31 05:58+0000\n"
 "X-Generator: Launchpad (build 16546)\n"
 
 #: ../../src/Birdie.vala:153 ../../src/Utils/Indicator.vala:50
@@ -24,7 +24,7 @@ msgstr "Piulada nova"
 
 #: ../../src/Birdie.vala:156
 msgid "New Status"
-msgstr ""
+msgstr "Estat nou"
 
 #: ../../src/Birdie.vala:181 ../../src/Birdie.vala:182
 #: ../../src/Birdie.vala:440
@@ -54,19 +54,19 @@ msgstr "Cerca"
 
 #: ../../src/Birdie.vala:245
 msgid "Remove account"
-msgstr ""
+msgstr "Suprimeix el compte"
 
 #: ../../src/Birdie.vala:286
 msgid "About"
-msgstr ""
+msgstr "Quant a"
 
 #: ../../src/Birdie.vala:290
 msgid "Quit"
-msgstr ""
+msgstr "Surt"
 
 #: ../../src/Birdie.vala:308
 msgid "Menu"
-msgstr ""
+msgstr "Menú"
 
 #: ../../src/Birdie.vala:342
 msgid "Birdie"
@@ -86,27 +86,27 @@ msgstr "Afegeix un compte del Twitter"
 
 #: ../../src/Birdie.vala:348
 msgid "Unable to connect"
-msgstr ""
+msgstr "No s’ha pogut connectar"
 
 #: ../../src/Birdie.vala:348
 msgid "Please check your Internet Connection"
-msgstr ""
+msgstr "Comproveu la vostra connexió a Internet"
 
 #: ../../src/Birdie.vala:349
 msgid "Retry"
-msgstr ""
+msgstr "Reintenta-ho"
 
 #: ../../src/Birdie.vala:349
 msgid "Try to connect again"
-msgstr ""
+msgstr "Intenta connectar de nou"
 
 #: ../../src/Birdie.vala:372
 msgid "Received"
-msgstr ""
+msgstr "Rebudes"
 
 #: ../../src/Birdie.vala:373
 msgid "Sent"
-msgstr ""
+msgstr "Enviats"
 
 #: ../../src/Birdie.vala:394
 msgid "OK"
@@ -118,11 +118,11 @@ msgstr "Escriviu el vostre PIN a continuació:"
 
 #: ../../src/Birdie.vala:421 ../../src/Birdie.vala:428
 msgid "Timeline"
-msgstr ""
+msgstr "Cronologia"
 
 #: ../../src/Birdie.vala:422
 msgid "Favorites"
-msgstr ""
+msgstr "Preferides"
 
 #: ../../src/Birdie.vala:437
 msgid "Loading"
@@ -142,7 +142,7 @@ msgstr "Resultats de la cerca"
 
 #: ../../src/Birdie.vala:446
 msgid "Error"
-msgstr ""
+msgstr "Error"
 
 #: ../../src/config.vala:25
 msgid "Twitter client for elementary OS"
@@ -158,7 +158,7 @@ msgstr "Repiula"
 
 #: ../../src/Widgets/TweetBox.vala:190
 msgid "Repeat"
-msgstr ""
+msgstr "Repeteix"
 
 #: ../../src/Widgets/TweetBox.vala:209
 msgid "Reply"
@@ -175,17 +175,17 @@ msgstr "Desmarca com preferit"
 #: ../../src/Widgets/TweetBox.vala:387
 #, c-format
 msgid "retweeted by %s"
-msgstr ""
+msgstr "repiulat per %s"
 
 #: ../../src/Widgets/TweetBox.vala:395
 #, c-format
 msgid "repeated by %s"
-msgstr ""
+msgstr "repetit per %s"
 
 #: ../../src/Widgets/TweetBox.vala:407
 #, c-format
 msgid "in reply to @%s"
-msgstr ""
+msgstr "en resposta a @%s"
 
 #: ../../src/Widgets/TweetDialog.vala:96
 msgid "Cancel"
@@ -193,7 +193,7 @@ msgstr "Cancel·la"
 
 #: ../../src/Widgets/TweetDialog.vala:103
 msgid "Send"
-msgstr ""
+msgstr "Envia"
 
 #: ../../src/Widgets/TweetDialog.vala:106
 msgid "Tweet"
@@ -201,63 +201,63 @@ msgstr "Piula"
 
 #: ../../src/Widgets/TweetDialog.vala:108
 msgid "New status"
-msgstr ""
+msgstr "Estat nou"
 
 #: ../../src/Widgets/UserBox.vala:102 ../../src/Widgets/UserBox.vala:230
 msgid "TWEETS"
-msgstr ""
+msgstr "PIULADES"
 
 #: ../../src/Widgets/UserBox.vala:104 ../../src/Widgets/UserBox.vala:232
 msgid "STATUSES"
-msgstr ""
+msgstr "ESTATS"
 
 #: ../../src/Widgets/UserBox.vala:109 ../../src/Widgets/UserBox.vala:263
 msgid "FOLLOWING"
-msgstr ""
+msgstr "SEGUINT"
 
 #: ../../src/Widgets/UserBox.vala:111 ../../src/Widgets/UserBox.vala:265
 msgid "FOLLOWERS"
-msgstr ""
+msgstr "SEGUIDORS"
 
 #: ../../src/Widgets/UserBox.vala:136
 msgid "Follow"
-msgstr ""
+msgstr "Segueix"
 
 #: ../../src/Widgets/UserBox.vala:138
 msgid "Follow user"
-msgstr ""
+msgstr "Segueix a l’usuari"
 
 #: ../../src/Widgets/UserBox.vala:146
 msgid "Unfollow"
-msgstr ""
+msgstr "Deixa de seguir"
 
 #: ../../src/Widgets/UserBox.vala:148
 msgid "Unfollow user"
-msgstr ""
+msgstr "Deixa de seguir a l’usuari"
 
 #: ../../src/Widgets/UserBox.vala:156
 msgid "Block"
-msgstr ""
+msgstr "Bloqueja"
 
 #: ../../src/Widgets/UserBox.vala:158
 msgid "Block user"
-msgstr ""
+msgstr "Bloqueja a l’usuari"
 
 #: ../../src/Widgets/UserBox.vala:166
 msgid "Unblock"
-msgstr ""
+msgstr "Desbloqueja"
 
 #: ../../src/Widgets/UserBox.vala:168
 msgid "Unblock user"
-msgstr ""
+msgstr "Desbloqueja a l’usuari"
 
 #: ../../src/Widgets/UserBox.vala:255
 msgid "Following you."
-msgstr ""
+msgstr "Us segueix."
 
 #: ../../src/Widgets/UserBox.vala:257
 msgid "Not following you."
-msgstr ""
+msgstr "No us segueix."
 
 #: ../../src/Utils/Date.vala:65
 #, c-format
@@ -299,4 +299,4 @@ msgstr "Piulades"
 
 #: ../../src/Utils/Launcher.vala:59
 msgid "Messages"
-msgstr ""
+msgstr "Missatges"
