@@ -369,6 +369,32 @@ namespace Birdie {
             return profile_image_file;
         }
 
+        private string get_media (string image_url) {
+            var image_file = image_url;
+
+           // bool convert_png = false;
+
+            Gdk.Pixbuf pixbuf = null;
+
+            if ("/" in image_file)
+                image_file = image_file.split ("/")[4] + "_" + image_file.split ("/")[5];
+
+            var file = File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/media" + image_file);
+
+            if (!file.query_exists ()) {
+                GLib.DirUtils.create_with_parents(Environment.get_home_dir () + "/.cache/birdie/media", 0775);
+
+                var src = File.new_for_uri (image_url);
+                var dst = File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/media/" + image_file);
+                try {
+                    src.copy (dst, FileCopyFlags.NONE, null, null);
+                } catch (Error e) {
+                    stderr.printf ("%s\n", e.message);
+                }
+            }
+            return image_file;
+        }
+
         public override string highligh_links (owned string text) {
             if ("\n" in text)
                 text = text.replace ("\n", " ");
@@ -389,11 +415,11 @@ namespace Birdie {
 
         public override Tweet get_tweet (Json.Node tweetnode) {
             var tweetobject = tweetnode.get_object();
-
             var actual_id = tweetobject.get_string_member ("id_str");
             var retweet = tweetobject.get_member ("retweeted_status");
             string retweeted_by = "";
             string retweeted_by_name = "";
+            string media_url = "";
 
             if (retweet != null) {
                 retweeted_by = tweetobject.get_object_member ("user").get_string_member ("screen_name");
@@ -417,7 +443,19 @@ namespace Birdie {
                 in_reply_to_screen_name = "";
             }
 
-            return new Tweet (id, actual_id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited, false, in_reply_to_screen_name, retweeted_by, retweeted_by_name);
+            var entitiesobject = tweetobject.get_object_member ("entities");
+            if (entitiesobject.has_member("media")) {
+
+                media_url = entitiesobject.get_object_member ("media").get_string_member ("media_url");
+                foreach (var media in entitiesobject.get_array_member ("media").get_elements ()) {
+                    media_url = media.get_object ().get_string_member ("media_url");
+                    media_url = this.get_media (media_url);
+                }
+            } else {
+                media_url = "";
+            }
+
+            return new Tweet (id, actual_id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited, false, in_reply_to_screen_name, retweeted_by, retweeted_by_name, media_url);
         }
 
         public override int get_home_timeline () {

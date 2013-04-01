@@ -40,6 +40,10 @@ namespace Birdie.Widgets {
         private Gtk.Image retweet_icon;
         private Gtk.Image reply_icon;
         private Gtk.Image delete_icon;
+        private Gtk.EventBox media_box;
+        private Gtk.Image media;
+        private Gdk.Pixbuf media_pixbuf;
+        private Gtk.Image full_image;
 
         private int year;
         private int month;
@@ -121,6 +125,26 @@ namespace Birdie.Widgets {
             this.tweet_label.set_halign (Gtk.Align.START);
             this.tweet_label.xalign = 0;
             this.content_box.pack_start (this.tweet_label, false, true, 0);
+
+            // media
+            if (tweet.media_url != "") {
+
+                media_pixbuf = new Gdk.Pixbuf.from_file_at_scale (Environment.get_home_dir () + "/.cache/birdie/media/" + tweet.media_url, 60, 60, true);
+
+                this.media = new Gtk.Image.from_pixbuf (media_pixbuf);
+                this.media.set_halign (Gtk.Align.START);
+
+                this.media_box = new Gtk.EventBox ();
+                this.media_box.add (this.media);
+                this.content_box.pack_start (this.media_box, false, true, 0);
+
+                set_events(Gdk.EventMask.BUTTON_RELEASE_MASK);
+
+                this.media_box.button_release_event.connect ((event) => {
+                    this.show_media (tweet.media_url);
+                    return false;
+                });
+            }
 
             // css
             Gtk.StyleContext ctx = this.tweet_label.get_style_context();
@@ -269,6 +293,16 @@ namespace Birdie.Widgets {
             });
 
             this.set_size_request (-1, 150);
+        }
+
+        private void show_media (string media_file) {
+            var light_window = new Granite.Widgets.LightWindow ();
+            this.full_image = new Gtk.Image ();
+            this.full_image.set_from_file (Environment.get_home_dir () + "/.cache/birdie/media/" + media_file);
+            this.full_image.set_halign (Gtk.Align.CENTER);
+            this.full_image.set_valign (Gtk.Align.CENTER);
+            light_window.add (this.full_image);
+            light_window.show_all ();
         }
 
         public void hide_buttons () {
