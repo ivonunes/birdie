@@ -22,7 +22,7 @@ namespace Birdie.Widgets {
         Gtk.Label count_label;
         int count;
         Gtk.Button tweet;
-
+        Gtk.FileChooserButton file_chooser;
         bool tweet_disabled;
 
         string id;
@@ -38,6 +38,8 @@ namespace Birdie.Widgets {
 
         private Regex urls;
 
+        private string media_uri;
+
         Birdie birdie;
 
         public TweetDialog (Birdie birdie, string id = "", string user_screen_name = "", bool dm = false) {
@@ -45,6 +47,8 @@ namespace Birdie.Widgets {
             this.id = id;
             this.user_screen_name = user_screen_name;
             this.dm = dm;
+
+            this.media_uri = "";
 
             // restore dialog size and position
             this.opening_x = this.birdie.settings.get_int ("compose-opening-x");
@@ -141,9 +145,50 @@ namespace Birdie.Widgets {
             this.tweet.get_style_context ().add_provider (d_provider, Gtk.STYLE_PROVIDER_PRIORITY_THEME);
             this.tweet.get_style_context().add_class ("affirmative");
 
+            this.file_chooser =  new Gtk.FileChooserButton (_("Choose media file for upload"), Gtk.FileChooserAction.OPEN);
+
+            // filter to jpg, png and gif:
+            Gtk.FileFilter filter = new Gtk.FileFilter ();
+            this.file_chooser.set_filter (filter);
+            this.file_chooser.set_title (_("Choose media file for upload"));
+            filter.add_mime_type ("image/jpeg");
+            filter.add_mime_type ("image/png");
+            filter.add_mime_type ("image/gif");
+            //
+
+            // Add a preview widget:
+            Gtk.Image preview_area = new Gtk.Image ();
+            file_chooser.set_preview_widget (preview_area);
+            file_chooser.update_preview.connect (() => {
+                string uri = file_chooser.get_preview_uri ();
+                // We only display local files:
+                if (uri.has_prefix ("file://") == true) {
+                    try {
+                        Gdk.Pixbuf pixbuf = new Gdk.Pixbuf.from_file (uri.substring (7));
+                        Gdk.Pixbuf scaled = pixbuf.scale_simple (150, 150, Gdk.InterpType.BILINEAR);
+                        preview_area.set_from_pixbuf (scaled);
+                        preview_area.show ();
+                    } catch (Error e) {
+                        preview_area.hide ();
+                    }
+                } else {
+                    preview_area.hide ();
+                }
+            });
+
+            // Emitted when there is a change in selected file:
+            file_chooser.selection_changed.connect (() => {
+                SList<string> uris = file_chooser.get_uris ();
+                foreach (unowned string uri in uris) {
+                    this.media_uri = uri;
+                    debug (uri);
+                }
+            });
+
             Gtk.Box bottom = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
             bottom.pack_start (this.count_label, false, false, 0);
             bottom.pack_start (new Gtk.Label (""), true, true, 0);
+            bottom.pack_start (this.file_chooser, false, true, 0);
             bottom.pack_start (cancel, false, false, 0);
             bottom.pack_start (this.tweet, false, false, 0);
             bottom.margin = 12;
@@ -165,7 +210,7 @@ namespace Birdie.Widgets {
                 this.user_screen_name = this.entry.get_text ();
 
             this.hide ();
-            birdie.tweet_callback (this.view.buffer.get_text (start, end, false), this.id, this.user_screen_name, this.dm);
+            birdie.tweet_callback (this.view.buffer.get_text (start, end, false), this.id, this.user_screen_name, this.dm, this.media_uri);
             this.save_window ();
             this.destroy ();
 

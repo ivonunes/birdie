@@ -35,6 +35,7 @@ namespace Birdie {
             this.token = settings.get_string ("token");
             this.token_secret = settings.get_string ("token-secret");
             this.retrieve_count = settings.get_string ("retrieve-count");
+
         }
 
         public override string get_request () {
@@ -89,6 +90,43 @@ namespace Birdie {
             call.set_function ("1.1/statuses/update.json");
             call.set_method ("POST");
             call.add_param ("status", status);
+            if (id != "")
+                call.add_param ("in_reply_to_status_id", id);
+            try { call.sync (); } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+                return 1;
+            }
+
+            try {
+                var parser = new Json.Parser ();
+                parser.load_from_data ((string) call.get_payload (), -1);
+
+                var root = parser.get_root ();
+                var userobject = root.get_object ();
+
+                var user_id = userobject.get_int_member ("id");
+
+                return user_id;
+            } catch (Error e) {
+                stderr.printf ("Unable to parse update.json\n");
+            }
+
+            return 0;
+        }
+
+       public override int64 update_with_media (string status, string id = "", string media_uri, out string media_out) {
+            var imgur = new Imgur ();
+            var link = imgur.upload (media_uri);
+            media_out = link;
+
+            if (link == "")
+                return 1;
+
+            // setup call
+            Rest.ProxyCall call = proxy.new_call();
+            call.set_function ("1.1/statuses/update.json");
+            call.set_method ("POST");
+            call.add_param ("status", status + " " + link);
             if (id != "")
                 call.add_param ("in_reply_to_status_id", id);
             try { call.sync (); } catch (Error e) {
@@ -189,6 +227,7 @@ namespace Birdie {
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("1.1/account/verify_credentials.json");
             call.set_method ("GET");
+            call.add_param ("entities", "true");
 
             try { call.sync (); } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);

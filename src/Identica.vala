@@ -243,24 +243,24 @@ namespace Birdie {
             var screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
             var profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
             var profile_image_file = get_avatar (profile_image_url);
-            
+
             string location = "";
             string description = "";
-            
+
             if (tweetobject.get_object_member ("user").has_member("location") &&
                  tweetobject.get_object_member ("user").get_string_member ("location") != null) {
                 location = tweetobject.get_object_member ("user").get_string_member ("location");
             }
-            
+
             if (tweetobject.get_object_member ("user").has_member("description") &&
                  tweetobject.get_object_member ("user").get_string_member ("description") != null) {
                 description = tweetobject.get_object_member ("user").get_string_member ("description");
             }
-            
+
             int64 friends_count = tweetobject.get_object_member ("user").get_int_member ("friends_count");
             int64 followers_count = tweetobject.get_object_member ("user").get_int_member ("followers_count");
             int64 statuses_count = tweetobject.get_object_member ("user").get_int_member ("statuses_count");
-                    
+
             this.user = new User (id, name, screen_name,
                 profile_image_url, profile_image_file, location, description,
                 friends_count, followers_count, statuses_count
@@ -657,14 +657,14 @@ namespace Birdie {
             }
             return 0;
         }
-        
+
         public override Array<string> get_friendship (string source_user, string target_user) {
             Array<string> friendship = new Array<string> ();
-            
+
             bool following = false;
             bool blocking = false;
             bool followed = false;
-            
+
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("friendships/show.json");
             call.set_method ("GET");
@@ -681,22 +681,22 @@ namespace Birdie {
                 var root = parser.get_root ();
                 var userobject = root.get_object ();
                 var usermember = userobject.get_object_member ("relationship");
-                
+
                 following = usermember.get_object_member ("source").get_boolean_member ("following");
                 blocking = usermember.get_object_member ("source").get_boolean_member ("blocking");
                 followed = usermember.get_object_member ("source").get_boolean_member ("followed_by");
-                  
+
             } catch (Error e) {
                 stderr.printf ("Unable to parse sent.json\n");
             }
-            
+
             friendship.append_val (following.to_string ());
-            friendship.append_val (blocking.to_string ());      
+            friendship.append_val (blocking.to_string ());
             friendship.append_val (followed.to_string ());
-            
+
             return friendship;
         }
-        
+
         public override int create_friendship (string screen_name) {
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("friendships/create.json");
@@ -708,7 +708,7 @@ namespace Birdie {
             }
             return 0;
         }
-        
+
         public override int create_block (string screen_name) {
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("blocks/create.json");
@@ -720,7 +720,7 @@ namespace Birdie {
             }
             return 0;
         }
-        
+
         public override int destroy_block (string screen_name) {
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("blocks/destroy.json");
@@ -732,7 +732,7 @@ namespace Birdie {
             }
             return 0;
         }
-        
+
         public override int destroy_friendship (string screen_name) {
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("friendships/destroy.json");
@@ -818,5 +818,38 @@ namespace Birdie {
 
             return 0;
         }
+
+         public override int64 update_with_media (string status, string id = "", string media_uri, out string media_out) {
+            // setup call
+            Rest.ProxyCall call = proxy.new_call();
+            call.set_function ("1.1/statuses/update_with_media.json");
+            call.set_method ("POST");
+            call.add_param ("media", media_uri);
+            call.add_param ("status", status);
+            if (id != "")
+                call.add_param ("in_reply_to_status_id", id);
+            try { call.sync (); } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+                return 1;
+            }
+
+            try {
+                var parser = new Json.Parser ();
+                parser.load_from_data ((string) call.get_payload (), -1);
+
+                var root = parser.get_root ();
+                var userobject = root.get_object ();
+
+                var user_id = userobject.get_int_member ("id");
+
+                return user_id;
+            } catch (Error e) {
+                stderr.printf ("Unable to parse update.json\n");
+            }
+
+            return 0;
+        }
+
+
     }
 }

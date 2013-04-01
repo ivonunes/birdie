@@ -900,14 +900,18 @@ namespace Birdie {
             }
         }
 
-        public void tweet_callback (string text, string id = "", string user_screen_name, bool dm) {
+        public void tweet_callback (string text, string id = "", string user_screen_name, bool dm, string media_uri) {
             int64 code;
             var text_url = "";
+            var media_out = "";
 
             if (dm)
                 code = this.api.send_direct_message (user_screen_name, text);
             else
-                code = this.api.update (text, id);
+                if (media_uri == "")
+                    code = this.api.update (text, id);
+                else
+                    code = this.api.update_with_media (text, id, media_uri, out media_out);
 
             try {
                 urls = new Regex("((http|https|ftp)://([\\S]+))");
@@ -919,6 +923,10 @@ namespace Birdie {
                 text_url = urls.replace(text, -1, 0, "<a href='\\0'>\\0</a>");
             } catch (Error e) {
                 warning ("url replacing error: %s", e.message);
+            }
+
+            if (media_out != "") {
+                text_url = text_url + " <a href='" + media_out + "'>" + media_out + "</a>";
             }
 
             string user = user_screen_name;

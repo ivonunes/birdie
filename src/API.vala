@@ -13,10 +13,10 @@
  * Authored by: Ivo Nunes <ivo@elementaryos.org>
  *              Vasco Nunes <vascomfnunes@gmail.com>
  */
- 
+
 namespace Birdie {
     public abstract class API {
-        
+
         public string CONSUMER_KEY;
         public string CONSUMER_SECRET;
         public string URL_FORMAT;
@@ -73,5 +73,6 @@ namespace Birdie {
         public abstract int destroy_friendship (string screen_name);
         public abstract int create_block (string screen_name);
         public abstract int destroy_block (string screen_name);
+        public abstract int64 update_with_media (string status, string id = "", string media_uri, out string media_out);
     }
 }

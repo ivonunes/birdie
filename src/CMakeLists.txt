@@ -41,6 +41,7 @@ vala_precompile(VALA_C
     Identica.vala
     Tweet.vala
     User.vala
+    Imgur.vala
     Widgets/TweetBox.vala
     Widgets/TweetList.vala
     Widgets/UnifiedWindow.vala
