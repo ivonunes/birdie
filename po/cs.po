@@ -1,4 +1,4 @@
-# Italian translation for birdie
+# Czech translation for birdie
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
 # This file is distributed under the same license as the birdie package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: birdie\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-03-28 16:27+0000\n"
-"PO-Revision-Date: 2013-03-31 18:26+0000\n"
-"Last-Translator: Luca Bessi <sputnik.96@live.com>\n"
-"Language-Team: Italian <it@li.org>\n"
+"PO-Revision-Date: 2013-03-31 18:16+0000\n"
+"Last-Translator: Petr Horáček <p.horacek94@gmail.com>\n"
+"Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,53 +20,53 @@ msgstr ""
 #: ../../src/Birdie.vala:153 ../../src/Utils/Indicator.vala:50
 #: ../../src/Utils/Launcher.vala:41
 msgid "New Tweet"
-msgstr "Nuovo Tweet"
+msgstr "Nový Tweet"
 
 #: ../../src/Birdie.vala:156
 msgid "New Status"
-msgstr "Nuovo Stato"
+msgstr "Nový Status"
 
 #: ../../src/Birdie.vala:181 ../../src/Birdie.vala:182
 #: ../../src/Birdie.vala:440
 msgid "Home"
-msgstr "Home"
+msgstr "Domů"
 
 #: ../../src/Birdie.vala:189 ../../src/Birdie.vala:190
 #: ../../src/Birdie.vala:441 ../../src/Utils/Indicator.vala:48
 #: ../../src/Utils/Launcher.vala:53
 msgid "Mentions"
-msgstr "Citazioni"
+msgstr ""
 
 #: ../../src/Birdie.vala:197 ../../src/Birdie.vala:198
 #: ../../src/Birdie.vala:442 ../../src/Utils/Indicator.vala:49
 msgid "Direct Messages"
-msgstr "Messaggi Diretti"
+msgstr ""
 
 #: ../../src/Birdie.vala:205 ../../src/Birdie.vala:206
 #: ../../src/Birdie.vala:443 ../../src/Utils/Launcher.vala:65
 msgid "Profile"
-msgstr "Profilo"
+msgstr "Profil"
 
 #: ../../src/Birdie.vala:213 ../../src/Birdie.vala:214
 #: ../../src/Birdie.vala:218
 msgid "Search"
-msgstr "Cerca"
+msgstr ""
 
 #: ../../src/Birdie.vala:245
 msgid "Remove account"
-msgstr "Rimuovi account"
+msgstr "Odstranit účet"
 
 #: ../../src/Birdie.vala:286
 msgid "About"
-msgstr "Info"
+msgstr "O programu"
 
 #: ../../src/Birdie.vala:290
 msgid "Quit"
-msgstr "Esci"
+msgstr "Ukončit"
 
 #: ../../src/Birdie.vala:308
 msgid "Menu"
-msgstr "Menù"
+msgstr "Menu"
 
 #: ../../src/Birdie.vala:342
 msgid "Birdie"
@@ -74,127 +74,126 @@ msgstr "Birdie"
 
 #: ../../src/Birdie.vala:342 ../../src/config.vala:24
 msgid "Twitter Client"
-msgstr "Client Twitter"
+msgstr "Twitter Klient"
 
 #: ../../src/Birdie.vala:343
 msgid "Add account"
-msgstr "Aggiungi Account"
+msgstr "Přidat účet"
 
 #: ../../src/Birdie.vala:343
 msgid "Add a Twitter account"
-msgstr "Aggiungi un account Twitter"
+msgstr ""
 
 #: ../../src/Birdie.vala:348
 msgid "Unable to connect"
-msgstr "Impossibile connettersi"
+msgstr "Nelze se připojit"
 
 #: ../../src/Birdie.vala:348
 msgid "Please check your Internet Connection"
-msgstr "Per piacere controlla la tua connessione Internet"
+msgstr ""
 
 #: ../../src/Birdie.vala:349
 msgid "Retry"
-msgstr "Riprova"
+msgstr "Opakovat"
 
 #: ../../src/Birdie.vala:349
 msgid "Try to connect again"
-msgstr "Prova a connetterti di nuovo"
+msgstr ""
 
 #: ../../src/Birdie.vala:372
 msgid "Received"
-msgstr "Ricevuti"
+msgstr "Přijaté"
 
 #: ../../src/Birdie.vala:373
 msgid "Sent"
-msgstr "Inviati"
+msgstr "Odeslané"
 
 #: ../../src/Birdie.vala:394
 msgid "OK"
-msgstr "Ok"
+msgstr "OK"
 
 #: ../../src/Birdie.vala:405
 msgid "Please insert your PIN below:"
-msgstr "Inserisci il tuo pin"
+msgstr ""
 
 #: ../../src/Birdie.vala:421 ../../src/Birdie.vala:428
 msgid "Timeline"
-msgstr "Cronologia"
+msgstr ""
 
 #: ../../src/Birdie.vala:422
 msgid "Favorites"
-msgstr "Preferiti"
+msgstr "Oblíbené"
 
 #: ../../src/Birdie.vala:437
 msgid "Loading"
-msgstr "Caricamento"
+msgstr "Načítám"
 
-# "Benvenuti" refers to more people as for men would be "benvenuto" and for women "benvenuta"
 #: ../../src/Birdie.vala:438 ../../src/Birdie.vala:439
 msgid "Welcome"
-msgstr "Benvenuti"
+msgstr "Vítejte"
 
 #: ../../src/Birdie.vala:444
 msgid "User"
-msgstr "Utente"
+msgstr "Uživatel"
 
 #: ../../src/Birdie.vala:445
 msgid "Search Results"
-msgstr "Risultati della Ricerca"
+msgstr "Výsledky Hledání"
 
 #: ../../src/Birdie.vala:446
 msgid "Error"
-msgstr "Errore"
+msgstr "Chyba"
 
 #: ../../src/config.vala:25
 msgid "Twitter client for elementary OS"
-msgstr "Client Twitter per elementary OS"
+msgstr ""
 
 #: ../../src/Widgets/TweetBox.vala:167 ../../src/Widgets/TweetBox.vala:380
 msgid "Favorite"
-msgstr "Preferiti"
+msgstr "Oblíbené"
 
 #: ../../src/Widgets/TweetBox.vala:188
 msgid "Retweet"
-msgstr "Retweet"
+msgstr "Retweetnout"
 
 #: ../../src/Widgets/TweetBox.vala:190
 msgid "Repeat"
-msgstr "Ripeti"
+msgstr "Opakovat"
 
 #: ../../src/Widgets/TweetBox.vala:209
 msgid "Reply"
-msgstr "Rispondi"
+msgstr "Odpovědět"
 
 #: ../../src/Widgets/TweetBox.vala:223
 msgid "Delete"
-msgstr "Elimina"
+msgstr "Smazat"
 
 #: ../../src/Widgets/TweetBox.vala:377
 msgid "Unfavorite"
-msgstr "Rimuovi dai Preferiti"
+msgstr ""
 
 #: ../../src/Widgets/TweetBox.vala:387
 #, c-format
 msgid "retweeted by %s"
-msgstr "retweettato da %s"
+msgstr ""
 
 #: ../../src/Widgets/TweetBox.vala:395
 #, c-format
 msgid "repeated by %s"
-msgstr "ripetuta da %s"
+msgstr ""
 
 #: ../../src/Widgets/TweetBox.vala:407
 #, c-format
 msgid "in reply to @%s"
-msgstr "in risposta a @% s"
+msgstr ""
 
 #: ../../src/Widgets/TweetDialog.vala:96
 msgid "Cancel"
-msgstr "Annulla"
+msgstr "Zrušit"
 
 #: ../../src/Widgets/TweetDialog.vala:103
 msgid "Send"
-msgstr "Invia"
+msgstr "Odeslat"
 
 #: ../../src/Widgets/TweetDialog.vala:106
 msgid "Tweet"
@@ -202,102 +201,102 @@ msgstr "Tweet"
 
 #: ../../src/Widgets/TweetDialog.vala:108
 msgid "New status"
-msgstr "Nuovo stato"
+msgstr "Nový stav"
 
 #: ../../src/Widgets/UserBox.vala:102 ../../src/Widgets/UserBox.vala:230
 msgid "TWEETS"
-msgstr "I tuoi Tweet"
+msgstr ""
 
 #: ../../src/Widgets/UserBox.vala:104 ../../src/Widgets/UserBox.vala:232
 msgid "STATUSES"
-msgstr "STATI"
+msgstr ""
 
 #: ../../src/Widgets/UserBox.vala:109 ../../src/Widgets/UserBox.vala:263
 msgid "FOLLOWING"
-msgstr "Chi Segui"
+msgstr ""
 
 #: ../../src/Widgets/UserBox.vala:111 ../../src/Widgets/UserBox.vala:265
 msgid "FOLLOWERS"
-msgstr "Chi ti Segue"
+msgstr ""
 
 #: ../../src/Widgets/UserBox.vala:136
 msgid "Follow"
-msgstr "Segui"
+msgstr ""
 
 #: ../../src/Widgets/UserBox.vala:138
 msgid "Follow user"
-msgstr "Segui utente"
+msgstr ""
 
 #: ../../src/Widgets/UserBox.vala:146
 msgid "Unfollow"
-msgstr "Non seguire più"
+msgstr "Neodebírat"
 
 #: ../../src/Widgets/UserBox.vala:148
 msgid "Unfollow user"
-msgstr "Non seguire più l'utente"
+msgstr "Neodebírat uživatele"
 
 #: ../../src/Widgets/UserBox.vala:156
 msgid "Block"
-msgstr "Blocca"
+msgstr "Blokovat"
 
 #: ../../src/Widgets/UserBox.vala:158
 msgid "Block user"
-msgstr "Blocca utente"
+msgstr "Blokovat uživatele"
 
 #: ../../src/Widgets/UserBox.vala:166
 msgid "Unblock"
-msgstr "Sblocca"
+msgstr "Odblokovat"
 
 #: ../../src/Widgets/UserBox.vala:168
 msgid "Unblock user"
-msgstr "Sblocca utente"
+msgstr "Odblokovat uživatele"
 
 #: ../../src/Widgets/UserBox.vala:255
 msgid "Following you."
-msgstr "Ti Segue"
+msgstr ""
 
 #: ../../src/Widgets/UserBox.vala:257
 msgid "Not following you."
-msgstr "Non ti Segue"
+msgstr ""
 
 #: ../../src/Utils/Date.vala:65
 #, c-format
 msgid "%d y"
-msgstr "%d y"
+msgstr ""
 
 #: ../../src/Utils/Date.vala:68
 #, c-format
 msgid "%d mo"
-msgstr "%d mo"
+msgstr ""
 
 #: ../../src/Utils/Date.vala:71
 #, c-format
 msgid "%d w"
-msgstr "%d w"
+msgstr ""
 
 #: ../../src/Utils/Date.vala:74
 #, c-format
 msgid "%d d"
-msgstr "%d d"
+msgstr ""
 
 #: ../../src/Utils/Date.vala:76
 #, c-format
 msgid "%d h"
-msgstr "%d h"
+msgstr ""
 
 #: ../../src/Utils/Date.vala:78
 #, c-format
 msgid "%d m"
-msgstr "%d m"
+msgstr ""
 
 #: ../../src/Utils/Date.vala:81
 msgid "now"
-msgstr "ora"
+msgstr "nyní"
 
 #: ../../src/Utils/Indicator.vala:47 ../../src/Utils/Launcher.vala:47
 msgid "Tweets"
-msgstr "Tweet"
+msgstr "Tweety"
 
 #: ../../src/Utils/Launcher.vala:59
 msgid "Messages"
-msgstr "Messaggi"
+msgstr "Zprávy"
