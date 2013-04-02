@@ -16,7 +16,9 @@
 
 namespace Birdie {
     public class Identica : API {
+
         public Identica () {
+
             this.CONSUMER_KEY = "MTgyOTc4ZDUzZjY0OTI2OGVlZGNmMWQzNDZlZmNmYzY=";
             this.CONSUMER_SECRET = "OWM5MmEyYWI0MDNiNDYzMDVmNzcyZTllZDhiMWUwYjE=";
             this.URL_FORMAT = "https://identi.ca/api";
@@ -33,6 +35,7 @@ namespace Birdie {
             this.token = settings.get_string ("token");
             this.token_secret = settings.get_string ("token-secret");
             this.retrieve_count = settings.get_string ("retrieve-count");
+
         }
 
         public override string get_request () {
@@ -87,6 +90,43 @@ namespace Birdie {
             call.set_function ("statuses/update.json");
             call.set_method ("POST");
             call.add_param ("status", status);
+            if (id != "")
+                call.add_param ("in_reply_to_status_id", id);
+            try { call.sync (); } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+                return 1;
+            }
+
+            try {
+                var parser = new Json.Parser ();
+                parser.load_from_data ((string) call.get_payload (), -1);
+
+                var root = parser.get_root ();
+                var userobject = root.get_object ();
+
+                var user_id = userobject.get_int_member ("id");
+
+                return user_id;
+            } catch (Error e) {
+                stderr.printf ("Unable to parse update.json\n");
+            }
+
+            return 0;
+        }
+
+       public override int64 update_with_media (string status, string id = "", string media_uri, out string media_out) {
+            var imgur = new Imgur ();
+            var link = imgur.upload (media_uri);
+            media_out = link;
+
+            if (link == "")
+                return 1;
+
+            // setup call
+            Rest.ProxyCall call = proxy.new_call();
+            call.set_function ("statuses/update.json");
+            call.set_method ("POST");
+            call.add_param ("status", status + " " + link);
             if (id != "")
                 call.add_param ("in_reply_to_status_id", id);
             try { call.sync (); } catch (Error e) {
@@ -328,6 +368,32 @@ namespace Birdie {
             return profile_image_file;
         }
 
+        private string get_media (string image_url) {
+            var image_file = image_url;
+
+           // bool convert_png = false;
+
+            Gdk.Pixbuf pixbuf = null;
+
+            if ("/" in image_file)
+                image_file = image_file.split ("/")[4] + "_" + image_file.split ("/")[5];
+
+            var file = File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/media" + image_file);
+
+            if (!file.query_exists ()) {
+                GLib.DirUtils.create_with_parents(Environment.get_home_dir () + "/.cache/birdie/media", 0775);
+
+                var src = File.new_for_uri (image_url + ":medium");
+                var dst = File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/media/" + image_file);
+                try {
+                    src.copy (dst, FileCopyFlags.NONE, null, null);
+                } catch (Error e) {
+                    stderr.printf ("%s\n", e.message);
+                }
+            }
+            return image_file;
+        }
+
         public override string highligh_links (owned string text) {
             if ("\n" in text)
                 text = text.replace ("\n", " ");
@@ -357,6 +423,7 @@ namespace Birdie {
 
             string retweeted_by = "";
             string retweeted_by_name = "";
+            string media_url = "";
 
             if (retweet != null) {
                 retweeted_by = tweetobject.get_object_member ("user").get_string_member ("screen_name");
@@ -381,7 +448,24 @@ namespace Birdie {
                 in_reply_to_screen_name = "";
             }
 
-            return new Tweet (id, actual_id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited, false, in_reply_to_screen_name, retweeted_by);
+            if (tweetobject.has_member("entities")) {
+                var entitiesobject = tweetobject.get_object_member ("entities");
+                if (entitiesobject.has_member("media")) {
+
+                    media_url = entitiesobject.get_object_member ("media").get_string_member ("media_url");
+                    foreach (var media in entitiesobject.get_array_member ("media").get_elements ()) {
+                        media_url = media.get_object ().get_string_member ("media_url");
+                        media_url = this.get_media (media_url);
+                    }
+                } else {
+                    media_url = "";
+                }
+            } else {
+                media_url = "";
+            }
+
+            return new Tweet (id, actual_id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited, false, in_reply_to_screen_name, retweeted_by, retweeted_by_name, media_url);
+
         }
 
         private Tweet get_search (Json.Node tweetnode) {
@@ -486,7 +570,7 @@ namespace Birdie {
 
                 this.mentions_timeline.reverse ();
                 this.mentions_timeline.foreach ((tweet) => {
-                    this.since_id_mentions = tweet.id;
+                    this.since_id_mentions = tweet.actual_id;
                 });
 
             } catch (Error e) {
@@ -791,8 +875,6 @@ namespace Birdie {
                 return 1;
             }
 
-            debug (call.get_payload ());
-
             this.search_timeline.foreach ((tweet) => {
                 this.search_timeline.remove (tweet);
             });
@@ -818,38 +900,5 @@ namespace Birdie {
 
             return 0;
         }
-
-         public override int64 update_with_media (string status, string id = "", string media_uri, out string media_out) {
-            // setup call
-            Rest.ProxyCall call = proxy.new_call();
-            call.set_function ("1.1/statuses/update_with_media.json");
-            call.set_method ("POST");
-            call.add_param ("media", media_uri);
-            call.add_param ("status", status);
-            if (id != "")
-                call.add_param ("in_reply_to_status_id", id);
-            try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
-                return 1;
-            }
-
-            try {
-                var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
-
-                var root = parser.get_root ();
-                var userobject = root.get_object ();
-
-                var user_id = userobject.get_int_member ("id");
-
-                return user_id;
-            } catch (Error e) {
-                stderr.printf ("Unable to parse update.json\n");
-            }
-
-            return 0;
-        }
-
-
     }
 }

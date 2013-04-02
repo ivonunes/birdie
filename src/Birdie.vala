@@ -580,7 +580,7 @@ namespace Birdie {
                 this.m_window.show_all ();
                 this.own_box_info.hide_buttons ();
                 this.m_window.present ();
-                this.m_window.grab_focus ();
+                this.launcher.clean_launcher_count ();
 
                 while (Gtk.events_pending ())
                     Gtk.main_iteration ();
