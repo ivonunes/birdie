@@ -129,14 +129,14 @@ namespace Birdie.Widgets {
             // media
             if (tweet.media_url != "") {
 
-                media_pixbuf = new Gdk.Pixbuf.from_file_at_scale (Environment.get_home_dir () + "/.cache/birdie/media/" + tweet.media_url, 60, 60, true);
+                media_pixbuf = new Gdk.Pixbuf.from_file_at_scale (Environment.get_home_dir () + "/.cache/birdie/media/" + tweet.media_url, 40, 40, true);
 
                 this.media = new Gtk.Image.from_pixbuf (media_pixbuf);
                 this.media.set_halign (Gtk.Align.START);
 
                 this.media_box = new Gtk.EventBox ();
                 this.media_box.add (this.media);
-                this.content_box.pack_start (this.media_box, false, true, 0);
+                this.content_box.pack_start (this.media_box, false, false, 0);
 
                 set_events(Gdk.EventMask.BUTTON_RELEASE_MASK);
 
