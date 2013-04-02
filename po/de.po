@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: birdie\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-03-28 16:27+0000\n"
-"PO-Revision-Date: 2013-03-28 17:50+0000\n"
-"Last-Translator: Eduard Gotwig <eduardgotwig@gmail.com>\n"
+"PO-Revision-Date: 2013-04-01 16:29+0000\n"
+"Last-Translator: Michael Tanner <Unknown>\n"
 "Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-03-29 05:11+0000\n"
+"X-Launchpad-Export-Date: 2013-04-02 05:48+0000\n"
 "X-Generator: Launchpad (build 16546)\n"
 
 #: ../../src/Birdie.vala:153 ../../src/Utils/Indicator.vala:50
@@ -35,12 +35,12 @@ msgstr "Hauptansicht"
 #: ../../src/Birdie.vala:441 ../../src/Utils/Indicator.vala:48
 #: ../../src/Utils/Launcher.vala:53
 msgid "Mentions"
-msgstr "Mentions"
+msgstr "Erwähnungen"
 
 #: ../../src/Birdie.vala:197 ../../src/Birdie.vala:198
 #: ../../src/Birdie.vala:442 ../../src/Utils/Indicator.vala:49
 msgid "Direct Messages"
-msgstr "Direktnachrichten"
+msgstr "Private Nachrichten"
 
 #: ../../src/Birdie.vala:205 ../../src/Birdie.vala:206
 #: ../../src/Birdie.vala:443 ../../src/Utils/Launcher.vala:65
@@ -78,7 +78,7 @@ msgstr "Twitter-Client"
 
 #: ../../src/Birdie.vala:343
 msgid "Add account"
-msgstr "Account hinzufügen"
+msgstr "Konto hinzufügen"
 
 #: ../../src/Birdie.vala:343
 msgid "Add a Twitter account"
@@ -90,7 +90,7 @@ msgstr "Verbindungsaufbau nicht möglich"
 
 #: ../../src/Birdie.vala:348
 msgid "Please check your Internet Connection"
-msgstr "Bitte überprüfen Sie ihre Internetverbindung"
+msgstr "Bitte überprüfen Sie Ihre Internetverbindung"
 
 #: ../../src/Birdie.vala:349
 msgid "Retry"
