@@ -93,6 +93,8 @@ namespace Birdie {
         private bool initialized;
         private bool changing_tab;
 
+        private bool start_hidden;
+
         construct {
             program_name        = "Birdie";
             exec_name           = "birdie";
@@ -130,6 +132,7 @@ namespace Birdie {
                 this.dm_notification = settings.get_boolean ("dm-notification");
                 this.legacy_window = settings.get_boolean ("legacy-window");
                 this.update_interval = settings.get_int ("update-interval");
+                this.start_hidden = settings.get_boolean ("start-hidden");
 
                 if (this.legacy_window)
                     this.m_window = new Widgets.UnifiedWindow ("Birdie", true);
@@ -559,7 +562,12 @@ namespace Birdie {
                     return true;
                 });
 
-                this.m_window.show_all ();
+                if (!this.start_hidden) {
+                    this.m_window.show_all ();
+                } else {
+                    this.m_window.show_all ();
+                    this.m_window.hide ();
+                }
 
                 if (this.api.token == "" || this.api.token_secret == "") {
                     this.switch_timeline ("welcome");

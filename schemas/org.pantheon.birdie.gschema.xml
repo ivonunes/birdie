@@ -60,7 +60,15 @@
       <description>
         Use the old window style
       </description>
-    </key>
+   </key>
+
+   <key name="start-hidden" type="b">
+      <default>false</default>
+      <summary>start-hidden</summary>
+      <description>
+        Hide Birdie on startup
+      </description>
+   </key>
 
     <key name="window-width" type="i">
       <default>450</default>
