@@ -564,8 +564,10 @@ namespace Birdie {
 
                 if (!this.start_hidden) {
                     this.m_window.show_all ();
+                    this.own_box_info.hide_buttons ();
                 } else {
                     this.m_window.show_all ();
+                    this.own_box_info.hide_buttons ();
                     this.m_window.hide ();
                 }
 
@@ -576,6 +578,7 @@ namespace Birdie {
                 }
             } else {
                 this.m_window.show_all ();
+                this.own_box_info.hide_buttons ();
                 this.m_window.present ();
                 this.m_window.grab_focus ();
 
