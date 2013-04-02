@@ -302,6 +302,7 @@ namespace Birdie.Widgets {
             this.full_image.set_halign (Gtk.Align.CENTER);
             this.full_image.set_valign (Gtk.Align.CENTER);
             light_window.add (this.full_image);
+            light_window.set_position (Gtk.WindowPosition.CENTER);
             light_window.show_all ();
         }
 

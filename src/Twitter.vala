@@ -384,7 +384,7 @@ namespace Birdie {
             if (!file.query_exists ()) {
                 GLib.DirUtils.create_with_parents(Environment.get_home_dir () + "/.cache/birdie/media", 0775);
 
-                var src = File.new_for_uri (image_url);
+                var src = File.new_for_uri (image_url + ":medium");
                 var dst = File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/media/" + image_file);
                 try {
                     src.copy (dst, FileCopyFlags.NONE, null, null);
