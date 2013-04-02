@@ -19,11 +19,11 @@ namespace Birdie.Widgets {
     {
         private bool hide_on_delete_enabled;
         private bool legacy;
-    
+
         Gtk.Box container;
         Gtk.Toolbar toolbar;
         Gtk.ToolItem label;
-     
+
         const int HEIGHT = 48;
         const int ICON_SIZE = Gtk.IconSize.LARGE_TOOLBAR;
         const string CSS = """
@@ -37,7 +37,7 @@ namespace Birdie.Widgets {
             }
         """;
         Gtk.CssProvider css;
-     
+
         Gtk.Label _title;
         public new string title {
             get {
@@ -52,20 +52,20 @@ namespace Birdie.Widgets {
         public int opening_y;
         public int window_width;
         public int window_height;
-     
+
         public UnifiedWindow (string title = "", bool legacy = false) {
             this.legacy = legacy;
             this.opening_x = -1;
             this.opening_y = -1;
             this.window_width = -1;
             this.window_height = -1;
-            
+
             css = new Gtk.CssProvider ();
             try {
                 if (!legacy)
                     css.load_from_data (CSS, -1);
             } catch (Error e) { warning (e.message); }
-     
+
             toolbar = new Gtk.Toolbar ();
             toolbar.icon_size = ICON_SIZE;
             if (legacy)
@@ -73,22 +73,22 @@ namespace Birdie.Widgets {
             else
                 toolbar.get_style_context ().add_class ("titlebar");
             toolbar.get_style_context ().add_provider (css, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
-            
+
             container = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             container.pack_start (toolbar, false);
-     
+
             var close = new Gtk.ToolButton (new Gtk.Image.from_file ("/usr/share/themes/elementary/metacity-1/close.svg"), "Close");
             close.height_request = HEIGHT;
             close.width_request = HEIGHT;
             close.clicked.connect (() => on_delete_event ());
-            
+
             this.hide_on_delete_enabled = false;
 
             var maximize = new Gtk.ToolButton (new Gtk.Image.from_file ("/usr/share/themes/elementary/metacity-1/maximize.svg"), "Close");
             maximize.height_request = HEIGHT;
             maximize.width_request = HEIGHT;
             maximize.clicked.connect (() => { get_window ().maximize (); });
-     
+
             _title = new Gtk.Label (title);
             _title.override_font (Pango.FontDescription.from_string ("bold"));
             this.title = title;
@@ -114,7 +114,7 @@ namespace Birdie.Widgets {
             }
             base.add (container);
         }
-        
+
         private bool on_delete_event () {
             if (this.hide_on_delete_enabled) {
                 this.save_window ();
@@ -122,18 +122,16 @@ namespace Birdie.Widgets {
             } else {
                 destroy ();
             }
-            base.hide_on_delete ();
-            
             return true;
         }
-        
+
         public new void hide_on_delete (bool enable = true) {
             if (enable)
                 this.hide_on_delete_enabled = true;
             else
                 this.hide_on_delete_enabled = false;
         }
-     
+
         public Gtk.ToolItem create_separator () {
             var sep = new Gtk.ToolItem ();
             sep.height_request = HEIGHT;
@@ -151,14 +149,14 @@ namespace Birdie.Widgets {
             });
             sep.get_style_context ().add_class ("sep");
             sep.get_style_context ().add_provider (css, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
-     
+
             return sep;
         }
-     
+
         public override void add (Gtk.Widget widget) {
             container.pack_start (widget);
         }
-            
+
         public override void remove (Gtk.Widget widget) {
             container.remove (widget);
         }
@@ -174,14 +172,14 @@ namespace Birdie.Widgets {
                 this.set_default_size (this.window_width, this.window_height);
             }
         }
-            
+
         public override void show () {
             base.show ();
             if (!legacy)
                 get_window ().set_decorations (Gdk.WMDecoration.BORDER);
             this.restore_window ();
         }
-            
+
         public void add_bar (Gtk.ToolItem item, bool after_title = false) {
             if (this.title != "" && !legacy) {
                 toolbar.insert (item, after_title ? toolbar.get_n_items () - 2 : toolbar.get_item_index (label));
@@ -189,7 +187,7 @@ namespace Birdie.Widgets {
                 toolbar.insert (item, -1);
             }
         }
-            
+
         public void remove_bar (Gtk.ToolItem item) {
             toolbar.remove (item);
         }

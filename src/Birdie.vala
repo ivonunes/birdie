@@ -540,7 +540,22 @@ namespace Birdie {
 
                 this.m_window.focus_in_event.connect ((w, e) => {
                     this.launcher.clean_launcher_count ();
-                    this.activate ();
+
+                    switch (this.current_timeline) {
+                        case "home":
+                            this.unread_tweets = 0;
+                            this.indicator.clean_tweets_indicator();
+                            break;
+                        case "mentions":
+                            this.unread_mentions = 0;
+                            this.indicator.clean_mentions_indicator();
+                            break;
+                        case "dm":
+                            this.unread_dm = 0;
+                            this.indicator.clean_dm_indicator();
+                            break;
+                    }
+
                     return true;
                 });
 
@@ -552,7 +567,19 @@ namespace Birdie {
                     new Thread<void*> (null, this.init);
                 }
             } else {
-                this.m_window.show();
+                this.m_window.show_all ();
+                this.m_window.present ();
+                this.m_window.grab_focus ();
+
+                while (Gtk.events_pending ())
+                    Gtk.main_iteration ();
+
+                var xid = Gdk.X11Window.get_xid (this.m_window.get_window ());
+                var w = Wnck.Window.get (xid);
+                Wnck.Screen.get_default().force_update ();
+                if (w != null) {
+                    w.activate (Gdk.x11_get_server_time (this.m_window.get_window ()));
+                }
 
                 switch (this.current_timeline) {
                     case "home":

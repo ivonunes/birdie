@@ -18,7 +18,7 @@ find_package(PkgConfig)
 
 #Now we're declaring GTK+ 3 and Granite as our REQUIRE dependancies.
 #If PkgConfig can't find these, you need to install them in Step 1.
-pkg_check_modules(DEPS REQUIRED gtk+-3.0 granite rest-0.7 json-glib-1.0 libnotify libcanberra indicate-0.7 unity)
+pkg_check_modules(DEPS REQUIRED gtk+-3.0 granite rest-0.7 json-glib-1.0 libnotify libcanberra indicate-0.7 unity libwnck-3.0 gdk-x11-3.0)
 
 #Now we're going to ready the libraries and get their directories to include them.
 set(CFLAGS
@@ -64,6 +64,8 @@ PACKAGES
     Indicate-0.7
     Dbusmenu-0.4
     unity
+    libwnck-3.0
+    gdk-x11-3.0
 OPTIONS
     --thread --target-glib=2.32)
 
@@ -71,7 +73,7 @@ OPTIONS
 add_executable(birdie
     ${VALA_C} )
 
-add_definitions (${DEPS_CFLAGS})
+add_definitions (${DEPS_CFLAGS} -DWNCK_I_KNOW_THIS_IS_UNSTABLE)
 
 #We need to link the libraries with our Executable.
 target_link_libraries(birdie ${DEPS_LIBRARIES})
