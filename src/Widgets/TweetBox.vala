@@ -108,13 +108,13 @@ namespace Birdie.Widgets {
 
             // avatar image
             this.avatar_img = new Gtk.Image ();
-            this.avatar_img.set_from_file (Environment.get_home_dir () + "/.cache/birdie/" + tweet.profile_image_file);         
+            this.avatar_img.set_from_file (Environment.get_home_dir () + "/.cache/birdie/" + tweet.profile_image_file);
             this.avatar_img.set_halign (Gtk.Align.START);
             this.avatar_img.set_valign (Gtk.Align.START);
             this.avatar_box.pack_start (this.avatar_img, false, false, 0);
 
             // header box
-            this.header_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);  
+            this.header_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
             this.content_box.pack_start (this.header_box, false, false, 0);
 
             // show symbols properly in user label
@@ -132,8 +132,11 @@ namespace Birdie.Widgets {
             this.username_label.set_halign (Gtk.Align.START);
             this.username_label.set_valign (Gtk.Align.START);
             this.username_label.set_selectable (true);
-            this.username_label.set_markup ("<span underline='none' color='#000' font_weight='bold' size='large'><a href='birdie://user/" + tweet.user_screen_name + "'>" + tweet.user_name + "</a></span> <span font_weight='light' color='#aaa'>@" + tweet.user_screen_name + "</span>");
-            //FIXME: Set ellipsis mode            
+            this.username_label.set_markup ("<span underline='none' color='#000' font_weight='bold' size='large'><a href='birdie://user/" +
+                                            tweet.user_screen_name + "'>" + tweet.user_name +
+                                            "</a></span> <span font_weight='light' color='#aaa'>@" + tweet.user_screen_name + "</span>");
+
+            //FIXME: Set ellipsis mode
             this.header_box.pack_start (this.username_label, false, true, 0);
 
             // time label
@@ -155,7 +158,7 @@ namespace Birdie.Widgets {
             this.content_box.pack_start (this.tweet_label, false, true, 0);
 
             // css
-            Gtk.StyleContext ctx = this.tweet_label.get_style_context();
+            Gtk.StyleContext ctx = this.tweet_label.get_style_context ();
             ctx.add_class("tweet");
 
             // media
@@ -188,7 +191,7 @@ namespace Birdie.Widgets {
                 this.context_overlay.add_overlay (this.status_img);
 
             // buttons alignment
-            this.buttons_alignment = new Gtk.Alignment (0,0,0,1);
+            this.buttons_alignment = new Gtk.Alignment (0, 0, 0, 1);
             this.buttons_alignment.set_halign (Gtk.Align.END);
             this.buttons_alignment.set_valign (Gtk.Align.START);
             this.buttons_alignment.top_padding = 6;
@@ -489,7 +492,10 @@ namespace Birdie.Widgets {
         private void set_header () {
             var retweeted_by_label = "";
 
-            retweeted_by_label = ("<span color='#aaa'>" + _("retweeted by %s").printf ("<span underline='none'><a href='birdie://user/" + this.tweet.retweeted_by + "'>" + this.tweet.retweeted_by_name + "</a></span>") + "</span>");
+            retweeted_by_label = ("<span color='#aaa'>" +
+                                  _("retweeted by %s").printf ("<span underline='none'><a href='birdie://user/%s'>%s</a></span>".printf(
+                                                                   this.tweet.retweeted_by, this.tweet.retweeted_by_name)) + "</span");
+
             if (this.tweet.retweeted_by != "") {
                 var retweeted_img = new Gtk.Image ();
                 retweeted_img.set_from_icon_name ("twitter-retweet", Gtk.IconSize.MENU);
@@ -498,8 +504,13 @@ namespace Birdie.Widgets {
                 this.info_label = new Gtk.Label ("");
                 this.info_label.set_halign (Gtk.Align.START);
                 this.info_label.margin_bottom = 6;
+
                 if (birdie.service == 1)
-                    retweeted_by_label = ("<span color='#aaa'>" + _("repeated by %s").printf ("<span underline='none'><a href='birdie://user/" + this.tweet.retweeted_by + "'>" + this.tweet.retweeted_by_name + "</a></span>") + "</span>");
+                    retweeted_by_label = ("<span color='#aaa'>" +
+                                          _("repeated by %s").printf ("<span underline='none'><a href='birdie://user/" +
+                                                                      this.tweet.retweeted_by + "'>" + this.tweet.retweeted_by_name +
+                                                                      "</a></span>") + "</span>");
+
                 this.info_label.set_markup ("<span color='#aaa'>" + retweeted_by_label + "</span>");
                 avatar_box.pack_start (retweeted_img, false, false, 0);
                 content_box.pack_start (this.info_label, false, false, 0);
@@ -512,10 +523,14 @@ namespace Birdie.Widgets {
                 this.info_label = new Gtk.Label ("");
                 this.info_label.set_halign (Gtk.Align.START);
                 this.info_label.margin_bottom = 6;
-                var in_reply_label = ("<span color='#aaa'>" + _("in reply to @%s").printf ("<span underline='none'><a href='birdie://user/" + this.tweet.in_reply_to_screen_name + "'>" + this.tweet.in_reply_to_screen_name + "</a></span>") + "</span>");
+                var in_reply_label = ("<span color='#aaa'>"
+                                      + _("in reply to @%s").printf ("<span underline='none'><a href='birdie://user/" +
+                                                                     this.tweet.in_reply_to_screen_name + "'>" +
+                                                                     this.tweet.in_reply_to_screen_name + "</a></span>") + "</span>");
+
                 this.info_label.set_markup (in_reply_label);
                 avatar_box.pack_start (reply_img, false, false, 0);
-                content_box.pack_start (this.info_label, false, false, 0);          
+                content_box.pack_start (this.info_label, false, false, 0);
             } else {
             }
         }
