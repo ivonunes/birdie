@@ -493,8 +493,9 @@ namespace Birdie.Widgets {
             var retweeted_by_label = "";
 
             retweeted_by_label = ("<span color='#aaa'>" +
-                                  _("retweeted by %s").printf ("<span underline='none'><a href='birdie://user/%s'>%s</a></span>".printf(
-                                                                   this.tweet.retweeted_by, this.tweet.retweeted_by_name)) + "</span");
+                                  _("retweeted by %s").printf ("<span underline='none'><a href='birdie://user/" +
+                                                               this.tweet.retweeted_by + "'>" + this.tweet.retweeted_by_name
+                                                               + "</a></span>") + "</span>");
 
             if (this.tweet.retweeted_by != "") {
                 var retweeted_img = new Gtk.Image ();
