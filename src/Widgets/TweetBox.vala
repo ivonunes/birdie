@@ -346,7 +346,7 @@ namespace Birdie.Widgets {
                         if (this.tweet.retweeted) {
                             this.status_img.set_from_icon_name("twitter-ret-banner",  Gtk.IconSize.LARGE_TOOLBAR);
                         } else {
-                            this.status_box.remove (this.status_img);
+                            this.context_overlay.remove (this.status_img);
                         }
 
                         this.tweet.favorited = false;
@@ -369,15 +369,13 @@ namespace Birdie.Widgets {
                         if (this.tweet.retweeted) {
                             this.status_img.set_from_icon_name ("twitter-favret-banner", Gtk.IconSize.LARGE_TOOLBAR);
                         } else {
-                            this.status_box.remove (this.time_label);
-                            this.status_box.remove (this.buttons_box);
+                            this.context_overlay.remove (this.buttons_alignment);
 
                             this.status_img.set_from_icon_name("twitter-fav-banner",  Gtk.IconSize.LARGE_TOOLBAR);
 
-                            this.status_box.pack_start (this.status_img, false, false, 0);
-                            this.status_box.pack_start (this.time_label, true, true, 0);
-                            this.status_box.add (this.buttons_box);
-                            this.status_box.show_all ();
+                            this.context_overlay.add_overlay (this.status_img);
+                            this.context_overlay.add_overlay (this.buttons_alignment);
+                            this.status_img.show ();
                         }
 
                         this.tweet.favorited = true;
@@ -392,6 +390,7 @@ namespace Birdie.Widgets {
                     return false;
                 });
             }
+
             return null;
         }
 
@@ -403,15 +402,13 @@ namespace Birdie.Widgets {
                     if (this.tweet.favorited) {
                         this.status_img.set_from_icon_name("twitter-favret-banner",  Gtk.IconSize.LARGE_TOOLBAR);
                     } else {
-                        this.status_box.remove (this.time_label);
-                        this.status_box.remove (this.buttons_box);
+                        this.context_overlay.remove (this.buttons_alignment);
 
                         this.status_img.set_from_icon_name("twitter-ret-banner",  Gtk.IconSize.LARGE_TOOLBAR);
 
-                        this.status_box.pack_start (this.status_img, false, false, 0);
-                        this.status_box.pack_start (this.time_label, true, true, 0);
-                        this.status_box.add (this.buttons_box);
-                        this.status_box.show_all ();
+                        this.context_overlay.add_overlay (this.status_img);
+                        this.context_overlay.add_overlay (this.buttons_alignment);
+                        this.status_img.show ();
                     }
 
                     this.retweet_icon.set_from_icon_name ("twitter-retweeted", Gtk.IconSize.SMALL_TOOLBAR);
