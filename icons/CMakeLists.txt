@@ -21,6 +21,7 @@ install(FILES 16x16/apps/birdie.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/ic
 install(FILES 32x32/apps/birdie.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/32x32/apps)
 install(FILES 48x48/apps/birdie.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/48x48/apps)
 install(FILES 64x64/apps/birdie.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/64x64/apps)
+install(FILES twitter-verified.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/22x22/emblems)
 
 
 install(    

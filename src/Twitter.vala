@@ -263,10 +263,11 @@ namespace Birdie {
                 int64 friends_count = userobject.get_int_member ("friends_count");
                 int64 followers_count = userobject.get_int_member ("followers_count");
                 int64 statuses_count = userobject.get_int_member ("statuses_count");
+                bool verified = userobject.get_boolean_member ("verified");
 
                 account = new User (id, name, screen_name,
                     profile_image_url, profile_image_file, location, desc,
-                    friends_count, followers_count, statuses_count
+                    friends_count, followers_count, statuses_count, verified
                 );
 
             } catch (Error e) {
@@ -301,10 +302,11 @@ namespace Birdie {
             int64 friends_count = tweetobject.get_object_member ("user").get_int_member ("friends_count");
             int64 followers_count = tweetobject.get_object_member ("user").get_int_member ("followers_count");
             int64 statuses_count = tweetobject.get_object_member ("user").get_int_member ("statuses_count");
+            bool verified =  tweetobject.get_object_member ("user").get_boolean_member ("verified");
 
             this.user = new User (id, name, screen_name,
                 profile_image_url, profile_image_file, location, description,
-                friends_count, followers_count, statuses_count
+                friends_count, followers_count, statuses_count, verified
             );
         }
 
@@ -435,6 +437,7 @@ namespace Birdie {
             var text = highligh_links(tweetobject.get_string_member ("text"));
             var created_at = tweetobject.get_string_member ("created_at");
             var profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
+            var verified = tweetobject.get_object_member ("user").get_boolean_member ("verified");
 
             var profile_image_file = get_avatar (profile_image_url);
             var in_reply_to_screen_name = tweetobject.get_string_member ("in_reply_to_screen_name");
@@ -455,7 +458,7 @@ namespace Birdie {
                 media_url = "";
             }
 
-            return new Tweet (id, actual_id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited, false, in_reply_to_screen_name, retweeted_by, retweeted_by_name, media_url);
+            return new Tweet (id, actual_id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited, false, in_reply_to_screen_name, retweeted_by, retweeted_by_name, media_url, verified);
         }
 
         public override int get_home_timeline () {
