@@ -1,0 +1,303 @@
+# German translation for birdie
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the birdie package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: birdie\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-03-28 16:27+0000\n"
+"PO-Revision-Date: 2013-04-09 18:46+0000\n"
+"Last-Translator: Vistaus <vistausss@gmail.com>\n"
+"Language-Team: Dutch <vistausss@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-04-10 05:55+0000\n"
+"X-Generator: Launchpad (build 16550)\n"
+"Language: Nederlands\n"
+
+#: ../../src/Birdie.vala:153 ../../src/Utils/Indicator.vala:50
+#: ../../src/Utils/Launcher.vala:41
+msgid "New Tweet"
+msgstr "Nieuwe tweet"
+
+#: ../../src/Birdie.vala:156
+msgid "New Status"
+msgstr "Nieuwe status"
+
+#: ../../src/Birdie.vala:181 ../../src/Birdie.vala:182
+#: ../../src/Birdie.vala:440
+msgid "Home"
+msgstr "Thuis"
+
+#: ../../src/Birdie.vala:189 ../../src/Birdie.vala:190
+#: ../../src/Birdie.vala:441 ../../src/Utils/Indicator.vala:48
+#: ../../src/Utils/Launcher.vala:53
+msgid "Mentions"
+msgstr "Vermeldingen"
+
+#: ../../src/Birdie.vala:197 ../../src/Birdie.vala:198
+#: ../../src/Birdie.vala:442 ../../src/Utils/Indicator.vala:49
+msgid "Direct Messages"
+msgstr "Directe berichten"
+
+#: ../../src/Birdie.vala:205 ../../src/Birdie.vala:206
+#: ../../src/Birdie.vala:443 ../../src/Utils/Launcher.vala:65
+msgid "Profile"
+msgstr "Profiel"
+
+#: ../../src/Birdie.vala:213 ../../src/Birdie.vala:214
+#: ../../src/Birdie.vala:218
+msgid "Search"
+msgstr "Zoeken"
+
+#: ../../src/Birdie.vala:245
+msgid "Remove account"
+msgstr "Account verwijderen"
+
+#: ../../src/Birdie.vala:286
+msgid "About"
+msgstr "Over"
+
+#: ../../src/Birdie.vala:290
+msgid "Quit"
+msgstr "Afsluiten"
+
+#: ../../src/Birdie.vala:308
+msgid "Menu"
+msgstr "Menu"
+
+#: ../../src/Birdie.vala:342
+msgid "Birdie"
+msgstr "Birdie"
+
+#: ../../src/Birdie.vala:342 ../../src/config.vala:24
+msgid "Twitter Client"
+msgstr "Twitter-client"
+
+#: ../../src/Birdie.vala:343
+msgid "Add account"
+msgstr "Account toevoegen"
+
+#: ../../src/Birdie.vala:343
+msgid "Add a Twitter account"
+msgstr "Een Twitter-account toevoegen"
+
+#: ../../src/Birdie.vala:348
+msgid "Unable to connect"
+msgstr "Verbinden mislukt"
+
+#: ../../src/Birdie.vala:348
+msgid "Please check your Internet Connection"
+msgstr "Controleer uw internetverbinding"
+
+#: ../../src/Birdie.vala:349
+msgid "Retry"
+msgstr "Opnieuw proberen"
+
+#: ../../src/Birdie.vala:349
+msgid "Try to connect again"
+msgstr "Verbinden opnieuw proberen"
+
+#: ../../src/Birdie.vala:372
+msgid "Received"
+msgstr "Ontvangen"
+
+#: ../../src/Birdie.vala:373
+msgid "Sent"
+msgstr "Verzonden"
+
+#: ../../src/Birdie.vala:394
+msgid "OK"
+msgstr "OK"
+
+#: ../../src/Birdie.vala:405
+msgid "Please insert your PIN below:"
+msgstr "Vul uw PIN hieronder in:"
+
+#: ../../src/Birdie.vala:421 ../../src/Birdie.vala:428
+msgid "Timeline"
+msgstr "Tijdlijn"
+
+#: ../../src/Birdie.vala:422
+msgid "Favorites"
+msgstr "Favorieten"
+
+#: ../../src/Birdie.vala:437
+msgid "Loading"
+msgstr "Bezig met laden"
+
+#: ../../src/Birdie.vala:438 ../../src/Birdie.vala:439
+msgid "Welcome"
+msgstr "Welkom"
+
+#: ../../src/Birdie.vala:444
+msgid "User"
+msgstr "Gebruiker"
+
+#: ../../src/Birdie.vala:445
+msgid "Search Results"
+msgstr "Zoekresultaten"
+
+#: ../../src/Birdie.vala:446
+msgid "Error"
+msgstr "Fout"
+
+#: ../../src/config.vala:25
+msgid "Twitter client for elementary OS"
+msgstr "Twitter-client voor Elementary OS"
+
+#: ../../src/Widgets/TweetBox.vala:167 ../../src/Widgets/TweetBox.vala:380
+msgid "Favorite"
+msgstr "Favoriet"
+
+#: ../../src/Widgets/TweetBox.vala:188
+msgid "Retweet"
+msgstr "Hertweeten"
+
+#: ../../src/Widgets/TweetBox.vala:190
+msgid "Repeat"
+msgstr "Herhalen"
+
+#: ../../src/Widgets/TweetBox.vala:209
+msgid "Reply"
+msgstr "Beantwoorden"
+
+#: ../../src/Widgets/TweetBox.vala:223
+msgid "Delete"
+msgstr "Verwijderen"
+
+#: ../../src/Widgets/TweetBox.vala:377
+msgid "Unfavorite"
+msgstr "Verwijderen uit favorieten"
+
+#: ../../src/Widgets/TweetBox.vala:387
+#, c-format
+msgid "retweeted by %s"
+msgstr "hertweet door %s"
+
+#: ../../src/Widgets/TweetBox.vala:395
+#, c-format
+msgid "repeated by %s"
+msgstr "herhaald door %s"
+
+#: ../../src/Widgets/TweetBox.vala:407
+#, c-format
+msgid "in reply to @%s"
+msgstr "in antwoord op %s"
+
+#: ../../src/Widgets/TweetDialog.vala:96
+msgid "Cancel"
+msgstr "Annuleren"
+
+#: ../../src/Widgets/TweetDialog.vala:103
+msgid "Send"
+msgstr "Verzenden"
+
+#: ../../src/Widgets/TweetDialog.vala:106
+msgid "Tweet"
+msgstr "Tweeten"
+
+#: ../../src/Widgets/TweetDialog.vala:108
+msgid "New status"
+msgstr "Nieuwe status"
+
+#: ../../src/Widgets/UserBox.vala:102 ../../src/Widgets/UserBox.vala:230
+msgid "TWEETS"
+msgstr "TWEETS"
+
+#: ../../src/Widgets/UserBox.vala:104 ../../src/Widgets/UserBox.vala:232
+msgid "STATUSES"
+msgstr "STATUSSEN"
+
+#: ../../src/Widgets/UserBox.vala:109 ../../src/Widgets/UserBox.vala:263
+msgid "FOLLOWING"
+msgstr "VOLGEND"
+
+#: ../../src/Widgets/UserBox.vala:111 ../../src/Widgets/UserBox.vala:265
+msgid "FOLLOWERS"
+msgstr "VOLGERS"
+
+#: ../../src/Widgets/UserBox.vala:136
+msgid "Follow"
+msgstr "Volgen"
+
+#: ../../src/Widgets/UserBox.vala:138
+msgid "Follow user"
+msgstr "Gebruiker volgen"
+
+#: ../../src/Widgets/UserBox.vala:146
+msgid "Unfollow"
+msgstr "Ontvolgen"
+
+#: ../../src/Widgets/UserBox.vala:148
+msgid "Unfollow user"
+msgstr "Gebruiker ontvolgen"
+
+#: ../../src/Widgets/UserBox.vala:156
+msgid "Block"
+msgstr "Blokkeren"
+
+#: ../../src/Widgets/UserBox.vala:158
+msgid "Block user"
+msgstr "Gebruiker blokkeren"
+
+#: ../../src/Widgets/UserBox.vala:166
+msgid "Unblock"
+msgstr "Deblokkeren"
+
+#: ../../src/Widgets/UserBox.vala:168
+msgid "Unblock user"
+msgstr "Gebruiker deblokkeren"
+
+#: ../../src/Widgets/UserBox.vala:255
+msgid "Following you."
+msgstr "Volgt u."
+
+#: ../../src/Widgets/UserBox.vala:257
+msgid "Not following you."
+msgstr "Volgt u niet."
+
+#: ../../src/Utils/Date.vala:65
+#, c-format
+msgid "%d y"
+msgstr "%d j"
+
+#: ../../src/Utils/Date.vala:68
+#, c-format
+msgid "%d mo"
+msgstr "%d mnd"
+
+#: ../../src/Utils/Date.vala:71
+#, c-format
+msgid "%d w"
+msgstr "%d w"
+
+#: ../../src/Utils/Date.vala:74
+#, c-format
+msgid "%d d"
+msgstr "%d d"
+
+#: ../../src/Utils/Date.vala:76
+#, c-format
+msgid "%d h"
+msgstr "%d u"
+
+#: ../../src/Utils/Date.vala:78
+#, c-format
+msgid "%d m"
+msgstr "%d m"
+
+#: ../../src/Utils/Date.vala:81
+msgid "now"
+msgstr "nu"
+
+#: ../../src/Utils/Indicator.vala:47 ../../src/Utils/Launcher.vala:47
+msgid "Tweets"
+msgstr "Tweets"
+
+#: ../../src/Utils/Launcher.vala:59
+msgid "Messages"
+msgstr "Berichten"
