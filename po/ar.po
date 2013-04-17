@@ -1,0 +1,302 @@
+# Arabic translation for birdie
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the birdie package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: birdie\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-03-28 16:27+0000\n"
+"PO-Revision-Date: 2013-04-17 03:27+0000\n"
+"Last-Translator: Mohamed Touhami MAHDI <dragnucs@gmail.com>\n"
+"Language-Team: Arabic <ar@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-04-17 05:57+0000\n"
+"X-Generator: Launchpad (build 16567)\n"
+
+#: ../../src/Birdie.vala:153 ../../src/Utils/Indicator.vala:50
+#: ../../src/Utils/Launcher.vala:41
+msgid "New Tweet"
+msgstr "تغريدة جديدة"
+
+#: ../../src/Birdie.vala:156
+msgid "New Status"
+msgstr "حالة جديدة"
+
+#: ../../src/Birdie.vala:181 ../../src/Birdie.vala:182
+#: ../../src/Birdie.vala:440
+msgid "Home"
+msgstr "البداية"
+
+#: ../../src/Birdie.vala:189 ../../src/Birdie.vala:190
+#: ../../src/Birdie.vala:441 ../../src/Utils/Indicator.vala:48
+#: ../../src/Utils/Launcher.vala:53
+msgid "Mentions"
+msgstr "الردود"
+
+#: ../../src/Birdie.vala:197 ../../src/Birdie.vala:198
+#: ../../src/Birdie.vala:442 ../../src/Utils/Indicator.vala:49
+msgid "Direct Messages"
+msgstr "رسائل مباشره"
+
+#: ../../src/Birdie.vala:205 ../../src/Birdie.vala:206
+#: ../../src/Birdie.vala:443 ../../src/Utils/Launcher.vala:65
+msgid "Profile"
+msgstr "الملف الشخصي"
+
+#: ../../src/Birdie.vala:213 ../../src/Birdie.vala:214
+#: ../../src/Birdie.vala:218
+msgid "Search"
+msgstr "إبحث"
+
+#: ../../src/Birdie.vala:245
+msgid "Remove account"
+msgstr "أزِل الحساب"
+
+#: ../../src/Birdie.vala:286
+msgid "About"
+msgstr "عن البرنامج"
+
+#: ../../src/Birdie.vala:290
+msgid "Quit"
+msgstr "أخرُج"
+
+#: ../../src/Birdie.vala:308
+msgid "Menu"
+msgstr "القائمة"
+
+#: ../../src/Birdie.vala:342
+msgid "Birdie"
+msgstr ""
+
+#: ../../src/Birdie.vala:342 ../../src/config.vala:24
+msgid "Twitter Client"
+msgstr ""
+
+#: ../../src/Birdie.vala:343
+msgid "Add account"
+msgstr "أضف حساباً"
+
+#: ../../src/Birdie.vala:343
+msgid "Add a Twitter account"
+msgstr "إضافت حساب تويتر"
+
+#: ../../src/Birdie.vala:348
+msgid "Unable to connect"
+msgstr "تعذّر الاتصال"
+
+#: ../../src/Birdie.vala:348
+msgid "Please check your Internet Connection"
+msgstr ""
+
+#: ../../src/Birdie.vala:349
+msgid "Retry"
+msgstr "أعِد المحاولة"
+
+#: ../../src/Birdie.vala:349
+msgid "Try to connect again"
+msgstr ""
+
+#: ../../src/Birdie.vala:372
+msgid "Received"
+msgstr "استلمت"
+
+#: ../../src/Birdie.vala:373
+msgid "Sent"
+msgstr "أرسلت"
+
+#: ../../src/Birdie.vala:394
+msgid "OK"
+msgstr "نعم"
+
+#: ../../src/Birdie.vala:405
+msgid "Please insert your PIN below:"
+msgstr "أدخل قنك أسفله"
+
+#: ../../src/Birdie.vala:421 ../../src/Birdie.vala:428
+msgid "Timeline"
+msgstr "الخط الزمن"
+
+#: ../../src/Birdie.vala:422
+msgid "Favorites"
+msgstr "المفضلات"
+
+#: ../../src/Birdie.vala:437
+msgid "Loading"
+msgstr "جارٍ التحميل"
+
+#: ../../src/Birdie.vala:438 ../../src/Birdie.vala:439
+msgid "Welcome"
+msgstr "اهلأ و سهلأ"
+
+#: ../../src/Birdie.vala:444
+msgid "User"
+msgstr "المستخدِم"
+
+#: ../../src/Birdie.vala:445
+msgid "Search Results"
+msgstr "نتائج البحث"
+
+#: ../../src/Birdie.vala:446
+msgid "Error"
+msgstr "خطأ"
+
+#: ../../src/config.vala:25
+msgid "Twitter client for elementary OS"
+msgstr ""
+
+#: ../../src/Widgets/TweetBox.vala:167 ../../src/Widgets/TweetBox.vala:380
+msgid "Favorite"
+msgstr "تفضيل"
+
+#: ../../src/Widgets/TweetBox.vala:188
+msgid "Retweet"
+msgstr "أعد التغريد"
+
+#: ../../src/Widgets/TweetBox.vala:190
+msgid "Repeat"
+msgstr "كرر"
+
+#: ../../src/Widgets/TweetBox.vala:209
+msgid "Reply"
+msgstr "رد"
+
+#: ../../src/Widgets/TweetBox.vala:223
+msgid "Delete"
+msgstr "حذف"
+
+#: ../../src/Widgets/TweetBox.vala:377
+msgid "Unfavorite"
+msgstr ""
+
+#: ../../src/Widgets/TweetBox.vala:387
+#, c-format
+msgid "retweeted by %s"
+msgstr ""
+
+#: ../../src/Widgets/TweetBox.vala:395
+#, c-format
+msgid "repeated by %s"
+msgstr ""
+
+#: ../../src/Widgets/TweetBox.vala:407
+#, c-format
+msgid "in reply to @%s"
+msgstr "ردا على @%s"
+
+#: ../../src/Widgets/TweetDialog.vala:96
+msgid "Cancel"
+msgstr "ألغِ"
+
+#: ../../src/Widgets/TweetDialog.vala:103
+msgid "Send"
+msgstr "أرسل"
+
+#: ../../src/Widgets/TweetDialog.vala:106
+msgid "Tweet"
+msgstr "تغريدة"
+
+#: ../../src/Widgets/TweetDialog.vala:108
+msgid "New status"
+msgstr "تحديث جديد"
+
+#: ../../src/Widgets/UserBox.vala:102 ../../src/Widgets/UserBox.vala:230
+msgid "TWEETS"
+msgstr "تغريدات"
+
+#: ../../src/Widgets/UserBox.vala:104 ../../src/Widgets/UserBox.vala:232
+msgid "STATUSES"
+msgstr ""
+
+#: ../../src/Widgets/UserBox.vala:109 ../../src/Widgets/UserBox.vala:263
+msgid "FOLLOWING"
+msgstr ""
+
+#: ../../src/Widgets/UserBox.vala:111 ../../src/Widgets/UserBox.vala:265
+msgid "FOLLOWERS"
+msgstr "المتابعون"
+
+#: ../../src/Widgets/UserBox.vala:136
+msgid "Follow"
+msgstr "اتبع"
+
+#: ../../src/Widgets/UserBox.vala:138
+msgid "Follow user"
+msgstr "اتبع المستخدم"
+
+#: ../../src/Widgets/UserBox.vala:146
+msgid "Unfollow"
+msgstr "الوقف عن المتابعة"
+
+#: ../../src/Widgets/UserBox.vala:148
+msgid "Unfollow user"
+msgstr "إيقاف متابعة المستخدم"
+
+#: ../../src/Widgets/UserBox.vala:156
+msgid "Block"
+msgstr "حظر"
+
+#: ../../src/Widgets/UserBox.vala:158
+msgid "Block user"
+msgstr "حظر المستخدم"
+
+#: ../../src/Widgets/UserBox.vala:166
+msgid "Unblock"
+msgstr "ألغِ الحظر"
+
+#: ../../src/Widgets/UserBox.vala:168
+msgid "Unblock user"
+msgstr "إلغاء حظر المستخدم"
+
+#: ../../src/Widgets/UserBox.vala:255
+msgid "Following you."
+msgstr "يتتبعك"
+
+#: ../../src/Widgets/UserBox.vala:257
+msgid "Not following you."
+msgstr "لا يتتبعك"
+
+#: ../../src/Utils/Date.vala:65
+#, c-format
+msgid "%d y"
+msgstr ""
+
+#: ../../src/Utils/Date.vala:68
+#, c-format
+msgid "%d mo"
+msgstr ""
+
+#: ../../src/Utils/Date.vala:71
+#, c-format
+msgid "%d w"
+msgstr ""
+
+#: ../../src/Utils/Date.vala:74
+#, c-format
+msgid "%d d"
+msgstr ""
+
+#: ../../src/Utils/Date.vala:76
+#, c-format
+msgid "%d h"
+msgstr "%d س"
+
+#: ../../src/Utils/Date.vala:78
+#, c-format
+msgid "%d m"
+msgstr "%d د"
+
+#: ../../src/Utils/Date.vala:81
+msgid "now"
+msgstr "الآن"
+
+#: ../../src/Utils/Indicator.vala:47 ../../src/Utils/Launcher.vala:47
+msgid "Tweets"
+msgstr "التغريدات"
+
+#: ../../src/Utils/Launcher.vala:59
+msgid "Messages"
+msgstr "الرسائل"
