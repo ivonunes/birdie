@@ -35,6 +35,7 @@ namespace Birdie.Widgets {
         private Gtk.Button unfollow_button;
         private Gtk.Button block_button;
         private Gtk.Button unblock_button;
+        private Gtk.Image verified_img;
 
         public UserBox () {
             GLib.Object (orientation: Gtk.Orientation.HORIZONTAL);
@@ -92,6 +93,13 @@ namespace Birdie.Widgets {
             this.username_label.margin_bottom = 6;
 
             string tweets_txt;
+
+            if (user.verified) {
+                this.verified_img = new Gtk.Image ();
+                this.verified_img.set_from_icon_name ("twitter-verified", Gtk.IconSize.MENU);
+                this.verified_img.set_halign (Gtk.Align.END);
+                this.content_box.pack_start (this.verified_img, false, true, 0);
+            }
 
             this.username_label.set_markup ("<span underline='none' color='#000000' font_weight='bold' size='large'>" + user.name + "</span> <span font_weight='light' color='#aaaaaa'>@" + user.screen_name + "</span>\n" + "<span size='small'>" + user.location + "</span>");
             this.content_box.pack_start (this.username_label, false, true, 0);

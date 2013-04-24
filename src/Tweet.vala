@@ -31,8 +31,9 @@ namespace Birdie {
         public bool favorited;
         public bool dm;
         public string media_url;
+        public bool verified;
 
-        public Tweet (string id = "", string actual_id = "", string user_name = "", string user_screen_name = "", string text = "", string created_at = "", string profile_image_url = "", string profile_image_file = "", bool retweeted = false, bool favorited = false, bool dm = false, string in_reply_to_screen_name = "", string retweeted_by = "", string retweeted_by_name = "", string media_url = "") {
+        public Tweet (string id = "", string actual_id = "", string user_name = "", string user_screen_name = "", string text = "", string created_at = "", string profile_image_url = "", string profile_image_file = "", bool retweeted = false, bool favorited = false, bool dm = false, string in_reply_to_screen_name = "", string retweeted_by = "", string retweeted_by_name = "", string media_url = "", bool verified = false) {
             this.id = id;
             this.actual_id = actual_id;
             this.user_name = user_name;
@@ -48,6 +49,7 @@ namespace Birdie {
             this.retweeted_by = retweeted_by;
             this.retweeted_by_name = retweeted_by_name;
             this.media_url = media_url;
+            this.verified = verified;
         }
     }
 }
