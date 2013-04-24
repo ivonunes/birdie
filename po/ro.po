@@ -1,0 +1,302 @@
+# Romanian translation for birdie
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the birdie package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: birdie\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-03-28 16:27+0000\n"
+"PO-Revision-Date: 2013-04-23 11:49+0000\n"
+"Last-Translator: BlackJohnny <Unknown>\n"
+"Language-Team: Romanian <ro@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-04-24 05:28+0000\n"
+"X-Generator: Launchpad (build 16580)\n"
+
+#: ../../src/Birdie.vala:153 ../../src/Utils/Indicator.vala:50
+#: ../../src/Utils/Launcher.vala:41
+msgid "New Tweet"
+msgstr "Tweet nou"
+
+#: ../../src/Birdie.vala:156
+msgid "New Status"
+msgstr "Status nou"
+
+#: ../../src/Birdie.vala:181 ../../src/Birdie.vala:182
+#: ../../src/Birdie.vala:440
+msgid "Home"
+msgstr "Acasă"
+
+#: ../../src/Birdie.vala:189 ../../src/Birdie.vala:190
+#: ../../src/Birdie.vala:441 ../../src/Utils/Indicator.vala:48
+#: ../../src/Utils/Launcher.vala:53
+msgid "Mentions"
+msgstr "Mențiuni"
+
+#: ../../src/Birdie.vala:197 ../../src/Birdie.vala:198
+#: ../../src/Birdie.vala:442 ../../src/Utils/Indicator.vala:49
+msgid "Direct Messages"
+msgstr "Mesaje directe"
+
+#: ../../src/Birdie.vala:205 ../../src/Birdie.vala:206
+#: ../../src/Birdie.vala:443 ../../src/Utils/Launcher.vala:65
+msgid "Profile"
+msgstr "Profil"
+
+#: ../../src/Birdie.vala:213 ../../src/Birdie.vala:214
+#: ../../src/Birdie.vala:218
+msgid "Search"
+msgstr "Caută"
+
+#: ../../src/Birdie.vala:245
+msgid "Remove account"
+msgstr "Elimină cont"
+
+#: ../../src/Birdie.vala:286
+msgid "About"
+msgstr "Despre"
+
+#: ../../src/Birdie.vala:290
+msgid "Quit"
+msgstr "Ieșire"
+
+#: ../../src/Birdie.vala:308
+msgid "Menu"
+msgstr "Meniu"
+
+#: ../../src/Birdie.vala:342
+msgid "Birdie"
+msgstr "Birdie"
+
+#: ../../src/Birdie.vala:342 ../../src/config.vala:24
+msgid "Twitter Client"
+msgstr "Client Twitter"
+
+#: ../../src/Birdie.vala:343
+msgid "Add account"
+msgstr "Adaugă cont"
+
+#: ../../src/Birdie.vala:343
+msgid "Add a Twitter account"
+msgstr "Adaugă un cont Twitter"
+
+#: ../../src/Birdie.vala:348
+msgid "Unable to connect"
+msgstr "Conectare eșuată"
+
+#: ../../src/Birdie.vala:348
+msgid "Please check your Internet Connection"
+msgstr "Vă rugăm să verificați conexiunea la Internet"
+
+#: ../../src/Birdie.vala:349
+msgid "Retry"
+msgstr "Reîncearcă"
+
+#: ../../src/Birdie.vala:349
+msgid "Try to connect again"
+msgstr "Reîncearcă conectare"
+
+#: ../../src/Birdie.vala:372
+msgid "Received"
+msgstr "Primite"
+
+#: ../../src/Birdie.vala:373
+msgid "Sent"
+msgstr "Trimise"
+
+#: ../../src/Birdie.vala:394
+msgid "OK"
+msgstr "OK"
+
+#: ../../src/Birdie.vala:405
+msgid "Please insert your PIN below:"
+msgstr "Introduceți PIN-ul mai jos"
+
+#: ../../src/Birdie.vala:421 ../../src/Birdie.vala:428
+msgid "Timeline"
+msgstr "Cronologie"
+
+#: ../../src/Birdie.vala:422
+msgid "Favorites"
+msgstr "Favorite"
+
+#: ../../src/Birdie.vala:437
+msgid "Loading"
+msgstr "Se încarcă"
+
+#: ../../src/Birdie.vala:438 ../../src/Birdie.vala:439
+msgid "Welcome"
+msgstr "Bine ați venit"
+
+#: ../../src/Birdie.vala:444
+msgid "User"
+msgstr "Utilizator"
+
+#: ../../src/Birdie.vala:445
+msgid "Search Results"
+msgstr "Rezultate căutare"
+
+#: ../../src/Birdie.vala:446
+msgid "Error"
+msgstr "Eroare"
+
+#: ../../src/config.vala:25
+msgid "Twitter client for elementary OS"
+msgstr "Client Twitter pentru OS elementar"
+
+#: ../../src/Widgets/TweetBox.vala:167 ../../src/Widgets/TweetBox.vala:380
+msgid "Favorite"
+msgstr "Favorite"
+
+#: ../../src/Widgets/TweetBox.vala:188
+msgid "Retweet"
+msgstr "Retweet"
+
+#: ../../src/Widgets/TweetBox.vala:190
+msgid "Repeat"
+msgstr "Repetă"
+
+#: ../../src/Widgets/TweetBox.vala:209
+msgid "Reply"
+msgstr "Răspunde"
+
+#: ../../src/Widgets/TweetBox.vala:223
+msgid "Delete"
+msgstr "Șterge"
+
+#: ../../src/Widgets/TweetBox.vala:377
+msgid "Unfavorite"
+msgstr "Elimină din favorite"
+
+#: ../../src/Widgets/TweetBox.vala:387
+#, c-format
+msgid "retweeted by %s"
+msgstr "retweet-uit de %s"
+
+#: ../../src/Widgets/TweetBox.vala:395
+#, c-format
+msgid "repeated by %s"
+msgstr "repetat de %s"
+
+#: ../../src/Widgets/TweetBox.vala:407
+#, c-format
+msgid "in reply to @%s"
+msgstr "răspuns către @%s"
+
+#: ../../src/Widgets/TweetDialog.vala:96
+msgid "Cancel"
+msgstr "Anulează"
+
+#: ../../src/Widgets/TweetDialog.vala:103
+msgid "Send"
+msgstr "Trimite"
+
+#: ../../src/Widgets/TweetDialog.vala:106
+msgid "Tweet"
+msgstr "Tweet"
+
+#: ../../src/Widgets/TweetDialog.vala:108
+msgid "New status"
+msgstr "Status nou"
+
+#: ../../src/Widgets/UserBox.vala:102 ../../src/Widgets/UserBox.vala:230
+msgid "TWEETS"
+msgstr "TWEETS"
+
+#: ../../src/Widgets/UserBox.vala:104 ../../src/Widgets/UserBox.vala:232
+msgid "STATUSES"
+msgstr "STATUSURI"
+
+#: ../../src/Widgets/UserBox.vala:109 ../../src/Widgets/UserBox.vala:263
+msgid "FOLLOWING"
+msgstr "URMĂREȘTI"
+
+#: ../../src/Widgets/UserBox.vala:111 ../../src/Widgets/UserBox.vala:265
+msgid "FOLLOWERS"
+msgstr "URMĂRITORI"
+
+#: ../../src/Widgets/UserBox.vala:136
+msgid "Follow"
+msgstr "Urmărește"
+
+#: ../../src/Widgets/UserBox.vala:138
+msgid "Follow user"
+msgstr "Urmărește utilizator"
+
+#: ../../src/Widgets/UserBox.vala:146
+msgid "Unfollow"
+msgstr "Nu mai urmări"
+
+#: ../../src/Widgets/UserBox.vala:148
+msgid "Unfollow user"
+msgstr "Nu mai urmări utilizator"
+
+#: ../../src/Widgets/UserBox.vala:156
+msgid "Block"
+msgstr "Blochează"
+
+#: ../../src/Widgets/UserBox.vala:158
+msgid "Block user"
+msgstr "Blochează utilizator"
+
+#: ../../src/Widgets/UserBox.vala:166
+msgid "Unblock"
+msgstr "Deblochează"
+
+#: ../../src/Widgets/UserBox.vala:168
+msgid "Unblock user"
+msgstr "Deblochează utilizator"
+
+#: ../../src/Widgets/UserBox.vala:255
+msgid "Following you."
+msgstr "Te urmăresc"
+
+#: ../../src/Widgets/UserBox.vala:257
+msgid "Not following you."
+msgstr "Nu te urmăresc"
+
+#: ../../src/Utils/Date.vala:65
+#, c-format
+msgid "%d y"
+msgstr "%d y"
+
+#: ../../src/Utils/Date.vala:68
+#, c-format
+msgid "%d mo"
+msgstr "%d mo"
+
+#: ../../src/Utils/Date.vala:71
+#, c-format
+msgid "%d w"
+msgstr "%d w"
+
+#: ../../src/Utils/Date.vala:74
+#, c-format
+msgid "%d d"
+msgstr "%d d"
+
+#: ../../src/Utils/Date.vala:76
+#, c-format
+msgid "%d h"
+msgstr "%d h"
+
+#: ../../src/Utils/Date.vala:78
+#, c-format
+msgid "%d m"
+msgstr "%d m"
+
+#: ../../src/Utils/Date.vala:81
+msgid "now"
+msgstr "acum"
+
+#: ../../src/Utils/Indicator.vala:47 ../../src/Utils/Launcher.vala:47
+msgid "Tweets"
+msgstr "Tweet-uri"
+
+#: ../../src/Utils/Launcher.vala:59
+msgid "Messages"
+msgstr "Mesaje"
