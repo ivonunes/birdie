@@ -397,6 +397,36 @@ namespace Birdie {
             return image_file;
         }
 
+        private string get_youtube_video (string youtube_video_url) {
+
+            debug ("Youtube video found: " + youtube_video_url);
+
+            string youtube_id = "";
+            Regex id;
+
+            youtube_id = youtube_video_url.split ("v=")[1];
+
+            if ("&" in youtube_id)
+                youtube_id = youtube_id.split ("&")[0];
+
+            debug ("VIDEO ID: " + youtube_id);
+
+            var file = File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/media/youtube_" + youtube_id + ".jpg");
+
+            if (!file.query_exists ()) {
+                GLib.DirUtils.create_with_parents(Environment.get_home_dir () + "/.cache/birdie/media", 0775);
+
+                var src = File.new_for_uri ("http://i3.ytimg.com/vi/" + youtube_id + "/mqdefault.jpg");
+                var dst = File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/media/youtube_" + youtube_id + ".jpg");
+                try {
+                    src.copy (dst, FileCopyFlags.NONE, null, null);
+                } catch (Error e) {
+                    stderr.printf ("%s\n", e.message);
+                }
+            }
+            return youtube_id;
+        }
+
         public override string highligh_links (owned string text) {
             if ("\n" in text)
                 text = text.replace ("\n", " ");
@@ -422,6 +452,7 @@ namespace Birdie {
             string retweeted_by = "";
             string retweeted_by_name = "";
             string media_url = "";
+            string youtube_video = "";
 
             if (retweet != null) {
                 retweeted_by = tweetobject.get_object_member ("user").get_string_member ("screen_name");
@@ -447,9 +478,8 @@ namespace Birdie {
             }
 
             var entitiesobject = tweetobject.get_object_member ("entities");
-            if (entitiesobject.has_member("media")) {
 
-                media_url = entitiesobject.get_object_member ("media").get_string_member ("media_url");
+            if (entitiesobject.has_member("media")) {
                 foreach (var media in entitiesobject.get_array_member ("media").get_elements ()) {
                     media_url = media.get_object ().get_string_member ("media_url");
                     media_url = this.get_media (media_url);
@@ -458,7 +488,21 @@ namespace Birdie {
                 media_url = "";
             }
 
-            return new Tweet (id, actual_id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited, false, in_reply_to_screen_name, retweeted_by, retweeted_by_name, media_url, verified);
+            // intercept youtube links
+           if (entitiesobject.has_member("urls")) {
+                foreach (var url in entitiesobject.get_array_member ("urls").get_elements ()) {
+                    youtube_video = url.get_object ().get_string_member ("expanded_url");
+
+                    if (youtube_video.contains ("youtube.com") )
+                        youtube_video = this.get_youtube_video (youtube_video);
+                    else
+                        youtube_video = "";
+                }
+            } else {
+                youtube_video = "";
+            }
+
+            return new Tweet (id, actual_id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited, false, in_reply_to_screen_name, retweeted_by, retweeted_by_name, media_url, youtube_video, verified);
         }
 
         public override int get_home_timeline () {
@@ -477,6 +521,8 @@ namespace Birdie {
             try {
                 var parser = new Json.Parser ();
                 parser.load_from_data ((string) call.get_payload (), -1);
+
+                //debug (call.get_payload ());
 
                 var root = parser.get_root ();
 

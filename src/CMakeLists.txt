@@ -4,7 +4,7 @@ find_package(Vala REQUIRED)
 
 #Now we're including the version module to ensure we have a compatible version
 include(ValaVersion)
-ensure_vala_version("0.11.3" MINIMUM)
+ensure_vala_version("0.18.0" MINIMUM)
 
 #Now we're including the precompile modules to set things up.
 include(ValaPrecompile)
@@ -18,7 +18,7 @@ find_package(PkgConfig)
 
 #Now we're declaring GTK+ 3 and Granite as our REQUIRE dependancies.
 #If PkgConfig can't find these, you need to install them in Step 1.
-pkg_check_modules(DEPS REQUIRED gtk+-3.0 granite rest-0.7 json-glib-1.0 libnotify libcanberra indicate-0.7 unity libwnck-3.0 gdk-x11-3.0)
+pkg_check_modules(DEPS REQUIRED gtk+-3.0 granite rest-0.7 json-glib-1.0 libnotify libcanberra indicate-0.7 unity libwnck-3.0 gdk-x11-3.0 webkitgtk-3.0)
 
 #Now we're going to ready the libraries and get their directories to include them.
 set(CFLAGS
@@ -67,8 +67,9 @@ PACKAGES
     unity
     libwnck-3.0
     gdk-x11-3.0
+    webkitgtk-3.0
 OPTIONS
-    --thread --target-glib=2.32)
+    --thread --target-glib=2.32 --vapidir=${CMAKE_SOURCE_DIR}/vapi)
 
 #Here we define our executable name.
 add_executable(birdie
