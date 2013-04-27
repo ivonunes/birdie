@@ -424,6 +424,7 @@ namespace Birdie {
             string retweeted_by = "";
             string retweeted_by_name = "";
             string media_url = "";
+            string youtube_video = "";
 
             if (retweet != null) {
                 retweeted_by = tweetobject.get_object_member ("user").get_string_member ("screen_name");
@@ -464,7 +465,7 @@ namespace Birdie {
                 media_url = "";
             }
 
-            return new Tweet (id, actual_id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited, false, in_reply_to_screen_name, retweeted_by, retweeted_by_name, media_url, false);
+            return new Tweet (id, actual_id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited, false, in_reply_to_screen_name, retweeted_by, retweeted_by_name, youtube_video, media_url, false);
 
         }
 

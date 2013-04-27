@@ -14,6 +14,8 @@
  *              Vasco Nunes <vascomfnunes@gmail.com>
  */
 
+using WebKit;
+
 namespace Birdie.Widgets {
     public class TweetBox : Gtk.EventBox {
         public Tweet tweet;
@@ -49,6 +51,7 @@ namespace Birdie.Widgets {
         private Gtk.Image full_image;
         private Gtk.Image verified_img;
 
+        private WebView web_view;
 
         private int year;
         private int month;
@@ -175,25 +178,26 @@ namespace Birdie.Widgets {
             ctx.add_class("tweet");
 
             // media
-            if (tweet.media_url != "") {
-
-                media_pixbuf = new Gdk.Pixbuf.from_file_at_scale (Environment.get_home_dir () + "/.cache/birdie/media/" + tweet.media_url, 40, 40, true);
-
+            if (tweet.media_url != "" || tweet.youtube_video != "") {
+                if (tweet.youtube_video != "")
+                    media_pixbuf = new Gdk.Pixbuf.from_file_at_scale (Environment.get_home_dir () + "/.cache/birdie/media/youtube_" + tweet.youtube_video + ".jpg", 40, 40, true);
+                else if (tweet.media_url != "")
+                    media_pixbuf = new Gdk.Pixbuf.from_file_at_scale (Environment.get_home_dir () + "/.cache/birdie/media/" + tweet.media_url, 40, 40, true);
                 this.media = new Gtk.Image.from_pixbuf (media_pixbuf);
                 this.media.set_halign (Gtk.Align.START);
-
                 this.media_box = new Gtk.EventBox ();
                 this.media_box.add (this.media);
                 this.content_box.pack_start (this.media_box, false, false, 0);
-
                 set_events(Gdk.EventMask.BUTTON_RELEASE_MASK);
 
                 this.media_box.button_release_event.connect ((event) => {
-                    this.show_media (tweet.media_url);
+                    if (tweet.youtube_video != "")
+                        this.show_youtube_video (tweet.youtube_video);
+                    else
+                        this.show_media (tweet.media_url);
                     return false;
                 });
             }
-
 
             // status image
             this.status_img = new Gtk.Image ();
@@ -333,6 +337,17 @@ namespace Birdie.Widgets {
             this.full_image.set_halign (Gtk.Align.CENTER);
             this.full_image.set_valign (Gtk.Align.CENTER);
             light_window.add (this.full_image);
+            light_window.set_position (Gtk.WindowPosition.CENTER);
+            light_window.show_all ();
+        }
+
+        private void show_youtube_video (string youtube_video_id) {
+            var light_window = new Granite.Widgets.LightWindow ();
+            this.web_view = new WebView ();
+            this.web_view.set_editable (false);
+            this.web_view.load_html_string ("<iframe width='640' height='385' style='margin-left: -10px;' src='http://www.youtube.com/embed/" +
+                youtube_video_id + "?version=3&autohide=1&showinfo=0&showsearch=0&vq=hd720&autoplay=1' frameborder='0' allowfullscreen></iframe>", ".");
+            light_window.add (this.web_view);
             light_window.set_position (Gtk.WindowPosition.CENTER);
             light_window.show_all ();
         }
