@@ -293,7 +293,7 @@ namespace Birdie {
                 right_sep.set_expand (true);
                 this.m_window.add_bar (left_sep);
 
-                var menu = new Gtk.Menu ();
+                var menu = new Widgets.MenuPopOver ();
                 this.account_appmenu = new Gtk.MenuItem.with_label (_("Remove account"));
                 account_appmenu.activate.connect (() => {
                     this.new_tweet.set_sensitive (false);
