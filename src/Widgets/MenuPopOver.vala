@@ -1,4 +1,18 @@
-// Testing brand new popovers
+// -*- Mode: vala; indent-tabs-mode: nil; tab-width: 4 -*-
+/*-
+ * Copyright (c) 2013 Birdie Developers (http://launchpad.net/birdie)
+ *
+ * This software is licensed under the GNU General Public License
+ * (version 3 or later). See the COPYING file in this distribution.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this software; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ *
+ * Authored by: Ivo Nunes <ivo@elementaryos.org>
+ *              Vasco Nunes <vascomfnunes@gmail.com>
+ */
 
 namespace Birdie.Widgets
 {
@@ -10,6 +24,10 @@ namespace Birdie.Widgets
         private Granite.Drawing.BufferSurface buffer;
         private int w = -1;
         private int h = -1;
+        private int window_x = -1;
+        private int window_y = -1;
+        private int window_w = -1;
+        private int window_h = -1;
         private int arrow_height = 10;
         private int arrow_width = 20;
         private double x = 10.5;
@@ -17,6 +35,7 @@ namespace Birdie.Widgets
         private int radius = 5;
 
         private Gtk.Box box;
+        private Gtk.Widget widget;
 
         private const string MENU_STYLESHEET = """
             .menu {
@@ -38,11 +57,6 @@ namespace Birdie.Widgets
             box.show ();
             
             get_style_context ().add_class (COMPOSITED_INDICATOR);
-
-            // Enable scrolling events
-            add_events (Gdk.EventMask.SCROLL_MASK);
-
-            //set_widget (WidgetSlot.IMAGE, image);
 
             show ();
 
@@ -92,9 +106,22 @@ namespace Birdie.Widgets
             var new_w  = this.get_parent ().get_allocated_width ();
             var new_h = this.get_parent ().get_allocated_height ();
 
-            if (new_w != w || new_h != h) {
+            int new_window_x;
+            int new_window_y;
+            int new_window_w = this.get_toplevel ().get_window ().get_width ();
+            int new_window_h = this.get_toplevel ().get_window ().get_height ();
+
+            this.get_toplevel ().get_window ().get_position (out new_window_x, out new_window_y);
+
+            if (new_w != w || new_h != h || new_window_x != window_x || new_window_y != window_y ||
+                new_window_w != window_w || new_window_h != window_h) {
                 w = new_w;
                 h = new_h;
+
+                window_x = new_window_x;
+                window_y = new_window_y;
+                window_w = new_window_w;
+                window_h = new_window_h;
 
                 buffer = new Granite.Drawing.BufferSurface (w, h);
                 cairo_popover (w, h);
@@ -135,21 +162,31 @@ namespace Birdie.Widgets
             w = w - 20;
             h = h - 20;
 
+            int screen_width = this.get_screen ().get_width ();
+
             // Get some nice pos for the arrow
             var offs = 30;
             int p_x;
-            int w_x;
+
             Gtk.Allocation alloc;
             this.get_window ().get_origin (out p_x, null);
             this.get_allocation (out alloc);
 
-            this.get_window ().get_origin (out w_x, null);
-
-            offs = (p_x + alloc.x) - w_x + this.get_allocated_width () / 4;
+            offs = w / 2;
             if (offs + 50 > (w + 20))
                 offs = (w + 20) - 15 - arrow_width;
             if (offs < 17)
                 offs = 17;
+
+            if (this.widget != null) {
+                int widget_window_x;
+                this.widget.get_window ().get_origin (out widget_window_x, null);
+                Gtk.Allocation widget_alloc;
+                this.widget.get_allocation (out widget_alloc);
+
+                if (screen_width - (widget_window_x + widget_alloc.x) <= 64)
+                        offs = (w + 20) - 15 - arrow_width - 10;
+            }
 
             buffer.context.arc (x + radius, y + arrow_height + radius, radius, Math.PI, Math.PI * 1.5);
             buffer.context.line_to (offs, y + arrow_height);
@@ -163,62 +200,8 @@ namespace Birdie.Widgets
             buffer.context.close_path ();
         }
 
-        public override bool scroll_event (Gdk.EventScroll event) {
-            /*var direction = Indicator.ScrollDirection.UP;
-            double delta = 0;
-
-            switch (event.direction) {
-                case Gdk.ScrollDirection.UP:
-                    delta = event.delta_y;
-                    direction = Indicator.ScrollDirection.UP;
-                    break;
-                case Gdk.ScrollDirection.DOWN:
-                    delta = event.delta_y;
-                    direction = Indicator.ScrollDirection.DOWN;
-                    break;
-                case Gdk.ScrollDirection.LEFT:
-                    delta = event.delta_x;
-                    direction = Indicator.ScrollDirection.LEFT;
-                    break;
-                case Gdk.ScrollDirection.RIGHT:
-                    delta = event.delta_x;
-                    direction = Indicator.ScrollDirection.RIGHT;
-                    break;
-                default:
-                    break;
-            }
-
-            entry.parent_object.entry_scrolled (entry, (uint) delta, direction);*/
-
-            return false;
-        }
-
-        public void set_widget (/*WidgetSlot slot,*/ Gtk.Widget widget) {
-            /*Gtk.Widget old_widget;
-
-            if (slot == WidgetSlot.LABEL)
-                old_widget = the_label;
-            else if (slot == WidgetSlot.IMAGE)
-                old_widget = the_image;
-            else
-                assert_not_reached ();
-
-            if (old_widget != null) {
-                box.remove (old_widget);
-                old_widget.get_style_context ().remove_class (StyleClass.COMPOSITED_INDICATOR);
-            }
-
-            widget.get_style_context ().add_class (StyleClass.COMPOSITED_INDICATOR);
-
-            if (slot == WidgetSlot.LABEL) {
-                the_label = widget;
-                box.pack_end (the_label, false, false, 0);
-            } else if (slot == WidgetSlot.IMAGE) {
-                the_image = widget;
-                box.pack_start (the_image, false, false, 0);
-            } else {
-                assert_not_reached ();
-            }*/
+        public void move_to_widget (Gtk.Widget w) {
+            this.widget = w;
         }
     }
 }

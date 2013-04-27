@@ -358,6 +358,7 @@ namespace Birdie {
                 menu.add (about_appmenu);
                 menu.add (quit_appmenu);
                 var appmenu = new Granite.Widgets.ToolButtonWithMenu (new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU), _("Menu"), menu);
+                menu.move_to_widget (appmenu);
 
                 this.m_window.add_bar (appmenu);
 
