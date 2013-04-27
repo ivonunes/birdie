@@ -34,9 +34,12 @@ namespace Birdie {
         private Gtk.ToggleToolButton dm;
         private Gtk.ToggleToolButton profile;
         private Gtk.ToggleToolButton search;
+        private Granite.Widgets.ToolButtonWithMenu appmenu;
 
         private Widgets.UserBox own_box_info;
         private Gtk.Box own_box;
+        private Gdk.Pixbuf avatar_pixbuf;
+        private Gtk.Image avatar_image;
 
         private Widgets.UserBox user_box_info;
         private Gtk.Box user_box;
@@ -357,7 +360,7 @@ namespace Birdie {
                 menu.add (new Gtk.SeparatorMenuItem ());
                 menu.add (about_appmenu);
                 menu.add (quit_appmenu);
-                var appmenu = new Granite.Widgets.ToolButtonWithMenu (new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU), _("Menu"), menu);
+                this.appmenu = new Granite.Widgets.ToolButtonWithMenu (new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU), _("Menu"), menu);
                 menu.move_to_widget (appmenu);
 
                 this.m_window.add_bar (appmenu);
@@ -703,9 +706,13 @@ namespace Birdie {
                         this.own_box_info.init (this.api.account, this);
                         this.user_box_info.init (this.api.account, this);
                     }
+                    
+                    var avatar_pixbuf = new Gdk.Pixbuf.from_file_at_scale (Environment.get_home_dir () + "/.cache/birdie/" + this.api.account.profile_image_file, 24, 24, true);
+                    var avatar_image = new Gtk.Image.from_pixbuf (avatar_pixbuf);
+                    avatar_image.show ();
+                    this.appmenu.set_icon_widget (avatar_image);
 
                     this.initialized = true;
-
                     return false;
                 });
 
