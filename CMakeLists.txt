@@ -36,9 +36,9 @@ configure_file(
 
 add_custom_target(
     uninstall
-    COMMAND 
+    COMMAND
         ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake
-    COMMAND 
+    COMMAND
         ${glib_schema_compiler} ${GSETTINGS_DIR}
 )
 
@@ -46,7 +46,7 @@ add_subdirectory(schemas)
 add_subdirectory(icons)
 add_subdirectory(data)
 
-#Here we add the src directory. CMake will look for the CMakeLists.txt in this folder 
+#Here we add the src directory. CMake will look for the CMakeLists.txt in this folder
 #and work from there
 add_subdirectory (src)
 add_subdirectory (po)
