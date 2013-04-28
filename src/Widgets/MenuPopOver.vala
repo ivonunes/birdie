@@ -31,7 +31,7 @@ namespace Birdie.Widgets
         private int arrow_height = 10;
         private int arrow_width = 20;
         private double x = 10.5;
-        private double y = 10.5;
+        private double y = 5.5;
         private int radius = 5;
 
         private Gtk.Box box;
@@ -68,8 +68,8 @@ namespace Birdie.Widgets
 
             buffer = new Granite.Drawing.BufferSurface (100, 100);
 
-            this.margin_top = 28;
-            this.margin_bottom = 18;
+            this.margin_top = 23;
+            this.margin_bottom = 23;
 
             Granite.Widgets.Utils.set_theming (this, MENU_STYLESHEET, null,
                                                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
@@ -162,30 +162,25 @@ namespace Birdie.Widgets
             w = w - 20;
             h = h - 20;
 
-            int screen_width = this.get_screen ().get_width ();
+            var offs = 30;
 
             // Get some nice pos for the arrow
-            var offs = 30;
-            int p_x;
+            if (widget != null) {
+                int p_x;
+                int w_x;
+                Gtk.Allocation alloc;
+                widget.get_window ().get_origin (out p_x, null);
+                widget.get_allocation (out alloc);
 
-            Gtk.Allocation alloc;
-            this.get_window ().get_origin (out p_x, null);
-            this.get_allocation (out alloc);
+                this.get_window ().get_origin (out w_x, null);
 
-            offs = w / 2;
-            if (offs + 50 > (w + 20))
-                offs = (w + 20) - 15 - arrow_width;
-            if (offs < 17)
-                offs = 17;
-
-            if (this.widget != null) {
-                int widget_window_x;
-                this.widget.get_window ().get_origin (out widget_window_x, null);
-                Gtk.Allocation widget_alloc;
-                this.widget.get_allocation (out widget_alloc);
-
-                if (screen_width - (widget_window_x + widget_alloc.x) <= 64)
-                        offs = (w + 20) - 15 - arrow_width - 10;
+                offs = (p_x + alloc.x) - w_x + widget.get_allocated_width () / 4;
+                if (offs + 50 > (w + 20))
+                    offs = (w + 20) - 15 - arrow_width;
+                if (offs < 17)
+                    offs = 17;
+            } else {
+                offs = w / 2;
             }
 
             buffer.context.arc (x + radius, y + arrow_height + radius, radius, Math.PI, Math.PI * 1.5);

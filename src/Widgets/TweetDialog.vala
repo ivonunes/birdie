@@ -15,7 +15,7 @@
  */
 
 namespace Birdie.Widgets {
-    public class TweetDialog : LightDialog {
+    public class TweetDialog : Granite.Widgets.LightWindow {
         Gtk.Image avatar;
         Gtk.TextView view;
         Gtk.Entry entry;
@@ -47,6 +47,11 @@ namespace Birdie.Widgets {
             this.id = id;
             this.user_screen_name = user_screen_name;
             this.dm = dm;
+            this.deletable = false;
+            
+            this.box.foreach ((w) => {
+                this.box.remove (w);
+            });
 
             this.media_uri = "";
 

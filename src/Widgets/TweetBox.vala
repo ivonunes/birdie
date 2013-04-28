@@ -146,7 +146,7 @@ namespace Birdie.Widgets {
             this.username_label.set_valign (Gtk.Align.START);
             this.username_label.set_selectable (true);
             this.username_label.set_markup (
-                "<span underline='none' color='#000' font_weight='bold' size='large'><a href='birdie://user/" +
+                "<span underline='none' color='#222' font_weight='bold' size='large'><a href='birdie://user/" +
                 tweet.user_screen_name + "'>" + tweet.user_name +
                 "</a></span> <span font_weight='light' color='#aaa'>@" +
                 tweet.user_screen_name + "</span>"

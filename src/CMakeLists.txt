@@ -45,7 +45,6 @@ vala_precompile(VALA_C
     Widgets/TweetBox.vala
     Widgets/TweetList.vala
     Widgets/UnifiedWindow.vala
-    Widgets/LightDialog.vala
     Widgets/TweetDialog.vala
     Widgets/UserBox.vala
     Widgets/MenuPopOver.vala
