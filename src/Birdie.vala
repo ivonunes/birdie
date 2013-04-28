@@ -231,7 +231,7 @@ namespace Birdie {
                     if (!this.changing_tab) {
                         this.changing_tab = true;
 
-                        switch (current_timeline) {
+                        /*switch (current_timeline) {
                             case "home":
                                 this.home.set_active (false);
                                 break;
@@ -281,7 +281,13 @@ namespace Birdie {
                                 break;
                         }
 
-                        this.search.set_active (false);
+                        this.search.set_active (false);*/
+                        
+                        var pop = new Widgets.WindowPopOver ();
+                        pop.move_to_widget (this.search);
+                        
+                        pop.show_all ();
+                        
                         this.changing_tab = false;
                     }
                 });
