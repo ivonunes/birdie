@@ -14,8 +14,27 @@
  *              Vasco Nunes <vascomfnunes@gmail.com>
  */
 
-public static int main (string[] args) {
-    Gtk.init (ref args);
-    var app = new Birdie.Birdie ();
-    return app.run (args);
+namespace Birdie {
+
+    namespace Option {
+
+        private static bool START_HIDDEN = false;
+    }
+
+    public static int main (string[] args) {
+
+        var context = new OptionContext ("Birdie");
+        context.add_main_entries (Birdie.app_options, "birdie");
+        context.add_group (Gtk.get_option_group(true));
+
+        try {
+            context.parse (ref args);
+        } catch (Error e) {
+            warning (e.message);
+        }
+
+        Gtk.init (ref args);
+        var app = new Birdie ();
+        return app.run (args);
+    }
 }

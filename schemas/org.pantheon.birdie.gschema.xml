@@ -21,7 +21,7 @@
         Token secret
       </description>
     </key>
-    
+
     <key name="update-interval" type="i">
       <default>2</default>
       <summary>update-interval</summary>
@@ -29,7 +29,7 @@
         Interval to fetch updates
       </description>
     </key>
-    
+
     <key name="tweet-notification" type="b">
       <default>false</default>
       <summary>tweet-notification</summary>
@@ -37,7 +37,7 @@
         Desktop notifications for new tweets
       </description>
     </key>
-    
+
     <key name="mention-notification" type="b">
       <default>true</default>
       <summary>mention-notification</summary>
@@ -45,7 +45,7 @@
         Desktop notifications for new mentions
       </description>
     </key>
-    
+
     <key name="dm-notification" type="b">
       <default>true</default>
       <summary>dm-notification</summary>
@@ -60,34 +60,26 @@
       <description>
         Use the old window style
       </description>
-   </key>
-
-   <key name="start-hidden" type="b">
-      <default>false</default>
-      <summary>start-hidden</summary>
-      <description>
-        Hide Birdie on startup
-      </description>
-   </key>
+    </key>
 
     <key name="window-width" type="i">
       <default>450</default>
       <summary>Window Width</summary>
       <description>Saves the window width for restoring it later.</description>
     </key>
-    
+
     <key name="window-height" type="i">
       <default>600</default>
       <summary>Window Height</summary>
       <description>Saves the window height for restoring it later.</description>
     </key>
-    
+
     <key name="opening-x" type="i">
       <default>-1</default>
       <summary>X position of window</summary>
       <description>Saves the window’s X position for restoring it later.</description>
     </key>
-    
+
     <key name="opening-y" type="i">
       <default>-1</default>
       <summary>Y position of window</summary>
@@ -99,7 +91,7 @@
       <summary>X position of compose window</summary>
       <description>Saves the window’s X position for restoring it later.</description>
     </key>
-    
+
     <key name="compose-opening-y" type="i">
       <default>-1</default>
       <summary>Y position of compose window</summary>

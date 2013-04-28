@@ -93,8 +93,6 @@ namespace Birdie {
         private bool initialized;
         private bool changing_tab;
 
-        private bool start_hidden;
-
         construct {
             program_name        = "Birdie";
             exec_name           = "birdie";
@@ -115,6 +113,11 @@ namespace Birdie {
             about_license_type  = Gtk.License.GPL_3_0;
         }
 
+        public static const OptionEntry[] app_options = {
+            { "start-hidden", 's', 0, OptionArg.NONE, out Option.START_HIDDEN, "Start hidden", null },
+            { null }
+        };
+
         public Birdie () {
             set_flags (ApplicationFlags.HANDLES_OPEN);
             this.initialized = false;
@@ -132,7 +135,6 @@ namespace Birdie {
                 this.dm_notification = settings.get_boolean ("dm-notification");
                 this.legacy_window = settings.get_boolean ("legacy-window");
                 this.update_interval = settings.get_int ("update-interval");
-                this.start_hidden = settings.get_boolean ("start-hidden");
 
                 if (this.legacy_window)
                     this.m_window = new Widgets.UnifiedWindow ("Birdie", true);
@@ -563,12 +565,10 @@ namespace Birdie {
                     return true;
                 });
 
-                if (!this.start_hidden) {
-                    this.m_window.show_all ();
-                    this.own_box_info.hide_buttons ();
-                } else {
-                    this.m_window.show_all ();
-                    this.own_box_info.hide_buttons ();
+                this.m_window.show_all ();
+                this.own_box_info.hide_buttons ();
+
+                if (Option.START_HIDDEN) {
                     this.m_window.hide ();
                 }
 
