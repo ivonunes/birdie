@@ -27,6 +27,7 @@ namespace Birdie {
         public Widgets.TweetList search_list;
 
         private Gtk.MenuItem account_appmenu;
+        private Widgets.MenuPopOver menu;
 
         private Gtk.ToolButton new_tweet;
         private Gtk.ToggleToolButton home;
@@ -38,8 +39,6 @@ namespace Birdie {
 
         private Widgets.UserBox own_box_info;
         private Gtk.Box own_box;
-        private Gdk.Pixbuf avatar_pixbuf;
-        private Gtk.Image avatar_image;
 
         private Widgets.UserBox user_box_info;
         private Gtk.Box user_box;
@@ -296,8 +295,8 @@ namespace Birdie {
                 right_sep.set_expand (true);
                 this.m_window.add_bar (left_sep);
 
-                var menu = new Widgets.MenuPopOver ();
-                this.account_appmenu = new Gtk.MenuItem.with_label (_("Remove account"));
+                menu = new Widgets.MenuPopOver ();
+                this.account_appmenu = new Gtk.MenuItem.with_label (_("Account Settings"));
                 account_appmenu.activate.connect (() => {
                     this.new_tweet.set_sensitive (false);
                     this.home.set_sensitive (false);
@@ -357,7 +356,6 @@ namespace Birdie {
                     m_window.destroy ();
                 });
                 menu.add (account_appmenu);
-                menu.add (new Gtk.SeparatorMenuItem ());
                 menu.add (about_appmenu);
                 menu.add (quit_appmenu);
                 this.appmenu = new Granite.Widgets.ToolButtonWithMenu (new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU), _("Menu"), menu);
@@ -711,6 +709,21 @@ namespace Birdie {
                     var avatar_image = new Gtk.Image.from_pixbuf (avatar_pixbuf);
                     avatar_image.show ();
                     this.appmenu.set_icon_widget (avatar_image);
+                    
+                    var avatar_image_menu = new Gtk.Image.from_file (Environment.get_home_dir () + "/.cache/birdie/" + this.api.account.profile_image_file);
+                    var account_menu_item = new Gtk.ImageMenuItem.with_label (this.api.account.name + "\n@" + this.api.account.screen_name);
+                    
+                    foreach (var child in account_menu_item.get_children ()) {
+                        if (child is Gtk.Label)
+                            ((Gtk.Label)child).set_markup ("<b>" + this.api.account.name + "</b>\n@" + this.api.account.screen_name);
+                    }
+                    
+                    account_menu_item.set_image (avatar_image_menu);
+                    account_menu_item.set_always_show_image (true);
+                    
+                    this.menu.prepend (new Gtk.SeparatorMenuItem ());
+                    this.menu.prepend (account_menu_item);
+                    this.menu.show_all ();
 
                     this.initialized = true;
                     return false;
