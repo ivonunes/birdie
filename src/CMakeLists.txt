@@ -48,7 +48,6 @@ vala_precompile(VALA_C
     Widgets/TweetDialog.vala
     Widgets/UserBox.vala
     Widgets/MenuPopOver.vala
-    Widgets/WindowPopOver.vala
     Utils/Cairo.vala
     Utils/Date.vala
     Utils/Notifications.vala
