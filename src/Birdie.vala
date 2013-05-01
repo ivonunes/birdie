@@ -964,32 +964,34 @@ namespace Birdie {
                 else
                     code = this.api.update_with_media (text, id, media_uri, out media_out);
 
-            try {
-                urls = new Regex("((http|https|ftp)://([\\S]+))");
-            } catch (RegexError e) {
-                warning ("regex error: %s", e.message);
-            }
-
-            try {
-                text_url = urls.replace(text, -1, 0, "<a href='\\0'>\\0</a>");
-            } catch (Error e) {
-                warning ("url replacing error: %s", e.message);
-            }
-
-            if (media_out != "") {
-                text_url = text_url + " <a href='" + media_out + "'>" + media_out + "</a>";
-            }
-
-            string user = user_screen_name;
-
-            if ("@" in user_screen_name)
-                user = user.replace ("@", "");
-
-            if (user == "")
-                user = this.api.account.screen_name;
-
             if (code != 1) {
-                Tweet tweet_tmp = new Tweet (code.to_string (), code.to_string (), this.api.account.name, user, text_url, "", this.api.account.profile_image_url, this.api.account.profile_image_file, false, false, dm);
+                try {
+                    urls = new Regex("((http|https|ftp)://([\\S]+))");
+                } catch (RegexError e) {
+                    warning ("regex error: %s", e.message);
+                }
+
+                try {
+                    text_url = urls.replace(text, -1, 0, "<a href='\\0'>\\0</a>");
+                } catch (Error e) {
+                    warning ("url replacing error: %s", e.message);
+                }
+
+                if (media_out != "") {
+                    text_url = text_url + " <a href='" + media_out + "'>" + media_out + "</a>";
+                }
+
+                string user = user_screen_name;
+
+                if ("@" in user_screen_name)
+                    user = user.replace ("@", "");
+
+                if (user == "")
+                    user = this.api.account.screen_name;
+
+                Tweet tweet_tmp = new Tweet (code.to_string (), code.to_string (),
+                    this.api.account.name, user, text_url, "", this.api.account.profile_image_url,
+                    this.api.account.profile_image_file, false, false, dm);
 
                 if (dm) {
                     this.dm_sent_list.append (tweet_tmp, this);
@@ -998,11 +1000,14 @@ namespace Birdie {
                         this.notebook_dm.page = 1;
                         return false;
                     });
+                    get_avatar (this.dm_sent_list);
                 } else {
                     this.home_tmp.append (tweet_tmp);
                     this.home_list.append (tweet_tmp, this);
                     this.own_list.append (tweet_tmp, this);
-                    this.favorites.append (tweet_tmp, this);
+
+                    get_avatar (this.home_list);
+                    get_avatar (this.own_list);
 
                     this.switch_timeline ("home");
                 }

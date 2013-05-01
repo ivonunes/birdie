@@ -48,7 +48,7 @@ namespace Birdie.Widgets {
             this.user_screen_name = user_screen_name;
             this.dm = dm;
             this.deletable = false;
-            
+
             this.box.foreach ((w) => {
                 this.box.remove (w);
             });
@@ -216,8 +216,12 @@ namespace Birdie.Widgets {
 
             this.hide ();
             birdie.tweet_callback (this.view.buffer.get_text (start, end, false), this.id, this.user_screen_name, this.dm, this.media_uri);
-            this.save_window ();
-            this.destroy ();
+
+            Idle.add (() => {
+                this.save_window ();
+                this.destroy ();
+                return false;
+            });
 
             return null;
         }

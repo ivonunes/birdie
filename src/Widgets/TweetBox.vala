@@ -421,6 +421,7 @@ namespace Birdie.Widgets {
                         this.birdie.mentions_list.update_display (this.tweet);
                         this.birdie.own_list.update_display (this.tweet);
                         this.birdie.favorites.append (this.tweet, this.birdie);
+                        get_avatar (this.birdie.favorites);
                     }
 
                     this.favorite_button.set_sensitive (true);
