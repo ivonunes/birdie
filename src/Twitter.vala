@@ -114,7 +114,7 @@ namespace Birdie {
             return 0;
         }
 
-       public override int64 update_with_media (string status, string id = "", string media_uri, out string media_out) {
+        public override int64 update_with_media (string status, string id = "", string media_uri, out string media_out) {
 
             string? link;
             var imgur = new Imgur ();
@@ -255,7 +255,8 @@ namespace Birdie {
                 var name = userobject.get_string_member ("name");
                 var screen_name = userobject.get_string_member ("screen_name");
                 var profile_image_url = userobject.get_string_member ("profile_image_url");
-                var profile_image_file = get_avatar (profile_image_url);
+                //var profile_image_file = get_avatar (profile_image_url);
+                var profile_image_file = "";
 
                 if (userobject.has_member("location") &&
                     userobject.get_string_member ("location") != null) {
@@ -292,7 +293,8 @@ namespace Birdie {
             var name = tweetobject.get_object_member ("user").get_string_member ("name");
             var screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
             var profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
-            var profile_image_file = get_avatar (profile_image_url);
+            //var profile_image_file = get_avatar (profile_image_url);
+            var profile_image_file = "";
 
             string location = "";
             string description = "";
@@ -316,33 +318,6 @@ namespace Birdie {
                 profile_image_url, profile_image_file, location, description,
                 friends_count, followers_count, statuses_count, verified
             );
-        }
-
-        public override string get_avatar (string profile_image_url) {
-            var profile_image_file = profile_image_url;
-
-            if ("/" in profile_image_file)
-                profile_image_file = profile_image_file.split ("/")[4] + "_" + profile_image_file.split ("/")[5];
-
-            if (".png" in profile_image_url) {
-            } else {
-                if ("." in profile_image_file) {
-                    profile_image_file = profile_image_file.split (".")[0];
-                }
-                profile_image_file = profile_image_file + ".png";
-            }
-
-            Utils.Downloader download_handler =
-                new Utils.Downloader (profile_image_url,
-                Environment.get_home_dir () +
-                "/.cache/birdie/" + profile_image_file);
-
-            if (download_handler.download_complete) {
-                Utils.generate_rounded_avatar (Environment.get_home_dir () +
-                    "/.cache/birdie/" + profile_image_file);
-            }
-
-            return profile_image_file;
         }
 
         private string get_media (string image_url) {
@@ -419,7 +394,8 @@ namespace Birdie {
             var profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
             var verified = tweetobject.get_object_member ("user").get_boolean_member ("verified");
 
-            var profile_image_file = get_avatar (profile_image_url);
+            //var profile_image_file = get_avatar (profile_image_url);
+            var profile_image_file = "";
             var in_reply_to_screen_name = tweetobject.get_string_member ("in_reply_to_screen_name");
 
             if (in_reply_to_screen_name == null) {
@@ -470,9 +446,6 @@ namespace Birdie {
             try {
                 var parser = new Json.Parser ();
                 parser.load_from_data ((string) call.get_payload (), -1);
-
-                //debug (call.get_payload ());
-
                 var root = parser.get_root ();
 
                 // clear since_id list
@@ -493,7 +466,6 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse home_timeline.json\n");
             }
-
             return 0;
         }
 
@@ -571,7 +543,8 @@ namespace Birdie {
                     var text = highligh_links(tweetobject.get_string_member ("text"));
                     var created_at = tweetobject.get_string_member ("created_at");
                     var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
-                    var profile_image_file = get_avatar (profile_image_url);
+                    //var profile_image_file = get_avatar (profile_image_url);
+                    var profile_image_file = "";
 
                     var tweet = new Tweet (id, id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, false, false, true);
 
@@ -616,7 +589,8 @@ namespace Birdie {
                     var text = highligh_links(tweetobject.get_string_member ("text"));
                     var created_at = tweetobject.get_string_member ("created_at");
                     var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
-                    var profile_image_file = get_avatar (profile_image_url);
+                    //var profile_image_file = get_avatar (profile_image_url);
+                    var profile_image_file = "";
 
                     var tweet = new Tweet (id, id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, false, false, true);
 

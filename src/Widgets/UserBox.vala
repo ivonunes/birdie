@@ -59,7 +59,7 @@ namespace Birdie.Widgets {
 
             // avatar image
             this.avatar_img = new Gtk.Image ();
-            this.avatar_img.set_from_file (Environment.get_home_dir () + "/.cache/birdie/" + user.profile_image_file);
+            this.avatar_img.set_from_file (Constants.PKGDATADIR + "/default.png");
             this.avatar_img.set_halign (Gtk.Align.START);
             this.avatar_img.set_valign (Gtk.Align.CENTER);
             this.avatar_alignment.add (this.avatar_img);
@@ -343,5 +343,11 @@ namespace Birdie.Widgets {
             return null;
         }
 
+        public void set_avatar (string avatar_file) {
+            Idle.add(() => {
+                this.avatar_img.set_from_file (avatar_file);
+                return false;
+            });
+        }
     }
 }

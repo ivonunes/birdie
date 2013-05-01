@@ -112,7 +112,7 @@ namespace Birdie.Widgets {
 
             // avatar image
             this.avatar_img = new Gtk.Image ();
-            this.avatar_img.set_from_file (Environment.get_home_dir () + "/.cache/birdie/" + tweet.profile_image_file);
+            this.avatar_img.set_from_file (Constants.PKGDATADIR + "/default.png");
             this.avatar_img.set_halign (Gtk.Align.START);
             this.avatar_img.set_valign (Gtk.Align.START);
             this.avatar_box.pack_start (this.avatar_img, false, false, 0);
@@ -573,6 +573,13 @@ namespace Birdie.Widgets {
 
         public void set_selectable (bool select) {
             this.tweet_label.set_selectable (select);
+        }
+
+        public void set_avatar (string avatar_file) {
+            Idle.add (() => {
+                this.avatar_img.set_from_file (avatar_file);
+                return false;
+            });
         }
     }
 }

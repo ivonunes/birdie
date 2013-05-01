@@ -29,23 +29,23 @@ namespace Birdie.Widgets {
         }
 
         public void append (Tweet tweet, Birdie birdie) {
+            TweetBox box = new TweetBox(tweet, birdie);
+            Gtk.Separator separator = new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
+
+            if (this.count > 100) {
+                var box_old = this.boxes.nth_data (0);
+                var separator_old = this.separators.nth_data (0);
+
+                this.separators.remove (separator_old);
+                this.boxes.remove (box_old);
+                box_old.destroy();
+                separator_old.destroy();
+            }
+
+            boxes.append (box);
+            separators.append (separator);
+
             Idle.add( () => {
-                TweetBox box = new TweetBox(tweet, birdie);
-                Gtk.Separator separator = new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
-
-                if (this.count > 100) {
-                    var box_old = this.boxes.nth_data (0);
-                    var separator_old = this.separators.nth_data (0);
-
-                    this.separators.remove (separator_old);
-                    this.boxes.remove (box_old);
-                    box_old.destroy();
-                    separator_old.destroy();
-                }
-
-                boxes.append (box);
-                separators.append (separator);
-
                 if (!this.first)
                     this.pack_end (separator, false, false, 0);
                 this.pack_end (box, false, false, 0);
@@ -60,7 +60,7 @@ namespace Birdie.Widgets {
                 return false;
             });
         }
-        
+
         public new void remove (Tweet tweet) {
             this.boxes.foreach ((box) => {
                 if (box.tweet == tweet) {
@@ -75,13 +75,13 @@ namespace Birdie.Widgets {
                         return false;
                     });
                 }
-	        });
+            });
         }
 
         public void update_date () {
             this.boxes.foreach ((box) => {
                 box.update_date ();
-	        });
+            });
         }
 
         public void update_display (Tweet tweet) {
@@ -92,7 +92,7 @@ namespace Birdie.Widgets {
                         return false;
                     });
                 }
-	        });
+            });
         }
 
         public void set_selectable (bool select) {
