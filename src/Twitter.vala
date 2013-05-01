@@ -118,13 +118,13 @@ namespace Birdie {
 
             string? link;
             var imgur = new Imgur ();
-            
+
             try {
                 link = imgur.upload (media_uri);
             } catch (Error e) {
                 error ("Error uploading image to imgur: %s", e.message);
             }
-            
+
             media_out = link;
 
             if (link == "")
@@ -321,59 +321,25 @@ namespace Birdie {
         public override string get_avatar (string profile_image_url) {
             var profile_image_file = profile_image_url;
 
-            bool convert_png = false;
-
-            Gdk.Pixbuf pixbuf = null;
-
             if ("/" in profile_image_file)
                 profile_image_file = profile_image_file.split ("/")[4] + "_" + profile_image_file.split ("/")[5];
 
             if (".png" in profile_image_url) {
-                convert_png = false;
             } else {
                 if ("." in profile_image_file) {
                     profile_image_file = profile_image_file.split (".")[0];
                 }
                 profile_image_file = profile_image_file + ".png";
-                convert_png = true;
             }
 
-            var file = File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/" + profile_image_file);
+            Utils.Downloader download_handler =
+                new Utils.Downloader (profile_image_url,
+                Environment.get_home_dir () +
+                "/.cache/birdie/" + profile_image_file);
 
-            if (!file.query_exists ()) {
-                GLib.DirUtils.create_with_parents(Environment.get_home_dir () + "/.cache/birdie", 0775);
-
-                var src = File.new_for_uri (profile_image_url);
-                var dst = File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/" + profile_image_file);
-                try {
-                    src.copy (dst, FileCopyFlags.NONE, null, null);
-                } catch (Error e) {
-                    stderr.printf ("%s\n", e.message);
-                }
-
-                // generate rounded avatar
-                var surface = new Cairo.ImageSurface (Cairo.Format.ARGB32, 50, 50);
-                var ctx = new Cairo.Context (surface);
-
-                Utils.draw_rounded_path(ctx, 0, 0, 50, 50, 5);
-                ctx.set_line_width (2.0);
-                ctx.set_source_rgb (0.5, 0.5, 0.5);
-                ctx.stroke_preserve ();
-
-                try {
-                    pixbuf = new Gdk.Pixbuf.from_file (Environment.get_home_dir () + "/.cache/birdie/" + profile_image_file);
-                } catch (Error e) {
-                    warning ("Pixbuf error: %s", e.message);
-                }
-
-                if(pixbuf != null) {
-                    Gdk.cairo_set_source_pixbuf(ctx, pixbuf, 1, 1);
-                    ctx.clip ();
-                }
-
-                ctx.paint ();
-
-                surface.write_to_png (Environment.get_home_dir () + "/.cache/birdie/" + profile_image_file);
+            if (download_handler.download_complete) {
+                Utils.generate_rounded_avatar (Environment.get_home_dir () +
+                    "/.cache/birdie/" + profile_image_file);
             }
 
             return profile_image_file;
@@ -385,48 +351,28 @@ namespace Birdie {
             if ("/" in image_file)
                 image_file = image_file.split ("/")[4] + "_" + image_file.split ("/")[5];
 
-            var file = File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/media" + image_file);
+            Utils.Downloader download_handler =
+                new Utils.Downloader (image_url + ":medium",
+                Environment.get_home_dir () +
+                "/.cache/birdie/media/" + image_file);
 
-            if (!file.query_exists ()) {
-                GLib.DirUtils.create_with_parents(Environment.get_home_dir () + "/.cache/birdie/media", 0775);
-
-                var src = File.new_for_uri (image_url + ":medium");
-                var dst = File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/media/" + image_file);
-                try {
-                    src.copy (dst, FileCopyFlags.NONE, null, null);
-                } catch (Error e) {
-                    stderr.printf ("%s\n", e.message);
-                }
-            }
             return image_file;
         }
 
         private string get_youtube_video (string youtube_video_url) {
-
-            debug ("Youtube video found: " + youtube_video_url);
-
             string youtube_id = "";
-
             youtube_id = youtube_video_url.split ("v=")[1];
 
             if ("&" in youtube_id)
                 youtube_id = youtube_id.split ("&")[0];
 
-            debug ("VIDEO ID: " + youtube_id);
+            debug ("Youtube ID video found: " + youtube_id);
 
-            var file = File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/media/youtube_" + youtube_id + ".jpg");
+            Utils.Downloader download_handler =
+                new Utils.Downloader ("http://i3.ytimg.com/vi/" +
+                youtube_id + "/mqdefault.jpg", Environment.get_home_dir () +
+                "/.cache/birdie/media/youtube_" + youtube_id + ".jpg");
 
-            if (!file.query_exists ()) {
-                GLib.DirUtils.create_with_parents(Environment.get_home_dir () + "/.cache/birdie/media", 0775);
-
-                var src = File.new_for_uri ("http://i3.ytimg.com/vi/" + youtube_id + "/mqdefault.jpg");
-                var dst = File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/media/youtube_" + youtube_id + ".jpg");
-                try {
-                    src.copy (dst, FileCopyFlags.NONE, null, null);
-                } catch (Error e) {
-                    stderr.printf ("%s\n", e.message);
-                }
-            }
             return youtube_id;
         }
 

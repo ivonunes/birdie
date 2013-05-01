@@ -124,6 +124,14 @@ namespace Birdie {
             set_flags (ApplicationFlags.HANDLES_OPEN);
             this.initialized = false;
             this.changing_tab = false;
+
+            // create cache dirs if needed
+            string media_cache_path = Environment.get_home_dir () +
+                    "/.cache/birdie/media";
+            File media_cache = File.new_for_path (media_cache_path);
+            if (media_cache.query_file_type (0) != FileType.DIRECTORY) {
+                GLib.DirUtils.create_with_parents (media_cache_path, 0775);
+            }
         }
 
         public override void activate (){
