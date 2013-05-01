@@ -17,8 +17,8 @@
 namespace Birdie.Utils {
 
     // returns a resized pixbuf to fit the current user's screen resolution
-    public Gdk.Pixbuf fit_user_screen (string image_path) {
-        
+    public Gdk.Pixbuf fit_user_screen (string image_path, Gtk.Widget widget) {
+
         int screen_height;
         int screen_width;
         double factor;
@@ -32,12 +32,12 @@ namespace Birdie.Utils {
         } catch (Error e) {
             error ("Error resizing image: %s", e.message);
         }
-        
+
         // get screen resolution height
-        screen_height = Gdk.Screen.height ();
+        screen_height = widget.get_screen ().height ();
         // get screen resolution width
-        screen_width = Gdk.Screen.width ();
-                        
+        screen_width = widget.get_screen ().width ();
+
         // check if the image is larger than current screen height
         if (pixbuf.get_height () >= screen_height) {
             // formula to resize the image mantaining its proportions
