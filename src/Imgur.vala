@@ -55,8 +55,6 @@ namespace Birdie {
             call.add_param ("key", CLIENT_ID);
             call.add_param ("image", encoded.str);
 
-            Error? err = null;
-
             try { call.sync (); } catch (Error e) {
                 debug ( call.get_payload ());
                 stderr.printf ("Cannot make call: %s\n", e.message);

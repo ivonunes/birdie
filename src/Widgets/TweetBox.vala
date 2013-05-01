@@ -33,7 +33,6 @@ namespace Birdie.Widgets {
         private Gtk.Box avatar_box;
         private Gtk.Box header_box;
         private Gtk.Box buttons_box;
-        private Gtk.Box status_box;
         private Gtk.Overlay context_overlay;
         private Gtk.Button favorite_button;
         private Gtk.Button retweet_button;
@@ -180,9 +179,17 @@ namespace Birdie.Widgets {
             // media
             if (tweet.media_url != "" || tweet.youtube_video != "") {
                 if (tweet.youtube_video != "")
-                    media_pixbuf = new Gdk.Pixbuf.from_file_at_scale (Environment.get_home_dir () + "/.cache/birdie/media/youtube_" + tweet.youtube_video + ".jpg", 40, 40, true);
+                    try {
+                        media_pixbuf = new Gdk.Pixbuf.from_file_at_scale (Environment.get_home_dir () + "/.cache/birdie/media/youtube_" + tweet.youtube_video + ".jpg", 40, 40, true);
+                    } catch (Error e) {
+                        error ("Error creating pixbuf: %s", e.message);
+                    }
                 else if (tweet.media_url != "")
-                    media_pixbuf = new Gdk.Pixbuf.from_file_at_scale (Environment.get_home_dir () + "/.cache/birdie/media/" + tweet.media_url, 40, 40, true);
+                    try {
+                        media_pixbuf = new Gdk.Pixbuf.from_file_at_scale (Environment.get_home_dir () + "/.cache/birdie/media/" + tweet.media_url, 40, 40, true);
+                    } catch (Error e) {
+                        error ("Error creating pixbuf: %s", e.message);
+                    }
                 this.media = new Gtk.Image.from_pixbuf (media_pixbuf);
                 this.media.set_halign (Gtk.Align.START);
                 this.media_box = new Gtk.EventBox ();

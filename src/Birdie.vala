@@ -839,14 +839,6 @@ namespace Birdie {
             });
         }
 
-        private void deactivate_toggles () {
-            this.home.set_active (false);
-            this.dm.set_active (false);
-            this.mentions.set_active (false);
-            this.profile.set_active (false);
-            this.search.set_active (false);
-        }
-
         public void add_timeout_offline () {
             GLib.Timeout.add_seconds (60, () => {
                 new Thread<void*> (null, this.update_dates);

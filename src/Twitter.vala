@@ -115,8 +115,16 @@ namespace Birdie {
         }
 
        public override int64 update_with_media (string status, string id = "", string media_uri, out string media_out) {
+
+            string? link;
             var imgur = new Imgur ();
-            var link = imgur.upload (media_uri);
+            
+            try {
+                link = imgur.upload (media_uri);
+            } catch (Error e) {
+                error ("Error uploading image to imgur: %s", e.message);
+            }
+            
             media_out = link;
 
             if (link == "")
@@ -374,10 +382,6 @@ namespace Birdie {
         private string get_media (string image_url) {
             var image_file = image_url;
 
-           // bool convert_png = false;
-
-            Gdk.Pixbuf pixbuf = null;
-
             if ("/" in image_file)
                 image_file = image_file.split ("/")[4] + "_" + image_file.split ("/")[5];
 
@@ -402,7 +406,6 @@ namespace Birdie {
             debug ("Youtube video found: " + youtube_video_url);
 
             string youtube_id = "";
-            Regex id;
 
             youtube_id = youtube_video_url.split ("v=")[1];
 

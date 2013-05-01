@@ -25,7 +25,13 @@ namespace Birdie.Utils {
         double new_width;
         double new_height;
 
-        Gdk.Pixbuf pixbuf = new Gdk.Pixbuf.from_file (image_path);
+        Gdk.Pixbuf pixbuf;
+
+        try {
+            pixbuf = new Gdk.Pixbuf.from_file (image_path);
+        } catch (Error e) {
+            error ("Error resizing image: %s", e.message);
+        }
         
         // get screen resolution height
         screen_height = Gdk.Screen.height ();
