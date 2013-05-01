@@ -255,7 +255,6 @@ namespace Birdie {
                 var name = userobject.get_string_member ("name");
                 var screen_name = userobject.get_string_member ("screen_name");
                 var profile_image_url = userobject.get_string_member ("profile_image_url");
-                //var profile_image_file = get_avatar (profile_image_url);
                 var profile_image_file = "";
 
                 if (userobject.has_member("location") &&
@@ -293,7 +292,6 @@ namespace Birdie {
             var name = tweetobject.get_object_member ("user").get_string_member ("name");
             var screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
             var profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
-            //var profile_image_file = get_avatar (profile_image_url);
             var profile_image_file = "";
 
             string location = "";
@@ -326,8 +324,7 @@ namespace Birdie {
             if ("/" in image_file)
                 image_file = image_file.split ("/")[4] + "_" + image_file.split ("/")[5];
 
-            Utils.Downloader download_handler =
-                new Utils.Downloader (image_url + ":medium",
+            new Utils.Downloader (image_url + ":medium",
                 Environment.get_home_dir () +
                 "/.cache/birdie/media/" + image_file);
 
@@ -343,8 +340,7 @@ namespace Birdie {
 
             debug ("Youtube ID video found: " + youtube_id);
 
-            Utils.Downloader download_handler =
-                new Utils.Downloader ("http://i3.ytimg.com/vi/" +
+            new Utils.Downloader ("http://i3.ytimg.com/vi/" +
                 youtube_id + "/mqdefault.jpg", Environment.get_home_dir () +
                 "/.cache/birdie/media/youtube_" + youtube_id + ".jpg");
 
@@ -393,8 +389,6 @@ namespace Birdie {
             var created_at = tweetobject.get_string_member ("created_at");
             var profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
             var verified = tweetobject.get_object_member ("user").get_boolean_member ("verified");
-
-            //var profile_image_file = get_avatar (profile_image_url);
             var profile_image_file = "";
             var in_reply_to_screen_name = tweetobject.get_string_member ("in_reply_to_screen_name");
 
@@ -543,7 +537,6 @@ namespace Birdie {
                     var text = highligh_links(tweetobject.get_string_member ("text"));
                     var created_at = tweetobject.get_string_member ("created_at");
                     var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
-                    //var profile_image_file = get_avatar (profile_image_url);
                     var profile_image_file = "";
 
                     var tweet = new Tweet (id, id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, false, false, true);
@@ -589,9 +582,7 @@ namespace Birdie {
                     var text = highligh_links(tweetobject.get_string_member ("text"));
                     var created_at = tweetobject.get_string_member ("created_at");
                     var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
-                    //var profile_image_file = get_avatar (profile_image_url);
                     var profile_image_file = "";
-
                     var tweet = new Tweet (id, id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, false, false, true);
 
                     dm_sent_timeline.append (tweet);

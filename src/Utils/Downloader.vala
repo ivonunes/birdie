@@ -25,15 +25,13 @@ namespace Birdie.Utils {
      */
 
     public class Downloader : Object {
-      private uint64 length;
       private uint64 bytes_read;
-      private int dl_length;
       public bool download_complete;
       public bool download_skip;
       private string url;
       private string local_file_path;
 
-      public Downloader (string url, string? local_file=null) {
+      public Downloader (string url, string? local_file = null) {
         download_complete = false;
         download_skip = false;
         this.url = url;
@@ -53,7 +51,6 @@ namespace Birdie.Utils {
 
       private void download (string remote, int? redirects = 10) {
         ParsedURL pu = new ParsedURL (remote);
-        /* http://live.gnome.org/Vala/GIONetworkingSample */
         try {
           // Resolve hostname to IP address
           var resolver = Resolver.get_default ();
@@ -88,7 +85,6 @@ namespace Birdie.Utils {
               return;
             }
           }
-          //where is this thing going?
           string partial_file = local_file_path + ".partial";
           var file = File.new_for_path (partial_file);
           var dos = new DataOutputStream (file.create (FileCreateFlags.NONE));
@@ -125,7 +121,6 @@ namespace Birdie.Utils {
       public string request;
       public ParsedURL(string url) {
         request = "";
-        //parse that shit!
         string[] bits = url.split("://");
         scheme = bits[0];
         if (scheme.down() == "http" )
