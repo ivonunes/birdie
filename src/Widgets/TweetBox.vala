@@ -332,8 +332,12 @@ namespace Birdie.Widgets {
 
         private void show_media (string media_file) {
             var light_window = new Granite.Widgets.LightWindow ();
+
+            Gdk.Pixbuf pixbuf = Utils.fit_user_screen (Environment.get_home_dir ()
+                + "/.cache/birdie/media/" + media_file);
+                
             this.full_image = new Gtk.Image ();
-            this.full_image.set_from_file (Environment.get_home_dir () + "/.cache/birdie/media/" + media_file);
+            this.full_image.set_from_pixbuf (pixbuf);
             this.full_image.set_halign (Gtk.Align.CENTER);
             this.full_image.set_valign (Gtk.Align.CENTER);
             light_window.add (this.full_image);
