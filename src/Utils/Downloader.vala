@@ -29,29 +29,26 @@ namespace Birdie.Utils {
       private uint64 bytes_read;
       private int dl_length;
       public bool download_complete;
+      public bool download_skip;
       private string url;
       private string local_file_path;
 
       public Downloader (string url, string? local_file=null) {
-        length = 0;
-        dl_length = 0;
         download_complete = false;
+        download_skip = false;
         this.url = url;
-        if (local_file != null) {
-          local_file_path = local_file;
-        } else {
-          local_file_path = Path.get_basename (url);
-        }
+        this.local_file_path = local_file;
 
         // if cached, ignore
-
-        File file = File.new_for_path (local_file);
+        File file = File.new_for_path (this.local_file_path);
 
         if (file.query_exists ()) {
+            download_skip = true;
+            download_complete = true;
             return;
+        } else {
+            download (url);
         }
-
-        download (url);
       }
 
       private void download (string remote, int? redirects = 10) {
@@ -110,6 +107,7 @@ namespace Birdie.Utils {
           dos.close();
           //move the partial file to the finished file
           FileUtils.rename (partial_file, local_file_path);
+          FileUtils.remove (partial_file);
           download_complete = true;
           return;
 

@@ -253,7 +253,8 @@ namespace Birdie {
                 var screen_name = userobject.get_string_member ("screen_name");
                 var profile_image_url = userobject.get_string_member ("profile_image_url");
 
-                var profile_image_file = get_avatar (profile_image_url);
+                //var profile_image_file = get_avatar (profile_image_url);
+                var profile_image_file = "";
 
                 if (userobject.has_member("location") &&
                     userobject.get_string_member ("location") != null) {
@@ -289,7 +290,8 @@ namespace Birdie {
             var name = tweetobject.get_object_member ("user").get_string_member ("name");
             var screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
             var profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
-            var profile_image_file = get_avatar (profile_image_url);
+            //var profile_image_file = get_avatar (profile_image_url);
+            var profile_image_file = "";
 
             string location = "";
             string description = "";
@@ -312,67 +314,6 @@ namespace Birdie {
                 profile_image_url, profile_image_file, location, description,
                 friends_count, followers_count, statuses_count
             );
-        }
-
-        public override string get_avatar (string profile_image_url) {
-            var profile_image_file = profile_image_url;
-
-            bool convert_png = false;
-
-            Gdk.Pixbuf pixbuf = null;
-
-            if ("/" in profile_image_file)
-                profile_image_file = profile_image_file.split ("/")[4] + "_" + profile_image_file.split ("/")[5];
-
-            if (".png" in profile_image_url) {
-                convert_png = false;
-            } else {
-                if ("." in profile_image_file) {
-                    profile_image_file = profile_image_file.split (".")[0];
-                }
-                profile_image_file = profile_image_file + ".png";
-                convert_png = true;
-            }
-
-            var file = File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/" + profile_image_file);
-
-            if (!file.query_exists ()) {
-                GLib.DirUtils.create_with_parents(Environment.get_home_dir () + "/.cache/birdie", 0775);
-
-                var src = File.new_for_uri (profile_image_url);
-                var dst = File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/" + profile_image_file);
-                try {
-                    src.copy (dst, FileCopyFlags.NONE, null, null);
-                } catch (Error e) {
-                    stderr.printf ("%s\n", e.message);
-                }
-
-                // generate rounded avatar
-                var surface = new Cairo.ImageSurface (Cairo.Format.ARGB32, 50, 50);
-                var ctx = new Cairo.Context (surface);
-
-                Utils.draw_rounded_path(ctx, 0, 0, 50, 50, 5);
-                ctx.set_line_width (2.0);
-                ctx.set_source_rgb (0.5, 0.5, 0.5);
-                ctx.stroke_preserve ();
-
-                try {
-                    pixbuf = new Gdk.Pixbuf.from_file (Environment.get_home_dir () + "/.cache/birdie/" + profile_image_file);
-                } catch (Error e) {
-                    warning ("Pixbuf error: %s", e.message);
-                }
-
-                if(pixbuf != null) {
-                    Gdk.cairo_set_source_pixbuf(ctx, pixbuf, 1, 1);
-                    ctx.clip ();
-                }
-
-                ctx.paint ();
-
-                surface.write_to_png (Environment.get_home_dir () + "/.cache/birdie/" + profile_image_file);
-            }
-
-            return profile_image_file;
         }
 
         private string get_media (string image_url) {
@@ -445,7 +386,8 @@ namespace Birdie {
             var created_at = tweetobject.get_string_member ("created_at");
             var profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
 
-            var profile_image_file = get_avatar (profile_image_url);
+            //var profile_image_file = get_avatar (profile_image_url);
+             var profile_image_file = "";
             var in_reply_to_screen_name = tweetobject.get_string_member ("in_reply_to_screen_name");
 
             if (in_reply_to_screen_name == null) {
@@ -488,7 +430,8 @@ namespace Birdie {
             var created_at = tweetobject.get_string_member ("created_at");
             var profile_image_url = tweetobject.get_string_member ("profile_image_url");
 
-            var profile_image_file = get_avatar (profile_image_url);
+            //var profile_image_file = get_avatar (profile_image_url);
+             var profile_image_file = "";
             var in_reply_to_screen_name = tweetobject.get_string_member ("to_user_id");
 
             if (in_reply_to_screen_name == null) {
@@ -616,7 +559,8 @@ namespace Birdie {
                     var text = highligh_links(tweetobject.get_string_member ("text"));
                     var created_at = tweetobject.get_string_member ("created_at");
                     var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
-                    var profile_image_file = get_avatar (profile_image_url);
+                    //var profile_image_file = get_avatar (profile_image_url);
+                     var profile_image_file = "";
 
                     var tweet = new Tweet (id, id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, false, false, true);
 
@@ -661,7 +605,8 @@ namespace Birdie {
                     var text = highligh_links(tweetobject.get_string_member ("text"));
                     var created_at = tweetobject.get_string_member ("created_at");
                     var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
-                    var profile_image_file = get_avatar (profile_image_url);
+                    //var profile_image_file = get_avatar (profile_image_url);
+                     var profile_image_file = "";
 
                     var tweet = new Tweet (id, id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, false, false, true);
 

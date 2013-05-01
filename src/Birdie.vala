@@ -541,16 +541,12 @@ namespace Birdie {
                     } catch (Error e) {
                         error ("%s", e.message);
                     }
-
                 }
 
                 if (elementary) {
-                    try
-                    {
+                    try {
                         d_provider.load_from_file (child);
-                    }
-                    catch (GLib.Error error)
-                    {
+                    } catch (GLib.Error error) {
                         stderr.printf("Could not load css for birdie: %s", error.message);
                     }
                 }
@@ -577,7 +573,6 @@ namespace Birdie {
                             this.indicator.clean_dm_indicator();
                             break;
                     }
-
                     return true;
                 });
 
@@ -646,7 +641,6 @@ namespace Birdie {
                     new Thread<void*> (null, show_search);
                 }
             }
-
             activate ();
         }
 
@@ -686,7 +680,7 @@ namespace Birdie {
                 this.api.get_favorites ();
 
                 this.api.home_timeline.foreach ((tweet) => {
-                    this.home_list.append(tweet, this);
+                    this.home_list.append (tweet, this);
                 });
 
                 this.api.mentions_timeline.foreach ((tweet) => {
@@ -740,6 +734,8 @@ namespace Birdie {
                     this.menu.prepend (account_menu_item);
                     this.menu.show_all ();
 
+                    get_userbox_avatar (this.own_box_info, true);
+
                     this.initialized = true;
                     return false;
                 });
@@ -759,6 +755,13 @@ namespace Birdie {
                 this.profile.set_sensitive (true);
                 this.search.set_sensitive (true);
                 this.account_appmenu.set_sensitive (true);
+
+                get_avatar (this.home_list);
+                get_avatar (this.mentions_list);
+                get_avatar (this.dm_list);
+                get_avatar (this.dm_sent_list);
+                get_avatar (this.own_list);
+                get_avatar (this.favorites);
             } else {
                 this.switch_timeline ("error");
             }
@@ -893,6 +896,10 @@ namespace Birdie {
                 this.update_home ();
                 this.update_mentions ();
                 this.update_dm ();
+
+                get_avatar (this.home_list);
+                get_avatar (this.mentions_list);
+                get_avatar (this.dm_list);
             } else {
                 this.switch_timeline ("error");
             }
@@ -1042,10 +1049,13 @@ namespace Birdie {
 
                 Idle.add (() => {
                     this.user_box_info.update (this.api.user);
+                    get_userbox_avatar (this.user_box_info);
                     this.switch_timeline ("user");
                     this.spinner.stop ();
                     return false;
                 });
+
+                get_avatar (this.user_list);
             } else {
                 this.switch_timeline ("error");
             }
@@ -1076,6 +1086,8 @@ namespace Birdie {
                     this.spinner.stop ();
                     return false;
                 });
+
+                get_avatar (this.search_list);
             } else {
                 this.switch_timeline ("error");
             }

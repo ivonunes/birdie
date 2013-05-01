@@ -34,9 +34,9 @@ namespace Birdie.Utils {
         }
 
         // get screen resolution height
-        screen_height = widget.get_screen ().height ();
+        screen_height = widget.get_screen ().get_height ();
         // get screen resolution width
-        screen_width = widget.get_screen ().width ();
+        screen_width = widget.get_screen ().get_width ();
 
         // check if the image is larger than current screen height
         if (pixbuf.get_height () >= screen_height) {
