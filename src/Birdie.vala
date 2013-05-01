@@ -95,8 +95,6 @@ namespace Birdie {
         private bool initialized;
         private bool changing_tab;
 
-        private bool start_hidden;
-
         construct {
             program_name        = "Birdie";
             exec_name           = "birdie";
@@ -117,6 +115,11 @@ namespace Birdie {
             about_license_type  = Gtk.License.GPL_3_0;
         }
 
+        public static const OptionEntry[] app_options = {
+            { "start-hidden", 's', 0, OptionArg.NONE, out Option.START_HIDDEN, "Start hidden", null },
+            { null }
+        };
+
         public Birdie () {
             set_flags (ApplicationFlags.HANDLES_OPEN);
             this.initialized = false;
@@ -127,19 +130,18 @@ namespace Birdie {
             if (get_windows () == null) {
                 // settings
                 this.settings = new Settings ("org.pantheon.birdie");
-
                 this.service = settings.get_enum ("service");
                 this.tweet_notification = settings.get_boolean ("tweet-notification");
                 this.mention_notification = settings.get_boolean ("mention-notification");
                 this.dm_notification = settings.get_boolean ("dm-notification");
                 this.legacy_window = settings.get_boolean ("legacy-window");
                 this.update_interval = settings.get_int ("update-interval");
-                this.start_hidden = settings.get_boolean ("start-hidden");
 
                 if (this.legacy_window)
                     this.m_window = new Widgets.UnifiedWindow ("Birdie", true);
                 else
                     this.m_window = new Widgets.UnifiedWindow ();
+
                 this.m_window.set_default_size (450, 600);
                 this.m_window.set_size_request (430, 325);
                 this.m_window.set_application (this);
@@ -149,7 +151,7 @@ namespace Birdie {
                 this.m_window.opening_y = settings.get_int ("opening-y");
                 this.m_window.window_width = settings.get_int ("window-width");
                 this.m_window.window_height = settings.get_int ("window-height");
-                m_window.restore_window ();
+                this.m_window.restore_window ();
 
                 this.indicator = new Utils.Indicator (this);
                 this.launcher = new Utils.Launcher (this);
@@ -167,6 +169,7 @@ namespace Birdie {
 
                 this.new_tweet = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("mail-message-new", Gtk.IconSize.LARGE_TOOLBAR), new_tweet_label);
                 new_tweet.set_tooltip_text (new_tweet_label);
+
                 new_tweet.clicked.connect (() => {
                     bool is_dm = false;
 
@@ -177,6 +180,7 @@ namespace Birdie {
 
                     dialog.show_all ();
                 });
+
                 new_tweet.set_sensitive (false);
                 this.m_window.add_bar (new_tweet);
 
@@ -188,6 +192,7 @@ namespace Birdie {
                 this.home.set_icon_widget (new Gtk.Image.from_icon_name ("twitter-home", Gtk.IconSize.LARGE_TOOLBAR));
 
                 home.set_tooltip_text (_("Home"));
+
                 home.toggled.connect (() => {
                     if (!this.changing_tab)
                         this.switch_timeline ("home");
@@ -198,10 +203,12 @@ namespace Birdie {
                 this.mentions = new Gtk.ToggleToolButton ();
                 this.mentions.set_icon_widget (new Gtk.Image.from_icon_name ("twitter-mentions", Gtk.IconSize.LARGE_TOOLBAR));
                 mentions.set_tooltip_text (_("Mentions"));
+
                 mentions.toggled.connect (() => {
                     if (!this.changing_tab)
                         this.switch_timeline ("mentions");
                 });
+
                 this.mentions.set_sensitive (false);
                 this.m_window.add_bar (mentions);
 
@@ -215,10 +222,10 @@ namespace Birdie {
                 this.dm.set_sensitive (false);
                 this.m_window.add_bar (dm);
 
-
                 this.profile = new Gtk.ToggleToolButton ();
                 this.profile.set_icon_widget (new Gtk.Image.from_icon_name ("twitter-profile", Gtk.IconSize.LARGE_TOOLBAR));
                 profile.set_tooltip_text (_("Profile"));
+
                 profile.toggled.connect (() => {
                     if (!this.changing_tab)
                         this.switch_timeline ("own");
@@ -229,6 +236,7 @@ namespace Birdie {
                 this.search = new Gtk.ToggleToolButton ();
                 this.search.set_icon_widget (new Gtk.Image.from_icon_name ("twitter-search", Gtk.IconSize.LARGE_TOOLBAR));
                 search.set_tooltip_text (_("Search"));
+
                 search.toggled.connect (() => {
                     if (!this.changing_tab) {
                         this.changing_tab = true;
@@ -251,6 +259,7 @@ namespace Birdie {
                         var pop = new Granite.Widgets.PopOver ();
 
                         var search_entry = new Granite.Widgets.SearchBar (_("Search"));
+
                         search_entry.activate.connect (() => {
                             this.search_term = search_entry.get_text ();
                             new Thread<void*> (null, this.show_search);
@@ -564,12 +573,10 @@ namespace Birdie {
                     return true;
                 });
 
-                if (!this.start_hidden) {
-                    this.m_window.show_all ();
-                    this.own_box_info.hide_buttons ();
-                } else {
-                    this.m_window.show_all ();
-                    this.own_box_info.hide_buttons ();
+                this.m_window.show_all ();
+                this.own_box_info.hide_buttons ();
+
+                if (Option.START_HIDDEN) {
                     this.m_window.hide ();
                 }
 
@@ -787,7 +794,6 @@ namespace Birdie {
 
                 this.changing_tab = false;
 
-
                 switch (new_timeline) {
                     case "loading":
                         this.notebook.page = 0;
@@ -851,29 +857,20 @@ namespace Birdie {
 
                 return false;
             });
-
-        }
-
-        private void deactivate_toggles () {
-            this.home.set_active (false);
-            this.dm.set_active (false);
-            this.mentions.set_active (false);
-            this.profile.set_active (false);
-            this.search.set_active (false);
         }
 
         public void add_timeout_offline () {
-            GLib.Timeout.add (60000, () => {
+            GLib.Timeout.add_seconds (60, () => {
                 new Thread<void*> (null, this.update_dates);
                 return false;
             });
         }
 
         public void add_timeout_online () {
-            GLib.Timeout.add (this.update_interval * 60000, () => {
+            GLib.Timeout.add_seconds (this.update_interval * 60, () => {
                 new Thread<void*> (null, this.update_timelines);
                 return false;
-            });
+             });
         }
 
         public void* update_dates () {
