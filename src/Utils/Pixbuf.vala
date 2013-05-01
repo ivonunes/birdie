@@ -55,4 +55,36 @@ namespace Birdie.Utils {
         }
         return pixbuf;
     }
+
+    public void generate_rounded_avatar (string avatar_path,
+        int width = 50, int height = 50, int roundness = 5,
+        double line_width = 2.0, double border_color_r = 0.5,
+        double border_color_g = 0.5, double border_color_b = 0.5) {
+
+        Gdk.Pixbuf pixbuf;
+
+        // generate rounded avatar
+        var surface = new Cairo.ImageSurface (Cairo.Format.ARGB32, width, height);
+        var ctx = new Cairo.Context (surface);
+
+        Utils.draw_rounded_path (ctx, 0, 0, width, height, roundness);
+        ctx.set_line_width (line_width);
+        ctx.set_source_rgb (border_color_r, border_color_g, border_color_b);
+        ctx.stroke_preserve ();
+
+        try {
+            pixbuf = new Gdk.Pixbuf.from_file (avatar_path);
+        } catch (Error e) {
+            warning ("Pixbuf error creating avatar: %s", e.message);
+            return;
+        }
+
+        if (pixbuf != null) {
+            Gdk.cairo_set_source_pixbuf(ctx, pixbuf, 1, 1);
+            ctx.clip ();
+        }
+
+        ctx.paint ();
+        surface.write_to_png (avatar_path);
+    }
 }

@@ -15,6 +15,7 @@
  */
 
 namespace Birdie.Utils {
+
     bool check_internet_connection () {
         var host = "www.google.com";
 
