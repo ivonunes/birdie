@@ -29,6 +29,8 @@ namespace Birdie.Widgets {
         string user_screen_name;
         bool dm;
 
+        bool has_media;
+
         private string filler;
         private int count_remaining;
         private string virtual_text;
@@ -48,6 +50,8 @@ namespace Birdie.Widgets {
             this.user_screen_name = user_screen_name;
             this.dm = dm;
             this.deletable = false;
+            this.count_remaining = 140;
+            this.has_media = false;
 
             this.box.foreach ((w) => {
                 this.box.remove (w);
@@ -107,7 +111,7 @@ namespace Birdie.Widgets {
             });
 
             this.tweet_disabled = true;
-            this.count = 140;
+            this.count = this.count_remaining;
             this.count_label = new Gtk.Label (this.count.to_string ());
             this.count_label.set_markup ("<span color='#777777'>" + this.count.to_string () + "</span>");
 
@@ -186,8 +190,9 @@ namespace Birdie.Widgets {
                 SList<string> uris = file_chooser.get_uris ();
                 foreach (unowned string uri in uris) {
                     this.media_uri = uri;
-                    debug (uri);
                 }
+                this.has_media = true;
+                buffer_changed ();
             });
 
             Gtk.Box bottom = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
@@ -197,10 +202,8 @@ namespace Birdie.Widgets {
             bottom.pack_start (cancel, false, false, 0);
             bottom.pack_start (this.tweet, false, false, 0);
             bottom.margin = 12;
-
             this.add (top);
             this.add (bottom);
-
             this.show_all ();
         }
 
@@ -215,7 +218,8 @@ namespace Birdie.Widgets {
                 this.user_screen_name = this.entry.get_text ();
 
             this.hide ();
-            birdie.tweet_callback (this.view.buffer.get_text (start, end, false), this.id, this.user_screen_name, this.dm, this.media_uri);
+            birdie.tweet_callback (this.view.buffer.get_text (start, end, false),
+                this.id, this.user_screen_name, this.dm, this.media_uri);
 
             Idle.add (() => {
                 this.save_window ();
@@ -230,9 +234,12 @@ namespace Birdie.Widgets {
             Gtk.TextIter start;
             Gtk.TextIter end;
 
-            var tmp_entry = this.entry.get_text ();
+            if (this.has_media)
+                this.count_remaining = 120;
+            else
+                this.count_remaining = 140;
 
-            this.count_remaining = 140;
+            var tmp_entry = this.entry.get_text ();
 
             // a filler to fake virtual string controller with shortened urls
             this.filler = "0123456789012345678901";
@@ -256,7 +263,7 @@ namespace Birdie.Widgets {
                 warning ("url replacing error: %s", e.message);
             }
 
-            this.count = 140 - virtual_text.char_count ();
+            this.count = this.count_remaining - virtual_text.char_count ();
             this.count_label.set_markup ("<span color='#777777'>" + this.count.to_string () + "</span>");
 
             if ((this.count < 0 || this.count >= 140) || (" " in tmp_entry && dm) || (this.entry.get_buffer ().length < 3 && dm)) {
