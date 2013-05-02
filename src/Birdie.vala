@@ -29,10 +29,10 @@ namespace Birdie {
         private Gtk.MenuItem account_appmenu;
 
         private Gtk.ToolButton new_tweet;
-        private Gtk.ToggleToolButton home;
-        private Gtk.ToggleToolButton mentions;
-        private Gtk.ToggleToolButton dm;
-        private Gtk.ToggleToolButton profile;
+        public Gtk.ToggleToolButton home;
+        public Gtk.ToggleToolButton mentions;
+        public Gtk.ToggleToolButton dm;
+        public Gtk.ToggleToolButton profile;
         private Gtk.ToggleToolButton search;
 
         private Widgets.UserBox own_box_info;
