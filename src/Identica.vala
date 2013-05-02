@@ -622,6 +622,12 @@ namespace Birdie {
             return 0;
         }
 
+         public override Array<string> get_followers (string screen_name) {
+            Array<string> followers = new Array<string> ();
+
+            return followers;
+        }
+
         public override int get_own_timeline () {
             Rest.ProxyCall call = proxy.new_call();
             call.set_function ("statuses/user_timeline.json");

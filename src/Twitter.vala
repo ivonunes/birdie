@@ -665,6 +665,32 @@ namespace Birdie {
             return 0;
         }
 
+        public override Array<string> get_followers (string screen_name) {
+            Array<string> followers = new Array<string> ();
+
+            Rest.ProxyCall call = proxy.new_call();
+            call.set_function ("1.1/followers/ids.json");
+            call.set_method ("GET");
+            call.add_param ("stringify_ids", "true");
+            call.add_param ("screen_name", screen_name);
+
+            try { call.sync (); } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+            }
+
+            try {
+                var parser = new Json.Parser ();
+                parser.load_from_data ((string) call.get_payload (), -1);
+                var root = parser.get_root ();
+                var userobject = root.get_object ();
+                var ids = userobject.get_object_member ("ids");
+                followers = (Array<string>)ids;
+            } catch (Error e) {
+                stderr.printf ("Unable to parse user_timeline.json\n");
+            }
+            return followers;
+        }
+
         public override Array<string> get_friendship (string source_user, string target_user) {
             Array<string> friendship = new Array<string> ();
 

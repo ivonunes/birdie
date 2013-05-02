@@ -47,10 +47,13 @@ namespace Birdie {
 
         public Regex urls;
 
+        public abstract Tweet get_tweet (Json.Node tweetnode);
         public abstract string get_request ();
         public abstract int get_tokens (string pin);
         public abstract int auth ();
         public abstract int64 update (string status, string id = "");
+        public abstract int64 update_with_media (string status,
+            string id = "", string media_uri, out string media_out);
         public abstract int destroy (string id);
         public abstract int retweet (string id);
         public abstract int favorite_create (string id);
@@ -58,7 +61,6 @@ namespace Birdie {
         public abstract int send_direct_message (string recipient, string status);
         public abstract int get_account ();
         public abstract string highligh_links (owned string text);
-        public abstract Tweet get_tweet (Json.Node tweetnode);
         public abstract int get_home_timeline ();
         public abstract int get_mentions_timeline ();
         public abstract int get_direct_messages ();
@@ -72,6 +74,6 @@ namespace Birdie {
         public abstract int destroy_friendship (string screen_name);
         public abstract int create_block (string screen_name);
         public abstract int destroy_block (string screen_name);
-        public abstract int64 update_with_media (string status, string id = "", string media_uri, out string media_out);
+        public abstract Array<string> get_followers (string screen_name);
     }
 }

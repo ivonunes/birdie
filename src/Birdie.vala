@@ -518,7 +518,6 @@ namespace Birdie {
                 this.m_window.add (this.notebook);
 
                 // css provider
-
                 d_provider = new Gtk.CssProvider ();
                 string css_dir = Constants.DATADIR + "/birdie";
                 File file = File.new_for_path (css_dir);
@@ -556,20 +555,19 @@ namespace Birdie {
                 //
 
                 this.m_window.focus_in_event.connect ((w, e) => {
-                    this.launcher.clean_launcher_count ();
+
+                    if (get_total_unread () > 0)
+                        this.launcher.clean_launcher_count ();
 
                     switch (this.current_timeline) {
                         case "home":
-                            this.unread_tweets = 0;
-                            this.indicator.clean_tweets_indicator();
+                            clean_tweets_indicator ();
                             break;
                         case "mentions":
-                            this.unread_mentions = 0;
-                            this.indicator.clean_mentions_indicator();
+                            clean_mentions_indicator ();
                             break;
                         case "dm":
-                            this.unread_dm = 0;
-                            this.indicator.clean_dm_indicator();
+                            clean_dm_indicator ();
                             break;
                     }
                     return true;
@@ -591,7 +589,9 @@ namespace Birdie {
                 this.m_window.show_all ();
                 this.own_box_info.hide_buttons ();
                 this.m_window.present ();
-                this.launcher.clean_launcher_count ();
+
+                if (get_total_unread () > 0)
+                    this.launcher.clean_launcher_count ();
 
                 while (Gtk.events_pending ())
                     Gtk.main_iteration ();
@@ -605,16 +605,13 @@ namespace Birdie {
 
                 switch (this.current_timeline) {
                     case "home":
-                        this.unread_tweets = 0;
-                        this.indicator.clean_tweets_indicator();
+                        clean_tweets_indicator ();
                         break;
                     case "mentions":
-                        this.unread_mentions = 0;
-                        this.indicator.clean_mentions_indicator();
+                        clean_mentions_indicator ();
                         break;
                     case "dm":
-                        this.unread_dm = 0;
-                        this.indicator.clean_dm_indicator();
+                        clean_dm_indicator ();
                         break;
                 }
             }
@@ -876,7 +873,6 @@ namespace Birdie {
                 this.update_home ();
                 this.update_mentions ();
                 this.update_dm ();
-
                 get_avatar (this.home_list);
                 get_avatar (this.mentions_list);
                 get_avatar (this.dm_list);
@@ -905,13 +901,15 @@ namespace Birdie {
                 }
             });
 
-            if (this.tweet_notification) {
+            if (this.tweet_notification && get_total_unread () > 0) {
                 this.indicator.update_tweets_indicator (this.unread_tweets);
-                this.launcher.set_count (this.unread_tweets + this.unread_mentions + this.unread_dm);
+                this.launcher.set_count (get_total_unread ());
             }
         }
 
         public void update_mentions () {
+
+            bool new_mentions = false;
 
             this.api.get_mentions_timeline ();
 
@@ -922,16 +920,19 @@ namespace Birdie {
                         Utils.notify ("New mention from " + tweet.user_name, tweet.text);
                     }
                     this.unread_mentions++;
+                    new_mentions = true;
                 }
             });
 
-            if (this.mention_notification) {
+            if (this.mention_notification && new_mentions) {
                 this.indicator.update_mentions_indicator (this.unread_mentions);
-                this.launcher.set_count (this.unread_tweets + this.unread_mentions + this.unread_dm);
+                this.launcher.set_count (get_total_unread ());
             }
         }
 
         public void update_dm () {
+
+            bool new_dms = false;
 
             this.api.get_direct_messages ();
 
@@ -942,13 +943,38 @@ namespace Birdie {
                         Utils.notify ("New direct message from " + tweet.user_name, tweet.text);
                     }
                     this.unread_dm++;
+                    new_dms = true;
                 }
             });
 
-            if (this.dm_notification) {
+            if (this.dm_notification && new_dms) {
                 this.indicator.update_dm_indicator (this.unread_dm);
-                this.launcher.set_count (this.unread_tweets + this.unread_mentions + this.unread_dm);
+                this.launcher.set_count (get_total_unread ());
             }
+        }
+
+        private int get_total_unread () {
+            return this.unread_tweets + this.unread_mentions + this.unread_dm;
+        }
+
+        // indicator cleaning
+
+        private void clean_tweets_indicator () {
+            if (this.unread_tweets > 0)
+                this.indicator.clean_tweets_indicator();
+            this.unread_tweets = 0;
+        }
+
+        private void clean_mentions_indicator () {
+            if (this.unread_mentions > 0)
+                this.indicator.clean_mentions_indicator();
+            this.unread_mentions = 0;
+        }
+
+        private void clean_dm_indicator () {
+            if (this.unread_dm > 0)
+                this.indicator.clean_dm_indicator();
+            this.unread_dm = 0;
         }
 
         public void tweet_callback (string text, string id = "", string user_screen_name, bool dm, string media_uri) {
