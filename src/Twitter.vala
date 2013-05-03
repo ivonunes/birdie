@@ -348,9 +348,6 @@ namespace Birdie {
         }
 
         public override string highligh_links (owned string text) {
-            if ("\n" in text)
-                text = text.replace ("\n", " ");
-
             try {
                 urls = new Regex("((http|https|ftp)://(([[:alpha:]0-9_]|[/.]|[~])*)\\b)");
                 text = urls.replace(text, -1, 0, "<span underline='none'><a href='\\0'>\\0</a></span>");
