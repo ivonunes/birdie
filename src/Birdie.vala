@@ -84,7 +84,6 @@ namespace Birdie {
         private bool legacy_window;
         private int update_interval;
 
-        private Regex urls;
         public Settings settings;
 
         private string user;
@@ -134,6 +133,15 @@ namespace Birdie {
 
         public override void activate (){
             if (get_windows () == null) {
+
+                // logger
+                if (DEBUG)
+                    Granite.Services.Logger.DisplayLevel =
+                        Granite.Services.LogLevel.DEBUG;
+                 else
+                    Granite.Services.Logger.DisplayLevel =
+                        Granite.Services.LogLevel.INFO;
+
                 // settings
                 this.settings = new Settings ("org.pantheon.birdie");
                 this.service = settings.get_enum ("service");
@@ -358,7 +366,6 @@ namespace Birdie {
                 });
                 var quit_appmenu = new Gtk.MenuItem.with_label (_("Quit"));
                 quit_appmenu.activate.connect (() => {
-
                     // save window size and position
                     int x, y, w, h;
                     m_window.get_position (out x, out y);
@@ -574,7 +581,6 @@ namespace Birdie {
                 });
 
                 this.m_window.show_all ();
-                this.own_box_info.hide_buttons ();
 
                 if (Option.START_HIDDEN) {
                     this.m_window.hide ();
@@ -587,7 +593,6 @@ namespace Birdie {
                 }
             } else {
                 this.m_window.show_all ();
-                this.own_box_info.hide_buttons ();
                 this.m_window.present ();
 
                 if (get_total_unread () > 0)
@@ -703,8 +708,6 @@ namespace Birdie {
                     if (this.initialized) {
                         this.own_box_info.update (this.api.account);
                         this.user_box_info.update (this.api.account);
-
-                        this.own_box_info.hide_buttons ();
                     } else {
                         this.own_box_info.init (this.api.account, this);
                         this.user_box_info.init (this.api.account, this);
@@ -991,17 +994,7 @@ namespace Birdie {
                     code = this.api.update_with_media (text, id, media_uri, out media_out);
 
             if (code != 1) {
-                try {
-                    urls = new Regex("((http|https|ftp)://([\\S]+))");
-                } catch (RegexError e) {
-                    warning ("regex error: %s", e.message);
-                }
-
-                try {
-                    text_url = urls.replace(text, -1, 0, "<a href='\\0'>\\0</a>");
-                } catch (Error e) {
-                    warning ("url replacing error: %s", e.message);
-                }
+                text_url = Utils.highlight_urls (text);
 
                 if (media_out != "") {
                     text_url = text_url + " <a href='" + media_out + "'>" + media_out + "</a>";

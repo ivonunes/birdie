@@ -45,8 +45,6 @@ namespace Birdie {
         public string token_secret;
         public string retrieve_count;
 
-        public Regex urls;
-
         public abstract Tweet get_tweet (Json.Node tweetnode);
         public abstract string get_request ();
         public abstract int get_tokens (string pin);
@@ -60,7 +58,6 @@ namespace Birdie {
         public abstract int favorite_destroy (string id);
         public abstract int send_direct_message (string recipient, string status);
         public abstract int get_account ();
-        public abstract string highligh_links (owned string text);
         public abstract int get_home_timeline ();
         public abstract int get_mentions_timeline ();
         public abstract int get_direct_messages ();

@@ -208,8 +208,12 @@ namespace Birdie.Widgets {
             this.unblock_button.get_style_context().add_class ("affirmative");
             //
 
+            this.unfollow_button.set_no_show_all (true);
+            this.unblock_button.set_no_show_all (true);
+            this.follow_button.set_no_show_all (true);
+            this.block_button.set_no_show_all (true);
+
             this.show_all ();
-            this.hide_buttons ();
         }
 
         public void update (User user) {
@@ -264,7 +268,7 @@ namespace Birdie.Widgets {
                 }
             }
 
-            string description_txt = this.birdie.api.highligh_links (user.desc) + "\n\n<span size='small' color='#666666'>" + followed_by + "</span>" +
+            string description_txt = Utils.highlight_all (user.desc) + "\n\n<span size='small' color='#666666'>" + followed_by + "</span>" +
                 "\n\n<span size='small' color='#666666'>" + tweets_txt +
                 " </span><span size='small' font_weight='bold'>" + user.statuses_count.to_string() + "</span>" +
                 "<span size='small' color='#666666'> " + _("FOLLOWING") +

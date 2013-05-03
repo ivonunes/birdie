@@ -49,17 +49,8 @@ namespace Birdie.Widgets
          """;
 
         public MenuPopOver () {
-            box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-            box.set_homogeneous (false);
-            box.spacing = 2;
-
-            add (box);
-            box.show ();
-            
             get_style_context ().add_class (COMPOSITED_INDICATOR);
-
             show ();
-
             setup_drawing ();
         }
 
@@ -154,7 +145,7 @@ namespace Birdie.Widgets
             // now paint our buffer on
             ctx.set_source_surface (buffer.surface, 0, 0);
             ctx.paint ();
-            
+
             return false;
         }
 
@@ -191,7 +182,7 @@ namespace Birdie.Widgets
 
             buffer.context.arc (x + w - radius, y + h - radius, radius, 0, Math.PI * 0.5);
             buffer.context.arc (x + radius, y + h - radius, radius, Math.PI * 0.5, Math.PI);
-            
+
             buffer.context.close_path ();
         }
 
