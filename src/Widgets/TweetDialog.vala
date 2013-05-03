@@ -53,6 +53,11 @@ namespace Birdie.Widgets {
             this.count_remaining = 140;
             this.has_media = false;
 
+            if (!dm)
+                this.set_title (_("New Tweet"));
+            else
+                this.set_title (_("New Message"));
+
             this.box.foreach ((w) => {
                 this.box.remove (w);
             });
