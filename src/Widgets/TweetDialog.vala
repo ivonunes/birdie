@@ -53,6 +53,12 @@ namespace Birdie.Widgets {
             this.count_remaining = 140;
             this.has_media = false;
 
+            // connect signal to handle key events
+            this.key_press_event.connect ((event) => {
+                this.handle_key_events (this, event);
+                return false;
+            });
+
             if (!dm)
                 this.set_title (_("New Tweet"));
             else
@@ -281,6 +287,17 @@ namespace Birdie.Widgets {
             } else if (this.tweet_disabled) {
                 this.tweet.set_sensitive (true);
                 this.tweet_disabled = false;
+            }
+        }
+
+        private void handle_key_events (Gtk.Widget source, Gdk.EventKey key) {
+            // if Esc pressed, destroy dialog
+            if (key.keyval == Gdk.Key.Escape) {
+                Idle.add (() => {
+                this.save_window ();
+                this.destroy ();
+                return false;
+                });
             }
         }
 
