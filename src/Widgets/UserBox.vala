@@ -264,7 +264,7 @@ namespace Birdie.Widgets {
                 }
             }
 
-            string description_txt = user.desc + "\n\n<span size='small' color='#666666'>" + followed_by + "</span>" +
+            string description_txt = this.birdie.api.highligh_links (user.desc) + "\n\n<span size='small' color='#666666'>" + followed_by + "</span>" +
                 "\n\n<span size='small' color='#666666'>" + tweets_txt +
                 " </span><span size='small' font_weight='bold'>" + user.statuses_count.to_string() + "</span>" +
                 "<span size='small' color='#666666'> " + _("FOLLOWING") +
