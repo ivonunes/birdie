@@ -316,7 +316,7 @@ namespace Birdie {
                 var right_sep = new Gtk.SeparatorToolItem ();
                 right_sep.draw = false;
                 right_sep.set_expand (true);
-                this.m_window.add_bar (left_sep);
+                this.m_window.add_bar (right_sep);
 
                 var menu = new Widgets.MenuPopOver ();
                 this.account_appmenu = new Gtk.MenuItem.with_label (_("Remove account"));
@@ -559,7 +559,6 @@ namespace Birdie {
                 Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default(), d_provider, 600);
                 Gtk.StyleContext ctx = m_window.get_style_context();
                 ctx.add_class("main_window");
-                //
 
                 this.m_window.focus_in_event.connect ((w, e) => {
 

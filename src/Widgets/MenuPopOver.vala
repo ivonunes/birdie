@@ -34,7 +34,6 @@ namespace Birdie.Widgets
         private double y = 5.5;
         private int radius = 5;
 
-        private Gtk.Box box;
         private Gtk.Widget widget;
 
         private const string MENU_STYLESHEET = """
