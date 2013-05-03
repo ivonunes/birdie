@@ -24,6 +24,7 @@ namespace Birdie.Widgets {
         Gtk.Button tweet;
         Gtk.FileChooserButton file_chooser;
         bool tweet_disabled;
+        Gtk.Button cancel;
 
         string id;
         string user_screen_name;
@@ -82,6 +83,7 @@ namespace Birdie.Widgets {
             this.view = new Gtk.TextView ();
             this.view.set_wrap_mode (Gtk.WrapMode.WORD_CHAR);
             this.view.set_size_request(300, 80);
+            this.view.set_accepts_tab (false);
 
             var dm_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
             this.entry = new Gtk.Entry ();
@@ -126,9 +128,9 @@ namespace Birdie.Widgets {
             this.count_label = new Gtk.Label (this.count.to_string ());
             this.count_label.set_markup ("<span color='#777777'>" + this.count.to_string () + "</span>");
 
-            Gtk.Button cancel = new Gtk.Button.with_label (_("Cancel"));
-            cancel.set_size_request (100, -1);
-            cancel.clicked.connect (() => {
+            this.cancel = new Gtk.Button.with_label (_("Cancel"));
+            this.cancel.set_size_request (100, -1);
+            this.cancel.clicked.connect (() => {
                 this.save_window ();
                 this.destroy ();
             });
@@ -210,7 +212,7 @@ namespace Birdie.Widgets {
             bottom.pack_start (this.count_label, false, false, 0);
             bottom.pack_start (new Gtk.Label (""), true, true, 0);
             bottom.pack_start (this.file_chooser, false, true, 0);
-            bottom.pack_start (cancel, false, false, 0);
+            bottom.pack_start (this.cancel, false, false, 0);
             bottom.pack_start (this.tweet, false, false, 0);
             bottom.margin = 12;
             this.add (top);
@@ -298,6 +300,9 @@ namespace Birdie.Widgets {
                 this.destroy ();
                 return false;
                 });
+            } else
+              if (key.keyval == Gdk.Key.Tab) {
+                //
             }
         }
 
