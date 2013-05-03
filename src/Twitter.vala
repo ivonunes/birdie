@@ -333,6 +333,9 @@ namespace Birdie {
             if ("&" in youtube_id)
                 youtube_id = youtube_id.split ("&")[0];
 
+            if ("#" in youtube_id)
+                youtube_id = youtube_id.split ("#")[0];
+
             debug ("Youtube ID video found: " + youtube_id);
 
             new Utils.Downloader ("http://i3.ytimg.com/vi/" +
