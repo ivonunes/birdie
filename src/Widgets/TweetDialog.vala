@@ -169,8 +169,9 @@ namespace Birdie.Widgets {
             this.tweet.get_style_context ().add_provider (d_provider, Gtk.STYLE_PROVIDER_PRIORITY_THEME);
             this.tweet.get_style_context().add_class ("affirmative");
             this.file_chooser_btn = new Gtk.Button();
-            this.file_chooser_btn_image = new Gtk.Image.from_icon_name ("twitter-media", Gtk.IconSize.LARGE_TOOLBAR);
+            this.file_chooser_btn_image = new Gtk.Image.from_icon_name ("twitter-media", Gtk.IconSize.MENU);
             this.file_chooser_btn.set_image (this.file_chooser_btn_image);
+            this.file_chooser_btn.margin_right = 6;
 
             // Emitted when media icon is clicked
             file_chooser_btn.clicked.connect (() => {
@@ -213,7 +214,7 @@ namespace Birdie.Widgets {
                 if (uri.has_prefix ("file://") == true) {
                     try {
                         Gdk.Pixbuf pixbuf = new Gdk.Pixbuf.from_file (uri.substring (7));
-                        Gdk.Pixbuf scaled = pixbuf.scale_simple (100, 100, Gdk.InterpType.BILINEAR);
+                        Gdk.Pixbuf scaled = pixbuf.scale_simple (150, 150, Gdk.InterpType.BILINEAR);
                         preview_area.set_from_pixbuf (scaled);
                         preview_area.show ();
                     } catch (Error e) {
@@ -231,7 +232,7 @@ namespace Birdie.Widgets {
                 }
                 try {
                     Gdk.Pixbuf pixbuf = new Gdk.Pixbuf.from_file (this.file_chooser.get_filename ());
-                    Gdk.Pixbuf scaled = pixbuf.scale_simple (24, 24, Gdk.InterpType.BILINEAR);
+                    Gdk.Pixbuf scaled = pixbuf.scale_simple (16, 16, Gdk.InterpType.BILINEAR);
                     this.file_chooser_btn_image = new Gtk.Image.from_pixbuf (scaled);
                     this.file_chooser_btn.set_image (this.file_chooser_btn_image);
                     this.has_media = true;
