@@ -979,7 +979,9 @@ namespace Birdie {
             this.unread_dm = 0;
         }
 
-        public void tweet_callback (string text, string id = "", string user_screen_name, bool dm, string media_uri) {
+        public void tweet_callback (string text, string id = "",
+            string user_screen_name, bool dm, string media_uri) {
+
             int64 code;
             var text_url = "";
             var media_out = "";

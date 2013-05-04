@@ -22,7 +22,9 @@ namespace Birdie.Widgets {
         Gtk.Label count_label;
         int count;
         Gtk.Button tweet;
-        Gtk.FileChooserButton file_chooser;
+        Gtk.Image file_chooser_btn_image;
+        Gtk.FileChooserDialog file_chooser;
+        Gtk.Button file_chooser_btn;
         bool tweet_disabled;
         Gtk.Button cancel;
 
@@ -166,13 +168,36 @@ namespace Birdie.Widgets {
 
             this.tweet.get_style_context ().add_provider (d_provider, Gtk.STYLE_PROVIDER_PRIORITY_THEME);
             this.tweet.get_style_context().add_class ("affirmative");
+            this.file_chooser_btn = new Gtk.Button();
+            this.file_chooser_btn_image = new Gtk.Image.from_icon_name ("twitter-media", Gtk.IconSize.LARGE_TOOLBAR);
+            this.file_chooser_btn.set_image (this.file_chooser_btn_image);
 
-            this.file_chooser =  new Gtk.FileChooserButton (_("Choose media file for upload"), Gtk.FileChooserAction.OPEN);
+            // Emitted when media icon is clicked
+            file_chooser_btn.clicked.connect (() => {
+                on_add_photo_clicked ();
+            });
+
+            Gtk.Box bottom = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+            bottom.pack_start (this.count_label, false, false, 0);
+            bottom.pack_start (new Gtk.Label (""), true, true, 0);
+            bottom.pack_start (this.file_chooser_btn, false, false, 0);
+            bottom.pack_start (this.cancel, false, false, 0);
+            bottom.pack_start (this.tweet, false, false, 0);
+            bottom.margin = 12;
+            this.add (top);
+            this.add (bottom);
+            this.show_all ();
+        }
+
+        private void on_add_photo_clicked () {
+            this.file_chooser = new Gtk.FileChooserDialog (_("Select photo"), this,
+            Gtk.FileChooserAction.OPEN,
+            Gtk.Stock.CANCEL, Gtk.ResponseType.CANCEL,
+            Gtk.Stock.OPEN, Gtk.ResponseType.ACCEPT);
 
             // filter to jpg, png and gif:
             Gtk.FileFilter filter = new Gtk.FileFilter ();
             this.file_chooser.set_filter (filter);
-            this.file_chooser.set_title (_("Choose media file for upload"));
             filter.add_mime_type ("image/jpeg");
             filter.add_mime_type ("image/png");
             filter.add_mime_type ("image/gif");
@@ -180,6 +205,7 @@ namespace Birdie.Widgets {
 
             // Add a preview widget:
             Gtk.Image preview_area = new Gtk.Image ();
+
             file_chooser.set_preview_widget (preview_area);
             file_chooser.update_preview.connect (() => {
                 string uri = file_chooser.get_preview_uri ();
@@ -187,7 +213,7 @@ namespace Birdie.Widgets {
                 if (uri.has_prefix ("file://") == true) {
                     try {
                         Gdk.Pixbuf pixbuf = new Gdk.Pixbuf.from_file (uri.substring (7));
-                        Gdk.Pixbuf scaled = pixbuf.scale_simple (150, 150, Gdk.InterpType.BILINEAR);
+                        Gdk.Pixbuf scaled = pixbuf.scale_simple (100, 100, Gdk.InterpType.BILINEAR);
                         preview_area.set_from_pixbuf (scaled);
                         preview_area.show ();
                     } catch (Error e) {
@@ -198,26 +224,23 @@ namespace Birdie.Widgets {
                 }
             });
 
-            // Emitted when there is a change in selected file:
-            file_chooser.selection_changed.connect (() => {
+            if (this.file_chooser.run () == Gtk.ResponseType.ACCEPT) {
                 SList<string> uris = file_chooser.get_uris ();
                 foreach (unowned string uri in uris) {
                     this.media_uri = uri;
                 }
-                this.has_media = true;
-                buffer_changed ();
-            });
-
-            Gtk.Box bottom = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-            bottom.pack_start (this.count_label, false, false, 0);
-            bottom.pack_start (new Gtk.Label (""), true, true, 0);
-            bottom.pack_start (this.file_chooser, false, true, 0);
-            bottom.pack_start (this.cancel, false, false, 0);
-            bottom.pack_start (this.tweet, false, false, 0);
-            bottom.margin = 12;
-            this.add (top);
-            this.add (bottom);
-            this.show_all ();
+                try {
+                    Gdk.Pixbuf pixbuf = new Gdk.Pixbuf.from_file (this.file_chooser.get_filename ());
+                    Gdk.Pixbuf scaled = pixbuf.scale_simple (24, 24, Gdk.InterpType.BILINEAR);
+                    this.file_chooser_btn_image = new Gtk.Image.from_pixbuf (scaled);
+                    this.file_chooser_btn.set_image (this.file_chooser_btn_image);
+                    this.has_media = true;
+                    buffer_changed ();
+                } catch (Error e) {
+                    preview_area.hide ();
+                }
+            }
+            this.file_chooser.destroy ();
         }
 
         private void* tweet_thread () {
