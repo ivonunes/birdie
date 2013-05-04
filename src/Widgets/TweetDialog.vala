@@ -47,7 +47,9 @@ namespace Birdie.Widgets {
 
         Birdie birdie;
 
-        public TweetDialog (Birdie birdie, string id = "", string user_screen_name = "", bool dm = false) {
+        public TweetDialog (Birdie birdie, string id = "",
+            string user_screen_name = "", bool dm = false) {
+            
             this.birdie = birdie;
             this.id = id;
             this.user_screen_name = user_screen_name;
@@ -80,7 +82,8 @@ namespace Birdie.Widgets {
             this.restore_window ();
 
             this.avatar = new Gtk.Image ();
-            this.avatar.set_from_file (Environment.get_home_dir () + "/.cache/birdie/" + this.birdie.api.account.profile_image_file);
+            this.avatar.set_from_file (Environment.get_home_dir () +
+                "/.cache/birdie/" + this.birdie.api.account.profile_image_file);
 
             this.view = new Gtk.TextView ();
             this.view.set_wrap_mode (Gtk.WrapMode.WORD_CHAR);
@@ -169,6 +172,7 @@ namespace Birdie.Widgets {
             this.tweet.get_style_context ().add_provider (d_provider, Gtk.STYLE_PROVIDER_PRIORITY_THEME);
             this.tweet.get_style_context().add_class ("affirmative");
             this.file_chooser_btn = new Gtk.Button();
+            this.file_chooser_btn.set_tooltip_text (_("Add a picture"));
             this.file_chooser_btn_image = new Gtk.Image.from_icon_name ("twitter-media", Gtk.IconSize.MENU);
             this.file_chooser_btn.set_image (this.file_chooser_btn_image);
             this.file_chooser_btn.margin_right = 6;
@@ -191,7 +195,7 @@ namespace Birdie.Widgets {
         }
 
         private void on_add_photo_clicked () {
-            this.file_chooser = new Gtk.FileChooserDialog (_("Select photo"), this,
+            this.file_chooser = new Gtk.FileChooserDialog (_("Select a Picture"), this,
             Gtk.FileChooserAction.OPEN,
             Gtk.Stock.CANCEL, Gtk.ResponseType.CANCEL,
             Gtk.Stock.OPEN, Gtk.ResponseType.ACCEPT);
