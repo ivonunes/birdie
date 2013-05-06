@@ -22,12 +22,17 @@ namespace Birdie.Widgets {
         Gtk.Label count_label;
         int count;
         Gtk.Button tweet;
-        Gtk.FileChooserButton file_chooser;
+        Gtk.Image file_chooser_btn_image;
+        Gtk.FileChooserDialog file_chooser;
+        Gtk.Button file_chooser_btn;
         bool tweet_disabled;
+        Gtk.Button cancel;
 
         string id;
         string user_screen_name;
         bool dm;
+
+        bool has_media;
 
         private string filler;
         private int count_remaining;
@@ -42,13 +47,28 @@ namespace Birdie.Widgets {
 
         Birdie birdie;
 
-        public TweetDialog (Birdie birdie, string id = "", string user_screen_name = "", bool dm = false) {
+        public TweetDialog (Birdie birdie, string id = "",
+            string user_screen_name = "", bool dm = false) {
+            
             this.birdie = birdie;
             this.id = id;
             this.user_screen_name = user_screen_name;
             this.dm = dm;
             this.deletable = false;
-            
+            this.count_remaining = 140;
+            this.has_media = false;
+
+            // connect signal to handle key events
+            this.key_press_event.connect ((event) => {
+                this.handle_key_events (this, event);
+                return false;
+            });
+
+            if (!dm)
+                this.set_title (_("New Tweet"));
+            else
+                this.set_title (_("New Message"));
+
             this.box.foreach ((w) => {
                 this.box.remove (w);
             });
@@ -62,11 +82,13 @@ namespace Birdie.Widgets {
             this.restore_window ();
 
             this.avatar = new Gtk.Image ();
-            this.avatar.set_from_file (Environment.get_home_dir () + "/.cache/birdie/" + this.birdie.api.account.profile_image_file);
+            this.avatar.set_from_file (Environment.get_home_dir () +
+                "/.cache/birdie/" + this.birdie.api.account.profile_image_file);
 
             this.view = new Gtk.TextView ();
             this.view.set_wrap_mode (Gtk.WrapMode.WORD_CHAR);
             this.view.set_size_request(300, 80);
+            this.view.set_accepts_tab (false);
 
             var dm_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
             this.entry = new Gtk.Entry ();
@@ -107,13 +129,13 @@ namespace Birdie.Widgets {
             });
 
             this.tweet_disabled = true;
-            this.count = 140;
+            this.count = this.count_remaining;
             this.count_label = new Gtk.Label (this.count.to_string ());
             this.count_label.set_markup ("<span color='#777777'>" + this.count.to_string () + "</span>");
 
-            Gtk.Button cancel = new Gtk.Button.with_label (_("Cancel"));
-            cancel.set_size_request (100, -1);
-            cancel.clicked.connect (() => {
+            this.cancel = new Gtk.Button.with_label (_("Cancel"));
+            this.cancel.set_size_request (100, -1);
+            this.cancel.clicked.connect (() => {
                 this.save_window ();
                 this.destroy ();
             });
@@ -149,13 +171,38 @@ namespace Birdie.Widgets {
 
             this.tweet.get_style_context ().add_provider (d_provider, Gtk.STYLE_PROVIDER_PRIORITY_THEME);
             this.tweet.get_style_context().add_class ("affirmative");
+            this.file_chooser_btn = new Gtk.Button();
+            this.file_chooser_btn.set_tooltip_text (_("Add a picture"));
+            this.file_chooser_btn_image = new Gtk.Image.from_icon_name ("twitter-media", Gtk.IconSize.MENU);
+            this.file_chooser_btn.set_image (this.file_chooser_btn_image);
+            this.file_chooser_btn.margin_right = 6;
 
-            this.file_chooser =  new Gtk.FileChooserButton (_("Choose media file for upload"), Gtk.FileChooserAction.OPEN);
+            // Emitted when media icon is clicked
+            file_chooser_btn.clicked.connect (() => {
+                on_add_photo_clicked ();
+            });
+
+            Gtk.Box bottom = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+            bottom.pack_start (this.count_label, false, false, 0);
+            bottom.pack_start (new Gtk.Label (""), true, true, 0);
+            bottom.pack_start (this.file_chooser_btn, false, false, 0);
+            bottom.pack_start (this.cancel, false, false, 0);
+            bottom.pack_start (this.tweet, false, false, 0);
+            bottom.margin = 12;
+            this.add (top);
+            this.add (bottom);
+            this.show_all ();
+        }
+
+        private void on_add_photo_clicked () {
+            this.file_chooser = new Gtk.FileChooserDialog (_("Select a Picture"), this,
+            Gtk.FileChooserAction.OPEN,
+            Gtk.Stock.CANCEL, Gtk.ResponseType.CANCEL,
+            Gtk.Stock.OPEN, Gtk.ResponseType.ACCEPT);
 
             // filter to jpg, png and gif:
             Gtk.FileFilter filter = new Gtk.FileFilter ();
             this.file_chooser.set_filter (filter);
-            this.file_chooser.set_title (_("Choose media file for upload"));
             filter.add_mime_type ("image/jpeg");
             filter.add_mime_type ("image/png");
             filter.add_mime_type ("image/gif");
@@ -163,6 +210,7 @@ namespace Birdie.Widgets {
 
             // Add a preview widget:
             Gtk.Image preview_area = new Gtk.Image ();
+
             file_chooser.set_preview_widget (preview_area);
             file_chooser.update_preview.connect (() => {
                 string uri = file_chooser.get_preview_uri ();
@@ -181,27 +229,23 @@ namespace Birdie.Widgets {
                 }
             });
 
-            // Emitted when there is a change in selected file:
-            file_chooser.selection_changed.connect (() => {
+            if (this.file_chooser.run () == Gtk.ResponseType.ACCEPT) {
                 SList<string> uris = file_chooser.get_uris ();
                 foreach (unowned string uri in uris) {
                     this.media_uri = uri;
-                    debug (uri);
                 }
-            });
-
-            Gtk.Box bottom = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-            bottom.pack_start (this.count_label, false, false, 0);
-            bottom.pack_start (new Gtk.Label (""), true, true, 0);
-            bottom.pack_start (this.file_chooser, false, true, 0);
-            bottom.pack_start (cancel, false, false, 0);
-            bottom.pack_start (this.tweet, false, false, 0);
-            bottom.margin = 12;
-
-            this.add (top);
-            this.add (bottom);
-
-            this.show_all ();
+                try {
+                    Gdk.Pixbuf pixbuf = new Gdk.Pixbuf.from_file (this.file_chooser.get_filename ());
+                    Gdk.Pixbuf scaled = pixbuf.scale_simple (16, 16, Gdk.InterpType.BILINEAR);
+                    this.file_chooser_btn_image = new Gtk.Image.from_pixbuf (scaled);
+                    this.file_chooser_btn.set_image (this.file_chooser_btn_image);
+                    this.has_media = true;
+                    buffer_changed ();
+                } catch (Error e) {
+                    preview_area.hide ();
+                }
+            }
+            this.file_chooser.destroy ();
         }
 
         private void* tweet_thread () {
@@ -215,9 +259,14 @@ namespace Birdie.Widgets {
                 this.user_screen_name = this.entry.get_text ();
 
             this.hide ();
-            birdie.tweet_callback (this.view.buffer.get_text (start, end, false), this.id, this.user_screen_name, this.dm, this.media_uri);
-            this.save_window ();
-            this.destroy ();
+            birdie.tweet_callback (this.view.buffer.get_text (start, end, false),
+                this.id, this.user_screen_name, this.dm, this.media_uri);
+
+            Idle.add (() => {
+                this.save_window ();
+                this.destroy ();
+                return false;
+            });
 
             return null;
         }
@@ -226,9 +275,12 @@ namespace Birdie.Widgets {
             Gtk.TextIter start;
             Gtk.TextIter end;
 
-            var tmp_entry = this.entry.get_text ();
+            if (this.has_media)
+                this.count_remaining = 120;
+            else
+                this.count_remaining = 140;
 
-            this.count_remaining = 140;
+            var tmp_entry = this.entry.get_text ();
 
             // a filler to fake virtual string controller with shortened urls
             this.filler = "0123456789012345678901";
@@ -252,7 +304,7 @@ namespace Birdie.Widgets {
                 warning ("url replacing error: %s", e.message);
             }
 
-            this.count = 140 - virtual_text.char_count ();
+            this.count = this.count_remaining - virtual_text.char_count ();
             this.count_label.set_markup ("<span color='#777777'>" + this.count.to_string () + "</span>");
 
             if ((this.count < 0 || this.count >= 140) || (" " in tmp_entry && dm) || (this.entry.get_buffer ().length < 3 && dm)) {
@@ -265,6 +317,20 @@ namespace Birdie.Widgets {
             } else if (this.tweet_disabled) {
                 this.tweet.set_sensitive (true);
                 this.tweet_disabled = false;
+            }
+        }
+
+        private void handle_key_events (Gtk.Widget source, Gdk.EventKey key) {
+            // if Esc pressed, destroy dialog
+            if (key.keyval == Gdk.Key.Escape) {
+                Idle.add (() => {
+                this.save_window ();
+                this.destroy ();
+                return false;
+                });
+            } else
+              if (key.keyval == Gdk.Key.Tab) {
+                //
             }
         }
 

@@ -17,6 +17,8 @@
 namespace Birdie {
     public class Twitter : API {
 
+        Rest.ProxyCall? call = null;
+
         public Twitter () {
 
             this.CONSUMER_KEY = "T1VkU2dySk9DRFlZbjJJcDdWSGZRdw==";
@@ -35,7 +37,6 @@ namespace Birdie {
             this.token = settings.get_string ("token");
             this.token_secret = settings.get_string ("token-secret");
             this.retrieve_count = settings.get_string ("retrieve-count");
-
         }
 
         public override string get_request () {
@@ -63,7 +64,6 @@ namespace Birdie {
                 stderr.printf ("Couldn't get access token: %s\n", e.message);
                 return 1;
             }
-
             return 0;
         }
 
@@ -86,7 +86,7 @@ namespace Birdie {
 
         public override int64 update (string status, string id = "") {
             // setup call
-            Rest.ProxyCall call = proxy.new_call();
+            call = proxy.new_call();
             call.set_function ("1.1/statuses/update.json");
             call.set_method ("POST");
             call.add_param ("status", status);
@@ -114,7 +114,8 @@ namespace Birdie {
             return 0;
         }
 
-        public override int64 update_with_media (string status, string id = "", string media_uri, out string media_out) {
+        public override int64 update_with_media (string status,
+            string id = "", string media_uri, out string media_out) {
 
             string? link;
             var imgur = new Imgur ();
@@ -131,7 +132,7 @@ namespace Birdie {
                 return 1;
 
             // setup call
-            Rest.ProxyCall call = proxy.new_call();
+            call = proxy.new_call();
             call.set_function ("1.1/statuses/update.json");
             call.set_method ("POST");
             call.add_param ("status", status + " " + link);
@@ -155,13 +156,12 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse update.json\n");
             }
-
             return 0;
         }
 
         public override int destroy (string id) {
             // setup call
-            Rest.ProxyCall call = proxy.new_call();
+            call = proxy.new_call();
             call.set_function ("1.1/statuses/destroy/" + id + ".json");
             call.set_method ("POST");
             call.add_param ("id", id);
@@ -169,13 +169,12 @@ namespace Birdie {
                 stderr.printf ("Cannot make call: %s\n", e.message);
                 return 1;
             }
-
             return 0;
         }
 
         public override int retweet (string id) {
             // setup call
-            Rest.ProxyCall call = proxy.new_call();
+            call = proxy.new_call();
             call.set_function ("1.1/statuses/retweet/" + id + ".json");
             call.set_method ("POST");
             call.add_param ("id", id);
@@ -185,13 +184,12 @@ namespace Birdie {
                 stderr.printf ("Cannot make call: %s\n", e.message);
                 return 1;
             }
-
             return 0;
         }
 
         public override int favorite_create (string id) {
             // setup call
-            Rest.ProxyCall call = proxy.new_call();
+            call = proxy.new_call();
             call.set_function ("1.1/favorites/create.json");
             call.set_method ("POST");
             call.add_param ("id", id);
@@ -199,13 +197,12 @@ namespace Birdie {
                 stderr.printf ("Cannot make call: %s\n", e.message);
                 return 1;
             }
-
             return 0;
         }
 
         public override int favorite_destroy (string id) {
             // setup call
-            Rest.ProxyCall call = proxy.new_call();
+            call = proxy.new_call();
             call.set_function ("1.1/favorites/destroy.json");
             call.set_method ("POST");
             call.add_param ("id", id);
@@ -213,13 +210,12 @@ namespace Birdie {
                 stderr.printf ("Cannot make call: %s\n", e.message);
                 return 1;
             }
-
             return 0;
         }
 
         public override int send_direct_message (string recipient, string status) {
             // setup call
-            Rest.ProxyCall call = proxy.new_call();
+            call = proxy.new_call();
             call.set_function ("1.1/direct_messages/new.json");
             call.set_method ("POST");
             call.add_param ("screen_name", recipient);
@@ -232,7 +228,7 @@ namespace Birdie {
         }
 
         public override int get_account () {
-            Rest.ProxyCall call = proxy.new_call();
+            call = proxy.new_call();
             call.set_function ("1.1/account/verify_credentials.json");
             call.set_method ("GET");
             call.add_param ("entities", "true");
@@ -255,7 +251,6 @@ namespace Birdie {
                 var name = userobject.get_string_member ("name");
                 var screen_name = userobject.get_string_member ("screen_name");
                 var profile_image_url = userobject.get_string_member ("profile_image_url");
-                //var profile_image_file = get_avatar (profile_image_url);
                 var profile_image_file = "";
 
                 if (userobject.has_member("location") &&
@@ -282,7 +277,6 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse verify_credentials.json\n");
             }
-
             return 0;
         }
 
@@ -293,7 +287,6 @@ namespace Birdie {
             var name = tweetobject.get_object_member ("user").get_string_member ("name");
             var screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
             var profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
-            //var profile_image_file = get_avatar (profile_image_url);
             var profile_image_file = "";
 
             string location = "";
@@ -326,8 +319,7 @@ namespace Birdie {
             if ("/" in image_file)
                 image_file = image_file.split ("/")[4] + "_" + image_file.split ("/")[5];
 
-            Utils.Downloader download_handler =
-                new Utils.Downloader (image_url + ":medium",
+            new Utils.Downloader (image_url + ":medium",
                 Environment.get_home_dir () +
                 "/.cache/birdie/media/" + image_file);
 
@@ -341,32 +333,16 @@ namespace Birdie {
             if ("&" in youtube_id)
                 youtube_id = youtube_id.split ("&")[0];
 
+            if ("#" in youtube_id)
+                youtube_id = youtube_id.split ("#")[0];
+
             debug ("Youtube ID video found: " + youtube_id);
 
-            Utils.Downloader download_handler =
-                new Utils.Downloader ("http://i3.ytimg.com/vi/" +
+            new Utils.Downloader ("http://i3.ytimg.com/vi/" +
                 youtube_id + "/mqdefault.jpg", Environment.get_home_dir () +
                 "/.cache/birdie/media/youtube_" + youtube_id + ".jpg");
 
             return youtube_id;
-        }
-
-        public override string highligh_links (owned string text) {
-            if ("\n" in text)
-                text = text.replace ("\n", " ");
-
-            try {
-                urls = new Regex("((http|https|ftp)://(([[:alpha:]0-9_]|[/.]|[~])*)\\b)");
-                text = urls.replace(text, -1, 0, "<span underline='none'><a href='\\0'>\\0</a></span>");
-                urls = new Regex("([#][[:alpha:]0-9_]+)");
-                text = urls.replace(text, -1, 0, "<span underline='none'><a href='birdie://search/\\0'>\\0</a></span>");
-                urls = new Regex("([@][[:alpha:]0-9_]+)");
-                text = urls.replace(text, -1, 0, "<span underline='none'><a href='birdie://user/\\0'>\\0</a></span>");
-            } catch (RegexError e) {
-                warning ("regex error: %s", e.message);
-            }
-
-            return text;
         }
 
         public override Tweet get_tweet (Json.Node tweetnode) {
@@ -389,12 +365,10 @@ namespace Birdie {
             var favorited = tweetobject.get_boolean_member ("favorited");
             var user_name = tweetobject.get_object_member ("user").get_string_member ("name");
             var user_screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
-            var text = highligh_links(tweetobject.get_string_member ("text"));
+            var text = Utils.highlight_all (tweetobject.get_string_member ("text"));
             var created_at = tweetobject.get_string_member ("created_at");
             var profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
             var verified = tweetobject.get_object_member ("user").get_boolean_member ("verified");
-
-            //var profile_image_file = get_avatar (profile_image_url);
             var profile_image_file = "";
             var in_reply_to_screen_name = tweetobject.get_string_member ("in_reply_to_screen_name");
 
@@ -432,7 +406,7 @@ namespace Birdie {
 
         public override int get_home_timeline () {
             // setup call
-            Rest.ProxyCall call = proxy.new_call();
+            call = proxy.new_call();
             call.set_function ("1.1/statuses/home_timeline.json");
             call.set_method ("GET");
             call.add_param ("count", this.retrieve_count);
@@ -471,7 +445,7 @@ namespace Birdie {
 
         public override int get_mentions_timeline () {
             // setup call
-            Rest.ProxyCall call = proxy.new_call();
+            call = proxy.new_call();
             call.set_function ("1.1/statuses/mentions_timeline.json");
             call.set_method ("GET");
             call.add_param ("count", retrieve_count);
@@ -506,13 +480,12 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse mentions_timeline.json\n");
             }
-
             return 0;
         }
 
         public override int get_direct_messages () {
             // setup call
-            Rest.ProxyCall call = proxy.new_call();
+            call = proxy.new_call();
             call.set_function ("1.1/direct_messages.json");
             call.set_method ("GET");
             call.add_param ("count", retrieve_count);
@@ -540,13 +513,15 @@ namespace Birdie {
                     var id = tweetobject.get_string_member ("id_str");
                     var user_name = tweetobject.get_object_member ("sender").get_string_member ("name");
                     var user_screen_name = tweetobject.get_object_member ("sender").get_string_member ("screen_name");
-                    var text = highligh_links(tweetobject.get_string_member ("text"));
+                    var text = Utils.highlight_all(tweetobject.get_string_member ("text"));
                     var created_at = tweetobject.get_string_member ("created_at");
                     var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
-                    //var profile_image_file = get_avatar (profile_image_url);
                     var profile_image_file = "";
 
-                    var tweet = new Tweet (id, id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, false, false, true);
+                    var tweet = new Tweet (id, id, user_name,
+                        user_screen_name, text, created_at,
+                        profile_image_url, profile_image_file,
+                        false, false, true);
 
                     dm_timeline.append (tweet);
                 }
@@ -559,13 +534,12 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse direct_messages.json\n");
             }
-
             return 0;
         }
 
         public override int get_direct_messages_sent () {
             // setup call
-            Rest.ProxyCall call = proxy.new_call();
+            call = proxy.new_call();
             call.set_function ("1.1/direct_messages/sent.json");
             call.set_method ("GET");
             call.add_param ("count", this.retrieve_count);
@@ -586,13 +560,14 @@ namespace Birdie {
                     var id = tweetobject.get_string_member ("id_str");
                     var user_name = tweetobject.get_object_member ("sender").get_string_member ("name");
                     var user_screen_name = tweetobject.get_object_member ("recipient").get_string_member ("screen_name");
-                    var text = highligh_links(tweetobject.get_string_member ("text"));
+                    var text = Utils.highlight_all (tweetobject.get_string_member ("text"));
                     var created_at = tweetobject.get_string_member ("created_at");
                     var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
-                    //var profile_image_file = get_avatar (profile_image_url);
                     var profile_image_file = "";
-
-                    var tweet = new Tweet (id, id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, false, false, true);
+                    var tweet = new Tweet (id, id, user_name,
+                        user_screen_name, text, created_at,
+                        profile_image_url, profile_image_file,
+                        false, false, true);
 
                     dm_sent_timeline.append (tweet);
                 }
@@ -602,12 +577,11 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse sent.json\n");
             }
-
             return 0;
         }
 
         public override int get_own_timeline () {
-            Rest.ProxyCall call = proxy.new_call();
+            call = proxy.new_call();
             call.set_function ("1.1/statuses/user_timeline.json");
             call.set_method ("GET");
             call.add_param ("count", this.retrieve_count);
@@ -632,7 +606,6 @@ namespace Birdie {
 
                     own_timeline.append (tweet);
                 }
-
                 own_timeline.reverse ();
             } catch (Error e) {
                 stderr.printf ("Unable to parse user_timeline.json\n");
@@ -641,7 +614,7 @@ namespace Birdie {
         }
 
         public override int get_favorites () {
-            Rest.ProxyCall call = proxy.new_call();
+            call = proxy.new_call();
             call.set_function ("1.1/favorites/list.json");
             call.set_method ("GET");
             call.add_param ("count", this.retrieve_count);
@@ -674,6 +647,32 @@ namespace Birdie {
             return 0;
         }
 
+        public override Array<string> get_followers (string screen_name) {
+            Array<string> followers = new Array<string> ();
+
+            call = proxy.new_call();
+            call.set_function ("1.1/followers/ids.json");
+            call.set_method ("GET");
+            call.add_param ("stringify_ids", "true");
+            call.add_param ("screen_name", screen_name);
+
+            try { call.sync (); } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+            }
+
+            try {
+                var parser = new Json.Parser ();
+                parser.load_from_data ((string) call.get_payload (), -1);
+                var root = parser.get_root ();
+                var userobject = root.get_object ();
+                var ids = userobject.get_object_member ("ids");
+                followers = (Array<string>)ids;
+            } catch (Error e) {
+                stderr.printf ("Unable to parse user_timeline.json\n");
+            }
+            return followers;
+        }
+
         public override Array<string> get_friendship (string source_user, string target_user) {
             Array<string> friendship = new Array<string> ();
 
@@ -681,7 +680,7 @@ namespace Birdie {
             bool blocking = false;
             bool followed = false;
 
-            Rest.ProxyCall call = proxy.new_call();
+            call = proxy.new_call();
             call.set_function ("1.1/friendships/show.json");
             call.set_method ("GET");
             call.add_param ("source_screen_name", source_user);
@@ -714,7 +713,7 @@ namespace Birdie {
         }
 
         public override int create_friendship (string screen_name) {
-            Rest.ProxyCall call = proxy.new_call();
+            call = proxy.new_call();
             call.set_function ("1.1/friendships/create.json");
             call.set_method ("POST");
             call.add_param ("screen_name", screen_name);
@@ -726,7 +725,7 @@ namespace Birdie {
         }
 
         public override int destroy_friendship (string screen_name) {
-            Rest.ProxyCall call = proxy.new_call();
+            call = proxy.new_call();
             call.set_function ("1.1/friendships/destroy.json");
             call.set_method ("POST");
             call.add_param ("screen_name", screen_name);
@@ -738,7 +737,7 @@ namespace Birdie {
         }
 
         public override int create_block (string screen_name) {
-            Rest.ProxyCall call = proxy.new_call();
+            call = proxy.new_call();
             call.set_function ("1.1/blocks/create.json");
             call.set_method ("POST");
             call.add_param ("screen_name", screen_name);
@@ -750,7 +749,7 @@ namespace Birdie {
         }
 
         public override int destroy_block (string screen_name) {
-            Rest.ProxyCall call = proxy.new_call();
+            call = proxy.new_call();
             call.set_function ("1.1/blocks/destroy.json");
             call.set_method ("POST");
             call.add_param ("screen_name", screen_name);
@@ -762,7 +761,7 @@ namespace Birdie {
         }
 
         public override int get_user_timeline (string screen_name) {
-            Rest.ProxyCall call = proxy.new_call();
+            call = proxy.new_call();
             call.set_function ("1.1/statuses/user_timeline.json");
             call.set_method ("GET");
             call.add_param ("count", this.retrieve_count);
@@ -792,12 +791,11 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse user_timeline.json\n");
             }
-
             return 0;
         }
 
         public override int get_search_timeline (string search_term) {
-            Rest.ProxyCall call = proxy.new_call();
+            call = proxy.new_call();
             call.set_function ("1.1/search/tweets.json");
             call.set_method ("GET");
             call.add_param ("count", this.retrieve_count);
@@ -829,7 +827,6 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse tweets.json\n");
             }
-
             return 0;
         }
 

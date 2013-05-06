@@ -30,10 +30,10 @@ namespace Birdie {
         private Widgets.MenuPopOver menu;
 
         private Gtk.ToolButton new_tweet;
-        private Gtk.ToggleToolButton home;
-        private Gtk.ToggleToolButton mentions;
-        private Gtk.ToggleToolButton dm;
-        private Gtk.ToggleToolButton profile;
+        public Gtk.ToggleToolButton home;
+        public Gtk.ToggleToolButton mentions;
+        public Gtk.ToggleToolButton dm;
+        public Gtk.ToggleToolButton profile;
         private Gtk.ToggleToolButton search;
         private Granite.Widgets.ToolButtonWithMenu appmenu;
 
@@ -86,7 +86,6 @@ namespace Birdie {
         private bool legacy_window;
         private int update_interval;
 
-        private Regex urls;
         public Settings settings;
 
         private string user;
@@ -109,9 +108,9 @@ namespace Birdie {
             translate_url       = "http://translations.launchpad.net/birdie";
             about_authors       = {"Ivo Nunes <ivo@elementaryos.org>", "Vasco Nunes <vascomfnunes@gmail.com>"};
             about_artists       = {"Daniel Foré <daniel@elementaryos.org>", "Mustapha Asbbar"};
-            /*about_comments      = "";
+            about_comments      = null;
             about_documenters   = {};
-            about_translators   = {};*/
+            about_translators   = null;
             about_license_type  = Gtk.License.GPL_3_0;
         }
 
@@ -136,6 +135,15 @@ namespace Birdie {
 
         public override void activate (){
             if (get_windows () == null) {
+
+                // logger
+                if (DEBUG)
+                    Granite.Services.Logger.DisplayLevel =
+                        Granite.Services.LogLevel.DEBUG;
+                 else
+                    Granite.Services.Logger.DisplayLevel =
+                        Granite.Services.LogLevel.INFO;
+
                 // settings
                 this.settings = new Settings ("org.pantheon.birdie");
                 this.service = settings.get_enum ("service");
@@ -310,7 +318,7 @@ namespace Birdie {
                 var right_sep = new Gtk.SeparatorToolItem ();
                 right_sep.draw = false;
                 right_sep.set_expand (true);
-                this.m_window.add_bar (left_sep);
+                this.m_window.add_bar (right_sep);
 
                 menu = new Widgets.MenuPopOver ();
                 this.account_appmenu = new Gtk.MenuItem.with_label (_("Account Settings"));
@@ -360,7 +368,6 @@ namespace Birdie {
                 });
                 var quit_appmenu = new Gtk.MenuItem.with_label (_("Quit"));
                 quit_appmenu.activate.connect (() => {
-
                     // save window size and position
                     int x, y, w, h;
                     m_window.get_position (out x, out y);
@@ -519,7 +526,6 @@ namespace Birdie {
                 this.m_window.add (this.notebook);
 
                 // css provider
-
                 d_provider = new Gtk.CssProvider ();
                 string css_dir = Constants.DATADIR + "/birdie";
                 File file = File.new_for_path (css_dir);
@@ -554,30 +560,27 @@ namespace Birdie {
                 Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default(), d_provider, 600);
                 Gtk.StyleContext ctx = m_window.get_style_context();
                 ctx.add_class("main_window");
-                //
 
                 this.m_window.focus_in_event.connect ((w, e) => {
-                    this.launcher.clean_launcher_count ();
+
+                    if (get_total_unread () > 0)
+                        this.launcher.clean_launcher_count ();
 
                     switch (this.current_timeline) {
                         case "home":
-                            this.unread_tweets = 0;
-                            this.indicator.clean_tweets_indicator();
+                            clean_tweets_indicator ();
                             break;
                         case "mentions":
-                            this.unread_mentions = 0;
-                            this.indicator.clean_mentions_indicator();
+                            clean_mentions_indicator ();
                             break;
                         case "dm":
-                            this.unread_dm = 0;
-                            this.indicator.clean_dm_indicator();
+                            clean_dm_indicator ();
                             break;
                     }
                     return true;
                 });
 
                 this.m_window.show_all ();
-                this.own_box_info.hide_buttons ();
 
                 if (Option.START_HIDDEN) {
                     this.m_window.hide ();
@@ -590,9 +593,10 @@ namespace Birdie {
                 }
             } else {
                 this.m_window.show_all ();
-                this.own_box_info.hide_buttons ();
                 this.m_window.present ();
-                this.launcher.clean_launcher_count ();
+
+                if (get_total_unread () > 0)
+                    this.launcher.clean_launcher_count ();
 
                 while (Gtk.events_pending ())
                     Gtk.main_iteration ();
@@ -606,16 +610,13 @@ namespace Birdie {
 
                 switch (this.current_timeline) {
                     case "home":
-                        this.unread_tweets = 0;
-                        this.indicator.clean_tweets_indicator();
+                        clean_tweets_indicator ();
                         break;
                     case "mentions":
-                        this.unread_mentions = 0;
-                        this.indicator.clean_mentions_indicator();
+                        clean_mentions_indicator ();
                         break;
                     case "dm":
-                        this.unread_dm = 0;
-                        this.indicator.clean_dm_indicator();
+                        clean_dm_indicator ();
                         break;
                 }
             }
@@ -707,8 +708,6 @@ namespace Birdie {
                     if (this.initialized) {
                         this.own_box_info.update (this.api.account);
                         this.user_box_info.update (this.api.account);
-
-                        this.own_box_info.hide_buttons ();
                     } else {
                         this.own_box_info.init (this.api.account, this);
                         this.user_box_info.init (this.api.account, this);
@@ -896,7 +895,6 @@ namespace Birdie {
                 this.update_home ();
                 this.update_mentions ();
                 this.update_dm ();
-
                 get_avatar (this.home_list);
                 get_avatar (this.mentions_list);
                 get_avatar (this.dm_list);
@@ -925,13 +923,15 @@ namespace Birdie {
                 }
             });
 
-            if (this.tweet_notification) {
+            if (this.tweet_notification && get_total_unread () > 0) {
                 this.indicator.update_tweets_indicator (this.unread_tweets);
-                this.launcher.set_count (this.unread_tweets + this.unread_mentions + this.unread_dm);
+                this.launcher.set_count (get_total_unread ());
             }
         }
 
         public void update_mentions () {
+
+            bool new_mentions = false;
 
             this.api.get_mentions_timeline ();
 
@@ -942,16 +942,19 @@ namespace Birdie {
                         Utils.notify ("New mention from " + tweet.user_name, tweet.text);
                     }
                     this.unread_mentions++;
+                    new_mentions = true;
                 }
             });
 
-            if (this.mention_notification) {
+            if (this.mention_notification && new_mentions) {
                 this.indicator.update_mentions_indicator (this.unread_mentions);
-                this.launcher.set_count (this.unread_tweets + this.unread_mentions + this.unread_dm);
+                this.launcher.set_count (get_total_unread ());
             }
         }
 
         public void update_dm () {
+
+            bool new_dms = false;
 
             this.api.get_direct_messages ();
 
@@ -962,16 +965,43 @@ namespace Birdie {
                         Utils.notify ("New direct message from " + tweet.user_name, tweet.text);
                     }
                     this.unread_dm++;
+                    new_dms = true;
                 }
             });
 
-            if (this.dm_notification) {
+            if (this.dm_notification && new_dms) {
                 this.indicator.update_dm_indicator (this.unread_dm);
-                this.launcher.set_count (this.unread_tweets + this.unread_mentions + this.unread_dm);
+                this.launcher.set_count (get_total_unread ());
             }
         }
 
-        public void tweet_callback (string text, string id = "", string user_screen_name, bool dm, string media_uri) {
+        private int get_total_unread () {
+            return this.unread_tweets + this.unread_mentions + this.unread_dm;
+        }
+
+        // indicator cleaning
+
+        private void clean_tweets_indicator () {
+            if (this.unread_tweets > 0)
+                this.indicator.clean_tweets_indicator();
+            this.unread_tweets = 0;
+        }
+
+        private void clean_mentions_indicator () {
+            if (this.unread_mentions > 0)
+                this.indicator.clean_mentions_indicator();
+            this.unread_mentions = 0;
+        }
+
+        private void clean_dm_indicator () {
+            if (this.unread_dm > 0)
+                this.indicator.clean_dm_indicator();
+            this.unread_dm = 0;
+        }
+
+        public void tweet_callback (string text, string id = "",
+            string user_screen_name, bool dm, string media_uri) {
+
             int64 code;
             var text_url = "";
             var media_out = "";
@@ -984,32 +1014,24 @@ namespace Birdie {
                 else
                     code = this.api.update_with_media (text, id, media_uri, out media_out);
 
-            try {
-                urls = new Regex("((http|https|ftp)://([\\S]+))");
-            } catch (RegexError e) {
-                warning ("regex error: %s", e.message);
-            }
-
-            try {
-                text_url = urls.replace(text, -1, 0, "<a href='\\0'>\\0</a>");
-            } catch (Error e) {
-                warning ("url replacing error: %s", e.message);
-            }
-
-            if (media_out != "") {
-                text_url = text_url + " <a href='" + media_out + "'>" + media_out + "</a>";
-            }
-
-            string user = user_screen_name;
-
-            if ("@" in user_screen_name)
-                user = user.replace ("@", "");
-
-            if (user == "")
-                user = this.api.account.screen_name;
-
             if (code != 1) {
-                Tweet tweet_tmp = new Tweet (code.to_string (), code.to_string (), this.api.account.name, user, text_url, "", this.api.account.profile_image_url, this.api.account.profile_image_file, false, false, dm);
+                text_url = Utils.highlight_urls (text);
+
+                if (media_out != "") {
+                    text_url = text_url + " <a href='" + media_out + "'>" + media_out + "</a>";
+                }
+
+                string user = user_screen_name;
+
+                if ("@" in user_screen_name)
+                    user = user.replace ("@", "");
+
+                if (user == "")
+                    user = this.api.account.screen_name;
+
+                Tweet tweet_tmp = new Tweet (code.to_string (), code.to_string (),
+                    this.api.account.name, user, text_url, "", this.api.account.profile_image_url,
+                    this.api.account.profile_image_file, false, false, dm);
 
                 if (dm) {
                     this.dm_sent_list.append (tweet_tmp, this);
@@ -1018,11 +1040,14 @@ namespace Birdie {
                         this.notebook_dm.page = 1;
                         return false;
                     });
+                    get_avatar (this.dm_sent_list);
                 } else {
                     this.home_tmp.append (tweet_tmp);
                     this.home_list.append (tweet_tmp, this);
                     this.own_list.append (tweet_tmp, this);
-                    this.favorites.append (tweet_tmp, this);
+
+                    get_avatar (this.home_list);
+                    get_avatar (this.own_list);
 
                     this.switch_timeline ("home");
                 }

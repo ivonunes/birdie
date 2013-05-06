@@ -57,6 +57,7 @@ vala_precompile(VALA_C
     Utils/Networking.vala
     Utils/Pixbuf.vala
     Utils/Downloader.vala
+    Utils/Strings.vala
 PACKAGES
     gtk+-3.0
     granite

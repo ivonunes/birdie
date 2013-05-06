@@ -95,21 +95,25 @@ namespace Birdie.Utils {
 
         private void on_home () {
             this.birdie.switch_timeline ("home");
+            this.birdie.home.set_active (true);
             this.birdie.activate ();
         }
 
         private void on_mentions () {
             this.birdie.switch_timeline ("mentions");
+            this.birdie.mentions.set_active (true);
             this.birdie.activate ();
         }
 
         private void on_dm () {
             this.birdie.switch_timeline ("dm");
+            this.birdie.dm.set_active (true);
             this.birdie.activate ();
         }
 
         private void on_profile () {
             this.birdie.switch_timeline ("own");
+            this.birdie.profile.set_active (true);
             this.birdie.activate ();
         }
 

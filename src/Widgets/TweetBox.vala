@@ -25,6 +25,7 @@ namespace Birdie.Widgets {
         private Gtk.Alignment avatar_alignment;
         private Gtk.Alignment content_alignment;
         private Gtk.Alignment buttons_alignment;
+        private Gtk.Alignment media_alignment;
         private Gtk.Box content_box;
         private Gtk.Label username_label;
         private Gtk.Label tweet_label;
@@ -180,7 +181,13 @@ namespace Birdie.Widgets {
             if (tweet.media_url != "" || tweet.youtube_video != "") {
                 if (tweet.youtube_video != "")
                     try {
-                        media_pixbuf = new Gdk.Pixbuf.from_file_at_scale (Environment.get_home_dir () + "/.cache/birdie/media/youtube_" + tweet.youtube_video + ".jpg", 40, 40, true);
+                        media_pixbuf =
+                            new Gdk.Pixbuf.from_file_at_scale (
+                            Environment.get_home_dir () +
+                            "/.cache/birdie/media/youtube_" +
+                            tweet.youtube_video + ".jpg",
+                            60, 60, true
+                            );
                     } catch (Error e) {
                         error ("Error creating pixbuf: %s", e.message);
                     }
@@ -193,9 +200,21 @@ namespace Birdie.Widgets {
                 this.media = new Gtk.Image.from_pixbuf (media_pixbuf);
                 this.media.set_halign (Gtk.Align.START);
                 this.media_box = new Gtk.EventBox ();
+
+                this.media_alignment = new Gtk.Alignment (0, 0, 0, 1);
+                this.media_alignment.set_halign (Gtk.Align.START);
+                this.media_alignment.set_valign (Gtk.Align.START);
+                this.media_alignment.top_padding = 6;
                 this.media_box.add (this.media);
-                this.content_box.pack_start (this.media_box, false, false, 0);
-                set_events(Gdk.EventMask.BUTTON_RELEASE_MASK);
+                this.media_alignment.add (this.media_box);
+                this.content_box.pack_start (this.media_alignment, false, false, 0);
+
+                set_events (Gdk.EventMask.BUTTON_RELEASE_MASK);
+
+                this.media_box.enter_notify_event.connect ((event) => {
+                    on_mouse_enter (this, event);
+                    return false;
+                });
 
                 this.media_box.button_release_event.connect ((event) => {
                     if (tweet.youtube_video != "")
@@ -363,6 +382,12 @@ namespace Birdie.Widgets {
             light_window.show_all ();
         }
 
+        public virtual void on_mouse_enter (Gtk.Widget widget, Gdk.EventCrossing event) {
+            event.window.set_cursor (
+                new Gdk.Cursor.from_name (Gdk.Display.get_default(), "hand2")
+            );
+        }
+
         public void hide_buttons () {
             this.buttons_box.hide ();
             this.time_label.show ();
@@ -421,6 +446,7 @@ namespace Birdie.Widgets {
                         this.birdie.mentions_list.update_display (this.tweet);
                         this.birdie.own_list.update_display (this.tweet);
                         this.birdie.favorites.append (this.tweet, this.birdie);
+                        get_avatar (this.birdie.favorites);
                     }
 
                     this.favorite_button.set_sensitive (true);

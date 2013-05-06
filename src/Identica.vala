@@ -338,23 +338,7 @@ namespace Birdie {
             return image_file;
         }
 
-        public override string highligh_links (owned string text) {
-            if ("\n" in text)
-                text = text.replace ("\n", " ");
-
-            if ("&" in text)
-                text = text.replace ("&", "&amp;");
-
-            try {
-                urls = new Regex("((http|https|ftp)://(([[:alpha:]0-9_]|[/.]|[~])*)\\b)");
-                text = urls.replace(text, -1, 0, "<span underline='none'><a href='\\0'>\\0</a></span>");
-                urls = new Regex("([#][[:alpha:]0-9_]+)");
-                text = urls.replace(text, -1, 0, "<span underline='none'><a href='birdie://search/\\0'>\\0</a></span>");
-                urls = new Regex("([@][[:alpha:]0-9_]+)");
-                text = urls.replace(text, -1, 0, "<span underline='none'><a href='birdie://user/\\0'>\\0</a></span>");
-            } catch (RegexError e) {
-                warning ("regex error: %s", e.message);
-            }
+        private string highligh_links (owned string text) {
 
             return text;
         }
@@ -620,6 +604,12 @@ namespace Birdie {
             }
 
             return 0;
+        }
+
+         public override Array<string> get_followers (string screen_name) {
+            Array<string> followers = new Array<string> ();
+
+            return followers;
         }
 
         public override int get_own_timeline () {
