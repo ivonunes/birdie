@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: birdie\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-05-04 18:14+0100\n"
-"PO-Revision-Date: 2013-03-30 07:03+0000\n"
+"PO-Revision-Date: 2013-05-05 23:04+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitoschido@gmail.com>\n"
 "Language-Team: Catalan <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-05-05 06:04+0000\n"
+"X-Launchpad-Export-Date: 2013-05-06 06:36+0000\n"
 "X-Generator: Launchpad (build 16598)\n"
 
 #: ../../src/Birdie.vala:176 ../../src/Widgets/TweetDialog.vala:68
@@ -186,7 +186,7 @@ msgstr "en resposta a @%s"
 
 #: ../../src/Widgets/TweetDialog.vala:70
 msgid "New Message"
-msgstr ""
+msgstr "Missatge nou"
 
 #: ../../src/Widgets/TweetDialog.vala:136
 msgid "Cancel"
@@ -206,11 +206,11 @@ msgstr "Estat nou"
 
 #: ../../src/Widgets/TweetDialog.vala:175
 msgid "Add a picture"
-msgstr ""
+msgstr "Afegeix una imatge"
 
 #: ../../src/Widgets/TweetDialog.vala:198
 msgid "Select a Picture"
-msgstr ""
+msgstr "Seleccioneu una imatge"
 
 #: ../../src/Widgets/UserBox.vala:110 ../../src/Widgets/UserBox.vala:241
 msgid "TWEETS"

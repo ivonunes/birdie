@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: birdie\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-05-04 18:14+0100\n"
-"PO-Revision-Date: 2013-04-09 18:46+0000\n"
+"PO-Revision-Date: 2013-05-05 10:33+0000\n"
 "Last-Translator: Vistaus <vistausss@gmail.com>\n"
 "Language-Team: Dutch <vistausss@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-05-05 06:04+0000\n"
+"X-Launchpad-Export-Date: 2013-05-06 06:36+0000\n"
 "X-Generator: Launchpad (build 16598)\n"
 "Language: Nederlands\n"
 
@@ -187,7 +187,7 @@ msgstr "in antwoord op %s"
 
 #: ../../src/Widgets/TweetDialog.vala:70
 msgid "New Message"
-msgstr ""
+msgstr "Nieuw bericht"
 
 #: ../../src/Widgets/TweetDialog.vala:136
 msgid "Cancel"
@@ -207,11 +207,11 @@ msgstr "Nieuwe status"
 
 #: ../../src/Widgets/TweetDialog.vala:175
 msgid "Add a picture"
-msgstr ""
+msgstr "Voeg een afbeelding toe"
 
 #: ../../src/Widgets/TweetDialog.vala:198
 msgid "Select a Picture"
-msgstr ""
+msgstr "Selecteer een afbeelding"
 
 #: ../../src/Widgets/UserBox.vala:110 ../../src/Widgets/UserBox.vala:241
 msgid "TWEETS"
