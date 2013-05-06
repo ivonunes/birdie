@@ -27,13 +27,17 @@ namespace Birdie {
         public int64 followers_count;
         public int64 statuses_count;
         public bool verified;
+        public string token;
+        public string token_secret;
+        public string service;
 
         public User (string id = "", string name = "",
             string screen_name = "", string profile_image_url = "",
             string profile_image_file = "", string location = "",
             string desc = "", int64 friends_count = 0,
             int64 followers_count = 0, int64 statuses_count = 0,
-            bool verified = false
+            bool verified = false, string token = "", string token_secret = "",
+            string service = ""
             ) {
 
             this.id = id;
@@ -47,6 +51,9 @@ namespace Birdie {
             this.followers_count = followers_count;
             this.statuses_count = statuses_count;
             this.verified = verified;
+            this.token = token;
+            this.token_secret = token_secret;
+            this.service = service;
         }
     }
 }

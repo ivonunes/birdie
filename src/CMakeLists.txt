@@ -18,7 +18,7 @@ find_package(PkgConfig)
 
 #Now we're declaring GTK+ 3 and Granite as our REQUIRE dependancies.
 #If PkgConfig can't find these, you need to install them in Step 1.
-pkg_check_modules(DEPS REQUIRED gtk+-3.0 granite rest-0.7 json-glib-1.0 libnotify libcanberra indicate-0.7 unity libwnck-3.0 gdk-x11-3.0 webkitgtk-3.0)
+pkg_check_modules(DEPS REQUIRED gtk+-3.0 granite rest-0.7 json-glib-1.0 libnotify libcanberra indicate-0.7 unity libwnck-3.0 gdk-x11-3.0 webkitgtk-3.0 sqlite3)
 
 #Now we're going to ready the libraries and get their directories to include them.
 set(CFLAGS
@@ -43,6 +43,7 @@ vala_precompile(VALA_C
     User.vala
     Imgur.vala
     Media.vala
+    Database.vala
     Widgets/TweetBox.vala
     Widgets/TweetList.vala
     Widgets/UnifiedWindow.vala
@@ -58,6 +59,7 @@ vala_precompile(VALA_C
     Utils/Pixbuf.vala
     Utils/Downloader.vala
     Utils/Strings.vala
+    Utils/Files.vala
 PACKAGES
     gtk+-3.0
     granite
@@ -71,6 +73,7 @@ PACKAGES
     libwnck-3.0
     gdk-x11-3.0
     webkitgtk-3.0
+    sqlite3
 OPTIONS
     --thread --target-glib=2.32 --vapidir=${CMAKE_SOURCE_DIR}/vapi)
 

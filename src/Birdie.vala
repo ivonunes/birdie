@@ -93,6 +93,10 @@ namespace Birdie {
 
         private bool initialized;
         private bool changing_tab;
+        
+        private SqliteDatabase db;
+        
+        private User default_account;
 
         construct {
             program_name        = "Birdie";
@@ -123,14 +127,13 @@ namespace Birdie {
             set_flags (ApplicationFlags.HANDLES_OPEN);
             this.initialized = false;
             this.changing_tab = false;
+            
+            // create cache and db dirs if needed
+            Utils.create_dir_with_parents ("/.cache/birdie/media");
+            Utils.create_dir_with_parents ("/.local/share/birdie");
 
-            // create cache dirs if needed
-            string media_cache_path = Environment.get_home_dir () +
-                    "/.cache/birdie/media";
-            File media_cache = File.new_for_path (media_cache_path);
-            if (media_cache.query_file_type (0) != FileType.DIRECTORY) {
-                GLib.DirUtils.create_with_parents (media_cache_path, 0775);
-            }
+            // init database object
+            this.db = new SqliteDatabase ();
         }
 
         public override void activate (){
@@ -321,7 +324,7 @@ namespace Birdie {
                 this.m_window.add_bar (right_sep);
 
                 menu = new Widgets.MenuPopOver ();
-                this.account_appmenu = new Gtk.MenuItem.with_label (_("Account Settings"));
+                this.account_appmenu = new Gtk.MenuItem.with_label (_("Add account"));
                 account_appmenu.activate.connect (() => {
                     this.new_tweet.set_sensitive (false);
                     this.home.set_sensitive (false);
@@ -330,9 +333,6 @@ namespace Birdie {
                     this.profile.set_sensitive (false);
                     this.search.set_sensitive (false);
                     this.account_appmenu.set_sensitive (false);
-
-                    this.settings.set_string ("token", "");
-                    this.settings.set_string ("token-secret", "");
 
                     this.api.home_timeline.foreach ((tweet) => {
                         this.home_list.remove (tweet);
@@ -585,10 +585,14 @@ namespace Birdie {
                 if (Option.START_HIDDEN) {
                     this.m_window.hide ();
                 }
+                
+                this.default_account = db.get_default_account ();
 
-                if (this.api.token == "" || this.api.token_secret == "") {
+                if (this.default_account == null) {
                     this.switch_timeline ("welcome");
                 } else {
+                    this.api.token = this.default_account.token;
+                    this.api.token_secret = this.default_account.token_secret;
                     new Thread<void*> (null, this.init);
                 }
             } else {
@@ -713,17 +717,21 @@ namespace Birdie {
                         this.user_box_info.init (this.api.account, this);
                     }
                     
-                    var avatar_pixbuf = new Gdk.Pixbuf.from_file_at_scale (Environment.get_home_dir () + "/.cache/birdie/" + this.api.account.profile_image_file, 24, 24, true);
+                    var avatar_pixbuf = new Gdk.Pixbuf.from_file_at_scale (Environment.get_home_dir () +
+                        "/.cache/birdie/" + this.api.account.profile_image_file, 24, 24, true);
                     var avatar_image = new Gtk.Image.from_pixbuf (avatar_pixbuf);
                     avatar_image.show ();
                     this.appmenu.set_icon_widget (avatar_image);
                     
-                    var avatar_image_menu = new Gtk.Image.from_file (Environment.get_home_dir () + "/.cache/birdie/" + this.api.account.profile_image_file);
-                    var account_menu_item = new Gtk.ImageMenuItem.with_label (this.api.account.name + "\n@" + this.api.account.screen_name);
+                    var avatar_image_menu = new Gtk.Image.from_file (Environment.get_home_dir () +
+                        "/.cache/birdie/" + this.api.account.profile_image_file);
+                    var account_menu_item = new Gtk.ImageMenuItem.with_label (this.api.account.name +
+                        "\n@" + this.api.account.screen_name);
                     
                     foreach (var child in account_menu_item.get_children ()) {
                         if (child is Gtk.Label)
-                            ((Gtk.Label)child).set_markup ("<b>" + this.api.account.name + "</b>\n@" + this.api.account.screen_name);
+                            ((Gtk.Label)child).set_markup ("<b>" + this.api.account.name +
+                                "</b>\n@" + this.api.account.screen_name);
                     }
                     
                     account_menu_item.set_image (avatar_image_menu);
@@ -770,7 +778,7 @@ namespace Birdie {
 
         private void init_api () {
             if (this.service == 0)
-                this.api = new Twitter ();
+                this.api = new Twitter (this.db);
             else
                 this.api = new Identica ();
         }

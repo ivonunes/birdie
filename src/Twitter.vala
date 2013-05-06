@@ -18,8 +18,11 @@ namespace Birdie {
     public class Twitter : API {
 
         Rest.ProxyCall? call = null;
+        SqliteDatabase db;
 
-        public Twitter () {
+        public Twitter (SqliteDatabase db) {
+        
+            this.db = db;
 
             this.CONSUMER_KEY = "T1VkU2dySk9DRFlZbjJJcDdWSGZRdw==";
             this.CONSUMER_SECRET = "UHZPdXcwWFJoVnJ5RU5yZXdGdDZWd1lGdnNoRlpwcHQxMUtkNDdvVWM=";
@@ -34,8 +37,8 @@ namespace Birdie {
 
             this.settings = new Settings ("org.pantheon.birdie");
 
-            this.token = settings.get_string ("token");
-            this.token_secret = settings.get_string ("token-secret");
+            this.token = "";
+            this.token_secret = "";
             this.retrieve_count = settings.get_string ("retrieve-count");
         }
 
@@ -57,9 +60,7 @@ namespace Birdie {
                 proxy.access_token (FUNCTION_ACCESS_TOKEN, pin);
                 token = proxy.get_token();
                 token_secret = proxy.get_token_secret();
-
-                settings.set_string ("token", token);
-                settings.set_string ("token-secret", token_secret);
+                this.db.add_account ("twitter", token, token_secret);  
             } catch (Error e) {
                 stderr.printf ("Couldn't get access token: %s\n", e.message);
                 return 1;
