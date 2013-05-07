@@ -101,6 +101,9 @@ namespace Birdie {
 
         private User default_account;
 
+        private uint timerID_online;
+        private uint timerID_offline;
+
         construct {
             program_name        = "Birdie";
             exec_name           = "birdie";
@@ -341,6 +344,7 @@ namespace Birdie {
                         _("Remove"), _("Cancel"));
                     Gtk.ResponseType response = confirm.run ();
                     if (response == Gtk.ResponseType.OK) {
+                        this.remove_timeouts ();
                         var appmenu_icon = new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU);
                         appmenu_icon.show ();
                         this.appmenu.set_icon_widget (appmenu_icon);
@@ -830,6 +834,7 @@ namespace Birdie {
         }
 
         private void switch_account (User account) {
+            this.remove_timeouts ();
             var appmenu_icon = new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU);
             appmenu_icon.show ();
             this.appmenu.set_icon_widget (appmenu_icon);
@@ -845,6 +850,11 @@ namespace Birdie {
             this.api.token = this.default_account.token;
             this.api.token_secret = this.default_account.token_secret;
             new Thread<void*> (null, this.init);
+        }
+
+        private void remove_timeouts () {
+            GLib.Source.remove (this.timerID_offline);
+            GLib.Source.remove (this.timerID_online);
         }
 
         private void set_widgets_sensitive (bool sensitive) {
@@ -952,14 +962,14 @@ namespace Birdie {
         }
 
         public void add_timeout_offline () {
-            GLib.Timeout.add_seconds (60, () => {
+            this.timerID_offline = GLib.Timeout.add_seconds (60, () => {
                 new Thread<void*> (null, this.update_dates);
                 return false;
             });
         }
 
         public void add_timeout_online () {
-            GLib.Timeout.add_seconds (this.update_interval * 60, () => {
+            this.timerID_online = GLib.Timeout.add_seconds (this.update_interval * 60, () => {
                 new Thread<void*> (null, this.update_timelines);
                 return false;
              });

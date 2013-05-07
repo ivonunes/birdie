@@ -1,26 +1,5 @@
 <schemalist>
-  <enum id="services">
-    <value value="0" nick="twitter"/>
-    <value value="1" nick="identica"/>
-  </enum>
-
   <schema id="org.pantheon.birdie" path="/org/pantheon/birdie/" gettext-domain="birdie">
-
-    <key name="token" type="s">
-      <default l10n="messages">""</default>
-      <summary>Token</summary>
-      <description>
-        Token
-      </description>
-    </key>
-
-    <key name="token-secret" type="s">
-      <default l10n="messages">""</default>
-      <summary>Token secret</summary>
-      <description>
-        Token secret
-      </description>
-    </key>
 
     <key name="update-interval" type="i">
       <default>2</default>
@@ -96,12 +75,6 @@
       <default>-1</default>
       <summary>Y position of compose window</summary>
       <description>Saves the window’s Y position for restoring it later.</description>
-    </key>
-
-    <key name="service" enum="services">
-      <default>'twitter'</default>
-      <summary>Service to use</summary>
-      <description>Determines which service API to use</description>
     </key>
 
     <key name="retrieve-count" type="s">
