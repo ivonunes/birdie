@@ -28,6 +28,7 @@ namespace Birdie {
 
         private Gtk.MenuItem account_appmenu;
         private Widgets.MenuPopOver menu;
+        private List<Gtk.Widget> menu_tmp;
 
         private Gtk.ToolButton new_tweet;
         public Gtk.ToggleToolButton home;
@@ -759,20 +760,20 @@ namespace Birdie {
         }
 
         private void set_user_menu () {
-            if (this.initialized) {
-                var deleting = false;
-
-                foreach (var child in this.menu.get_children ()) {
-                    if (child is Gtk.ImageMenuItem)
-                        deleting = true;
-
-                    if (deleting)
-                        this.menu.remove (child);
-                }
-            }
+            this.menu_tmp.foreach ((w) => {
+                this.menu.remove (w);
+                this.menu_tmp.remove (w);
+            });
+            
             // get all accounts
             List<User?> all_accounts = new List<User?> ();
             all_accounts = this.db.get_all_accounts ();
+
+            if (all_accounts.length () > 0) {
+                var sep = new Gtk.SeparatorMenuItem ();
+                this.menu_tmp.prepend (sep);
+                this.menu.prepend (sep);
+            }
 
             foreach (var account in all_accounts) {
                 var avatar_pixbuf = new Gdk.Pixbuf.from_file_at_scale (Environment.get_home_dir () +
@@ -796,11 +797,10 @@ namespace Birdie {
                             "</b>\n@" + account.screen_name);
                 }
                 account_menu_item.set_image (avatar_image_menu);
-            account_menu_item.set_always_show_image (true);
+                account_menu_item.set_always_show_image (true);
 
-            this.menu.prepend (new Gtk.SeparatorMenuItem ());
-            this.menu.prepend (account_menu_item);
-
+                this.menu_tmp.prepend (account_menu_item);
+                this.menu.prepend (account_menu_item);
             }
 
             this.menu.show_all ();
