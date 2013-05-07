@@ -335,19 +335,26 @@ namespace Birdie {
 
                 this.remove_appmenu = new Gtk.MenuItem.with_label (_("Remove Account"));
                 remove_appmenu.activate.connect (() => {
-                    var appmenu_icon = new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU);
-                    appmenu_icon.show ();
-                    this.appmenu.set_icon_widget (appmenu_icon);
-                    this.set_widgets_sensitive (false);
-                    this.db.remove_account (this.default_account);
-                    User account = this.db.get_default_account ();
-                    this.set_user_menu ();
+                    // confirm remove account
+                    Widgets.AlertDialog confirm = new Widgets.AlertDialog (this.m_window,
+                        Gtk.MessageType.QUESTION, _("Remove this account?"),
+                        _("Remove"), _("Cancel"));
+                    Gtk.ResponseType response = confirm.run ();
+                    if (response == Gtk.ResponseType.OK) {
+                        var appmenu_icon = new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU);
+                        appmenu_icon.show ();
+                        this.appmenu.set_icon_widget (appmenu_icon);
+                        this.set_widgets_sensitive (false);
+                        this.db.remove_account (this.default_account);
+                        User account = this.db.get_default_account ();
+                        this.set_user_menu ();
 
-                    if (account == null) {
-                        this.init_api ();
-                        this.switch_timeline ("welcome");
-                    } else {
-                        this.switch_account (account);
+                        if (account == null) {
+                            this.init_api ();
+                            this.switch_timeline ("welcome");
+                        } else {
+                            this.switch_account (account);
+                        }
                     }
                 });
                 this.remove_appmenu.set_sensitive (false);
