@@ -106,5 +106,25 @@ namespace Birdie.Widgets {
                 });
             }
         }
+
+        public void clear () {
+            this.boxes.foreach ((box) => {
+                Idle.add (() => {
+                    base.remove (box);
+                    this.boxes.remove (box);
+                    box.destroy ();
+                    return false;
+                });
+            });
+
+            this.separators.foreach ((sep) => {
+                Idle.add (() => {
+                    base.remove (sep);
+                    this.separators.remove (sep);
+                    sep.destroy ();
+                    return false;
+                });
+            });
+        }
     }
 }

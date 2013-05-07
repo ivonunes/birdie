@@ -119,12 +119,9 @@ namespace Birdie.Utils {
 
         public void set_count (int count) {
 
-            if (count == 0) {
-                this.clean_launcher_count ();
-            } else {
-                launcher.count = count;
-                launcher.count_visible = true;
-            }
+            this.clean_launcher_count ();
+            launcher.count = count;
+            launcher.count_visible = true;
 
             debug("set unity launcher entry count to %s", launcher.count.to_string());
         }

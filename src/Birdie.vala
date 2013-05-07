@@ -348,34 +348,8 @@ namespace Birdie {
                     this.account_appmenu.set_sensitive (false);
                     this.remove_appmenu.set_sensitive (false);
 
-                    this.api.home_timeline.foreach ((tweet) => {
-                        this.home_list.remove (tweet);
-                    });
-
-                    this.api.mentions_timeline.foreach ((tweet) => {
-                        this.mentions_list.remove (tweet);
-                    });
-
-                    this.api.dm_timeline.foreach ((tweet) => {
-                        this.dm_list.remove (tweet);
-                    });
-
-                    this.api.dm_sent_timeline.foreach ((tweet) => {
-                        this.dm_sent_list.remove (tweet);
-                    });
-
-                    this.api.own_timeline.foreach ((tweet) => {
-                        this.own_list.remove (tweet);
-                    });
-
-                    this.api.favorites.foreach ((tweet) => {
-                        this.favorites.remove (tweet);
-                    });
-
                     this.db.remove_account (this.default_account);
-
                     User account = this.db.get_default_account ();
-
                     this.set_user_menu ();
 
                     if (account == null) {
@@ -740,6 +714,13 @@ namespace Birdie {
                 this.api.get_own_timeline ();
                 this.api.get_favorites ();
 
+                this.home_list.clear ();
+                this.mentions_list.clear ();
+                this.dm_list.clear ();
+                this.dm_sent_list.clear ();
+                this.own_list.clear ();
+                this.favorites.clear ();
+
                 this.api.home_timeline.foreach ((tweet) => {
                     this.home_list.append (tweet, this);
                 });
@@ -875,30 +856,6 @@ namespace Birdie {
             this.search.set_sensitive (false);
             this.account_appmenu.set_sensitive (false);
             this.remove_appmenu.set_sensitive (false);
-
-            this.api.home_timeline.foreach ((tweet) => {
-                this.home_list.remove (tweet);
-            });
-
-            this.api.mentions_timeline.foreach ((tweet) => {
-                this.mentions_list.remove (tweet);
-            });
-
-            this.api.dm_timeline.foreach ((tweet) => {
-                this.dm_list.remove (tweet);
-            });
-
-            this.api.dm_sent_timeline.foreach ((tweet) => {
-                this.dm_sent_list.remove (tweet);
-            });
-
-            this.api.own_timeline.foreach ((tweet) => {
-                this.own_list.remove (tweet);
-            });
-
-            this.api.favorites.foreach ((tweet) => {
-                this.favorites.remove (tweet);
-            });
 
             this.init_api ();
             switch_timeline ("loading");
