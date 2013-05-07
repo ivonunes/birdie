@@ -90,10 +90,12 @@ namespace Birdie {
                 "/.cache/birdie/" + profile_image_file);
             var dst = File.new_for_path (Environment.get_home_dir () +
                 "/.local/share/birdie/avatars/" + profile_image_file);
-            try {
-                src.copy (dst, FileCopyFlags.NONE, null, null);
-            } catch (Error e) {
-                stderr.printf ("%s\n", e.message);
+            if (!dst.query_exists ()) {
+                try {
+                    src.copy (dst, FileCopyFlags.NONE, null, null);
+                } catch (Error e) {
+                    stderr.printf ("%s\n", e.message);
+                }
             }
         }
     }

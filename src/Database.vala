@@ -264,7 +264,25 @@ namespace Birdie {
         }
         return all;
         }
+        
+        // delete
+        
+        public void remove_account (User account) {
+            Sqlite.Statement stmt;
 
-        // callbacks
+            reset_default_account ();
+
+            int res = db.prepare_v2("DELETE FROM accounts WHERE token = " +
+                "?", -1, out stmt);
+            assert(res == Sqlite.OK);
+
+            res = stmt.bind_text (1, account.token);
+            assert(res == Sqlite.OK);
+
+            res = stmt.step ();
+
+            if (res == Sqlite.DONE)
+                debug ("user removed: " + account.screen_name);
+        }
     }
 }

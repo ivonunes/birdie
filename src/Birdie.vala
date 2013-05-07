@@ -27,6 +27,7 @@ namespace Birdie {
         public Widgets.TweetList search_list;
 
         private Gtk.MenuItem account_appmenu;
+        private Gtk.MenuItem remove_appmenu;
         private Widgets.MenuPopOver menu;
         private List<Gtk.Widget> menu_tmp;
 
@@ -69,6 +70,7 @@ namespace Birdie {
         private Gtk.CssProvider d_provider;
 
         public API api;
+        public API new_api;
 
         public string current_timeline;
 
@@ -326,8 +328,14 @@ namespace Birdie {
                 this.m_window.add_bar (right_sep);
 
                 menu = new Widgets.MenuPopOver ();
-                this.account_appmenu = new Gtk.MenuItem.with_label (_("Add account"));
+                this.account_appmenu = new Gtk.MenuItem.with_label (_("Add Account"));
                 account_appmenu.activate.connect (() => {
+                    this.switch_timeline ("welcome");
+                });
+                this.account_appmenu.set_sensitive (false);
+                
+                this.remove_appmenu = new Gtk.MenuItem.with_label (_("Remove Account"));
+                remove_appmenu.activate.connect (() => {
                     var appmenu_icon = new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU);
                     appmenu_icon.show ();
                     this.appmenu.set_icon_widget (appmenu_icon);
@@ -339,6 +347,7 @@ namespace Birdie {
                     this.profile.set_sensitive (false);
                     this.search.set_sensitive (false);
                     this.account_appmenu.set_sensitive (false);
+                    this.remove_appmenu.set_sensitive (false);
 
                     this.api.home_timeline.foreach ((tweet) => {
                         this.home_list.remove (tweet);
@@ -363,14 +372,29 @@ namespace Birdie {
                     this.api.favorites.foreach ((tweet) => {
                         this.favorites.remove (tweet);
                     });
+                    
+                    this.db.remove_account (this.default_account);
 
-                    init_api ();
-                    this.switch_timeline ("welcome");
+                    User account = this.db.get_default_account ();
+                    
+                    this.set_user_menu ();                    
+                    
+                    if (account == null) {
+                        this.init_api ();
+                        this.switch_timeline ("welcome");
+                    } else {
+                        this.switch_account (account);
+                    }
                 });
-                this.account_appmenu.set_sensitive (false);
+                this.remove_appmenu.set_sensitive (false);
+                
                 var about_appmenu = new Gtk.MenuItem.with_label (_("About"));
                 about_appmenu.activate.connect (() => {
                     show_about (this.m_window);
+                });
+                var donate_appmenu = new Gtk.MenuItem.with_label (_("Donate"));
+                donate_appmenu.activate.connect (() => {
+                    GLib.Process.spawn_command_line_async ("x-www-browser http://www.ivonunes.net/birdie/donate.html");
                 });
                 var quit_appmenu = new Gtk.MenuItem.with_label (_("Quit"));
                 quit_appmenu.activate.connect (() => {
@@ -386,7 +410,10 @@ namespace Birdie {
                     m_window.destroy ();
                 });
                 menu.add (account_appmenu);
+                menu.add (remove_appmenu);
+                menu.add (new Gtk.SeparatorMenuItem ());
                 menu.add (about_appmenu);
+                menu.add (donate_appmenu);
                 menu.add (quit_appmenu);
                 this.appmenu = new Granite.Widgets.ToolButtonWithMenu (new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU), _("Menu"), menu);
                 menu.move_to_widget (appmenu);
@@ -439,6 +466,7 @@ namespace Birdie {
                     this.profile.set_sensitive (true);
                     this.search.set_sensitive (true);
                     this.account_appmenu.set_sensitive (true);
+                    this.remove_appmenu.set_sensitive (true);
 
                     if (this.initialized) {
                         this.switch_timeline ("loading");
@@ -657,7 +685,8 @@ namespace Birdie {
         private void* request () {
             this.switch_timeline ("pin");
             try {
-                GLib.Process.spawn_command_line_async ("x-www-browser \"" + this.api.get_request () + "\"");
+                this.new_api = new Twitter (this.db);
+                GLib.Process.spawn_command_line_async ("x-www-browser \"" + this.new_api.get_request () + "\"");
             } catch (GLib.Error error) {
                 warning ("error opening url: %s", error.message);
             }
@@ -667,9 +696,27 @@ namespace Birdie {
         private void* tokens () {
             this.switch_timeline ("loading");
 
-            int code = this.api.get_tokens (this.pin_entry.get_text ());
+            int code = this.new_api.get_tokens (this.pin_entry.get_text ());
 
             if (code == 0) {
+                Idle.add (() => {
+                    var appmenu_icon = new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU);
+                    appmenu_icon.show ();
+                    this.appmenu.set_icon_widget (appmenu_icon);
+
+                    this.new_tweet.set_sensitive (false);
+                    this.home.set_sensitive (false);
+                    this.mentions.set_sensitive (false);
+                    this.dm.set_sensitive (false);
+                    this.profile.set_sensitive (false);
+                    this.search.set_sensitive (false);
+                    this.account_appmenu.set_sensitive (false);
+                    this.remove_appmenu.set_sensitive (false);
+                    
+                    return false;
+                });
+            
+                this.api = this.new_api;
                 new Thread<void*> (null, this.init);
             } else {
                 this.switch_timeline ("welcome");
@@ -747,6 +794,7 @@ namespace Birdie {
                 this.profile.set_sensitive (true);
                 this.search.set_sensitive (true);
                 this.account_appmenu.set_sensitive (true);
+                this.remove_appmenu.set_sensitive (true);
 
                 get_avatar (this.home_list);
                 get_avatar (this.mentions_list);
@@ -823,6 +871,7 @@ namespace Birdie {
             this.profile.set_sensitive (false);
             this.search.set_sensitive (false);
             this.account_appmenu.set_sensitive (false);
+            this.remove_appmenu.set_sensitive (false);
 
             this.api.home_timeline.foreach ((tweet) => {
                 this.home_list.remove (tweet);
@@ -945,6 +994,7 @@ namespace Birdie {
                         this.profile.set_sensitive (false);
                         this.search.set_sensitive (false);
                         this.account_appmenu.set_sensitive (false);
+                        this.remove_appmenu.set_sensitive (false);
                         this.notebook.page = 9;
                         break;
                 }
