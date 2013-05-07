@@ -588,7 +588,7 @@ namespace Birdie {
                 }
 
                 this.default_account = db.get_default_account ();
-                this.default_account_id = db.get_account_id ();
+                //this.default_account_id = db.get_account_id ();
 
                 if (this.default_account == null) {
                     this.switch_timeline ("welcome");
