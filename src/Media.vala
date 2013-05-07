@@ -85,6 +85,18 @@ namespace Birdie {
 
         if (own) {
             userbox.user.profile_image_file = profile_image_file;
+
+            var src = File.new_for_path (Environment.get_home_dir () +
+                "/.cache/birdie/" + profile_image_file);
+            var dst = File.new_for_path (Environment.get_home_dir () +
+                "/.local/share/birdie/avatars/" + profile_image_file);
+            if (!dst.query_exists ()) {
+                try {
+                    src.copy (dst, FileCopyFlags.NONE, null, null);
+                } catch (Error e) {
+                    stderr.printf ("%s\n", e.message);
+                }
+            }
         }
     }
 }

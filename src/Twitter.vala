@@ -18,8 +18,11 @@ namespace Birdie {
     public class Twitter : API {
 
         Rest.ProxyCall? call = null;
+        SqliteDatabase db;
 
-        public Twitter () {
+        public Twitter (SqliteDatabase db) {
+        
+            this.db = db;
 
             this.CONSUMER_KEY = "T1VkU2dySk9DRFlZbjJJcDdWSGZRdw==";
             this.CONSUMER_SECRET = "UHZPdXcwWFJoVnJ5RU5yZXdGdDZWd1lGdnNoRlpwcHQxMUtkNDdvVWM=";
@@ -34,8 +37,8 @@ namespace Birdie {
 
             this.settings = new Settings ("org.pantheon.birdie");
 
-            this.token = settings.get_string ("token");
-            this.token_secret = settings.get_string ("token-secret");
+            this.token = "";
+            this.token_secret = "";
             this.retrieve_count = settings.get_string ("retrieve-count");
         }
 
@@ -57,9 +60,7 @@ namespace Birdie {
                 proxy.access_token (FUNCTION_ACCESS_TOKEN, pin);
                 token = proxy.get_token();
                 token_secret = proxy.get_token_secret();
-
-                settings.set_string ("token", token);
-                settings.set_string ("token-secret", token_secret);
+                this.db.add_account ("twitter", token, token_secret);  
             } catch (Error e) {
                 stderr.printf ("Couldn't get access token: %s\n", e.message);
                 return 1;
@@ -271,7 +272,7 @@ namespace Birdie {
 
                 account = new User (id, name, screen_name,
                     profile_image_url, profile_image_file, location, desc,
-                    friends_count, followers_count, statuses_count, verified
+                    friends_count, followers_count, statuses_count, verified, this.token, this.token_secret
                 );
 
             } catch (Error e) {
@@ -392,7 +393,7 @@ namespace Birdie {
                 foreach (var url in entitiesobject.get_array_member ("urls").get_elements ()) {
                     youtube_video = url.get_object ().get_string_member ("expanded_url");
 
-                    if (youtube_video.contains ("youtube.com") )
+                    if (youtube_video.contains ("youtube.com"))
                         youtube_video = this.get_youtube_video (youtube_video);
                     else
                         youtube_video = "";

@@ -27,6 +27,9 @@ namespace Birdie {
         public Widgets.TweetList search_list;
 
         private Gtk.MenuItem account_appmenu;
+        private Gtk.MenuItem remove_appmenu;
+        private Widgets.MenuPopOver menu;
+        private List<Gtk.Widget> menu_tmp;
 
         private Gtk.ToolButton new_tweet;
         public Gtk.ToggleToolButton home;
@@ -34,6 +37,7 @@ namespace Birdie {
         public Gtk.ToggleToolButton dm;
         public Gtk.ToggleToolButton profile;
         private Gtk.ToggleToolButton search;
+        private Granite.Widgets.ToolButtonWithMenu appmenu;
 
         private Widgets.UserBox own_box_info;
         private Gtk.Box own_box;
@@ -66,6 +70,7 @@ namespace Birdie {
         private Gtk.CssProvider d_provider;
 
         public API api;
+        public API new_api;
 
         public string current_timeline;
 
@@ -91,6 +96,11 @@ namespace Birdie {
 
         private bool initialized;
         private bool changing_tab;
+
+        private SqliteDatabase db;
+
+        private User default_account;
+        private int default_account_id;
 
         construct {
             program_name        = "Birdie";
@@ -122,13 +132,12 @@ namespace Birdie {
             this.initialized = false;
             this.changing_tab = false;
 
-            // create cache dirs if needed
-            string media_cache_path = Environment.get_home_dir () +
-                    "/.cache/birdie/media";
-            File media_cache = File.new_for_path (media_cache_path);
-            if (media_cache.query_file_type (0) != FileType.DIRECTORY) {
-                GLib.DirUtils.create_with_parents (media_cache_path, 0775);
-            }
+            // create cache and db dirs if needed
+            Utils.create_dir_with_parents ("/.cache/birdie/media");
+            Utils.create_dir_with_parents ("/.local/share/birdie/avatars");
+
+            // init database object
+            this.db = new SqliteDatabase ();
         }
 
         public override void activate (){
@@ -318,9 +327,19 @@ namespace Birdie {
                 right_sep.set_expand (true);
                 this.m_window.add_bar (right_sep);
 
-                var menu = new Widgets.MenuPopOver ();
-                this.account_appmenu = new Gtk.MenuItem.with_label (_("Remove account"));
+                menu = new Widgets.MenuPopOver ();
+                this.account_appmenu = new Gtk.MenuItem.with_label (_("Add Account"));
                 account_appmenu.activate.connect (() => {
+                    this.switch_timeline ("welcome");
+                });
+                this.account_appmenu.set_sensitive (false);
+                
+                this.remove_appmenu = new Gtk.MenuItem.with_label (_("Remove Account"));
+                remove_appmenu.activate.connect (() => {
+                    var appmenu_icon = new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU);
+                    appmenu_icon.show ();
+                    this.appmenu.set_icon_widget (appmenu_icon);
+
                     this.new_tweet.set_sensitive (false);
                     this.home.set_sensitive (false);
                     this.mentions.set_sensitive (false);
@@ -328,9 +347,7 @@ namespace Birdie {
                     this.profile.set_sensitive (false);
                     this.search.set_sensitive (false);
                     this.account_appmenu.set_sensitive (false);
-
-                    this.settings.set_string ("token", "");
-                    this.settings.set_string ("token-secret", "");
+                    this.remove_appmenu.set_sensitive (false);
 
                     this.api.home_timeline.foreach ((tweet) => {
                         this.home_list.remove (tweet);
@@ -355,14 +372,29 @@ namespace Birdie {
                     this.api.favorites.foreach ((tweet) => {
                         this.favorites.remove (tweet);
                     });
+                    
+                    this.db.remove_account (this.default_account);
 
-                    init_api ();
-                    this.switch_timeline ("welcome");
+                    User account = this.db.get_default_account ();
+                    
+                    this.set_user_menu ();                    
+                    
+                    if (account == null) {
+                        this.init_api ();
+                        this.switch_timeline ("welcome");
+                    } else {
+                        this.switch_account (account);
+                    }
                 });
-                this.account_appmenu.set_sensitive (false);
+                this.remove_appmenu.set_sensitive (false);
+                
                 var about_appmenu = new Gtk.MenuItem.with_label (_("About"));
                 about_appmenu.activate.connect (() => {
                     show_about (this.m_window);
+                });
+                var donate_appmenu = new Gtk.MenuItem.with_label (_("Donate"));
+                donate_appmenu.activate.connect (() => {
+                    GLib.Process.spawn_command_line_async ("x-www-browser http://www.ivonunes.net/birdie/donate.html");
                 });
                 var quit_appmenu = new Gtk.MenuItem.with_label (_("Quit"));
                 quit_appmenu.activate.connect (() => {
@@ -378,10 +410,12 @@ namespace Birdie {
                     m_window.destroy ();
                 });
                 menu.add (account_appmenu);
+                menu.add (remove_appmenu);
                 menu.add (new Gtk.SeparatorMenuItem ());
                 menu.add (about_appmenu);
+                menu.add (donate_appmenu);
                 menu.add (quit_appmenu);
-                var appmenu = new Granite.Widgets.ToolButtonWithMenu (new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU), _("Menu"), menu);
+                this.appmenu = new Granite.Widgets.ToolButtonWithMenu (new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU), _("Menu"), menu);
                 menu.move_to_widget (appmenu);
 
                 this.m_window.add_bar (appmenu);
@@ -432,15 +466,14 @@ namespace Birdie {
                     this.profile.set_sensitive (true);
                     this.search.set_sensitive (true);
                     this.account_appmenu.set_sensitive (true);
+                    this.remove_appmenu.set_sensitive (true);
 
                     if (this.initialized) {
                         this.switch_timeline ("loading");
-                        this.spinner.start ();
                         this.switch_timeline ("home");
                         new Thread<void*> (null, this.update_timelines);
                     } else {
                         this.switch_timeline ("loading");
-                        this.spinner.start ();
                         new Thread<void*> (null, this.init);
                     }
                 });
@@ -585,9 +618,14 @@ namespace Birdie {
                     this.m_window.hide ();
                 }
 
-                if (this.api.token == "" || this.api.token_secret == "") {
+                this.default_account = db.get_default_account ();
+                //this.default_account_id = db.get_account_id ();
+
+                if (this.default_account == null) {
                     this.switch_timeline ("welcome");
                 } else {
+                    this.api.token = this.default_account.token;
+                    this.api.token_secret = this.default_account.token_secret;
                     new Thread<void*> (null, this.init);
                 }
             } else {
@@ -647,7 +685,8 @@ namespace Birdie {
         private void* request () {
             this.switch_timeline ("pin");
             try {
-                GLib.Process.spawn_command_line_async ("x-www-browser \"" + this.api.get_request () + "\"");
+                this.new_api = new Twitter (this.db);
+                GLib.Process.spawn_command_line_async ("x-www-browser \"" + this.new_api.get_request () + "\"");
             } catch (GLib.Error error) {
                 warning ("error opening url: %s", error.message);
             }
@@ -657,9 +696,27 @@ namespace Birdie {
         private void* tokens () {
             this.switch_timeline ("loading");
 
-            int code = this.api.get_tokens (this.pin_entry.get_text ());
+            int code = this.new_api.get_tokens (this.pin_entry.get_text ());
 
             if (code == 0) {
+                Idle.add (() => {
+                    var appmenu_icon = new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU);
+                    appmenu_icon.show ();
+                    this.appmenu.set_icon_widget (appmenu_icon);
+
+                    this.new_tweet.set_sensitive (false);
+                    this.home.set_sensitive (false);
+                    this.mentions.set_sensitive (false);
+                    this.dm.set_sensitive (false);
+                    this.profile.set_sensitive (false);
+                    this.search.set_sensitive (false);
+                    this.account_appmenu.set_sensitive (false);
+                    this.remove_appmenu.set_sensitive (false);
+                    
+                    return false;
+                });
+            
+                this.api = this.new_api;
                 new Thread<void*> (null, this.init);
             } else {
                 this.switch_timeline ("welcome");
@@ -672,6 +729,7 @@ namespace Birdie {
             if (this.check_internet_connection ()) {
                 this.api.auth ();
                 this.api.get_account ();
+
                 this.api.get_home_timeline ();
                 this.api.get_mentions_timeline ();
                 this.api.get_direct_messages ();
@@ -713,7 +771,9 @@ namespace Birdie {
                     }
 
                     get_userbox_avatar (this.own_box_info, true);
-
+                    // update account db
+                    this.db.update_account (this.api.account);
+                    this.set_user_menu ();
                     this.initialized = true;
 
                     return false;
@@ -734,6 +794,7 @@ namespace Birdie {
                 this.profile.set_sensitive (true);
                 this.search.set_sensitive (true);
                 this.account_appmenu.set_sensitive (true);
+                this.remove_appmenu.set_sensitive (true);
 
                 get_avatar (this.home_list);
                 get_avatar (this.mentions_list);
@@ -748,11 +809,104 @@ namespace Birdie {
             return null;
         }
 
+        private void set_user_menu () {
+            this.menu_tmp.foreach ((w) => {
+                this.menu.remove (w);
+                this.menu_tmp.remove (w);
+            });
+
+            // get all accounts
+            List<User?> all_accounts = new List<User?> ();
+            all_accounts = this.db.get_all_accounts ();
+
+            if (all_accounts.length () > 0) {
+                var sep = new Gtk.SeparatorMenuItem ();
+                this.menu_tmp.prepend (sep);
+                this.menu.prepend (sep);
+            }
+
+            foreach (var account in all_accounts) {
+                var avatar_pixbuf = new Gdk.Pixbuf.from_file_at_scale (Environment.get_home_dir () +
+                    "/.local/share/birdie/avatars/" + account.profile_image_file, 24, 24, true);
+                var avatar_image = new Gtk.Image.from_pixbuf (avatar_pixbuf);
+                avatar_image.show ();
+                this.appmenu.set_icon_widget (avatar_image);
+
+                var avatar_image_menu = new Gtk.Image.from_file (Environment.get_home_dir () +
+                    "/.local/share/birdie/avatars/" + account.profile_image_file);
+                var account_menu_item = new Gtk.ImageMenuItem.with_label (account.name +
+                    "\n@" + account.screen_name);
+
+                account_menu_item.activate.connect (() => {
+                    switch_account (account);
+                });
+
+                foreach (var child in account_menu_item.get_children ()) {
+                    if (child is Gtk.Label)
+                        ((Gtk.Label)child).set_markup ("<b>" + account.name +
+                            "</b>\n@" + account.screen_name);
+                }
+                account_menu_item.set_image (avatar_image_menu);
+                account_menu_item.set_always_show_image (true);
+
+                this.menu_tmp.prepend (account_menu_item);
+                this.menu.prepend (account_menu_item);
+            }
+
+            this.menu.show_all ();
+        }
+
+        private void switch_account (User account) {
+            var appmenu_icon = new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU);
+            appmenu_icon.show ();
+            this.appmenu.set_icon_widget (appmenu_icon);
+
+            this.db.set_default_account (account);
+            this.default_account = account;
+
+            this.new_tweet.set_sensitive (false);
+            this.home.set_sensitive (false);
+            this.mentions.set_sensitive (false);
+            this.dm.set_sensitive (false);
+            this.profile.set_sensitive (false);
+            this.search.set_sensitive (false);
+            this.account_appmenu.set_sensitive (false);
+            this.remove_appmenu.set_sensitive (false);
+
+            this.api.home_timeline.foreach ((tweet) => {
+                this.home_list.remove (tweet);
+            });
+
+            this.api.mentions_timeline.foreach ((tweet) => {
+                this.mentions_list.remove (tweet);
+            });
+
+            this.api.dm_timeline.foreach ((tweet) => {
+                this.dm_list.remove (tweet);
+            });
+
+            this.api.dm_sent_timeline.foreach ((tweet) => {
+                this.dm_sent_list.remove (tweet);
+            });
+
+            this.api.own_timeline.foreach ((tweet) => {
+                this.own_list.remove (tweet);
+            });
+
+            this.api.favorites.foreach ((tweet) => {
+                this.favorites.remove (tweet);
+            });
+
+            this.init_api ();
+            switch_timeline ("loading");
+
+            this.api.token = this.default_account.token;
+            this.api.token_secret = this.default_account.token_secret;
+            new Thread<void*> (null, this.init);
+        }
+
         private void init_api () {
-            if (this.service == 0)
-                this.api = new Twitter ();
-            else
-                this.api = new Identica ();
+            this.api = new Twitter (this.db);
         }
 
         public void switch_timeline (string new_timeline) {
@@ -786,6 +940,7 @@ namespace Birdie {
 
                 switch (new_timeline) {
                     case "loading":
+                        this.spinner.start ();
                         this.notebook.page = 0;
                         break;
                     case "welcome":
@@ -839,6 +994,7 @@ namespace Birdie {
                         this.profile.set_sensitive (false);
                         this.search.set_sensitive (false);
                         this.account_appmenu.set_sensitive (false);
+                        this.remove_appmenu.set_sensitive (false);
                         this.notebook.page = 9;
                         break;
                 }
@@ -895,6 +1051,7 @@ namespace Birdie {
 
             this.api.home_timeline.foreach ((tweet) => {
                 this.home_list.append (tweet, this);
+                //this.db.add_user (tweet.user_screen_name, tweet.user_name, this.default_account_id);
                 if (this.tweet_notification) {
                     if (this.api.account.screen_name != tweet.user_screen_name) {
                         Utils.notify ("New tweet from " + tweet.user_name, tweet.text);
@@ -1038,7 +1195,6 @@ namespace Birdie {
             if (this.check_internet_connection ()) {
                 Idle.add (() => {
                     this.switch_timeline ("loading");
-                    this.spinner.start ();
                     return false;
                 });
 
