@@ -70,14 +70,14 @@ namespace Birdie {
                 string? avatar = null, int default_account = 1) {
 
             Sqlite.Statement stmt;
-                
+
             reset_default_account ();
-            
+
             int res = db.prepare_v2("INSERT INTO accounts (screen_name, " +
                 "name, token, token_secret, avatar, service, default_account) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)", -1, out stmt);
             assert(res == Sqlite.OK);
-            
+
             res = stmt.bind_text (1, screen_name);
             assert(res == Sqlite.OK);
             res = stmt.bind_text (2, name);
@@ -92,38 +92,37 @@ namespace Birdie {
             assert(res == Sqlite.OK);
             res = stmt.bind_int (7, default_account);
             assert(res == Sqlite.OK);
-            
+
             res = stmt.step ();
-            
+
             if (res == Sqlite.DONE)
                 debug ("account added: " + service);
         }
 
         private void reset_default_account () {
-        
+
             Sqlite.Statement stmt;
             int res = db.prepare_v2 ("UPDATE accounts SET default_account = ? WHERE default_account = ?", -1, out stmt);
             assert (res == Sqlite.OK);
-            
+
             res = stmt.bind_int (1, 0);
             assert (res == Sqlite.OK);
             res = stmt.bind_int (2, 1);
             assert (res == Sqlite.OK);
-            
+
             res = stmt.step ();
             if (res == Sqlite.DONE)
                 debug ("default account reset");
             else
-                debug ("no default account defined"); 
+                debug ("no default account defined");
         }
-        
+
         public void update_account (User account) {
-        
             Sqlite.Statement stmt;
             int res = db.prepare_v2 ("UPDATE accounts SET screen_name = ?, " +
                 "name = ?, avatar = ? WHERE token = ?", -1, out stmt);
             assert (res == Sqlite.OK);
-            
+
             res = stmt.bind_text (1, account.screen_name);
             assert (res == Sqlite.OK);
             res = stmt.bind_text (2, account.name);
@@ -132,7 +131,7 @@ namespace Birdie {
             assert (res == Sqlite.OK);
             res = stmt.bind_text (4, account.token);
             assert (res == Sqlite.OK);
-            
+
             res = stmt.step ();
         }
 
@@ -141,63 +140,85 @@ namespace Birdie {
         public int get_row_count (string table_name) {
             Sqlite.Statement stmt;
             int count = 0;
-            
+
             int res = db.prepare_v2 ("SELECT COUNT(id) AS RowCount FROM %s".printf (table_name),
                 -1, out stmt);
             assert (res == Sqlite.OK);
-        
+
             res = stmt.step ();
             if (res != Sqlite.ROW)
                 count = 0;
             else
                 count = stmt.column_int (0);
-               
+
             return count;
         }
-        
+
         public User? get_default_account () {
             Sqlite.Statement stmt;
-            
+
             int res = db.prepare_v2 ("SELECT * FROM accounts WHERE default_account = 1 LIMIT 1",
                 -1, out stmt);
             assert (res == Sqlite.OK);
-            
+
             if (stmt.step() != Sqlite.ROW)
                 return null;
-            
+
             User account = new User ();
             account.screen_name = stmt.column_text (1);
             account.name = stmt.column_text (2);
-            account.token = stmt.column_text (3); 
+            account.token = stmt.column_text (3);
             account.token_secret = stmt.column_text (4);
             account.profile_image_file = stmt.column_text (5);
             account.service = stmt.column_text (6);
             return account;
         }
-        
+
         public User? get_account (string screen_name, string service) {
             Sqlite.Statement stmt;
-            
+
             int res = db.prepare_v2 ("SELECT * FROM accounts WHERE screen_name = ? AND service = ? LIMIT 1",
                 -1, out stmt);
             assert (res == Sqlite.OK);
-            
+
             res = stmt.bind_text (1, screen_name);
             assert (res == Sqlite.OK);
             res = stmt.bind_text (2, service);
             assert (res == Sqlite.OK);
-            
+
             if (stmt.step() != Sqlite.ROW)
                 return null;
-            
+
             User account = new User ();
             account.screen_name = stmt.column_text (1);
             account.name = stmt.column_text (2);
-            account.token = stmt.column_text (3); 
+            account.token = stmt.column_text (3);
             account.token_secret = stmt.column_text (4);
             account.profile_image_file = stmt.column_text (5);
-            account.service = stmt.column_text (6);  
+            account.service = stmt.column_text (6);
             return account;
+        }
+
+        public List<User?> get_all_accounts () {
+            Sqlite.Statement stmt;
+
+            int res = db.prepare_v2 ("SELECT * FROM accounts ORDER BY default_account",
+                -1, out stmt);
+            assert (res == Sqlite.OK);
+
+            List<User?> all = new List<User?> ();
+
+        while ((res = stmt.step()) == Sqlite.ROW) {
+            User account = new User ();
+            account.screen_name = stmt.column_text (1);
+            account.name = stmt.column_text (2);
+            account.token = stmt.column_text (3);
+            account.token_secret = stmt.column_text (4);
+            account.profile_image_file = stmt.column_text (5);
+            account.service = stmt.column_text (6);
+            all.append (account);
+        }
+        return all;
         }
 
         // callbacks

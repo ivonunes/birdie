@@ -393,7 +393,7 @@ namespace Birdie {
                 foreach (var url in entitiesobject.get_array_member ("urls").get_elements ()) {
                     youtube_video = url.get_object ().get_string_member ("expanded_url");
 
-                    if (youtube_video.contains ("youtube.com") )
+                    if (youtube_video.contains ("youtube.com"))
                         youtube_video = this.get_youtube_video (youtube_video);
                     else
                         youtube_video = "";
