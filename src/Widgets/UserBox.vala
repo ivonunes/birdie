@@ -106,10 +106,7 @@ namespace Birdie.Widgets {
 
             // user info
 
-            if (this.birdie.service == 0)
-                tweets_txt = _("TWEETS");
-            else
-                tweets_txt = _("STATUSES");
+            tweets_txt = _("TWEETS");
 
             string description_txt = user.desc +
                 "\n\n<span size='small' color='#666666'>" + tweets_txt +
@@ -237,11 +234,7 @@ namespace Birdie.Widgets {
 
             // user info
 
-            if (this.birdie.service == 0)
-                tweets_txt = _("TWEETS");
-            else
-                tweets_txt = _("STATUSES");
-
+            tweets_txt = _("TWEETS");
             this.show_all ();
             this.hide_buttons ();
 

@@ -143,10 +143,7 @@ namespace Birdie.Widgets {
             if (dm)
                 this.tweet = new Gtk.Button.with_label (_("Send"));
             else
-                if (birdie.service == 0)
-                    this.tweet = new Gtk.Button.with_label (_("Tweet"));
-                else
-                    this.tweet = new Gtk.Button.with_label (_("New status"));
+                this.tweet = new Gtk.Button.with_label (_("Tweet"));
             this.tweet.set_size_request (100, -1);
             this.tweet.margin_left = 6;
             this.tweet.set_sensitive (false);

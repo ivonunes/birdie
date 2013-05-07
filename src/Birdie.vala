@@ -81,8 +81,6 @@ namespace Birdie {
         private int unread_mentions;
         private int unread_dm;
 
-        public int service;
-
         private bool tweet_notification;
         private bool mention_notification;
         private bool dm_notification;
@@ -155,7 +153,6 @@ namespace Birdie {
 
                 // settings
                 this.settings = new Settings ("org.pantheon.birdie");
-                this.service = settings.get_enum ("service");
                 this.tweet_notification = settings.get_boolean ("tweet-notification");
                 this.mention_notification = settings.get_boolean ("mention-notification");
                 this.dm_notification = settings.get_boolean ("dm-notification");
@@ -185,9 +182,6 @@ namespace Birdie {
                 this.unread_dm = 0;
 
                 var new_tweet_label = _("New Tweet");
-
-                if (this.service == 1)
-                    new_tweet_label = _("New Status");
 
                 if (this.tweet_notification || this.mention_notification || this.dm_notification)
                     this.m_window.hide_on_delete ();

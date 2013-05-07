@@ -279,10 +279,7 @@ namespace Birdie.Widgets {
                     this.retweet_button.set_relief (Gtk.ReliefStyle.NONE);
                     this.retweet_icon = new Gtk.Image.from_icon_name ("twitter-retweet", Gtk.IconSize.SMALL_TOOLBAR);
                     this.retweet_button.child = this.retweet_icon;
-                    if (birdie.service == 0)
-                        this.retweet_button.set_tooltip_text (_("Retweet"));
-                    else
-                        this.retweet_button.set_tooltip_text (_("Repeat"));
+                    this.retweet_button.set_tooltip_text (_("Retweet"));
                     this.buttons_box.pack_start (retweet_button, false, true, 0);
 
                     if (this.tweet.retweeted) {
@@ -566,13 +563,6 @@ namespace Birdie.Widgets {
                 this.info_label = new Gtk.Label ("");
                 this.info_label.set_halign (Gtk.Align.START);
                 this.info_label.margin_bottom = 6;
-
-                if (birdie.service == 1)
-                    retweeted_by_label = ("<span color='#aaa'>" +
-                        _("repeated by %s").printf ("<span underline='none'><a href='birdie://user/" +
-                        this.tweet.retweeted_by + "'>" + this.tweet.retweeted_by_name +
-                        "</a></span>") + "</span>");
-
                 this.info_label.set_markup ("<span color='#aaa'>" + retweeted_by_label + "</span>");
                 avatar_box.pack_start (retweeted_img, false, false, 0);
                 content_box.pack_start (this.info_label, false, false, 0);
