@@ -54,7 +54,7 @@ namespace Birdie {
             // FIXME: implement table and methods for caching latest tweets
 
             // user completion table
-            rc = this.db.exec ("create table completions (id INTEGER PRIMARY KEY AUTOINCREMENT," +
+            rc = this.db.exec ("create table users (id INTEGER PRIMARY KEY AUTOINCREMENT," +
                              "screen_name VARCHAR, name VARCHAR," +
                              "account_id INTEGER)", null, null);
             return rc;
@@ -95,6 +95,31 @@ namespace Birdie {
 
             if (res == Sqlite.DONE)
                 debug ("account added: " + service);
+        }
+
+        public void add_user (string? screen_name = null, string? name = null,
+                int account_id) {
+
+            Sqlite.Statement stmt;
+
+            reset_default_account ();
+
+            int res = db.prepare_v2("INSERT INTO users (screen_name, " +
+                "name, account_id) " +
+                "VALUES (?, ?, ?)", -1, out stmt);
+            assert(res == Sqlite.OK);
+
+            res = stmt.bind_text (1, screen_name);
+            assert(res == Sqlite.OK);
+            res = stmt.bind_text (2, name);
+            assert(res == Sqlite.OK);
+            res = stmt.bind_int (3, account_id);
+            assert(res == Sqlite.OK);
+
+            res = stmt.step ();
+
+            if (res == Sqlite.DONE)
+                debug ("user added: " + screen_name);
         }
 
         public void reset_default_account () {
@@ -151,6 +176,19 @@ namespace Birdie {
         }
 
         // get
+
+        public int? get_account_id () {
+            Sqlite.Statement stmt;
+
+            int res = db.prepare_v2 ("SELECT id FROM accounts WHERE default_account = 1 LIMIT 1",
+                -1, out stmt);
+            assert (res == Sqlite.OK);
+
+            if (stmt.step() != Sqlite.ROW)
+                return null;
+
+            return stmt.column_int (0);
+        }
 
         public User? get_default_account () {
             Sqlite.Statement stmt;

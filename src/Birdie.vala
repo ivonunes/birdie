@@ -97,6 +97,7 @@ namespace Birdie {
         private SqliteDatabase db;
 
         private User default_account;
+        private int default_account_id;
 
         construct {
             program_name        = "Birdie";
@@ -587,6 +588,7 @@ namespace Birdie {
                 }
 
                 this.default_account = db.get_default_account ();
+                this.default_account_id = db.get_account_id ();
 
                 if (this.default_account == null) {
                     this.switch_timeline ("welcome");
@@ -955,6 +957,7 @@ namespace Birdie {
 
             this.api.home_timeline.foreach ((tweet) => {
                 this.home_list.append (tweet, this);
+                //this.db.add_user (tweet.user_screen_name, tweet.user_name, this.default_account_id);
                 if (this.tweet_notification) {
                     if (this.api.account.screen_name != tweet.user_screen_name) {
                         Utils.notify ("New tweet from " + tweet.user_name, tweet.text);
