@@ -145,13 +145,15 @@ namespace Birdie {
 
             reset_default_account ();
 
-            int res = db.prepare_v2 ("UPDATE accounts SET default_account = ?, " +
+            int res = db.prepare_v2 ("UPDATE accounts SET default_account = ? " +
                 "WHERE token = ?", -1, out stmt);
             assert (res == Sqlite.OK);
 
             res = stmt.bind_int (1, 1);
+            debug ("1");
             assert (res == Sqlite.OK);
             res = stmt.bind_text (2, account.token);
+            debug ("2");
             assert (res == Sqlite.OK);
 
             res = stmt.step ();
