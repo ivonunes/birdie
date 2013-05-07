@@ -100,7 +100,6 @@ namespace Birdie {
         private SqliteDatabase db;
 
         private User default_account;
-        private int default_account_id;
 
         construct {
             program_name        = "Birdie";
@@ -333,7 +332,7 @@ namespace Birdie {
                     this.switch_timeline ("welcome");
                 });
                 this.account_appmenu.set_sensitive (false);
-                
+
                 this.remove_appmenu = new Gtk.MenuItem.with_label (_("Remove Account"));
                 remove_appmenu.activate.connect (() => {
                     var appmenu_icon = new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU);
@@ -372,13 +371,13 @@ namespace Birdie {
                     this.api.favorites.foreach ((tweet) => {
                         this.favorites.remove (tweet);
                     });
-                    
+
                     this.db.remove_account (this.default_account);
 
                     User account = this.db.get_default_account ();
-                    
-                    this.set_user_menu ();                    
-                    
+
+                    this.set_user_menu ();
+
                     if (account == null) {
                         this.init_api ();
                         this.switch_timeline ("welcome");
@@ -387,14 +386,18 @@ namespace Birdie {
                     }
                 });
                 this.remove_appmenu.set_sensitive (false);
-                
+
                 var about_appmenu = new Gtk.MenuItem.with_label (_("About"));
                 about_appmenu.activate.connect (() => {
                     show_about (this.m_window);
                 });
                 var donate_appmenu = new Gtk.MenuItem.with_label (_("Donate"));
                 donate_appmenu.activate.connect (() => {
-                    GLib.Process.spawn_command_line_async ("x-www-browser http://www.ivonunes.net/birdie/donate.html");
+                    try {
+                        GLib.Process.spawn_command_line_async ("x-www-browser http://www.ivonunes.net/birdie/donate.html");
+                    } catch (Error e) {
+
+                    }
                 });
                 var quit_appmenu = new Gtk.MenuItem.with_label (_("Quit"));
                 quit_appmenu.activate.connect (() => {
@@ -712,10 +715,10 @@ namespace Birdie {
                     this.search.set_sensitive (false);
                     this.account_appmenu.set_sensitive (false);
                     this.remove_appmenu.set_sensitive (false);
-                    
+
                     return false;
                 });
-            
+
                 this.api = this.new_api;
                 new Thread<void*> (null, this.init);
             } else {

@@ -49,7 +49,7 @@ namespace Birdie.Widgets {
 
         public TweetDialog (Birdie birdie, string id = "",
             string user_screen_name = "", bool dm = false) {
-            
+
             this.birdie = birdie;
             this.id = id;
             this.user_screen_name = user_screen_name;
@@ -173,8 +173,9 @@ namespace Birdie.Widgets {
             this.tweet.get_style_context().add_class ("affirmative");
             this.file_chooser_btn = new Gtk.Button();
             this.file_chooser_btn.set_tooltip_text (_("Add a picture"));
-            this.file_chooser_btn_image = new Gtk.Image.from_icon_name ("twitter-media", Gtk.IconSize.MENU);
+            this.file_chooser_btn_image = new Gtk.Image.from_icon_name ("insert-image-symbolic", Gtk.IconSize.MENU);
             this.file_chooser_btn.set_image (this.file_chooser_btn_image);
+            this.file_chooser_btn.set_relief (Gtk.ReliefStyle.NONE);
             this.file_chooser_btn.margin_right = 6;
 
             // Emitted when media icon is clicked
