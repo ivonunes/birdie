@@ -19,10 +19,6 @@ namespace Birdie {
     public class SqliteDatabase : GLib.Object {
 
         private Sqlite.Database db;
-        
-        private List<User> users;
-        private User user;
-
         private string db_path;
 
         construct {
@@ -119,6 +115,25 @@ namespace Birdie {
                 debug ("default account reset");
             else
                 debug ("no default account defined"); 
+        }
+        
+        public void update_account (User account) {
+        
+            Sqlite.Statement stmt;
+            int res = db.prepare_v2 ("UPDATE accounts SET screen_name = ?, " +
+                "name = ?, avatar = ? WHERE token = ?", -1, out stmt);
+            assert (res == Sqlite.OK);
+            
+            res = stmt.bind_text (1, account.screen_name);
+            assert (res == Sqlite.OK);
+            res = stmt.bind_text (2, account.name);
+            assert (res == Sqlite.OK);
+            res = stmt.bind_text (3, account.profile_image_file);
+            assert (res == Sqlite.OK);
+            res = stmt.bind_text (4, account.token);
+            assert (res == Sqlite.OK);
+            
+            res = stmt.step ();
         }
 
         // get

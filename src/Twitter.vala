@@ -272,7 +272,7 @@ namespace Birdie {
 
                 account = new User (id, name, screen_name,
                     profile_image_url, profile_image_file, location, desc,
-                    friends_count, followers_count, statuses_count, verified
+                    friends_count, followers_count, statuses_count, verified, this.token, this.token_secret
                 );
 
             } catch (Error e) {

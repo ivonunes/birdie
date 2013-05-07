@@ -677,6 +677,10 @@ namespace Birdie {
             if (this.check_internet_connection ()) {
                 this.api.auth ();
                 this.api.get_account ();
+                
+                // update account db
+                this.db.update_account (this.api.account);              
+                               
                 this.api.get_home_timeline ();
                 this.api.get_mentions_timeline ();
                 this.api.get_direct_messages ();
