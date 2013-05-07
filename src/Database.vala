@@ -199,8 +199,14 @@ namespace Birdie {
                 -1, out stmt);
             assert (res == Sqlite.OK);
 
-            if (stmt.step() != Sqlite.ROW)
-                return null;
+            if (stmt.step() != Sqlite.ROW) {
+                res = db.prepare_v2 ("SELECT * FROM accounts LIMIT 1",
+                    -1, out stmt);
+                assert (res == Sqlite.OK);
+
+                if (stmt.step() != Sqlite.ROW)
+                    return null;
+            }
 
             User account = new User ();
             account.screen_name = stmt.column_text (1);

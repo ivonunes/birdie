@@ -132,7 +132,7 @@ namespace Birdie {
 
             // create cache and db dirs if needed
             Utils.create_dir_with_parents ("/.cache/birdie/media");
-            Utils.create_dir_with_parents ("/.local/share/birdie");
+            Utils.create_dir_with_parents ("/.local/share/birdie/avatars");
 
             // init database object
             this.db = new SqliteDatabase ();
@@ -331,7 +331,7 @@ namespace Birdie {
                     var appmenu_icon = new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU);
                     appmenu_icon.show ();
                     this.appmenu.set_icon_widget (appmenu_icon);
-                
+
                     this.new_tweet.set_sensitive (false);
                     this.home.set_sensitive (false);
                     this.mentions.set_sensitive (false);
@@ -766,7 +766,7 @@ namespace Birdie {
                 this.menu.remove (w);
                 this.menu_tmp.remove (w);
             });
-            
+
             // get all accounts
             List<User?> all_accounts = new List<User?> ();
             all_accounts = this.db.get_all_accounts ();
@@ -779,13 +779,13 @@ namespace Birdie {
 
             foreach (var account in all_accounts) {
                 var avatar_pixbuf = new Gdk.Pixbuf.from_file_at_scale (Environment.get_home_dir () +
-                    "/.cache/birdie/" + account.profile_image_file, 24, 24, true);
+                    "/.local/share/birdie/avatars/" + account.profile_image_file, 24, 24, true);
                 var avatar_image = new Gtk.Image.from_pixbuf (avatar_pixbuf);
                 avatar_image.show ();
                 this.appmenu.set_icon_widget (avatar_image);
 
                 var avatar_image_menu = new Gtk.Image.from_file (Environment.get_home_dir () +
-                    "/.cache/birdie/" + account.profile_image_file);
+                    "/.local/share/birdie/avatars/" + account.profile_image_file);
                 var account_menu_item = new Gtk.ImageMenuItem.with_label (account.name +
                     "\n@" + account.screen_name);
 
@@ -812,10 +812,10 @@ namespace Birdie {
             var appmenu_icon = new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU);
             appmenu_icon.show ();
             this.appmenu.set_icon_widget (appmenu_icon);
-        
+
             this.db.set_default_account (account);
             this.default_account = account;
-            
+
             this.new_tweet.set_sensitive (false);
             this.home.set_sensitive (false);
             this.mentions.set_sensitive (false);
@@ -823,7 +823,7 @@ namespace Birdie {
             this.profile.set_sensitive (false);
             this.search.set_sensitive (false);
             this.account_appmenu.set_sensitive (false);
-            
+
             this.api.home_timeline.foreach ((tweet) => {
                 this.home_list.remove (tweet);
             });
@@ -847,10 +847,10 @@ namespace Birdie {
             this.api.favorites.foreach ((tweet) => {
                 this.favorites.remove (tweet);
             });
-            
+
             this.init_api ();
             switch_timeline ("loading");
-            
+
             this.api.token = this.default_account.token;
             this.api.token_secret = this.default_account.token_secret;
             new Thread<void*> (null, this.init);
