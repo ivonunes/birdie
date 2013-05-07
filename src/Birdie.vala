@@ -109,7 +109,7 @@ namespace Birdie {
             app_icon            = "birdie";
             app_launcher        = "birdie.desktop";
             application_id      = "org.pantheon.birdie";
-            main_url            = "http://www.launchpad.net/birdie";
+            main_url            = "http://www.ivonunes.net/birdie/";
             bug_url             = "http://bugs.launchpad.net/birdie";
             help_url            = "http://answers.launchpad.net/birdie";
             translate_url       = "http://translations.launchpad.net/birdie";
@@ -338,16 +338,7 @@ namespace Birdie {
                     var appmenu_icon = new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU);
                     appmenu_icon.show ();
                     this.appmenu.set_icon_widget (appmenu_icon);
-
-                    this.new_tweet.set_sensitive (false);
-                    this.home.set_sensitive (false);
-                    this.mentions.set_sensitive (false);
-                    this.dm.set_sensitive (false);
-                    this.profile.set_sensitive (false);
-                    this.search.set_sensitive (false);
-                    this.account_appmenu.set_sensitive (false);
-                    this.remove_appmenu.set_sensitive (false);
-
+                    this.set_widgets_sensitive (false);
                     this.db.remove_account (this.default_account);
                     User account = this.db.get_default_account ();
                     this.set_user_menu ();
@@ -680,16 +671,7 @@ namespace Birdie {
                     var appmenu_icon = new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU);
                     appmenu_icon.show ();
                     this.appmenu.set_icon_widget (appmenu_icon);
-
-                    this.new_tweet.set_sensitive (false);
-                    this.home.set_sensitive (false);
-                    this.mentions.set_sensitive (false);
-                    this.dm.set_sensitive (false);
-                    this.profile.set_sensitive (false);
-                    this.search.set_sensitive (false);
-                    this.account_appmenu.set_sensitive (false);
-                    this.remove_appmenu.set_sensitive (false);
-
+                    this.set_widgets_sensitive (false);
                     return false;
                 });
 
@@ -848,14 +830,7 @@ namespace Birdie {
             this.db.set_default_account (account);
             this.default_account = account;
 
-            this.new_tweet.set_sensitive (false);
-            this.home.set_sensitive (false);
-            this.mentions.set_sensitive (false);
-            this.dm.set_sensitive (false);
-            this.profile.set_sensitive (false);
-            this.search.set_sensitive (false);
-            this.account_appmenu.set_sensitive (false);
-            this.remove_appmenu.set_sensitive (false);
+            this.set_widgets_sensitive (false);
 
             this.init_api ();
             switch_timeline ("loading");
@@ -863,6 +838,17 @@ namespace Birdie {
             this.api.token = this.default_account.token;
             this.api.token_secret = this.default_account.token_secret;
             new Thread<void*> (null, this.init);
+        }
+
+        private void set_widgets_sensitive (bool sensitive) {
+            this.new_tweet.set_sensitive (sensitive);
+            this.home.set_sensitive (sensitive);
+            this.mentions.set_sensitive (sensitive);
+            this.dm.set_sensitive (sensitive);
+            this.profile.set_sensitive (sensitive);
+            this.search.set_sensitive (sensitive);
+            this.account_appmenu.set_sensitive (sensitive);
+            this.remove_appmenu.set_sensitive (sensitive);
         }
 
         private void init_api () {
@@ -947,14 +933,7 @@ namespace Birdie {
                         this.notebook.page = 8;
                         break;
                     case "error":
-                        this.new_tweet.set_sensitive (false);
-                        this.home.set_sensitive (false);
-                        this.mentions.set_sensitive (false);
-                        this.dm.set_sensitive (false);
-                        this.profile.set_sensitive (false);
-                        this.search.set_sensitive (false);
-                        this.account_appmenu.set_sensitive (false);
-                        this.remove_appmenu.set_sensitive (false);
+                        this.set_widgets_sensitive (false);
                         this.notebook.page = 9;
                         break;
                 }
