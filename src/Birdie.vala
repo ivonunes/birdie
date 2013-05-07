@@ -678,9 +678,6 @@ namespace Birdie {
                 this.api.auth ();
                 this.api.get_account ();
 
-                // update account db
-                //this.db.update_account (this.api.account);
-
                 this.api.get_home_timeline ();
                 this.api.get_mentions_timeline ();
                 this.api.get_direct_messages ();
@@ -719,43 +716,14 @@ namespace Birdie {
                     } else {
                         this.own_box_info.init (this.api.account, this);
                         this.user_box_info.init (this.api.account, this);
-                        get_userbox_avatar (this.own_box_info, true);
-                        // update account db
-                        this.db.update_account (this.api.account);
                     }
 
-                    // get all accounts
-                    List<User?> all_accounts = new List<User?> ();
-                    all_accounts = this.db.get_all_accounts ();
-
-                    foreach (var account in all_accounts) {
-                        debug (account.profile_image_file);
-                        var avatar_pixbuf = new Gdk.Pixbuf.from_file_at_scale (Environment.get_home_dir () +
-                            "/.cache/birdie/" + account.profile_image_file, 24, 24, true);
-                        var avatar_image = new Gtk.Image.from_pixbuf (avatar_pixbuf);
-                        avatar_image.show ();
-                        this.appmenu.set_icon_widget (avatar_image);
-
-                        var avatar_image_menu = new Gtk.Image.from_file (Environment.get_home_dir () +
-                            "/.cache/birdie/" + account.profile_image_file);
-                        var account_menu_item = new Gtk.ImageMenuItem.with_label (account.name +
-                            "\n@" + account.screen_name);
-
-                        foreach (var child in account_menu_item.get_children ()) {
-                            if (child is Gtk.Label)
-                                ((Gtk.Label)child).set_markup ("<b>" + account.name +
-                                    "</b>\n@" + account.screen_name);
-                        }
-                        account_menu_item.set_image (avatar_image_menu);
-                    account_menu_item.set_always_show_image (true);
-
-                    this.menu.prepend (new Gtk.SeparatorMenuItem ());
-                    this.menu.prepend (account_menu_item);
-                    }
-
-                    this.menu.show_all ();
-
+                    get_userbox_avatar (this.own_box_info, true);
+                    // update account db
+                    this.db.update_account (this.api.account);
+                    this.set_user_menu ();
                     this.initialized = true;
+
                     return false;
                 });
 
@@ -788,11 +756,63 @@ namespace Birdie {
             return null;
         }
 
+        private void set_user_menu () {
+            if (this.initialized) {
+                var deleting = false;
+
+                foreach (var child in this.menu.get_children ()) {
+                    if (child is Gtk.ImageMenuItem)
+                        deleting = true;
+
+                    if (deleting)
+                        this.menu.remove (child);
+                }
+            }
+            // get all accounts
+            List<User?> all_accounts = new List<User?> ();
+            all_accounts = this.db.get_all_accounts ();
+
+            foreach (var account in all_accounts) {
+                var avatar_pixbuf = new Gdk.Pixbuf.from_file_at_scale (Environment.get_home_dir () +
+                    "/.cache/birdie/" + account.profile_image_file, 24, 24, true);
+                var avatar_image = new Gtk.Image.from_pixbuf (avatar_pixbuf);
+                avatar_image.show ();
+                this.appmenu.set_icon_widget (avatar_image);
+
+                var avatar_image_menu = new Gtk.Image.from_file (Environment.get_home_dir () +
+                    "/.cache/birdie/" + account.profile_image_file);
+                var account_menu_item = new Gtk.ImageMenuItem.with_label (account.name +
+                    "\n@" + account.screen_name);
+
+                account_menu_item.activate.connect (() => {
+                    switch_account (account);
+                });
+
+                foreach (var child in account_menu_item.get_children ()) {
+                    if (child is Gtk.Label)
+                        ((Gtk.Label)child).set_markup ("<b>" + account.name +
+                            "</b>\n@" + account.screen_name);
+                }
+                account_menu_item.set_image (avatar_image_menu);
+            account_menu_item.set_always_show_image (true);
+
+            this.menu.prepend (new Gtk.SeparatorMenuItem ());
+            this.menu.prepend (account_menu_item);
+
+            }
+
+            this.menu.show_all ();
+        }
+
+        private void switch_account (User account) {
+            // FIXME: switch account
+            debug ("FIXME: switch active account " + account.token);
+            //this.db.set_default_account (account);
+            //this.default_account = account;
+        }
+
         private void init_api () {
-            if (this.service == 0)
-                this.api = new Twitter (this.db);
-            else
-                this.api = new Identica ();
+            this.api = new Twitter (this.db);
         }
 
         public void switch_timeline (string new_timeline) {

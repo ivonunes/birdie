@@ -75,7 +75,7 @@ namespace Birdie {
 
             int res = db.prepare_v2("INSERT INTO accounts (screen_name, " +
                 "name, token, token_secret, avatar, service, default_account) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)", -1, out stmt);
+                "VALUES (?, ?, ?, ?, ?, ?, 1)", -1, out stmt);
             assert(res == Sqlite.OK);
 
             res = stmt.bind_text (1, screen_name);
@@ -90,8 +90,6 @@ namespace Birdie {
             assert(res == Sqlite.OK);
             res = stmt.bind_text (6, service);
             assert(res == Sqlite.OK);
-            res = stmt.bind_int (7, default_account);
-            assert(res == Sqlite.OK);
 
             res = stmt.step ();
 
@@ -99,22 +97,39 @@ namespace Birdie {
                 debug ("account added: " + service);
         }
 
-        private void reset_default_account () {
-
+        public void reset_default_account () {
             Sqlite.Statement stmt;
-            int res = db.prepare_v2 ("UPDATE accounts SET default_account = ? WHERE default_account = ?", -1, out stmt);
+            int res = db.prepare_v2 ("UPDATE accounts SET default_account = ? " +
+                "WHERE default_account = ?", -1, out stmt);
             assert (res == Sqlite.OK);
 
             res = stmt.bind_int (1, 0);
-            assert (res == Sqlite.OK);
+            assert(res == Sqlite.OK);
             res = stmt.bind_int (2, 1);
             assert (res == Sqlite.OK);
 
             res = stmt.step ();
-            if (res == Sqlite.DONE)
-                debug ("default account reset");
-            else
-                debug ("no default account defined");
+            if (res != Sqlite.DONE) {
+                debug ("default account not reset");
+            }
+        }
+
+        public void set_default_account (User account) {
+
+            Sqlite.Statement stmt;
+
+            reset_default_account ();
+
+            int res = db.prepare_v2 ("UPDATE accounts SET default_account = ?, " +
+                "WHERE token = ?", -1, out stmt);
+            assert (res == Sqlite.OK);
+
+            res = stmt.bind_int (1, 1);
+            assert (res == Sqlite.OK);
+            res = stmt.bind_text (2, account.token);
+            assert (res == Sqlite.OK);
+
+            res = stmt.step ();
         }
 
         public void update_account (User account) {
@@ -136,23 +151,6 @@ namespace Birdie {
         }
 
         // get
-
-        public int get_row_count (string table_name) {
-            Sqlite.Statement stmt;
-            int count = 0;
-
-            int res = db.prepare_v2 ("SELECT COUNT(id) AS RowCount FROM %s".printf (table_name),
-                -1, out stmt);
-            assert (res == Sqlite.OK);
-
-            res = stmt.step ();
-            if (res != Sqlite.ROW)
-                count = 0;
-            else
-                count = stmt.column_int (0);
-
-            return count;
-        }
 
         public User? get_default_account () {
             Sqlite.Statement stmt;
