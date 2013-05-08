@@ -189,40 +189,45 @@ namespace Birdie.Widgets {
                             60, 60, true
                             );
                     } catch (Error e) {
-                        error ("Error creating pixbuf: %s", e.message);
+                        media_pixbuf = null;
+                        debug ("Error creating pixbuf: " + e.message);
                     }
                 else if (tweet.media_url != "")
                     try {
                         media_pixbuf = new Gdk.Pixbuf.from_file_at_scale (Environment.get_home_dir () + "/.cache/birdie/media/" + tweet.media_url, 40, 40, true);
                     } catch (Error e) {
-                        error ("Error creating pixbuf: %s", e.message);
+                        media_pixbuf = null;
+                        debug ("Error creating pixbuf: " + e.message);
                     }
-                this.media = new Gtk.Image.from_pixbuf (media_pixbuf);
-                this.media.set_halign (Gtk.Align.START);
-                this.media_box = new Gtk.EventBox ();
 
-                this.media_alignment = new Gtk.Alignment (0, 0, 0, 1);
-                this.media_alignment.set_halign (Gtk.Align.START);
-                this.media_alignment.set_valign (Gtk.Align.START);
-                this.media_alignment.top_padding = 6;
-                this.media_box.add (this.media);
-                this.media_alignment.add (this.media_box);
-                this.content_box.pack_start (this.media_alignment, false, false, 0);
+                if (media_pixbuf != null) {
+                    this.media = new Gtk.Image.from_pixbuf (media_pixbuf);
+                    this.media.set_halign (Gtk.Align.START);
+                    this.media_box = new Gtk.EventBox ();
 
-                set_events (Gdk.EventMask.BUTTON_RELEASE_MASK);
+                    this.media_alignment = new Gtk.Alignment (0, 0, 0, 1);
+                    this.media_alignment.set_halign (Gtk.Align.START);
+                    this.media_alignment.set_valign (Gtk.Align.START);
+                    this.media_alignment.top_padding = 6;
+                    this.media_box.add (this.media);
+                    this.media_alignment.add (this.media_box);
+                    this.content_box.pack_start (this.media_alignment, false, false, 0);
 
-                this.media_box.enter_notify_event.connect ((event) => {
-                    on_mouse_enter (this, event);
-                    return false;
-                });
+                    set_events (Gdk.EventMask.BUTTON_RELEASE_MASK);
 
-                this.media_box.button_release_event.connect ((event) => {
-                    if (tweet.youtube_video != "")
-                        this.show_youtube_video (tweet.youtube_video);
-                    else
-                        this.show_media (tweet.media_url);
-                    return false;
-                });
+                    this.media_box.enter_notify_event.connect ((event) => {
+                        on_mouse_enter (this, event);
+                        return false;
+                    });
+
+                    this.media_box.button_release_event.connect ((event) => {
+                        if (tweet.youtube_video != "")
+                            this.show_youtube_video (tweet.youtube_video);
+                        else
+                            this.show_media (tweet.media_url);
+                        return false;
+                    });
+                }
             }
 
             // status image
