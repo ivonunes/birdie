@@ -72,11 +72,22 @@ namespace Birdie.Widgets {
 
             this.media_uri = "";
 
+            this.set_transient_for (birdie.m_window);
+            this.set_modal (true);
+
+            if (!this.birdie.m_window.get_visible ())
+                this.set_keep_above (true);
+
+            this.birdie.m_window.configure_event.connect ((w, e) => {
+                if (this.birdie.m_window.get_visible ())
+                    this.restore_window ();
+
+                return true;
+            });
+
             // restore dialog size and position
             this.opening_x = this.birdie.settings.get_int ("compose-opening-x");
             this.opening_y = this.birdie.settings.get_int ("compose-opening-y");
-
-            this.restore_window ();
 
             this.avatar = new Gtk.Image ();
             this.avatar.set_from_file (Environment.get_home_dir () +
@@ -204,6 +215,7 @@ namespace Birdie.Widgets {
             this.add (top);
             this.add (bottom);
             this.show_all ();
+            this.restore_window ();
         }
 
         private void on_add_photo_clicked () {
@@ -349,15 +361,32 @@ namespace Birdie.Widgets {
         }
 
         private void save_window () {
-            this.get_position (out opening_x, out opening_y);
-            this.birdie.settings.set_int ("compose-opening-x", opening_x);
-            this.birdie.settings.set_int ("compose-opening-y", opening_y);
+            if (!this.birdie.m_window.get_visible ()) {
+                this.get_position (out opening_x, out opening_y);
+                this.birdie.settings.set_int ("compose-opening-x", opening_x);
+                this.birdie.settings.set_int ("compose-opening-y", opening_y);
+            }
         }
 
         private void restore_window () {
-            if (this.opening_x > 0 && this.opening_y > 0) {
+            if (this.opening_x > 0 && this.opening_y > 0 && !this.birdie.m_window.get_visible ()) {
                 this.move (this.opening_x, this.opening_y);
+            } else if (this.birdie.m_window.get_visible ()) {
+                int x, y, sx, sy, tx, ty;
+
+                this.birdie.m_window.get_position (out x, out y);
+                this.birdie.m_window.get_size (out sx, out sy);
+                this.get_size (out tx, out ty);
+
+                this.move (x + sx / 2 - tx / 2, y + 60);
             }
+        }
+
+        public override bool button_press_event (Gdk.EventButton e) {
+            if (this.birdie.m_window.get_visible ())
+                return false;
+            else
+                return base.button_press_event (e);
         }
     }
 }
