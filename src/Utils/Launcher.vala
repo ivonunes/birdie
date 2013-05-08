@@ -119,6 +119,7 @@ namespace Birdie.Utils {
 
         public void set_count (int count) {
 
+            launcher.count_visible = false;
             this.clean_launcher_count ();
             launcher.count = count;
             if (count > 0)
