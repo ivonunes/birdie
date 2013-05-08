@@ -102,14 +102,14 @@ namespace Birdie {
 
             Sqlite.Statement stmt;
 
-            if (!user_exists (screen_name, account_id)) {
+            if (!user_exists ("@" + screen_name, account_id)) {
 
                 int res = db.prepare_v2("INSERT INTO users (screen_name, " +
                     "name, account_id) " +
                     "VALUES (?, ?, ?)", -1, out stmt);
                 assert(res == Sqlite.OK);
 
-                res = stmt.bind_text (1, screen_name);
+                res = stmt.bind_text (1, "@" + screen_name);
                 assert(res == Sqlite.OK);
                 res = stmt.bind_text (2, name);
                 assert(res == Sqlite.OK);

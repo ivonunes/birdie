@@ -29,22 +29,17 @@ namespace Birdie.Widgets {
         bool tweet_disabled;
         Gtk.Button cancel;
         Gtk.TreeIter iter;
-
+        Gtk.ListStore list_store;
         string id;
         string user_screen_name;
         bool dm;
-
         bool has_media;
-
         private string filler;
         private int count_remaining;
         private string virtual_text;
-
         private int opening_x;
         private int opening_y;
-
         private Regex urls;
-
         private string media_uri;
 
         Birdie birdie;
@@ -100,9 +95,11 @@ namespace Birdie.Widgets {
             this.entry.set_completion (entry_completion);
 
             // Create and register a ListStore for completion
-            Gtk.ListStore list_store = new Gtk.ListStore (1, typeof (string), typeof (string));
+            this.list_store = new Gtk.ListStore (1, typeof (string), typeof (string));
             entry_completion.set_model (list_store);
             entry_completion.set_text_column (0);
+            entry_completion.set_inline_completion (true);
+            entry_completion.set_inline_selection (true);
 
             // fill ListStore from db
             foreach (string user in this.birdie.db.get_users (this.birdie.default_account_id)) {
@@ -111,8 +108,7 @@ namespace Birdie.Widgets {
             }
 
             if (dm && user_screen_name == "") {
-                //this.entry.set_text ("@");
-
+                this.entry.set_text ("@");
                 this.entry.get_buffer ().inserted_text.connect (() => {
                     buffer_changed ();
                 });
@@ -290,6 +286,8 @@ namespace Birdie.Widgets {
         private void buffer_changed () {
             Gtk.TextIter start;
             Gtk.TextIter end;
+
+
 
             if (this.has_media)
                 this.count_remaining = 120;
