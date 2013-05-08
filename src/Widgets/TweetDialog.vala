@@ -19,6 +19,7 @@ namespace Birdie.Widgets {
         Gtk.Image avatar;
         Gtk.TextView view;
         Gtk.Entry entry;
+        Gtk.EntryCompletion entry_completion;
         Gtk.Label count_label;
         int count;
         Gtk.Button tweet;
@@ -27,6 +28,7 @@ namespace Birdie.Widgets {
         Gtk.Button file_chooser_btn;
         bool tweet_disabled;
         Gtk.Button cancel;
+        Gtk.TreeIter iter;
 
         string id;
         string user_screen_name;
@@ -92,8 +94,24 @@ namespace Birdie.Widgets {
 
             var dm_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
             this.entry = new Gtk.Entry ();
+            this.entry_completion = new Gtk.EntryCompletion ();
+
+            // usernames completion
+            this.entry.set_completion (entry_completion);
+
+            // Create and register a ListStore for completion
+            Gtk.ListStore list_store = new Gtk.ListStore (1, typeof (string), typeof (string));
+            entry_completion.set_model (list_store);
+            entry_completion.set_text_column (0);
+
+            // fill ListStore from db
+            foreach (string user in this.birdie.db.get_users (this.birdie.default_account_id)) {
+                list_store.append (out iter);
+                list_store.set (iter, 0, user);
+            }
+
             if (dm && user_screen_name == "") {
-                this.entry.set_text ("@");
+                //this.entry.set_text ("@");
 
                 this.entry.get_buffer ().inserted_text.connect (() => {
                     buffer_changed ();

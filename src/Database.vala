@@ -272,17 +272,35 @@ namespace Birdie {
 
             List<User?> all = new List<User?> ();
 
-        while ((res = stmt.step()) == Sqlite.ROW) {
-            User account = new User ();
-            account.screen_name = stmt.column_text (1);
-            account.name = stmt.column_text (2);
-            account.token = stmt.column_text (3);
-            account.token_secret = stmt.column_text (4);
-            account.profile_image_file = stmt.column_text (5);
-            account.service = stmt.column_text (6);
-            all.append (account);
-        }
+            while ((res = stmt.step()) == Sqlite.ROW) {
+                User account = new User ();
+                account.screen_name = stmt.column_text (1);
+                account.name = stmt.column_text (2);
+                account.token = stmt.column_text (3);
+                account.token_secret = stmt.column_text (4);
+                account.profile_image_file = stmt.column_text (5);
+                account.service = stmt.column_text (6);
+                all.append (account);
+            }
         return all;
+        }
+
+        public List<string?> get_users (int account_id) {
+            Sqlite.Statement stmt;
+
+            int res = db.prepare_v2 ("SELECT screen_name FROM users WHERE account_id = ?" +
+                " ORDER BY screen_name", -1, out stmt);
+            assert (res == Sqlite.OK);
+
+            res = stmt.bind_int (1, account_id);
+            assert (res == Sqlite.OK);
+
+            List<string?> all = new List<string?> ();
+
+            while ((res = stmt.step()) == Sqlite.ROW) {
+                all.append (stmt.column_text(0));
+            }
+            return all;
         }
 
         // delete

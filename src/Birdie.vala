@@ -95,10 +95,10 @@ namespace Birdie {
         private bool initialized;
         private bool changing_tab;
 
-        private SqliteDatabase db;
+        public SqliteDatabase db;
 
         private User default_account;
-        private int default_account_id;
+        public int default_account_id;
 
         private uint timerID_online;
         private uint timerID_offline;
