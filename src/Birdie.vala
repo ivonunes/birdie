@@ -723,8 +723,8 @@ namespace Birdie {
                 this.own_list.clear ();
                 this.favorites.clear ();
 
-                if (this.default_account_id == null)
-                    this.default_account_id = 1;
+                this.default_account = this.db.get_default_account ();
+                this.default_account_id = this.db.get_account_id ();
 
                 this.api.home_timeline.foreach ((tweet) => {
                     this.home_list.append (tweet, this);
@@ -874,6 +874,7 @@ namespace Birdie {
 
             this.db.set_default_account (account);
             this.default_account = account;
+            this.default_account_id = this.db.get_account_id ();
 
             this.set_widgets_sensitive (false);
 
