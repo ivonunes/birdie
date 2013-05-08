@@ -97,29 +97,49 @@ namespace Birdie {
                 debug ("account added: " + service);
         }
 
-        public void add_user (string? screen_name = null, string? name = null,
+        public void add_user (string screen_name, string name,
                 int account_id) {
 
             Sqlite.Statement stmt;
 
-            reset_default_account ();
+            if (!user_exists (screen_name, account_id)) {
 
-            int res = db.prepare_v2("INSERT INTO users (screen_name, " +
-                "name, account_id) " +
-                "VALUES (?, ?, ?)", -1, out stmt);
+                int res = db.prepare_v2("INSERT INTO users (screen_name, " +
+                    "name, account_id) " +
+                    "VALUES (?, ?, ?)", -1, out stmt);
+                assert(res == Sqlite.OK);
+
+                res = stmt.bind_text (1, screen_name);
+                assert(res == Sqlite.OK);
+                res = stmt.bind_text (2, name);
+                assert(res == Sqlite.OK);
+                res = stmt.bind_int (3, account_id);
+                assert(res == Sqlite.OK);
+
+                res = stmt.step ();
+
+                if (res == Sqlite.DONE)
+                    debug ("user added: " + screen_name);
+            }
+        }
+
+        public bool user_exists (string screen_name, int account_id) {
+            Sqlite.Statement stmt;
+
+            int res = db.prepare_v2("SELECT id FROM  users " +
+                "WHERE screen_name LIKE ? AND account_id = ?", -1, out stmt);
             assert(res == Sqlite.OK);
 
             res = stmt.bind_text (1, screen_name);
             assert(res == Sqlite.OK);
-            res = stmt.bind_text (2, name);
-            assert(res == Sqlite.OK);
-            res = stmt.bind_int (3, account_id);
+            res = stmt.bind_int (2, account_id);
             assert(res == Sqlite.OK);
 
-            res = stmt.step ();
-
-            if (res == Sqlite.DONE)
-                debug ("user added: " + screen_name);
+            if (stmt.step() == Sqlite.ROW) {
+                return true;
+            } else {
+                return false;
+            }
         }
 
         public void reset_default_account () {
@@ -264,9 +284,9 @@ namespace Birdie {
         }
         return all;
         }
-        
+
         // delete
-        
+
         public void remove_account (User account) {
             Sqlite.Statement stmt;
 

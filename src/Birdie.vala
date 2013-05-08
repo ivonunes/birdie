@@ -98,6 +98,7 @@ namespace Birdie {
         private SqliteDatabase db;
 
         private User default_account;
+        private int default_account_id;
 
         private uint timerID_online;
         private uint timerID_offline;
@@ -139,6 +140,12 @@ namespace Birdie {
             // init database object
             this.db = new SqliteDatabase ();
         }
+
+        /*
+
+        Activate method
+
+        */
 
         public override void activate (){
             if (get_windows () == null) {
@@ -196,7 +203,6 @@ namespace Birdie {
                         is_dm = true;
 
                     Widgets.TweetDialog dialog = new Widgets.TweetDialog (this, "", "", is_dm);
-
                     dialog.show_all ();
                 });
 
@@ -338,7 +344,6 @@ namespace Birdie {
                         _("Remove"), _("Cancel"));
                     Gtk.ResponseType response = confirm.run ();
                     if (response == Gtk.ResponseType.OK) {
-                        this.remove_timeouts ();
                         var appmenu_icon = new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU);
                         appmenu_icon.show ();
                         this.appmenu.set_icon_widget (appmenu_icon);
@@ -591,8 +596,8 @@ namespace Birdie {
                     this.m_window.hide ();
                 }
 
-                this.default_account = db.get_default_account ();
-                //this.default_account_id = db.get_account_id ();
+                this.default_account = this.db.get_default_account ();
+                this.default_account_id = this.db.get_account_id ();
 
                 if (this.default_account == null) {
                     this.switch_timeline ("welcome");
@@ -689,6 +694,16 @@ namespace Birdie {
             return null;
         }
 
+        /*
+
+        initializations methods
+
+        */
+
+        private void init_api () {
+            this.api = new Twitter (this.db);
+        }
+
         private void* init () {
             if (this.check_internet_connection ()) {
                 this.api.auth ();
@@ -710,14 +725,20 @@ namespace Birdie {
 
                 this.api.home_timeline.foreach ((tweet) => {
                     this.home_list.append (tweet, this);
+                    this.db.add_user (tweet.user_screen_name,
+                        tweet.user_name, this.default_account_id);
                 });
 
                 this.api.mentions_timeline.foreach ((tweet) => {
                     this.mentions_list.append(tweet, this);
+                    this.db.add_user (tweet.user_screen_name,
+                        tweet.user_name, this.default_account_id);
                 });
 
                 this.api.dm_timeline.foreach ((tweet) => {
                     this.dm_list.append(tweet, this);
+                    this.db.add_user (tweet.user_screen_name,
+                        tweet.user_name, this.default_account_id);
                 });
 
                 this.api.dm_sent_timeline.foreach ((tweet) => {
@@ -730,12 +751,15 @@ namespace Birdie {
 
                 this.api.favorites.foreach ((tweet) => {
                     this.favorites.append(tweet, this);
+                    this.db.add_user (tweet.user_screen_name,
+                        tweet.user_name, this.default_account_id);
                 });
 
                 Idle.add (() => {
                     if (this.initialized) {
                         this.own_box_info.update (this.api.account);
                         this.user_box_info.update (this.api.account);
+                        this.remove_timeouts ();
                     } else {
                         this.own_box_info.init (this.api.account, this);
                         this.user_box_info.init (this.api.account, this);
@@ -780,6 +804,12 @@ namespace Birdie {
             return null;
         }
 
+        /*
+
+        Setup user accounts menu
+
+        */
+
         private void set_user_menu () {
             this.menu_tmp.foreach ((w) => {
                 this.menu.remove (w);
@@ -797,15 +827,22 @@ namespace Birdie {
             }
 
             foreach (var account in all_accounts) {
-                var avatar_pixbuf = new Gdk.Pixbuf.from_file_at_scale (Environment.get_home_dir () +
-                    "/.local/share/birdie/avatars/" + account.profile_image_file, 24, 24, true);
-                var avatar_image = new Gtk.Image.from_pixbuf (avatar_pixbuf);
+                Gdk.Pixbuf avatar_pixbuf = null;
+
+                try {
+                    avatar_pixbuf = new Gdk.Pixbuf.from_file_at_scale (Environment.get_home_dir () +
+                        "/.local/share/birdie/avatars/" + account.profile_image_file, 24, 24, true);
+                } catch (Error e) {
+                    debug ("Error creating pixbuf: " + e.message);
+                }
+
+                Gtk.Image avatar_image = new Gtk.Image.from_pixbuf (avatar_pixbuf);
                 avatar_image.show ();
                 this.appmenu.set_icon_widget (avatar_image);
 
-                var avatar_image_menu = new Gtk.Image.from_file (Environment.get_home_dir () +
+                Gtk.Image avatar_image_menu = new Gtk.Image.from_file (Environment.get_home_dir () +
                     "/.local/share/birdie/avatars/" + account.profile_image_file);
-                var account_menu_item = new Gtk.ImageMenuItem.with_label (account.name +
+                Gtk.ImageMenuItem account_menu_item = new Gtk.ImageMenuItem.with_label (account.name +
                     "\n@" + account.screen_name);
 
                 account_menu_item.activate.connect (() => {
@@ -828,7 +865,6 @@ namespace Birdie {
         }
 
         private void switch_account (User account) {
-            this.remove_timeouts ();
             var appmenu_icon = new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU);
             appmenu_icon.show ();
             this.appmenu.set_icon_widget (appmenu_icon);
@@ -846,11 +882,6 @@ namespace Birdie {
             new Thread<void*> (null, this.init);
         }
 
-        private void remove_timeouts () {
-            GLib.Source.remove (this.timerID_offline);
-            GLib.Source.remove (this.timerID_online);
-        }
-
         private void set_widgets_sensitive (bool sensitive) {
             this.new_tweet.set_sensitive (sensitive);
             this.home.set_sensitive (sensitive);
@@ -860,10 +891,6 @@ namespace Birdie {
             this.search.set_sensitive (sensitive);
             this.account_appmenu.set_sensitive (sensitive);
             this.remove_appmenu.set_sensitive (sensitive);
-        }
-
-        private void init_api () {
-            this.api = new Twitter (this.db);
         }
 
         public void switch_timeline (string new_timeline) {
@@ -955,6 +982,12 @@ namespace Birdie {
             });
         }
 
+        /*
+
+        GLib timeout methods
+
+        */
+
         public void add_timeout_offline () {
             this.timerID_offline = GLib.Timeout.add_seconds (60, () => {
                 new Thread<void*> (null, this.update_dates);
@@ -969,12 +1002,16 @@ namespace Birdie {
              });
         }
 
-        public void* update_dates () {
-            this.home_list.update_date ();
-            this.mentions_list.update_date ();
-            this.add_timeout_offline ();
-            return null;
+        private void remove_timeouts () {
+            GLib.Source.remove (this.timerID_offline);
+            GLib.Source.remove (this.timerID_online);
         }
+
+        /*
+
+        Update methods
+
+        */
 
         public void* update_timelines () {
             if (this.check_internet_connection ()) {
@@ -1001,7 +1038,8 @@ namespace Birdie {
 
             this.api.home_timeline.foreach ((tweet) => {
                 this.home_list.append (tweet, this);
-                //this.db.add_user (tweet.user_screen_name, tweet.user_name, this.default_account_id);
+                this.db.add_user (tweet.user_screen_name,
+                    tweet.user_name, this.default_account_id);
                 if (this.tweet_notification) {
                     if (this.api.account.screen_name != tweet.user_screen_name) {
                         Utils.notify ("New tweet from " + tweet.user_name, tweet.text);
@@ -1017,13 +1055,14 @@ namespace Birdie {
         }
 
         public void update_mentions () {
-
             bool new_mentions = false;
 
             this.api.get_mentions_timeline ();
 
             this.api.mentions_timeline.foreach ((tweet) => {
                 this.mentions_list.append (tweet, this);
+                this.db.add_user (tweet.user_screen_name,
+                        tweet.user_name, this.default_account_id);
                 if (this.mention_notification) {
                     if (this.api.account.screen_name != tweet.user_screen_name) {
                         Utils.notify ("New mention from " + tweet.user_name, tweet.text);
@@ -1040,13 +1079,14 @@ namespace Birdie {
         }
 
         public void update_dm () {
-
             bool new_dms = false;
 
             this.api.get_direct_messages ();
 
             this.api.dm_timeline.foreach ((tweet) => {
                 this.dm_list.append (tweet, this);
+                this.db.add_user (tweet.user_screen_name,
+                        tweet.user_name, this.default_account_id);
                 if (this.dm_notification) {
                     if (this.api.account.screen_name != tweet.user_screen_name) {
                         Utils.notify ("New direct message from " + tweet.user_name, tweet.text);
@@ -1062,11 +1102,22 @@ namespace Birdie {
             }
         }
 
+        public void* update_dates () {
+            this.home_list.update_date ();
+            this.mentions_list.update_date ();
+            this.add_timeout_offline ();
+            return null;
+        }
+
         private int get_total_unread () {
             return this.unread_tweets + this.unread_mentions + this.unread_dm;
         }
 
-        // indicator cleaning
+        /*
+
+        Indicator cleaning
+
+        */
 
         private void clean_tweets_indicator () {
             if (this.unread_tweets > 0)
@@ -1085,6 +1136,12 @@ namespace Birdie {
                 this.indicator.clean_dm_indicator();
             this.unread_dm = 0;
         }
+
+        /*
+
+        Callback method for sending messages
+
+        */
 
         public void tweet_callback (string text, string id = "",
             string user_screen_name, bool dm, string media_uri) {
