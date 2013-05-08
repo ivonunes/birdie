@@ -98,7 +98,7 @@ namespace Birdie {
         public SqliteDatabase db;
 
         private User default_account;
-        public int default_account_id;
+        public int? default_account_id;
 
         private uint timerID_online;
         private uint timerID_offline;
@@ -722,6 +722,9 @@ namespace Birdie {
                 this.dm_sent_list.clear ();
                 this.own_list.clear ();
                 this.favorites.clear ();
+
+                if (this.default_account_id == null)
+                    this.default_account_id = 1;
 
                 this.api.home_timeline.foreach ((tweet) => {
                     this.home_list.append (tweet, this);
