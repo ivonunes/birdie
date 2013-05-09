@@ -34,7 +34,7 @@ namespace Birdie.Utils {
             indicator = Indicate.Server.ref_default ();
             indicator.set_type ("message.email");
 
-            string desktop_file = Constants.DATADIR + "/applications/birdie.desktop";
+            string desktop_file = Constants.DATADIR + "/birdie/messaging.desktop";
 
             if (desktop_file == null) {
                 debug ("Unable to setup libindicate support: no desktop file found");
