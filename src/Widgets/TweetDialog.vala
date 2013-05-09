@@ -333,7 +333,7 @@ namespace Birdie.Widgets {
             this.count = this.count_remaining - virtual_text.char_count ();
             this.count_label.set_markup ("<span color='#777777'>" + this.count.to_string () + "</span>");
 
-            if ((this.count < 0 || this.count >= 140) || (" " in tmp_entry && dm) || (this.entry.get_buffer ().length < 3 && dm)) {
+            if ((this.count < 0 || this.count >= 140) || (" " in tmp_entry && dm && this.entry.get_visible ()) || (this.entry.get_buffer ().length < 3 && dm && this.entry.get_visible ())) {
                 // make remaining chars indicator red to warn user
                 if (this.count < 0) {
                     this.count_label.set_markup ("<span color='#FF0000'>" + this.count.to_string () + "</span>");
