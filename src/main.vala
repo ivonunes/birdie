@@ -35,6 +35,11 @@ namespace Birdie {
 
         Gtk.init (ref args);
         var app = new Birdie ();
+
+        var keybinding_manager = new Utils.KeybindingManager ();
+        keybinding_manager.init ();
+        keybinding_manager.bind ("<Mod4>T", app.new_tweet_keybinding);
+
         return app.run (args);
     }
 }
