@@ -189,7 +189,7 @@ namespace Birdie {
                 this.unread_tweets = 0;
                 this.unread_mentions = 0;
                 this.unread_dm = 0;
-                
+
                 // css provider
                 d_provider = new Gtk.CssProvider ();
                 string css_dir = Constants.DATADIR + "/birdie";
@@ -492,7 +492,7 @@ namespace Birdie {
                 this.user_box.pack_start (new Gtk.Separator (Gtk.Orientation.HORIZONTAL), false, false, 0);
 
                 this.user_box.pack_start (this.notebook_user, true, true, 0);
-                
+
                 var search_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
                 var search_entry = new Granite.Widgets.SearchBar ("Search");
                 search_entry.activate.connect (() => {
@@ -605,23 +605,23 @@ namespace Birdie {
 
         private void* request () {
             this.new_api = new Twitter (this.db);
-            
+
             Idle.add (() => {
                 var window_active = this.home.get_sensitive ();
                 this.set_widgets_sensitive (false);
-            
-                var light_window = new Granite.Widgets.LightWindow ();
+
+                var light_window = new Widgets.LightWindowNoDrag ();
                 var web_view = new WebKit.WebView ();
                 web_view.document_load_finished.connect (() => {
                     web_view.execute_script ("oldtitle=document.title;document.title=document.documentElement.innerHTML;");
                     var html = web_view.get_main_frame ().get_title ();
                     web_view.execute_script ("document.title=oldtitle;");
-                    
+
                     if ("<code>" in html) {
                         var pin = html.split ("<code>");
                         pin = pin[1].split ("</code>");
                         light_window.destroy ();
-                        
+
                         new Thread<void*> (null, () => {
                             this.switch_timeline ("loading");
 
@@ -641,7 +641,7 @@ namespace Birdie {
                             } else {
                                 this.switch_timeline ("welcome");
                             }
-                            
+
                             return null;
                         });
                     }
@@ -649,7 +649,6 @@ namespace Birdie {
                 light_window.destroy.connect (() => {
                     this.set_widgets_sensitive (window_active);
                 });
-                web_view.set_editable (false);
                 web_view.load_uri (this.new_api.get_request ());
                 var scrolled_webview = new Gtk.ScrolledWindow (null, null);
                 scrolled_webview.add_with_viewport (web_view);
@@ -659,7 +658,7 @@ namespace Birdie {
                 light_window.set_modal (true);
                 light_window.set_size_request (600, 600);
                 light_window.show_all ();
-                
+
                 return false;
             });
 
@@ -1025,7 +1024,7 @@ namespace Birdie {
                 }
             });
 
-            if (this.tweet_notification && this.api.home_timeline.length () <= 
+            if (this.tweet_notification && this.api.home_timeline.length () <=
                 this.limit_notifications  &&
                 this.api.home_timeline.length () > 0) {
                     Utils.notify (notify_header, notify_text);
@@ -1063,7 +1062,7 @@ namespace Birdie {
                 }
             });
 
-            if (this.tweet_notification && this.api.mentions_timeline.length () <= 
+            if (this.tweet_notification && this.api.mentions_timeline.length () <=
                 this.limit_notifications &&
                 this.api.mentions_timeline.length () > 0) {
                     Utils.notify (notify_header, notify_text);
@@ -1103,7 +1102,7 @@ namespace Birdie {
                 }
             });
 
-            if (this.tweet_notification && this.api.dm_timeline.length () <= 
+            if (this.tweet_notification && this.api.dm_timeline.length () <=
                 this.limit_notifications  &&
                 this.api.dm_timeline.length () > 0) {
                     Utils.notify (notify_header, notify_text);
