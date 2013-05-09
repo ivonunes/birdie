@@ -652,7 +652,7 @@ namespace Birdie {
                 web_view.load_uri (this.new_api.get_request ());
                 var scrolled_webview = new Gtk.ScrolledWindow (null, null);
                 scrolled_webview.add_with_viewport (web_view);
-                light_window.set_title ("Sign in");
+                light_window.set_title (_("Sign in");
                 light_window.add (scrolled_webview);
                 light_window.set_transient_for (this.m_window);
                 light_window.set_modal (true);
