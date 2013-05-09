@@ -413,9 +413,21 @@ namespace Birdie {
                 this.scrolled_search.add_with_viewport (search_list);
 
                 this.welcome = new Granite.Widgets.Welcome (_("Birdie"), _("Twitter Client"));
-                this.welcome.append ("twitter", _("Add account"), _("Add a Twitter account"));
-                this.welcome.activated.connect (() => {
-                    new Thread<void*> (null, this.request);
+                this.welcome.append ("add", _("Sign in"), _("Add an existing Twitter account"));
+                this.welcome.append ("edit", _("Sign up"), _("Create a new Twitter account"));
+                this.welcome.activated.connect ((index) => {
+                    switch (index) {
+                        case 0:
+                            new Thread<void*> (null, this.request);
+                            break;
+                        case 1:
+                            try {
+                                GLib.Process.spawn_command_line_async ("x-www-browser \"http://www.twitter.com/signup/\"");
+                            } catch (Error e) {
+                                debug ("Could not open twitter.com/signup: " + e.message);
+                            }
+                            break;
+                    }
                 });
 
                 this.error_page = new Granite.Widgets.Welcome (_("Unable to connect"), _("Please check your Internet Connection"));
