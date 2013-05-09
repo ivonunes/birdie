@@ -405,102 +405,94 @@ namespace Birdie.Widgets {
             int code;
 
             if (this.tweet.favorited) {
+                Idle.add( () => {
+                    if (this.tweet.retweeted) {
+                        this.status_img.set_from_icon_name("twitter-ret-banner",  Gtk.IconSize.LARGE_TOOLBAR);
+                    } else {
+                        this.context_overlay.remove (this.status_img);
+                    }
+
+                    this.tweet.favorited = false;
+                    this.birdie.home_list.update_display (this.tweet);
+                    this.birdie.mentions_list.update_display (this.tweet);
+                    this.birdie.own_list.update_display (this.tweet);
+                    this.birdie.favorites.remove (this.tweet);
+
+                    return false;
+                });
+            
                 code = this.birdie.api.favorite_destroy (this.tweet.id);
-
-                Idle.add( () => {
-                    if (code == 0) {
-                        if (this.tweet.retweeted) {
-                            this.status_img.set_from_icon_name("twitter-ret-banner",  Gtk.IconSize.LARGE_TOOLBAR);
-                        } else {
-                            this.context_overlay.remove (this.status_img);
-                        }
-
-                        this.tweet.favorited = false;
-                        this.birdie.home_list.update_display (this.tweet);
-                        this.birdie.mentions_list.update_display (this.tweet);
-                        this.birdie.own_list.update_display (this.tweet);
-                        this.birdie.favorites.remove (this.tweet);
-                    }
-
-                    return false;
-                });
-
-                this.favorite_button.set_sensitive (true);
-
             } else {
-                code = this.birdie.api.favorite_create (this.tweet.id);
-
                 Idle.add( () => {
-                    if (code == 0) {
-                        if (this.tweet.retweeted) {
-                            this.status_img.set_from_icon_name ("twitter-favret-banner", Gtk.IconSize.LARGE_TOOLBAR);
-                        } else {
-                            this.context_overlay.remove (this.buttons_alignment);
-                            this.status_img.set_from_icon_name("twitter-fav-banner",  Gtk.IconSize.LARGE_TOOLBAR);
-                            this.context_overlay.add_overlay (this.status_img);
-                            this.context_overlay.add_overlay (this.buttons_alignment);
-                            this.status_img.show ();
-                        }
-
-                        this.tweet.favorited = true;
-                        this.birdie.home_list.update_display (this.tweet);
-                        this.birdie.mentions_list.update_display (this.tweet);
-                        this.birdie.own_list.update_display (this.tweet);
-                        this.birdie.favorites.append (this.tweet, this.birdie);
-                        get_avatar (this.birdie.favorites);
-                    }
-
-                    this.favorite_button.set_sensitive (true);
-
-                    return false;
-                });
-            }
-
-            return null;
-        }
-
-        private void* retweet_thread () {
-            int code = this.birdie.api.retweet (this.tweet.id);
-
-            Idle.add( () => {
-                if (code == 0) {
-                    if (this.tweet.favorited) {
-                        this.status_img.set_from_icon_name("twitter-favret-banner",  Gtk.IconSize.LARGE_TOOLBAR);
+                    if (this.tweet.retweeted) {
+                        this.status_img.set_from_icon_name ("twitter-favret-banner", Gtk.IconSize.LARGE_TOOLBAR);
                     } else {
                         this.context_overlay.remove (this.buttons_alignment);
-
-                        this.status_img.set_from_icon_name("twitter-ret-banner",  Gtk.IconSize.LARGE_TOOLBAR);
-
+                        this.status_img.set_from_icon_name("twitter-fav-banner",  Gtk.IconSize.LARGE_TOOLBAR);
                         this.context_overlay.add_overlay (this.status_img);
                         this.context_overlay.add_overlay (this.buttons_alignment);
                         this.status_img.show ();
                     }
 
-                    this.retweet_icon.set_from_icon_name ("twitter-retweeted", Gtk.IconSize.SMALL_TOOLBAR);
-                    this.tweet.retweeted = true;
-                } else {
-                    this.retweet_button.set_sensitive (true);
-                }
+                    this.tweet.favorited = true;
+                    this.birdie.home_list.update_display (this.tweet);
+                    this.birdie.mentions_list.update_display (this.tweet);
+                    this.birdie.own_list.update_display (this.tweet);
+                    this.birdie.favorites.append (this.tweet, this.birdie);
+                    get_avatar (this.birdie.favorites);
+
+                    return false;
+                });
+            
+                code = this.birdie.api.favorite_create (this.tweet.id);
+            }
+            
+            Idle.add( () => {
+                this.favorite_button.set_sensitive (true);
                 return false;
             });
 
             return null;
         }
 
-        private void* delete_thread () {
-            int code = this.birdie.api.destroy (this.tweet.id);
-
+        private void* retweet_thread () {
+            int code;
+        
             Idle.add( () => {
-                if (code == 0) {
-                    this.birdie.home_list.remove (this.tweet);
-                    this.birdie.mentions_list.remove (this.tweet);
-                    this.birdie.own_list.remove (this.tweet);
+                if (this.tweet.favorited) {
+                    this.status_img.set_from_icon_name("twitter-favret-banner",  Gtk.IconSize.LARGE_TOOLBAR);
                 } else {
-                    this.delete_button.set_sensitive (true);
+                    this.context_overlay.remove (this.buttons_alignment);
+
+                    this.status_img.set_from_icon_name("twitter-ret-banner",  Gtk.IconSize.LARGE_TOOLBAR);
+
+                    this.context_overlay.add_overlay (this.status_img);
+                    this.context_overlay.add_overlay (this.buttons_alignment);
+                    this.status_img.show ();
                 }
+
+                this.retweet_icon.set_from_icon_name ("twitter-retweeted", Gtk.IconSize.SMALL_TOOLBAR);
+                this.tweet.retweeted = true;
+                return false;
+            });
+        
+            code = this.birdie.api.retweet (this.tweet.id);
+
+            return null;
+        }
+
+        private void* delete_thread () {
+            int code;
+        
+            Idle.add( () => {
+                this.birdie.home_list.remove (this.tweet);
+                this.birdie.mentions_list.remove (this.tweet);
+                this.birdie.own_list.remove (this.tweet);
 
                 return false;
             });
+        
+            code = this.birdie.api.destroy (this.tweet.id);
 
             return null;
         }
