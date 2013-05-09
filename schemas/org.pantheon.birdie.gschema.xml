@@ -33,6 +33,12 @@
       </description>
     </key>
 
+    <key name="limit-notifications" type="i">
+      <default>1</default>
+      <summary>Limit Notifications</summary>
+      <description>After limit, only show a summary notification.</description>
+    </key>
+
     <key name="legacy-window" type="b">
       <default>true</default>
       <summary>legacy-window</summary>

@@ -25,10 +25,11 @@ namespace Birdie {
             int rc;
             this.db_path = Environment.get_home_dir () + "/.local/share/birdie/birdie.db";
 
-            if (!FileUtils.test (this.db_path, FileTest.IS_REGULAR))
-                rc = create_tables ();
-            else
-                rc = Sqlite.Database.open (this.db_path, out this.db);
+            if (create_tables () != Sqlite.OK) {
+                stderr.printf ("Error creating db table: %d, %s\n", rc, this.db.errmsg ());
+                Gtk.main_quit ();
+            }
+            rc = Sqlite.Database.open (this.db_path, out this.db);
 
             if (rc != Sqlite.OK) {
                 stderr.printf ("Can't open database: %d, %s\n", rc, this.db.errmsg ());
@@ -40,23 +41,39 @@ namespace Birdie {
 
         private int create_tables () {
             int rc;
-            debug ("Collection: Creating empty database");
             rc = Sqlite.Database.open (this.db_path, out this.db);
 
+            if (rc != Sqlite.OK) {
+                stderr.printf ("Can't open database: %d, %s\n", rc, this.db.errmsg ());
+                Gtk.main_quit ();
+            }
+
             // accounts table
-            rc = this.db.exec ("create table accounts (id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                             "screen_name VARCHAR, name VARCHAR," +
-                             "token VARCHAR, token_secret VARCHAR," +
-                             "avatar VARCHAR, service VARCHAR," +
-                             "default_account INTEGER)", null, null);
+            rc = this.db.exec ("CREATE TABLE IF NOT EXISTS accounts (id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                 "screen_name VARCHAR, name VARCHAR," +
+                 "token VARCHAR, token_secret VARCHAR," +
+                 "avatar VARCHAR, service VARCHAR," +
+                 "default_account INTEGER)", null, null);
+
+            debug ("Table accounts created");
 
             // cached home timeline
-            // FIXME: implement table and methods for caching latest tweets
+            rc = this.db.exec ("CREATE TABLE IF NOT EXISTS tweets (id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "tweet_id VARCHAR, actual_id VARCHAR, user_name VARCHAR, user_screen_name VARCHAR," +
+                "text VARCHAR, created_at VARCHAR, profile_image_url VARCHAR, profile_image_file VARCHAR," +
+                "retweeted INTEGER, favorited INTEGER, dm INTEGER, in_reply_to_screen_name VARCHAR," +
+                "retweeted_by VARCHAR, retweeted_by_name VARCHAR, media_url VARCHAR, youtube_video VARCHAR," +
+                "verified INTEGER)", null, null);
+
+            debug ("Table tweets created");
 
             // user completion table
-            rc = this.db.exec ("create table users (id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                             "screen_name VARCHAR, name VARCHAR," +
-                             "account_id INTEGER)", null, null);
+            rc = this.db.exec ("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                 "screen_name VARCHAR, name VARCHAR," +
+                 "account_id INTEGER)", null, null);
+
+            debug ("Table users created");
+
             return rc;
         }
 
