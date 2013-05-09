@@ -366,7 +366,7 @@ namespace Birdie {
             var favorited = tweetobject.get_boolean_member ("favorited");
             var user_name = tweetobject.get_object_member ("user").get_string_member ("name");
             var user_screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
-            var text = Utils.highlight_all (tweetobject.get_string_member ("text"));
+            var text = tweetobject.get_string_member ("text");
             var created_at = tweetobject.get_string_member ("created_at");
             var profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
             var verified = tweetobject.get_object_member ("user").get_boolean_member ("verified");
@@ -397,12 +397,18 @@ namespace Birdie {
                         youtube_video = this.get_youtube_video (youtube_video);
                     else
                         youtube_video = "";
+
+                    text = text.replace (url.get_object ().get_string_member ("url"),
+                        url.get_object ().get_string_member ("expanded_url"));
                 }
             } else {
                 youtube_video = "";
             }
 
-            return new Tweet (id, actual_id, user_name, user_screen_name, text, created_at, profile_image_url, profile_image_file, retweeted, favorited, false, in_reply_to_screen_name, retweeted_by, retweeted_by_name, media_url, youtube_video, verified);
+            return new Tweet (id, actual_id, user_name, user_screen_name,
+                Utils.highlight_all (text), created_at, profile_image_url, profile_image_file,
+                retweeted, favorited, false, in_reply_to_screen_name,
+                retweeted_by, retweeted_by_name, media_url, youtube_video, verified);
         }
 
         public override int get_home_timeline () {

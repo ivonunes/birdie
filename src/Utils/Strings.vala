@@ -20,6 +20,7 @@ namespace Birdie.Utils {
         text = highlight_urls (text);
         text = highlight_hashtags (text);
         text = highlight_users (text);
+        text = text.replace ("&", "&amp;");
 
         return text;
     }
@@ -54,7 +55,7 @@ namespace Birdie.Utils {
         Regex urls;
 
         try {
-            urls = new Regex("((http|https|ftp)://(([[:alpha:]0-9_]|[/.]|[~])*)\\b)");
+            urls = new Regex("((http|https|ftp)://(([[:alpha:]0-9?=_#\\-&~]|[/.]|[~])*)\\b)");
             text = urls.replace(text, -1, 0,
                 "<span underline='none'><a href='\\0'>\\0</a></span>");
         } catch (RegexError e) {
