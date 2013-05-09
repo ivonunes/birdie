@@ -190,6 +190,42 @@ namespace Birdie {
                 this.unread_tweets = 0;
                 this.unread_mentions = 0;
                 this.unread_dm = 0;
+                
+                // css provider
+                d_provider = new Gtk.CssProvider ();
+                string css_dir = Constants.DATADIR + "/birdie";
+                File file = File.new_for_path (css_dir);
+                File child = file.get_child ("birdie.css");
+
+                bool elementary = false;
+
+                var lsb = File.new_for_path ("/etc/lsb-release");
+
+                if (lsb.query_exists ()) {
+                    try {
+                        var dis = new DataInputStream (lsb.read ());
+                        string line;
+                        while ((line = dis.read_line (null)) != null) {
+                            if ("elementary" in line) {
+                                elementary = true;
+                            }
+                        }
+                    } catch (Error e) {
+                        error ("%s", e.message);
+                    }
+                }
+
+                if (elementary) {
+                    try {
+                        d_provider.load_from_file (child);
+                    } catch (GLib.Error error) {
+                        stderr.printf("Could not load css for birdie: %s", error.message);
+                    }
+                }
+
+                Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default(), d_provider, 600);
+                Gtk.StyleContext ctx = m_window.get_style_context();
+                ctx.add_class("main_window");
 
                 var new_tweet_label = _("New Tweet");
 
@@ -277,7 +313,7 @@ namespace Birdie {
                 right_sep.set_expand (true);
                 this.m_window.add_bar (right_sep);
 
-                menu = new Widgets.MenuPopOver ();
+                menu = new Widgets.MenuPopOver (!elementary);
                 this.account_appmenu = new Gtk.MenuItem.with_label (_("Add Account"));
                 account_appmenu.activate.connect (() => {
                     this.switch_timeline ("welcome");
@@ -491,42 +527,6 @@ namespace Birdie {
                 this.notebook.append_page (this.error_page, new Gtk.Label (_("Error")));
 
                 this.m_window.add (this.notebook);
-
-                // css provider
-                d_provider = new Gtk.CssProvider ();
-                string css_dir = Constants.DATADIR + "/birdie";
-                File file = File.new_for_path (css_dir);
-                File child = file.get_child ("birdie.css");
-
-                bool elementary = false;
-
-                var lsb = File.new_for_path ("/etc/lsb-release");
-
-                if (lsb.query_exists ()) {
-                    try {
-                        var dis = new DataInputStream (lsb.read ());
-                        string line;
-                        while ((line = dis.read_line (null)) != null) {
-                            if ("elementary" in line) {
-                                elementary = true;
-                            }
-                        }
-                    } catch (Error e) {
-                        error ("%s", e.message);
-                    }
-                }
-
-                if (elementary) {
-                    try {
-                        d_provider.load_from_file (child);
-                    } catch (GLib.Error error) {
-                        stderr.printf("Could not load css for birdie: %s", error.message);
-                    }
-                }
-
-                Gtk.StyleContext.add_provider_for_screen (Gdk.Screen.get_default(), d_provider, 600);
-                Gtk.StyleContext ctx = m_window.get_style_context();
-                ctx.add_class("main_window");
 
                 this.m_window.focus_in_event.connect ((w, e) => {
 

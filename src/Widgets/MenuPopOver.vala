@@ -47,10 +47,12 @@ namespace Birdie.Widgets
              }
          """;
 
-        public MenuPopOver () {
-            get_style_context ().add_class (COMPOSITED_INDICATOR);
-            show ();
-            setup_drawing ();
+        public MenuPopOver (bool legacy = false) {
+            if (!legacy) {
+                get_style_context ().add_class (COMPOSITED_INDICATOR);
+                show ();
+                setup_drawing ();
+            }
         }
 
         private void setup_drawing () {
