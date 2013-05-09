@@ -55,12 +55,15 @@ namespace Birdie.Utils {
         Regex urls;
 
         try {
-            urls = new Regex("((http|https|ftp)://(([[:alpha:]0-9?=_#\\-&~]|[/.]|[~])*)\\b)");
+            urls = new Regex("((http|https|ftp)://(([[:alpha:]0-9?=_#\\-&~+=,]|[/.]|[~])*)\\b)");
             text = urls.replace(text, -1, 0,
                 "<span underline='none'><a href='\\0'>\\0</a></span>");
+            if ("</a></span>/" in text)
+                text = text.replace ("</a></span>/", "/</a></span>");
         } catch (RegexError e) {
             warning ("regex error: %s", e.message);
         }
+        
         return text;
     }
 }
