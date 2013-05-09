@@ -266,63 +266,8 @@ namespace Birdie {
                 search.set_tooltip_text (_("Search"));
 
                 search.toggled.connect (() => {
-                    if (!this.changing_tab) {
-                        this.changing_tab = true;
-
-                        switch (current_timeline) {
-                            case "home":
-                                this.home.set_active (false);
-                                break;
-                            case "mentions":
-                                this.mentions.set_active (false);
-                                break;
-                            case "dm":
-                                this.dm.set_active (false);
-                                break;
-                            case "own":
-                                this.profile.set_active (false);
-                                break;
-                        }
-
-                        var pop = new Granite.Widgets.PopOver ();
-
-                        var search_entry = new Granite.Widgets.SearchBar (_("Search"));
-
-                        search_entry.activate.connect (() => {
-                            this.search_term = search_entry.get_text ();
-                            new Thread<void*> (null, this.show_search);
-                            pop.destroy ();
-                        });
-
-                        var pop_box = pop.get_content_area () as Gtk.Container;
-                        pop_box.add (search_entry);
-
-                        pop.set_parent_pop (m_window);
-                        pop.move_to_widget (this.search);
-
-                        pop.show_all ();
-                        pop.present ();
-                        pop.run ();
-                        pop.destroy ();
-
-                        switch (current_timeline) {
-                            case "home":
-                                this.home.set_active (true);
-                                break;
-                            case "mentions":
-                                this.mentions.set_active (true);
-                                break;
-                            case "dm":
-                                this.dm.set_active (true);
-                                break;
-                            case "own":
-                                this.profile.set_active (true);
-                                break;
-                        }
-
-                        this.search.set_active (false);
-                        this.changing_tab = false;
-                    }
+                    if (!this.changing_tab)
+                        this.switch_timeline ("search");
                 });
                 this.search.set_sensitive (false);
                 this.m_window.add_bar (search);
@@ -524,6 +469,15 @@ namespace Birdie {
                 this.user_box.pack_start (new Gtk.Separator (Gtk.Orientation.HORIZONTAL), false, false, 0);
 
                 this.user_box.pack_start (this.notebook_user, true, true, 0);
+                
+                var search_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+                var search_entry = new Granite.Widgets.SearchBar ("Search");
+                search_entry.activate.connect (() => {
+                    this.search_term = ((Gtk.Entry)search_entry).get_text ();
+                    new Thread<void*> (null, this.show_search);
+                });
+                search_box.pack_start (search_entry, false, false, 0);
+                search_box.pack_start (this.scrolled_search, true, true, 0);
 
                 this.notebook.append_page (spinner_box, new Gtk.Label (_("Loading")));
                 this.notebook.append_page (this.welcome, new Gtk.Label (_("Welcome")));
@@ -533,7 +487,7 @@ namespace Birdie {
                 this.notebook.append_page (this.notebook_dm, new Gtk.Label (_("Direct Messages")));
                 this.notebook.append_page (this.own_box, new Gtk.Label (_("Profile")));
                 this.notebook.append_page (this.user_box, new Gtk.Label (_("User")));
-                this.notebook.append_page (this.scrolled_search, new Gtk.Label (_("Search Results")));
+                this.notebook.append_page (search_box, new Gtk.Label (_("Search")));
                 this.notebook.append_page (this.error_page, new Gtk.Label (_("Error")));
 
                 this.m_window.add (this.notebook);
@@ -922,7 +876,7 @@ namespace Birdie {
                     case "own":
                         this.profile.set_active (active);
                         break;
-                    case "search_results":
+                    case "search":
                         this.search.set_active (active);
                         break;
                 }
@@ -971,7 +925,7 @@ namespace Birdie {
                         this.notebook.page = 7;
                         this.user_list.set_selectable (true);
                         break;
-                    case "search_results":
+                    case "search":
                         this.changing_tab = true;
                         this.search.set_active (true);
                         this.changing_tab = false;
@@ -1284,12 +1238,6 @@ namespace Birdie {
 
         private void* show_search () {
             if (this.check_internet_connection ()) {
-                Idle.add (() => {
-                    this.switch_timeline ("loading");
-                    this.spinner.start ();
-                    return false;
-                });
-
                 this.api.search_timeline.foreach ((tweet) => {
                     this.search_list.remove (tweet);
                 });
@@ -1298,12 +1246,6 @@ namespace Birdie {
 
                 this.api.search_timeline.foreach ((tweet) => {
                     this.search_list.append (tweet, this);
-                });
-
-                Idle.add (() => {
-                    this.switch_timeline ("search_results");
-                    this.spinner.stop ();
-                    return false;
                 });
 
                 get_avatar (this.search_list);
