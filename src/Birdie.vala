@@ -63,7 +63,6 @@ namespace Birdie {
         private Granite.Widgets.StaticNotebook notebook_user;
 
         private Gtk.Spinner spinner;
-        private Gtk.Entry pin_entry;
 
         private GLib.List<Tweet> home_tmp;
 
@@ -469,30 +468,6 @@ namespace Birdie {
                 spinner_box.pack_start (this.spinner, false, false, 0);
                 spinner_box.pack_start (new Gtk.Label (""), true, true, 0);
 
-                this.pin_entry = new Gtk.Entry ();
-                Gtk.Box pin_entry_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-                pin_entry_box.pack_start (new Gtk.Label (""), true, true, 0);
-                pin_entry_box.pack_start (this.pin_entry);
-                pin_entry_box.pack_start (new Gtk.Label (""), true, true, 0);
-
-                Gtk.Button pin_button = new Gtk.Button.with_label (_("OK"));
-                pin_button.clicked.connect (() => {
-                    new Thread<void*> (null, this.tokens);
-                });
-                Gtk.Box pin_button_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-                pin_button_box.pack_start (new Gtk.Label (""), true, true, 0);
-                pin_button_box.pack_start (pin_button);
-                pin_button_box.pack_start (new Gtk.Label (""), true, true, 0);
-
-                Gtk.Box pin_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-                pin_box.pack_start (new Gtk.Label (""), true, true, 0);
-                pin_box.pack_start (new Gtk.Label (_("Please insert your PIN below:")), false, false, 0);
-                pin_box.pack_start (new Gtk.Label (""), false, false, 0);
-                pin_box.pack_start (pin_entry_box, false, false, 0);
-                pin_box.pack_start (new Gtk.Label (""), false, false, 0);
-                pin_box.pack_start (pin_button_box, false, false, 0);
-                pin_box.pack_start (new Gtk.Label (""), true, true, 0);
-
                 this.init_api ();
 
                 this.own_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
@@ -529,7 +504,6 @@ namespace Birdie {
 
                 this.notebook.append_page (spinner_box, new Gtk.Label (_("Loading")));
                 this.notebook.append_page (this.welcome, new Gtk.Label (_("Welcome")));
-                this.notebook.append_page (pin_box, new Gtk.Label (_("Welcome")));
                 this.notebook.append_page (this.scrolled_home, new Gtk.Label (_("Home")));
                 this.notebook.append_page (this.scrolled_mentions, new Gtk.Label (_("Mentions")));
                 this.notebook.append_page (this.notebook_dm, new Gtk.Label (_("Direct Messages")));
@@ -630,35 +604,64 @@ namespace Birdie {
         }
 
         private void* request () {
-            this.switch_timeline ("pin");
-            try {
-                this.new_api = new Twitter (this.db);
-                GLib.Process.spawn_command_line_async ("x-www-browser \"" + this.new_api.get_request () + "\"");
-            } catch (GLib.Error error) {
-                warning ("error opening url: %s", error.message);
-            }
-            return null;
-        }
+            this.new_api = new Twitter (this.db);
+            
+            Idle.add (() => {
+                var window_active = this.home.get_sensitive ();
+                this.set_widgets_sensitive (false);
+            
+                var light_window = new Granite.Widgets.LightWindow ();
+                var web_view = new WebKit.WebView ();
+                web_view.document_load_finished.connect (() => {
+                    web_view.execute_script ("oldtitle=document.title;document.title=document.documentElement.innerHTML;");
+                    var html = web_view.get_main_frame ().get_title ();
+                    web_view.execute_script ("document.title=oldtitle;");
+                    
+                    if ("<code>" in html) {
+                        var pin = html.split ("<code>");
+                        pin = pin[1].split ("</code>");
+                        light_window.destroy ();
+                        
+                        new Thread<void*> (null, () => {
+                            this.switch_timeline ("loading");
 
-        private void* tokens () {
-            this.switch_timeline ("loading");
+                            int code = this.new_api.get_tokens (pin[0]);
 
-            int code = this.new_api.get_tokens (this.pin_entry.get_text ());
+                            if (code == 0) {
+                                Idle.add (() => {
+                                    var appmenu_icon = new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU);
+                                    appmenu_icon.show ();
+                                    this.appmenu.set_icon_widget (appmenu_icon);
+                                    this.set_widgets_sensitive (false);
+                                    return false;
+                                });
 
-            if (code == 0) {
-                Idle.add (() => {
-                    var appmenu_icon = new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU);
-                    appmenu_icon.show ();
-                    this.appmenu.set_icon_widget (appmenu_icon);
-                    this.set_widgets_sensitive (false);
-                    return false;
+                                this.api = this.new_api;
+                                new Thread<void*> (null, this.init);
+                            } else {
+                                this.switch_timeline ("welcome");
+                            }
+                            
+                            return null;
+                        });
+                    }
                 });
-
-                this.api = this.new_api;
-                new Thread<void*> (null, this.init);
-            } else {
-                this.switch_timeline ("welcome");
-            }
+                light_window.destroy.connect (() => {
+                    this.set_widgets_sensitive (window_active);
+                });
+                web_view.set_editable (false);
+                web_view.load_uri (this.new_api.get_request ());
+                var scrolled_webview = new Gtk.ScrolledWindow (null, null);
+                scrolled_webview.add_with_viewport (web_view);
+                light_window.set_title ("Sign in");
+                light_window.add (scrolled_webview);
+                light_window.set_transient_for (this.m_window);
+                light_window.set_modal (true);
+                light_window.set_size_request (600, 600);
+                light_window.show_all ();
+                
+                return false;
+            });
 
             return null;
         }
@@ -903,49 +906,46 @@ namespace Birdie {
                     case "welcome":
                         this.notebook.page = 1;
                         break;
-                    case "pin":
-                        this.notebook.page = 2;
-                        break;
                     case "home":
                         this.home_list.set_selectable (false);
-                        this.notebook.page = 3;
+                        this.notebook.page = 2;
                         this.home_list.set_selectable (true);
                         this.scrolled_home.get_vadjustment().set_value(0);
                         break;
                     case "mentions":
                         this.mentions_list.set_selectable (false);
-                        this.notebook.page = 4;
+                        this.notebook.page = 3;
                         this.mentions_list.set_selectable (true);
                         this.scrolled_mentions.get_vadjustment().set_value(0);
                         break;
                     case "dm":
                         this.dm_list.set_selectable (false);
                         this.dm_sent_list.set_selectable (false);
-                        this.notebook.page = 5;
+                        this.notebook.page = 4;
                         this.dm_list.set_selectable (true);
                         this.dm_sent_list.set_selectable (true);
                         this.scrolled_dm.get_vadjustment().set_value(0);
                         break;
                     case "own":
                         this.own_list.set_selectable (false);
-                        this.notebook.page = 6;
+                        this.notebook.page = 5;
                         this.own_list.set_selectable (true);
                         this.scrolled_own.get_vadjustment().set_value(0);
                         break;
                     case "user":
                         this.user_list.set_selectable (false);
-                        this.notebook.page = 7;
+                        this.notebook.page = 6;
                         this.user_list.set_selectable (true);
                         break;
                     case "search":
                         this.changing_tab = true;
                         this.search.set_active (true);
                         this.changing_tab = false;
-                        this.notebook.page = 8;
+                        this.notebook.page = 7;
                         break;
                     case "error":
                         this.set_widgets_sensitive (false);
-                        this.notebook.page = 9;
+                        this.notebook.page = 8;
                         break;
                 }
 
