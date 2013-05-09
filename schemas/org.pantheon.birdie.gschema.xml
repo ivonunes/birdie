@@ -34,7 +34,7 @@
     </key>
 
     <key name="limit-notifications" type="i">
-      <default>5</default>
+      <default>1</default>
       <summary>Limit Notifications</summary>
       <description>After limit, only show a summary notification.</description>
     </key>
