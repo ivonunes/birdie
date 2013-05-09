@@ -60,6 +60,9 @@ namespace Birdie.Widgets {
             this.window_width = -1;
             this.window_height = -1;
 
+            // set smooth scrolling events
+            set_events(Gdk.EventMask.SMOOTH_SCROLL_MASK);
+
             css = new Gtk.CssProvider ();
             try {
                 if (!legacy)
