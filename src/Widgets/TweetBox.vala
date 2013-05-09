@@ -303,21 +303,22 @@ namespace Birdie.Widgets {
                         this.status_img.set_from_icon_name ("twitter-favret-banner",  Gtk.IconSize.LARGE_TOOLBAR);
                     }
 
+                if (!this.tweet.dm || (this.tweet.dm && this.tweet.user_name != this.birdie.api.account.name)) {
+                    // reply button
+                    this.reply_button = new Gtk.Button ();
+                    this.reply_button.set_halign (Gtk.Align.END);
+                    this.reply_button.set_relief (Gtk.ReliefStyle.NONE);
+                    this.reply_icon = new Gtk.Image.from_icon_name ("twitter-reply", Gtk.IconSize.SMALL_TOOLBAR);
+                    this.reply_button.child = this.reply_icon;
+                    this.reply_button.set_tooltip_text (_("Reply"));
 
-                // reply button
-                this.reply_button = new Gtk.Button ();
-                this.reply_button.set_halign (Gtk.Align.END);
-                this.reply_button.set_relief (Gtk.ReliefStyle.NONE);
-                this.reply_icon = new Gtk.Image.from_icon_name ("twitter-reply", Gtk.IconSize.SMALL_TOOLBAR);
-                this.reply_button.child = this.reply_icon;
-                this.reply_button.set_tooltip_text (_("Reply"));
+                    this.reply_button.clicked.connect (() => {
+                        Widgets.TweetDialog dialog = new TweetDialog (this.birdie, this.tweet.id, this.tweet.user_screen_name, this.tweet.dm);
+                        dialog.show_all ();
+                    });
 
-                this.reply_button.clicked.connect (() => {
-                    Widgets.TweetDialog dialog = new TweetDialog (this.birdie, this.tweet.id, this.tweet.user_screen_name, this.tweet.dm);
-                    dialog.show_all ();
-                });
-
-                this.buttons_box.pack_start (this.reply_button, false, true, 0);
+                    this.buttons_box.pack_start (this.reply_button, false, true, 0);
+                }
             } else {
                 // delete button
                 this.delete_button = new Gtk.Button ();
