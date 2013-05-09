@@ -103,6 +103,8 @@ namespace Birdie {
         private uint timerID_online;
         private uint timerID_offline;
 
+        private int limit_notifications;
+
         construct {
             program_name        = "Birdie";
             exec_name           = "birdie";
@@ -165,6 +167,7 @@ namespace Birdie {
                 this.dm_notification = settings.get_boolean ("dm-notification");
                 this.legacy_window = settings.get_boolean ("legacy-window");
                 this.update_interval = settings.get_int ("update-interval");
+                this.limit_notifications = settings.get_int ("limit-notifications");
 
                 if (this.legacy_window)
                     this.m_window = new Widgets.UnifiedWindow ("Birdie", true);
@@ -1034,6 +1037,8 @@ namespace Birdie {
 
         public void update_home () {
             this.api.get_home_timeline ();
+            string notify_header = "";
+            string notify_text = "";
 
             this.home_tmp.foreach ((tweet) => {
                 this.home_list.remove (tweet);
@@ -1045,12 +1050,31 @@ namespace Birdie {
                 this.db.add_user (tweet.user_screen_name,
                     tweet.user_name, this.default_account_id);
                 if (this.tweet_notification) {
-                    if (this.api.account.screen_name != tweet.user_screen_name) {
-                        Utils.notify ("New tweet from " + tweet.user_name, tweet.text);
+                    if ((this.api.account.screen_name != tweet.user_screen_name) &&
+                            this.api.home_timeline.length () < this.limit_notifications + 1) {
+                        if (this.api.home_timeline.length () == 1) {
+                            notify_header = _("New tweet from") + " " + tweet.user_screen_name;
+                            notify_text = tweet.text;
+                        } else {
+                            notify_header = _("New tweets");
+                            notify_text = notify_text + tweet.user_name.up () + "\n" + tweet.text + "\n";
+                        }
                     }
                     this.unread_tweets++;
                 }
             });
+
+            if (this.tweet_notification && this.api.home_timeline.length () < this.limit_notifications + 1 &&
+                this.api.home_timeline.length () > 0) {
+                    if (this.api.home_timeline.length () == 1)
+                        Utils.notify (notify_header, notify_text);
+                    else
+                        Utils.notify (notify_header, notify_text);
+            }
+
+            if (this.tweet_notification && this.api.home_timeline.length () > this.limit_notifications) {
+                Utils.notify (this.unread_tweets.to_string () + " " + _("new tweets"), "");
+            }
 
             if (this.tweet_notification && get_total_unread () > 0) {
                 this.indicator.update_tweets_indicator (this.unread_tweets);
@@ -1060,6 +1084,8 @@ namespace Birdie {
 
         public void update_mentions () {
             bool new_mentions = false;
+            string notify_header = "";
+            string notify_text = "";
 
             this.api.get_mentions_timeline ();
 
@@ -1067,14 +1093,35 @@ namespace Birdie {
                 this.mentions_list.append (tweet, this);
                 this.db.add_user (tweet.user_screen_name,
                         tweet.user_name, this.default_account_id);
-                if (this.mention_notification) {
-                    if (this.api.account.screen_name != tweet.user_screen_name) {
-                        Utils.notify ("New mention from " + tweet.user_name, tweet.text);
-                    }
+                    if (this.mention_notification) {
+                        if ((this.api.account.screen_name !=
+                                tweet.user_screen_name) &&
+                                this.api.mentions_timeline.length () <
+                                this.limit_notifications + 1) {
+                            if (this.api.mentions_timeline.length () == 1) {
+                                notify_header = _("New mention from") + " " + tweet.user_screen_name;
+                                notify_text = tweet.text;
+                            } else {
+                                notify_header = _("New mentions");
+                                notify_text = notify_text + tweet.user_name.up () + "\n" + tweet.text + "\n";
+                            }
+                        }
                     this.unread_mentions++;
                     new_mentions = true;
                 }
             });
+
+            if (this.tweet_notification && this.api.mentions_timeline.length () < this.limit_notifications + 1 &&
+                this.api.mentions_timeline.length () > 0) {
+                    if (this.api.mentions_timeline.length () == 1)
+                            Utils.notify (notify_header, notify_text);
+                        else
+                            Utils.notify (notify_header, notify_text);
+            }
+
+            if (this.mention_notification && this.api.mentions_timeline.length () > this.limit_notifications) {
+                Utils.notify (this.unread_mentions.to_string () + " " + _("new mentions"), "");
+            }
 
             if (this.mention_notification && new_mentions) {
                 this.indicator.update_mentions_indicator (this.unread_mentions);
@@ -1084,6 +1131,8 @@ namespace Birdie {
 
         public void update_dm () {
             bool new_dms = false;
+            string notify_header = "";
+            string notify_text = "";
 
             this.api.get_direct_messages ();
 
@@ -1092,13 +1141,34 @@ namespace Birdie {
                 this.db.add_user (tweet.user_screen_name,
                         tweet.user_name, this.default_account_id);
                 if (this.dm_notification) {
-                    if (this.api.account.screen_name != tweet.user_screen_name) {
-                        Utils.notify ("New direct message from " + tweet.user_name, tweet.text);
+                    if ((this.api.account.screen_name !=
+                                tweet.user_screen_name) &&
+                                this.api.dm_timeline.length () <
+                                this.limit_notifications + 1) {
+                        if (this.api.dm_timeline.length () == 1) {
+                                notify_header = _("New direct message from") + " " + tweet.user_screen_name;
+                                notify_text = tweet.text;
+                            } else {
+                                notify_header = _("New direct messages");
+                                notify_text = notify_text + tweet.user_name.up () + "\n" + tweet.text + "\n";
+                            }
                     }
                     this.unread_dm++;
                     new_dms = true;
                 }
             });
+
+            if (this.tweet_notification && this.api.dm_timeline.length () < this.limit_notifications + 1 &&
+                this.api.dm_timeline.length () > 0) {
+                    if (this.api.dm_timeline.length () == 1)
+                        Utils.notify (notify_header, notify_text);
+                    else
+                        Utils.notify (notify_header, notify_text);
+            }
+
+            if (this.dm_notification && this.api.dm_timeline.length () > this.limit_notifications) {
+                Utils.notify (this.unread_dm.to_string () + " " + _("new direct messages"), "");
+            }
 
             if (this.dm_notification && new_dms) {
                 this.indicator.update_dm_indicator (this.unread_dm);
