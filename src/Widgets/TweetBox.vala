@@ -375,9 +375,9 @@ namespace Birdie.Widgets {
         private void show_youtube_video (string youtube_video_id) {
             var light_window = new Granite.Widgets.LightWindow ();
             this.web_view = new WebKit.WebView ();
-            this.web_view.set_editable (false);
+            //this.web_view.set_editable (false);
             this.web_view.load_html_string ("<iframe width='640' height='385' style='margin-left: -10px;' src='http://www.youtube.com/embed/" +
-                youtube_video_id + "?version=3&autohide=1&showinfo=0&showsearch=0&vq=hd720&autoplay=1' frameborder='0' allowfullscreen></iframe>", ".");
+                youtube_video_id + "?version=3&autohide=1&showinfo=0&showsearch=0&vq=hd720&autoplay=1' frameborder='0' allowfullscreen</iframe>", ".");
             light_window.add (this.web_view);
             light_window.set_position (Gtk.WindowPosition.CENTER);
             light_window.show_all ();
@@ -420,7 +420,6 @@ namespace Birdie.Widgets {
 
                     return false;
                 });
-
                 code = this.birdie.api.favorite_destroy (this.tweet.id);
             } else {
                 Idle.add( () => {
@@ -443,7 +442,6 @@ namespace Birdie.Widgets {
 
                     return false;
                 });
-
                 code = this.birdie.api.favorite_create (this.tweet.id);
             }
 
@@ -475,9 +473,7 @@ namespace Birdie.Widgets {
                 this.tweet.retweeted = true;
                 return false;
             });
-
             code = this.birdie.api.retweet (this.tweet.id);
-
             return null;
         }
 
@@ -491,9 +487,7 @@ namespace Birdie.Widgets {
 
                 return false;
             });
-
             code = this.birdie.api.destroy (this.tweet.id);
-
             return null;
         }
 

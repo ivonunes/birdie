@@ -21,7 +21,6 @@ namespace Birdie.Utils {
         text = highlight_hashtags (text);
         text = highlight_users (text);
         text = text.replace ("&", "&amp;");
-
         return text;
     }
 
@@ -64,13 +63,5 @@ namespace Birdie.Utils {
             warning ("regex error: %s", e.message);
         }
         return text;
-    }
-
-    string unescape_html_entitites (string text) {
-        string txt = text;
-        txt = txt.replace ("&amp;", "&");
-        txt = txt.replace ("&lt;", "<");
-        txt = txt.replace ("&gt;", ">");
-        return txt;
     }
 }
