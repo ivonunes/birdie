@@ -110,6 +110,9 @@ namespace Birdie {
         if ("#" in youtube_id)
             youtube_id = youtube_id.split ("#")[0];
 
+        if ("?" in youtube_id)
+            youtube_id = youtube_id.split ("?")[0];
+
         Utils.Downloader downloader = new Utils.Downloader ("http://i3.ytimg.com/vi/" +
             youtube_id + "/mqdefault.jpg", Environment.get_home_dir () +
             "/.cache/birdie/media/youtube_" + youtube_id + ".jpg");
