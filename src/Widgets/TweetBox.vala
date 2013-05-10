@@ -420,7 +420,7 @@ namespace Birdie.Widgets {
 
                     return false;
                 });
-            
+
                 code = this.birdie.api.favorite_destroy (this.tweet.id);
             } else {
                 Idle.add( () => {
@@ -443,10 +443,10 @@ namespace Birdie.Widgets {
 
                     return false;
                 });
-            
+
                 code = this.birdie.api.favorite_create (this.tweet.id);
             }
-            
+
             Idle.add( () => {
                 this.favorite_button.set_sensitive (true);
                 return false;
@@ -457,7 +457,7 @@ namespace Birdie.Widgets {
 
         private void* retweet_thread () {
             int code;
-        
+
             Idle.add( () => {
                 if (this.tweet.favorited) {
                     this.status_img.set_from_icon_name("twitter-favret-banner",  Gtk.IconSize.LARGE_TOOLBAR);
@@ -475,7 +475,7 @@ namespace Birdie.Widgets {
                 this.tweet.retweeted = true;
                 return false;
             });
-        
+
             code = this.birdie.api.retweet (this.tweet.id);
 
             return null;
@@ -483,7 +483,7 @@ namespace Birdie.Widgets {
 
         private void* delete_thread () {
             int code;
-        
+
             Idle.add( () => {
                 this.birdie.home_list.remove (this.tweet);
                 this.birdie.mentions_list.remove (this.tweet);
@@ -491,7 +491,7 @@ namespace Birdie.Widgets {
 
                 return false;
             });
-        
+
             code = this.birdie.api.destroy (this.tweet.id);
 
             return null;

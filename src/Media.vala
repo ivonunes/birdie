@@ -100,7 +100,7 @@ namespace Birdie {
         }
     }
 
-    private string get_youtube_video (string youtube_video_url) {
+    public string get_youtube_video (string youtube_video_url) {
         string youtube_id = "";
         youtube_id = youtube_video_url.split ("v=")[1];
 
@@ -116,6 +116,21 @@ namespace Birdie {
 
         if (downloader.download_complete)
             return youtube_id;
+        else
+            return "";
+    }
+
+    public string get_imgur_media (string url) {
+        string imgur_id = "";
+
+        if (".com/" in url)
+            imgur_id = url.split (".com/")[1];
+
+        Utils.Downloader downloader = new Utils.Downloader ("http://i.imgur.com/" + imgur_id + ".jpg",
+            Environment.get_home_dir () + "/.cache/birdie/media/" + imgur_id);
+
+        if (downloader.download_complete)
+            return imgur_id;
         else
             return "";
     }

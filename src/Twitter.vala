@@ -21,7 +21,7 @@ namespace Birdie {
         SqliteDatabase db;
 
         public Twitter (SqliteDatabase db) {
-        
+
             this.db = db;
 
             this.CONSUMER_KEY = "T1VkU2dySk9DRFlZbjJJcDdWSGZRdw==";
@@ -60,7 +60,7 @@ namespace Birdie {
                 proxy.access_token (FUNCTION_ACCESS_TOKEN, pin);
                 token = proxy.get_token();
                 token_secret = proxy.get_token_secret();
-                this.db.add_account ("twitter", token, token_secret);  
+                this.db.add_account ("twitter", token, token_secret);
             } catch (Error e) {
                 stderr.printf ("Couldn't get access token: %s\n", e.message);
                 return 1;
@@ -378,6 +378,11 @@ namespace Birdie {
                         if (expanded.contains ("youtu.be"))
                             expanded = expanded.replace("youtu.be/", "youtube.com/watch?v=");
                         youtube_video = get_youtube_video (expanded);
+                    }
+
+                    // intercept imgur media links
+                    if (expanded.contains ("imgur.com/")) {
+                        media_url = get_imgur_media (expanded);
                     }
 
                     // replace short urls by expanded ones in tweet text

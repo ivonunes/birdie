@@ -69,6 +69,8 @@ namespace Birdie.Utils {
     string unescape_html_entitites (string text) {
         string txt = text;
         txt = txt.replace ("&amp;", "&");
+        txt = txt.replace ("&lt;", "<");
+        txt = txt.replace ("&gt;", ">");
         return txt;
     }
 }
