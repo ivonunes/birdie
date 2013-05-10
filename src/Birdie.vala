@@ -62,6 +62,8 @@ namespace Birdie {
         private Granite.Widgets.StaticNotebook notebook_own;
         private Granite.Widgets.StaticNotebook notebook_user;
 
+        private Granite.Widgets.SearchBar search_entry;
+
         private Gtk.Spinner spinner;
 
         private GLib.List<Tweet> home_tmp;
@@ -494,7 +496,7 @@ namespace Birdie {
                 this.user_box.pack_start (this.notebook_user, true, true, 0);
 
                 var search_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-                var search_entry = new Granite.Widgets.SearchBar ("Search");
+                search_entry = new Granite.Widgets.SearchBar ("Search");
                 search_entry.activate.connect (() => {
                     this.search_term = ((Gtk.Entry)search_entry).get_text ();
                     new Thread<void*> (null, this.show_search);
@@ -1269,6 +1271,7 @@ namespace Birdie {
                 });
 
                 Idle.add (() => {
+                    search_entry.text = search_term;
                     this.switch_timeline ("search");
                     return false;
                 });
