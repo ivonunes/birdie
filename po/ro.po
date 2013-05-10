@@ -7,95 +7,103 @@ msgid ""
 msgstr ""
 "Project-Id-Version: birdie\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-05-08 12:58+0100\n"
-"PO-Revision-Date: 2013-04-23 11:49+0000\n"
-"Last-Translator: BlackJohnny <Unknown>\n"
+"POT-Creation-Date: 2013-05-09 18:37+0100\n"
+"PO-Revision-Date: 2013-05-09 22:00+0000\n"
+"Last-Translator: Ciprian <ciprian420@gmail.com>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-05-09 06:11+0000\n"
+"X-Launchpad-Export-Date: 2013-05-10 06:55+0000\n"
 "X-Generator: Launchpad (build 16598)\n"
 
-#: ../../src/Birdie.vala:184 ../../src/Widgets/TweetDialog.vala:68
+#: ../../src/Birdie.vala:229 ../../src/Widgets/TweetDialog.vala:65
 #: ../../src/Utils/Indicator.vala:50 ../../src/Utils/Launcher.vala:40
 msgid "New Tweet"
 msgstr "Tweet nou"
 
-#: ../../src/Birdie.vala:213 ../../src/Birdie.vala:523
+#: ../../src/Birdie.vala:257 ../../src/Birdie.vala:507
 msgid "Home"
 msgstr "Acasă"
 
-#: ../../src/Birdie.vala:224 ../../src/Birdie.vala:524
+#: ../../src/Birdie.vala:268 ../../src/Birdie.vala:508
 #: ../../src/Utils/Indicator.vala:48 ../../src/Utils/Launcher.vala:52
 msgid "Mentions"
 msgstr "Mențiuni"
 
-#: ../../src/Birdie.vala:236 ../../src/Birdie.vala:525
+#: ../../src/Birdie.vala:280 ../../src/Birdie.vala:509
 #: ../../src/Utils/Indicator.vala:49
 msgid "Direct Messages"
 msgstr "Mesaje directe"
 
-#: ../../src/Birdie.vala:246 ../../src/Birdie.vala:526
+#: ../../src/Birdie.vala:290 ../../src/Birdie.vala:510
 #: ../../src/Utils/Launcher.vala:64
 msgid "Profile"
 msgstr "Profil"
 
-#: ../../src/Birdie.vala:257 ../../src/Birdie.vala:280
+#: ../../src/Birdie.vala:301 ../../src/Birdie.vala:512
 msgid "Search"
 msgstr "Caută"
 
-#: ../../src/Birdie.vala:327
+#: ../../src/Birdie.vala:316
 msgid "Add Account"
-msgstr ""
+msgstr "Adaugă cont"
 
-#: ../../src/Birdie.vala:333
+#: ../../src/Birdie.vala:322
 msgid "Remove Account"
-msgstr ""
+msgstr "Elimină contul"
 
-#: ../../src/Birdie.vala:337
+#: ../../src/Birdie.vala:326
 msgid "Remove this account?"
 msgstr ""
 
-#: ../../src/Birdie.vala:338
+#: ../../src/Birdie.vala:327
 msgid "Remove"
-msgstr ""
+msgstr "Elimină"
 
-#: ../../src/Birdie.vala:338 ../../src/Widgets/TweetDialog.vala:136
+#: ../../src/Birdie.vala:327 ../../src/Widgets/TweetDialog.vala:161
 msgid "Cancel"
 msgstr "Anulează"
 
-#: ../../src/Birdie.vala:360
+#: ../../src/Birdie.vala:348
 msgid "About"
 msgstr "Despre"
 
-#: ../../src/Birdie.vala:364
+#: ../../src/Birdie.vala:352
 msgid "Donate"
-msgstr ""
+msgstr "Donați"
 
-#: ../../src/Birdie.vala:372
+#: ../../src/Birdie.vala:360
 msgid "Quit"
 msgstr "Ieșire"
 
-#: ../../src/Birdie.vala:391
+#: ../../src/Birdie.vala:379
 msgid "Menu"
 msgstr "Meniu"
 
-#: ../../src/Birdie.vala:426
+#: ../../src/Birdie.vala:414
 msgid "Birdie"
 msgstr "Birdie"
 
-#: ../../src/Birdie.vala:426 ../../src/config.vala:24
+#: ../../src/Birdie.vala:414 ../../src/config.vala:24
 msgid "Twitter Client"
 msgstr "Client Twitter"
 
-#: ../../src/Birdie.vala:427
-msgid "Add account"
-msgstr "Adaugă cont"
+#: ../../src/Birdie.vala:415 ../../src/Birdie.vala:655
+msgid "Sign in"
+msgstr "Conectaţi-vă"
 
-#: ../../src/Birdie.vala:427
-msgid "Add a Twitter account"
-msgstr "Adaugă un cont Twitter"
+#: ../../src/Birdie.vala:415
+msgid "Add an existing Twitter account"
+msgstr ""
+
+#: ../../src/Birdie.vala:416
+msgid "Sign up"
+msgstr "Înregistrare"
+
+#: ../../src/Birdie.vala:416
+msgid "Create a new Twitter account"
+msgstr "Creează un cont nou Twitter"
 
 #: ../../src/Birdie.vala:432
 msgid "Unable to connect"
@@ -121,95 +129,107 @@ msgstr "Primite"
 msgid "Sent"
 msgstr "Trimise"
 
-#: ../../src/Birdie.vala:477
-msgid "OK"
-msgstr "OK"
-
-#: ../../src/Birdie.vala:488
-msgid "Please insert your PIN below:"
-msgstr "Introduceți PIN-ul mai jos"
-
-#: ../../src/Birdie.vala:504 ../../src/Birdie.vala:511
+#: ../../src/Birdie.vala:480 ../../src/Birdie.vala:487
 msgid "Timeline"
 msgstr "Cronologie"
 
-#: ../../src/Birdie.vala:505
+#: ../../src/Birdie.vala:481
 msgid "Favorites"
 msgstr "Favorite"
 
-#: ../../src/Birdie.vala:520
+#: ../../src/Birdie.vala:505
 msgid "Loading"
 msgstr "Se încarcă"
 
-#: ../../src/Birdie.vala:521 ../../src/Birdie.vala:522
+#: ../../src/Birdie.vala:506
 msgid "Welcome"
 msgstr "Bine ați venit"
 
-#: ../../src/Birdie.vala:527
+#: ../../src/Birdie.vala:511
 msgid "User"
 msgstr "Utilizator"
 
-#: ../../src/Birdie.vala:528
-msgid "Search Results"
-msgstr "Rezultate căutare"
-
-#: ../../src/Birdie.vala:529
+#: ../../src/Birdie.vala:513
 msgid "Error"
 msgstr "Eroare"
+
+#: ../../src/Birdie.vala:1020
+msgid "New tweet from"
+msgstr "Tweet now de la"
+
+#: ../../src/Birdie.vala:1034
+msgid "new tweets"
+msgstr ""
+
+#: ../../src/Birdie.vala:1057
+msgid "New mention from"
+msgstr ""
+
+#: ../../src/Birdie.vala:1072
+msgid "new mentions"
+msgstr ""
+
+#: ../../src/Birdie.vala:1097
+msgid "New direct message from"
+msgstr ""
+
+#: ../../src/Birdie.vala:1112
+msgid "new direct messages"
+msgstr ""
 
 #: ../../src/config.vala:25
 msgid "Twitter client for elementary OS"
 msgstr "Client Twitter pentru OS elementar"
 
-#: ../../src/Widgets/TweetBox.vala:260 ../../src/Widgets/TweetBox.vala:546
+#: ../../src/Widgets/TweetBox.vala:263 ../../src/Widgets/TweetBox.vala:550
 msgid "Favorite"
 msgstr "Favorite"
 
-#: ../../src/Widgets/TweetBox.vala:282
+#: ../../src/Widgets/TweetBox.vala:285
 msgid "Retweet"
 msgstr "Retweet"
 
-#: ../../src/Widgets/TweetBox.vala:308
+#: ../../src/Widgets/TweetBox.vala:311
 msgid "Reply"
 msgstr "Răspunde"
 
-#: ../../src/Widgets/TweetBox.vala:323
+#: ../../src/Widgets/TweetBox.vala:327
 msgid "Delete"
 msgstr "Șterge"
 
-#: ../../src/Widgets/TweetBox.vala:543
+#: ../../src/Widgets/TweetBox.vala:547
 msgid "Unfavorite"
 msgstr "Elimină din favorite"
 
-#: ../../src/Widgets/TweetBox.vala:554
+#: ../../src/Widgets/TweetBox.vala:558
 #, c-format
 msgid "retweeted by %s"
 msgstr "retweet-uit de %s"
 
-#: ../../src/Widgets/TweetBox.vala:579
+#: ../../src/Widgets/TweetBox.vala:583
 #, c-format
 msgid "in reply to @%s"
 msgstr "răspuns către @%s"
 
-#: ../../src/Widgets/TweetDialog.vala:70
+#: ../../src/Widgets/TweetDialog.vala:67
 msgid "New Message"
-msgstr ""
+msgstr "Mesaj Nou"
 
-#: ../../src/Widgets/TweetDialog.vala:144
+#: ../../src/Widgets/TweetDialog.vala:169
 msgid "Send"
 msgstr "Trimite"
 
-#: ../../src/Widgets/TweetDialog.vala:146
+#: ../../src/Widgets/TweetDialog.vala:171
 msgid "Tweet"
 msgstr "Tweet"
 
-#: ../../src/Widgets/TweetDialog.vala:172
+#: ../../src/Widgets/TweetDialog.vala:197
 msgid "Add a picture"
-msgstr ""
+msgstr "Adaugă o poză"
 
-#: ../../src/Widgets/TweetDialog.vala:196
+#: ../../src/Widgets/TweetDialog.vala:222
 msgid "Select a Picture"
-msgstr ""
+msgstr "Selectează o poză"
 
 #: ../../src/Widgets/UserBox.vala:109 ../../src/Widgets/UserBox.vala:237
 msgid "TWEETS"
