@@ -1261,19 +1261,21 @@ namespace Birdie {
 
                 Idle.add (() => {
                     this.switch_timeline ("loading");
+                    search_entry.text = search_term;
                     return false;
                 });
 
                 this.api.get_search_timeline (search_term);
 
-                this.api.search_timeline.foreach ((tweet) => {
-                    this.search_list.append (tweet, this);
-                });
-
                 Idle.add (() => {
+                    this.spinner.stop ();
                     search_entry.text = search_term;
                     this.switch_timeline ("search");
                     return false;
+                });
+
+                this.api.search_timeline.foreach ((tweet) => {
+                    this.search_list.append (tweet, this);
                 });
 
                 get_avatar (this.search_list);
