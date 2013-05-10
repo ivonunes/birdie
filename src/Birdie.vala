@@ -596,7 +596,6 @@ namespace Birdie {
                     search_term = url.replace ("birdie://search/", "");
                     if ("/" in search_term)
                        search_term = search_term.replace ("/", "");
-
                     new Thread<void*> (null, show_search);
                 }
             }
@@ -1258,10 +1257,20 @@ namespace Birdie {
                     this.search_list.remove (tweet);
                 });
 
+                Idle.add (() => {
+                    this.switch_timeline ("loading");
+                    return false;
+                });
+
                 this.api.get_search_timeline (search_term);
 
                 this.api.search_timeline.foreach ((tweet) => {
                     this.search_list.append (tweet, this);
+                });
+
+                Idle.add (() => {
+                    this.switch_timeline ("search");
+                    return false;
                 });
 
                 get_avatar (this.search_list);
