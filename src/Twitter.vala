@@ -327,25 +327,6 @@ namespace Birdie {
             return image_file;
         }
 
-        private string get_youtube_video (string youtube_video_url) {
-            string youtube_id = "";
-            youtube_id = youtube_video_url.split ("v=")[1];
-
-            if ("&" in youtube_id)
-                youtube_id = youtube_id.split ("&")[0];
-
-            if ("#" in youtube_id)
-                youtube_id = youtube_id.split ("#")[0];
-
-            debug ("Youtube ID video found: " + youtube_id);
-
-            new Utils.Downloader ("http://i3.ytimg.com/vi/" +
-                youtube_id + "/mqdefault.jpg", Environment.get_home_dir () +
-                "/.cache/birdie/media/youtube_" + youtube_id + ".jpg");
-
-            return youtube_id;
-        }
-
         public override Tweet get_tweet (Json.Node tweetnode) {
             var tweetobject = tweetnode.get_object();
             var actual_id = tweetobject.get_string_member ("id_str");
@@ -388,21 +369,21 @@ namespace Birdie {
                 media_url = "";
             }
 
-            // intercept youtube links
            if (entitiesobject.has_member("urls")) {
                 foreach (var url in entitiesobject.get_array_member ("urls").get_elements ()) {
-                    youtube_video = url.get_object ().get_string_member ("expanded_url");
+                    var expanded = url.get_object ().get_string_member ("expanded_url");
 
-                    if (youtube_video.contains ("youtube.com"))
-                        youtube_video = this.get_youtube_video (youtube_video);
-                    else
-                        youtube_video = "";
+                    // intercept youtube links
+                    if (expanded.contains ("youtube.com") || expanded.contains ("youtu.be")) {
+                        if (expanded.contains ("youtu.be"))
+                            expanded = expanded.replace("youtu.be/", "youtube.com/watch?v=");
+                        youtube_video = get_youtube_video (expanded);
+                    }
 
+                    // replace short urls by expanded ones in tweet text
                     text = text.replace (url.get_object ().get_string_member ("url"),
                         url.get_object ().get_string_member ("expanded_url"));
                 }
-            } else {
-                youtube_video = "";
             }
 
             return new Tweet (id, actual_id, user_name, user_screen_name,

@@ -99,4 +99,24 @@ namespace Birdie {
             }
         }
     }
+
+    private string get_youtube_video (string youtube_video_url) {
+        string youtube_id = "";
+        youtube_id = youtube_video_url.split ("v=")[1];
+
+        if ("&" in youtube_id)
+            youtube_id = youtube_id.split ("&")[0];
+
+        if ("#" in youtube_id)
+            youtube_id = youtube_id.split ("#")[0];
+
+        Utils.Downloader downloader = new Utils.Downloader ("http://i3.ytimg.com/vi/" +
+            youtube_id + "/mqdefault.jpg", Environment.get_home_dir () +
+            "/.cache/birdie/media/youtube_" + youtube_id + ".jpg");
+
+        if (downloader.download_complete)
+            return youtube_id;
+        else
+            return "";
+    }
 }
