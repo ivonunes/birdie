@@ -327,8 +327,15 @@ namespace Birdie.Widgets {
                 this.delete_button.set_tooltip_text (_("Delete"));
 
                 this.delete_button.clicked.connect (() => {
-                    this.delete_button.set_sensitive (false);
-                    new Thread<void*> (null, this.delete_thread);
+                    // confirm deletion
+                    Widgets.AlertDialog confirm = new Widgets.AlertDialog (this.birdie.m_window,
+                        Gtk.MessageType.QUESTION, _("Delete this tweet?"),
+                        _("Delete"), _("Cancel"));
+                    Gtk.ResponseType response = confirm.run ();
+                    if (response == Gtk.ResponseType.OK) {
+                        this.delete_button.set_sensitive (false);
+                        new Thread<void*> (null, this.delete_thread);
+                    }
                 });
                 this.buttons_box.pack_start (delete_button, false, true, 0);
             }
@@ -375,7 +382,6 @@ namespace Birdie.Widgets {
         private void show_youtube_video (string youtube_video_id) {
             var light_window = new Granite.Widgets.LightWindow ();
             this.web_view = new WebKit.WebView ();
-            //this.web_view.set_editable (false);
             this.web_view.load_html_string ("<iframe width='640' height='385' style='margin-left: -10px;' src='http://www.youtube.com/embed/" +
                 youtube_video_id + "?version=3&autohide=1&showinfo=0&showsearch=0&vq=hd720&autoplay=1' frameborder='0' allowfullscreen</iframe>", ".");
             light_window.add (this.web_view);
