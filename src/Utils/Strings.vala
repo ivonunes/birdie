@@ -63,7 +63,12 @@ namespace Birdie.Utils {
         } catch (RegexError e) {
             warning ("regex error: %s", e.message);
         }
-        
         return text;
+    }
+
+    string unescape_html_entitites (string text) {
+        string txt = text;
+        txt = txt.replace ("&amp;", "&");
+        return txt;
     }
 }

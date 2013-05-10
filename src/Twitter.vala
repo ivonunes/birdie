@@ -383,6 +383,7 @@ namespace Birdie {
                     // replace short urls by expanded ones in tweet text
                     text = text.replace (url.get_object ().get_string_member ("url"),
                         url.get_object ().get_string_member ("expanded_url"));
+                    text = Utils.unescape_html_entitites (text);
                 }
             }
 
