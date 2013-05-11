@@ -88,6 +88,6 @@ add_executable(birdie
 add_definitions (${DEPS_CFLAGS} -DWNCK_I_KNOW_THIS_IS_UNSTABLE)
 
 #We need to link the libraries with our Executable.
-target_link_libraries(birdie ${DEPS_LIBRARIES})
+target_link_libraries(birdie ${DEPS_LIBRARIES} -lX11)
 
 install (TARGETS birdie RUNTIME DESTINATION bin)
