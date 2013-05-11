@@ -106,6 +106,8 @@ namespace Birdie {
 
         private int limit_notifications;
 
+        public bool elementary;
+
         construct {
             program_name        = "Birdie";
             exec_name           = "birdie";
@@ -198,7 +200,7 @@ namespace Birdie {
                 File file = File.new_for_path (css_dir);
                 File child = file.get_child ("birdie.css");
 
-                bool elementary = false;
+                elementary = false;
 
                 var lsb = File.new_for_path ("/etc/lsb-release");
 

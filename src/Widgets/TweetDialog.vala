@@ -178,17 +178,20 @@ namespace Birdie.Widgets {
             });
 
             var d_provider = new Gtk.CssProvider ();
-            string css_dir = "/usr/share/themes/elementary/gtk-3.0";
-            File file = File.new_for_path (css_dir);
-            File child = file.get_child ("button.css");
 
-            try
-            {
-                d_provider.load_from_file (child);
-            }
-            catch (GLib.Error error)
-            {
-                stderr.printf("Could not load css for button: %s", error.message);
+            if (this.birdie.elementary) {
+                string css_dir = "/usr/share/themes/elementary/gtk-3.0";
+                File file = File.new_for_path (css_dir);
+                File child = file.get_child ("button.css");
+
+                try
+                {
+                    d_provider.load_from_file (child);
+                }
+                catch (GLib.Error error)
+                {
+                    stderr.printf("Could not load css for button: %s", error.message);
+                }
             }
 
             this.tweet.get_style_context ().add_provider (d_provider, Gtk.STYLE_PROVIDER_PRIORITY_THEME);
