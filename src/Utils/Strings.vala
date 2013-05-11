@@ -64,4 +64,11 @@ namespace Birdie.Utils {
         }
         return text;
     }
+
+    string escape_amp (string txt) {
+        string to_escape = txt;
+        if ("&" in to_escape)
+            to_escape = to_escape.replace ("&", "&amp;");
+        return to_escape;
+    }
 }

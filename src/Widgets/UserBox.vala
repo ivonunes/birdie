@@ -20,22 +20,16 @@ namespace Birdie.Widgets {
 
         public User user;
         public Birdie birdie;
-
         private Gtk.Box user_box;
-        private Gtk.Alignment avatar_alignment;
-        private Gtk.Image avatar_img;
-        private Gtk.Alignment content_alignment;
-        private Gtk.Box content_box;
-        private Gtk.Label username_label;
-        private Gtk.Label description_label;
-
-        private Gtk.Alignment buttons_alignment;
         private Gtk.Box buttons_box;
+        private Gtk.Alignment buttons_alignment;
+        private Gtk.Image avatar_img;
+        private Gtk.Image verified_img;
+        private Gtk.Label username_label;
         private Gtk.Button follow_button;
         private Gtk.Button unfollow_button;
         private Gtk.Button block_button;
         private Gtk.Button unblock_button;
-        private Gtk.Image verified_img;
 
         public UserBox () {
             GLib.Object (orientation: Gtk.Orientation.HORIZONTAL);
@@ -46,82 +40,63 @@ namespace Birdie.Widgets {
             this.user = user;
 
             // tweet box
-            this.user_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+            this.user_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             this.pack_start (this.user_box, true, true, 0);
-
-            // avatar alignment
-            this.avatar_alignment = new Gtk.Alignment (0,0,0,1);
-            this.avatar_alignment.top_padding = 12;
-            this.avatar_alignment.right_padding = 6;
-            this.avatar_alignment.bottom_padding = 12;
-            this.avatar_alignment.left_padding = 12;
-            this.user_box.pack_start (this.avatar_alignment, false, true, 0);
 
             // avatar image
             this.avatar_img = new Gtk.Image ();
             this.avatar_img.set_from_file (Constants.PKGDATADIR + "/default.png");
-            this.avatar_img.set_halign (Gtk.Align.START);
-            this.avatar_img.set_valign (Gtk.Align.CENTER);
-            this.avatar_alignment.add (this.avatar_img);
+            this.avatar_img.set_halign (Gtk.Align.CENTER);
+            this.avatar_img.set_valign (Gtk.Align.START);
+            this.avatar_img.margin_top = 12;
+            this.user_box.pack_start (this.avatar_img, true, true, 0);
 
-            // content alignment
-            this.content_alignment = new Gtk.Alignment (0,0,0,1);
-            this.content_alignment.top_padding = 12;
-            this.content_alignment.right_padding = 6;
-            this.content_alignment.bottom_padding = 12;
-            this.content_alignment.left_padding = 6;
-            this.content_alignment.set_valign (Gtk.Align.CENTER);
-            this.user_box.pack_start (this.content_alignment, false, false, 0);
+            user.screen_name = Utils.escape_amp (user.screen_name);
+            user.name = Utils.escape_amp (user.name);
+            user.desc = Utils.escape_amp (user.desc);
+            user.location = Utils.escape_amp (user.location);
 
-            // content box
-            this.content_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-            this.content_box.set_valign (Gtk.Align.CENTER);
-            this.content_alignment.add (this.content_box);
-
-            if ("&" in user.screen_name)
-                user.screen_name = user.screen_name.replace ("&", "&amp;");
-            if ("&" in user.name)
-                user.name = user.name.replace ("&", "&amp;");
-            if ("&" in user.desc)
-                user.desc = user.desc.replace ("&", "&amp;");
-            if ("&" in user.location)
-                user.location = user.location.replace ("&", "&amp;");
-
-            // user label
-            this.username_label = new Gtk.Label (user.screen_name);
-            this.username_label.set_halign (Gtk.Align.START);
-            this.username_label.margin_bottom = 6;
-
-            string tweets_txt;
-
-            if (user.verified) {
-                this.verified_img = new Gtk.Image ();
-                this.verified_img.set_from_icon_name ("twitter-verified", Gtk.IconSize.MENU);
-                this.verified_img.set_halign (Gtk.Align.END);
-                this.content_box.pack_start (this.verified_img, false, true, 0);
-            }
-
-            this.username_label.set_markup ("<span underline='none' color='#000000' font_weight='bold' size='large'>" + user.name + "</span> <span font_weight='light' color='#aaaaaa'>@" + user.screen_name + "</span>\n" + "<span size='small'>" + user.location + "</span>");
-            this.content_box.pack_start (this.username_label, false, true, 0);
-
-            // user info
-
-            tweets_txt = _("TWEETS");
+            string tweets_txt = _("TWEETS");
 
             string description_txt = user.desc +
                 "\n\n<span size='small' color='#666666'>" + tweets_txt +
                 " </span><span size='small' font_weight='bold'>" + user.statuses_count.to_string() + "</span>" +
-                "<span size='small' color='#666666'> " + _("FOLLOWING") +
+                " | <span size='small' color='#666666'> " + _("FOLLOWING") +
                 " </span><span size='small' font_weight='bold'>" + user.friends_count.to_string() + "</span>" +
-                "<span size='small' color='#666666'> " + _("FOLLOWERS") +
+                " | <span size='small' color='#666666'> " + _("FOLLOWERS") +
                 " </span><span size='small' font_weight='bold'>" + user.followers_count.to_string() + "</span>";
 
-            this.description_label = new Gtk.Label (description_txt);
-            this.description_label.set_markup (description_txt);
-            this.description_label.set_line_wrap (true);
-            this.description_label.set_halign (Gtk.Align.START);
-            this.description_label.xalign = 0;
-            this.content_box.pack_start (this.description_label, false, true, 0);
+            description_txt = description_txt.chomp ();
+
+            string txt = "<span underline='none' color='#000000' font_weight='bold' size='x-large'>" +
+                user.name + "</span> <span font_weight='light' color='#aaaaaa'>\n@" + user.screen_name + "</span>";
+
+            if (user.location != "")
+                txt = txt +  "\n<span size='small'>" + user.location + "</span>";
+
+            if (description_txt != "")
+                txt = txt +  "\n\n" + description_txt;
+
+            // user label
+            this.username_label = new Gtk.Label (user.screen_name);
+            this.username_label.set_halign (Gtk.Align.CENTER);
+            this.username_label.set_valign (Gtk.Align.CENTER);
+
+            // this.verified_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+            this.verified_img = new Gtk.Image ();
+            this.verified_img.set_from_icon_name ("twitter-verified", Gtk.IconSize.BUTTON);
+            this.verified_img.set_halign (Gtk.Align.CENTER);
+            this.verified_img.set_valign (Gtk.Align.CENTER);
+            this.verified_img.set_no_show_all (true);
+            this.user_box.pack_start (this.verified_img, false, true, 0);
+            this.username_label.set_markup (txt);
+            this.username_label.set_halign (Gtk.Align.CENTER);
+            this.username_label.set_justify (Gtk.Justification.CENTER);
+            this.user_box.pack_start (this.username_label, false, true, 0);
+
+            this.username_label.set_line_wrap (true);
+            this.user_box.margin_left = 12;
+            this.user_box.margin_right = 12;
 
             // buttons alignment
             this.buttons_alignment = new Gtk.Alignment (0,0,1,1);
@@ -203,7 +178,6 @@ namespace Birdie.Widgets {
 
             this.unblock_button.get_style_context ().add_provider (d_provider, Gtk.STYLE_PROVIDER_PRIORITY_THEME);
             this.unblock_button.get_style_context().add_class ("affirmative");
-            //
 
             this.unfollow_button.set_no_show_all (true);
             this.unblock_button.set_no_show_all (true);
@@ -211,6 +185,10 @@ namespace Birdie.Widgets {
             this.block_button.set_no_show_all (true);
 
             this.show_all ();
+            this.hide_buttons ();
+
+            if (user.verified)
+                this.verified_img.show ();
         }
 
         public void update (User user) {
@@ -219,24 +197,10 @@ namespace Birdie.Widgets {
 
             this.avatar_img.set_from_file (Environment.get_home_dir () + "/.cache/birdie/" + user.profile_image_file);
 
-            if ("&" in user.screen_name)
-                user.screen_name = user.screen_name.replace ("&", "&amp;");
-            if ("&" in user.name)
-                user.name = user.name.replace ("&", "&amp;");
-            if ("&" in user.desc)
-                user.desc = user.desc.replace ("&", "&amp;");
-            if ("&" in user.location)
-                user.location = user.location.replace ("&", "&amp;");
-
-            string tweets_txt;
-
-            this.username_label.set_markup ("<span underline='none' color='#000000' font_weight='bold' size='large'>" + user.name + "</span> <span font_weight='light' color='#aaaaaa'>@" + user.screen_name + "</span>\n" + "<span size='small'>" + user.location + "</span>");
-
-            // user info
-
-            tweets_txt = _("TWEETS");
-            this.show_all ();
-            this.hide_buttons ();
+            user.screen_name = Utils.escape_amp (user.screen_name);
+            user.name = Utils.escape_amp (user.name);
+            user.desc = Utils.escape_amp (user.desc);
+            user.location = Utils.escape_amp (user.location);
 
             string followed_by = "";
 
@@ -261,16 +225,35 @@ namespace Birdie.Widgets {
                 }
             }
 
+            string tweets_txt = _("TWEETS");
+
             string description_txt = Utils.highlight_all (user.desc) + "\n\n<span size='small' color='#666666'>" + followed_by + "</span>" +
                 "\n\n<span size='small' color='#666666'>" + tweets_txt +
                 " </span><span size='small' font_weight='bold'>" + user.statuses_count.to_string() + "</span>" +
-                "<span size='small' color='#666666'> " + _("FOLLOWING") +
+                " | <span size='small' color='#666666'> " + _("FOLLOWING") +
                 " </span><span size='small' font_weight='bold'>" + user.friends_count.to_string() + "</span>" +
-                "<span size='small' color='#666666'> " + _("FOLLOWERS") +
+                " | <span size='small' color='#666666'> " + _("FOLLOWERS") +
                 " </span><span size='small' font_weight='bold'>" + user.followers_count.to_string() + "</span>";
 
-            this.description_label.set_markup (description_txt);
+            description_txt = description_txt.chomp ();
 
+            string txt = "<span underline='none' color='#000000' font_weight='bold' size='x-large'>" +
+                user.name + "</span> <span font_weight='light' color='#aaaaaa'>\n@" + user.screen_name + "</span>";
+
+            if (user.location != "")
+                txt = txt +  "\n<span size='small'>" + user.location + "</span>";
+
+            if (description_txt != "")
+                txt = txt +  "\n\n" + description_txt;
+
+            this.username_label.set_markup (txt);
+
+            this.show_all ();
+            this.hide_buttons ();
+            this.verified_img.hide ();
+
+            if (user.verified)
+                this.verified_img.show ();
         }
 
         public void hide_buttons () {
