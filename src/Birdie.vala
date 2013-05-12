@@ -971,14 +971,14 @@ namespace Birdie {
         public void add_timeout_offline () {
             this.timerID_offline = GLib.Timeout.add_seconds (60, () => {
                 new Thread<void*> (null, this.update_dates);
-                return false;
+                return true;
             });
         }
 
         public void add_timeout_online () {
             this.timerID_online = GLib.Timeout.add_seconds (this.update_interval * 60, () => {
                 new Thread<void*> (null, this.update_timelines);
-                return false;
+                return true;
              });
         }
 
@@ -994,6 +994,7 @@ namespace Birdie {
         */
 
         public void* update_timelines () {
+            debug ("here");
             if (this.check_internet_connection ()) {
                 this.update_home ();
                 this.update_mentions ();
@@ -1004,7 +1005,6 @@ namespace Birdie {
             } else {
                 this.switch_timeline ("error");
             }
-            this.add_timeout_online ();
             return null;
         }
 
@@ -1129,7 +1129,6 @@ namespace Birdie {
         public void* update_dates () {
             this.home_list.update_date ();
             this.mentions_list.update_date ();
-            this.add_timeout_offline ();
             return null;
         }
 
