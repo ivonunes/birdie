@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: birdie\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-05-10 20:41+0100\n"
-"PO-Revision-Date: 2013-05-01 13:28+0000\n"
+"PO-Revision-Date: 2013-05-12 08:55+0000\n"
 "Last-Translator: ZDroid <legospace9876@gmail.com>\n"
 "Language-Team: Serbian <sr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-05-11 06:29+0000\n"
-"X-Generator: Launchpad (build 16598)\n"
+"X-Launchpad-Export-Date: 2013-05-13 06:46+0000\n"
+"X-Generator: Launchpad (build 16614)\n"
 
 #: ../../src/Birdie.vala:231 ../../src/Widgets/TweetDialog.vala:65
 #: ../../src/Utils/Indicator.vala:50 ../../src/Utils/Launcher.vala:40
@@ -47,19 +47,19 @@ msgstr "Претрага"
 
 #: ../../src/Birdie.vala:318
 msgid "Add Account"
-msgstr ""
+msgstr "Додај налог"
 
 #: ../../src/Birdie.vala:324
 msgid "Remove Account"
-msgstr ""
+msgstr "Уклони налог"
 
 #: ../../src/Birdie.vala:328
 msgid "Remove this account?"
-msgstr ""
+msgstr "Уклони овај налог?"
 
 #: ../../src/Birdie.vala:329
 msgid "Remove"
-msgstr ""
+msgstr "Уклони"
 
 #: ../../src/Birdie.vala:329 ../../src/Widgets/TweetBox.vala:333
 #: ../../src/Widgets/TweetDialog.vala:161
@@ -72,7 +72,7 @@ msgstr "О програму"
 
 #: ../../src/Birdie.vala:354
 msgid "Donate"
-msgstr ""
+msgstr "Донирај"
 
 #: ../../src/Birdie.vala:362
 msgid "Quit"
@@ -92,19 +92,19 @@ msgstr "Твитер клијент"
 
 #: ../../src/Birdie.vala:417 ../../src/Birdie.vala:661
 msgid "Sign in"
-msgstr ""
+msgstr "Пријави ме"
 
 #: ../../src/Birdie.vala:417
 msgid "Add an existing Twitter account"
-msgstr ""
+msgstr "Додај постојећи Твитер налог"
 
 #: ../../src/Birdie.vala:418
 msgid "Sign up"
-msgstr ""
+msgstr "Направи налог"
 
 #: ../../src/Birdie.vala:418
 msgid "Create a new Twitter account"
-msgstr ""
+msgstr "Направи нови Твитер налог"
 
 #: ../../src/Birdie.vala:434
 msgid "Unable to connect"
@@ -156,27 +156,27 @@ msgstr "Грешка"
 
 #: ../../src/Birdie.vala:1026
 msgid "New tweet from"
-msgstr ""
+msgstr "Нови твит од"
 
 #: ../../src/Birdie.vala:1040
 msgid "new tweets"
-msgstr ""
+msgstr "нови твитови"
 
 #: ../../src/Birdie.vala:1063
 msgid "New mention from"
-msgstr ""
+msgstr "Ново помињање од"
 
 #: ../../src/Birdie.vala:1078
 msgid "new mentions"
-msgstr ""
+msgstr "нова помињања"
 
 #: ../../src/Birdie.vala:1103
 msgid "New direct message from"
-msgstr ""
+msgstr "Нова директна порука од"
 
 #: ../../src/Birdie.vala:1118
 msgid "new direct messages"
-msgstr ""
+msgstr "нове директне поруке"
 
 #: ../../src/config.vala:25
 msgid "Twitter client for elementary OS"
@@ -200,7 +200,7 @@ msgstr "Обриши"
 
 #: ../../src/Widgets/TweetBox.vala:332
 msgid "Delete this tweet?"
-msgstr ""
+msgstr "Обриши овај твит?"
 
 #: ../../src/Widgets/TweetBox.vala:539
 msgid "Unfavorite"
@@ -218,7 +218,7 @@ msgstr "у одговору за @%s"
 
 #: ../../src/Widgets/TweetDialog.vala:67
 msgid "New Message"
-msgstr ""
+msgstr "Нова порука"
 
 #: ../../src/Widgets/TweetDialog.vala:169
 msgid "Send"
@@ -230,11 +230,11 @@ msgstr "Твитуј"
 
 #: ../../src/Widgets/TweetDialog.vala:197
 msgid "Add a picture"
-msgstr ""
+msgstr "Додај слику"
 
 #: ../../src/Widgets/TweetDialog.vala:222
 msgid "Select a Picture"
-msgstr ""
+msgstr "Одабери слику"
 
 #: ../../src/Widgets/UserBox.vala:109 ../../src/Widgets/UserBox.vala:237
 msgid "TWEETS"
