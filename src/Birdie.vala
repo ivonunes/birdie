@@ -416,8 +416,8 @@ namespace Birdie {
                 this.scrolled_search.add_with_viewport (search_list);
 
                 this.welcome = new Granite.Widgets.Welcome (_("Birdie"), _("Twitter Client"));
-                this.welcome.append ("add", _("Sign in"), _("Add an existing Twitter account"));
-                this.welcome.append ("edit", _("Sign up"), _("Create a new Twitter account"));
+                this.welcome.append ("add", _("Sign In"), _("Add an existing Twitter account."));
+                this.welcome.append ("edit", _("Sign Up"), _("Create a new Twitter account."));
                 this.welcome.activated.connect ((index) => {
                     switch (index) {
                         case 0:

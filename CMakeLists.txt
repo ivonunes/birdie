@@ -14,7 +14,7 @@ set (PKGDATADIR "${DATADIR}/birdie")
 set (GETTEXT_PACKAGE "birdie")
 add_definitions(-DGETTEXT_PACKAGE=\"${GETTEXT_PACKAGE}\")
 set (RELEASE_NAME "Kompano")
-set (VERSION "0.2.1")
+set (VERSION "0.2.1+trunk")
 set (CMAKE_C_FLAGS "-ggdb")
 
 configure_file (${CMAKE_SOURCE_DIR}/src/config.vala.cmake ${CMAKE_SOURCE_DIR}/src/config.vala)

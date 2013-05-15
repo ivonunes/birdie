@@ -20,6 +20,7 @@ namespace Birdie.Utils {
         public bool download_skip;
         private string url;
         private string local_file_path;
+        private File file;
 
         public Downloader (string url, string? local_file = null) {
             download_complete = false;
@@ -28,7 +29,7 @@ namespace Birdie.Utils {
             this.local_file_path = local_file;
 
             // if cached, ignore
-            File file = File.new_for_path (this.local_file_path);
+            this.file = File.new_for_path (this.local_file_path);
 
             if (file.query_exists ()) {
                 download_skip = true;
@@ -44,7 +45,7 @@ namespace Birdie.Utils {
             var dst = File.new_for_path (this.local_file_path);
             try {
                 debug ("Caching file from url: " + remote);
-                src.copy (dst, FileCopyFlags.NONE, null, null);
+                src.copy (dst, FileCopyFlags.NONE);
                 download_complete = true;
             } catch (Error e) {
                 stderr.printf ("%s\n", e.message);
