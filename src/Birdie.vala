@@ -994,7 +994,6 @@ namespace Birdie {
         */
 
         public void* update_timelines () {
-            debug ("here");
             if (this.check_internet_connection ()) {
                 this.update_home ();
                 this.update_mentions ();

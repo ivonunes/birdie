@@ -57,8 +57,8 @@ namespace Birdie.Utils {
     }
 
     public void generate_rounded_avatar (string avatar_path,
-        int width = 50, int height = 50, int roundness = 5,
-        double line_width = 2.0, double border_color_r = 0.5,
+        int width = 50, int height = 50, int roundness = 7,
+        double line_width = 0, double border_color_r = 0.5,
         double border_color_g = 0.5, double border_color_b = 0.5) {
 
         Gdk.Pixbuf pixbuf;
