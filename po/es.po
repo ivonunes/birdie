@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: birdie\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-05-15 18:22+0100\n"
-"PO-Revision-Date: 2013-05-13 21:53+0000\n"
+"PO-Revision-Date: 2013-05-19 17:04+0000\n"
 "Last-Translator: Adolfo Jayme Barrientos <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-05-16 05:55+0000\n"
+"X-Launchpad-Export-Date: 2013-05-20 06:32+0000\n"
 "X-Generator: Launchpad (build 16626)\n"
 
 #: ../../src/Birdie.vala:233 ../../src/Widgets/TweetDialog.vala:65
@@ -92,19 +92,19 @@ msgstr "Cliente de Twitter"
 
 #: ../../src/Birdie.vala:419
 msgid "Sign In"
-msgstr ""
+msgstr "Iniciar sesión"
 
 #: ../../src/Birdie.vala:419
 msgid "Add an existing Twitter account."
-msgstr ""
+msgstr "Añadir una cuenta de Twitter existente."
 
 #: ../../src/Birdie.vala:420
 msgid "Sign Up"
-msgstr ""
+msgstr "Registrarse"
 
 #: ../../src/Birdie.vala:420
 msgid "Create a new Twitter account."
-msgstr ""
+msgstr "Crear una cuenta de Twitter nueva."
 
 #: ../../src/Birdie.vala:436
 msgid "Unable to connect"
