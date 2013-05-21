@@ -25,7 +25,7 @@ namespace Birdie.Utils {
             "summary", username);
         Notify.init (GLib.Environment.get_application_name());
         notification.set_hint_string ("desktop-entry", "birdie");
-        notification.set ("body", message);
+        notification.set ("body", Utils.remove_html_tags (message));
         notification.set_hint_string ("sound-name", "message");   
         try {
             notification.show();

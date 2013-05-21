@@ -125,12 +125,6 @@ namespace Birdie.Widgets {
             if ("&" in tweet.user_name)
                 tweet.user_name = tweet.user_name.replace ("&", "&amp;");
 
-            if ("< " in tweet.text)
-                tweet.text = tweet.text.replace ("< ", "&lt;");
-
-            if (" >" in tweet.text)
-                tweet.text = tweet.text.replace (" >", "&gt;");
-
             if (tweet.verified) {
                 this.verified_img = new Gtk.Image ();
                 this.verified_img.set_from_icon_name ("twitter-verified", Gtk.IconSize.MENU);
@@ -160,8 +154,10 @@ namespace Birdie.Widgets {
             this.update_date ();
             this.header_box.pack_start (this.time_label, true, true, 0);
 
+            tweet.text = Utils.unescape_entities (tweet.text);
+
             // tweet
-            this.tweet_label = new Gtk.Label (tweet.text);
+            this.tweet_label = new Gtk.Label ("");
             this.tweet_label.set_markup (tweet.text);
             this.tweet_label.set_selectable (true);
             this.tweet_label.set_line_wrap (true);

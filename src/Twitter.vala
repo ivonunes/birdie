@@ -234,6 +234,19 @@ namespace Birdie {
             call.set_method ("GET");
             call.add_param ("entities", "true");
 
+            string id = "";
+            string name = "";
+            string screen_name = "";
+            string profile_image_url = "";
+            string profile_image_file = "";
+            string desc = "";
+            string location = "";
+
+            int64 friends_count = 0;
+            int64 followers_count = 0;
+            int64 statuses_count = 0;
+            bool verified = false;
+
             try { call.sync (); } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
                 return 1;
@@ -241,18 +254,15 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                var desc = "";
-                var location = "";
 
                 parser.load_from_data ((string) call.get_payload (), -1);
                 var root = parser.get_root ();
                 var userobject = root.get_object ();
 
-                var id = userobject.get_string_member ("id_str");
-                var name = userobject.get_string_member ("name");
-                var screen_name = userobject.get_string_member ("screen_name");
-                var profile_image_url = userobject.get_string_member ("profile_image_url");
-                var profile_image_file = "";
+                id = userobject.get_string_member ("id_str");
+                name = userobject.get_string_member ("name");
+                screen_name = userobject.get_string_member ("screen_name");
+                profile_image_url = userobject.get_string_member ("profile_image_url");
 
                 if (userobject.has_member("location") &&
                     userobject.get_string_member ("location") != null) {
@@ -265,14 +275,15 @@ namespace Birdie {
                      desc = userobject.get_string_member ("description");
                 }
 
-                int64 friends_count = userobject.get_int_member ("friends_count");
-                int64 followers_count = userobject.get_int_member ("followers_count");
-                int64 statuses_count = userobject.get_int_member ("statuses_count");
-                bool verified = userobject.get_boolean_member ("verified");
+                friends_count = userobject.get_int_member ("friends_count");
+                followers_count = userobject.get_int_member ("followers_count");
+                statuses_count = userobject.get_int_member ("statuses_count");
+                verified = userobject.get_boolean_member ("verified");
 
                 account = new User (id, name, screen_name,
                     profile_image_url, profile_image_file, location, desc,
-                    friends_count, followers_count, statuses_count, verified, this.token, this.token_secret
+                    friends_count, followers_count, statuses_count, verified,
+                    this.token, this.token_secret
                 );
 
             } catch (Error e) {
@@ -282,17 +293,27 @@ namespace Birdie {
         }
 
         public void get_user (Json.Node tweetnode) {
-            var tweetobject = tweetnode.get_object();
 
-            var id = tweetobject.get_object_member ("user").get_string_member ("id_str");
-            var name = tweetobject.get_object_member ("user").get_string_member ("name");
-            var screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
-            var profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
-            var profile_image_file = "";
-
+            string id = "";
+            string name = "";
+            string screen_name = "";
+            string profile_image_url = "";
+            string profile_image_file = "";
             string location = "";
             string description = "";
 
+            int64 friends_count = 0;
+            int64 followers_count = 0;
+            int64 statuses_count = 0;
+            bool verified = false;
+
+            var tweetobject = tweetnode.get_object();
+
+            id = tweetobject.get_object_member ("user").get_string_member ("id_str");
+            name = tweetobject.get_object_member ("user").get_string_member ("name");
+            screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
+            profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
+            
             if (tweetobject.get_object_member ("user").has_member("location") &&
                  tweetobject.get_object_member ("user").get_string_member ("location") != null) {
                 location = tweetobject.get_object_member ("user").get_string_member ("location");
@@ -303,10 +324,10 @@ namespace Birdie {
                 description = tweetobject.get_object_member ("user").get_string_member ("description");
             }
 
-            int64 friends_count = tweetobject.get_object_member ("user").get_int_member ("friends_count");
-            int64 followers_count = tweetobject.get_object_member ("user").get_int_member ("followers_count");
-            int64 statuses_count = tweetobject.get_object_member ("user").get_int_member ("statuses_count");
-            bool verified =  tweetobject.get_object_member ("user").get_boolean_member ("verified");
+            friends_count = tweetobject.get_object_member ("user").get_int_member ("friends_count");
+            followers_count = tweetobject.get_object_member ("user").get_int_member ("followers_count");
+            statuses_count = tweetobject.get_object_member ("user").get_int_member ("statuses_count");
+            verified =  tweetobject.get_object_member ("user").get_boolean_member ("verified");
 
             this.user = new User (id, name, screen_name,
                 profile_image_url, profile_image_file, location, description,
@@ -328,13 +349,28 @@ namespace Birdie {
         }
 
         public override Tweet get_tweet (Json.Node tweetnode) {
-            var tweetobject = tweetnode.get_object();
-            var actual_id = tweetobject.get_string_member ("id_str");
-            var retweet = tweetobject.get_member ("retweeted_status");
+
+            string id = "";
+            string user_name = "";
+            string user_screen_name = "";
+            string text = "";
+            string created_at = "";
+            string profile_image_url = "";
+            string profile_image_file = "";
             string retweeted_by = "";
             string retweeted_by_name = "";
             string media_url = "";
             string youtube_video = "";
+            string? in_reply_to_screen_name = "";
+            string expanded = "";
+
+            bool retweeted = false;
+            bool favorited = false;
+            bool verified = false;
+           
+            var tweetobject = tweetnode.get_object();
+            var actual_id = tweetobject.get_string_member ("id_str");
+            var retweet = tweetobject.get_member ("retweeted_status");
 
             if (retweet != null) {
                 retweeted_by = tweetobject.get_object_member ("user").get_string_member ("screen_name");
@@ -342,21 +378,19 @@ namespace Birdie {
                 tweetobject = tweetobject.get_object_member ("retweeted_status");
             }
 
-            var id = tweetobject.get_string_member ("id_str");
-            var retweeted = tweetobject.get_boolean_member ("retweeted");
-            var favorited = tweetobject.get_boolean_member ("favorited");
-            var user_name = tweetobject.get_object_member ("user").get_string_member ("name");
-            var user_screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
-            var text = tweetobject.get_string_member ("text");
-            var created_at = tweetobject.get_string_member ("created_at");
-            var profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
-            var verified = tweetobject.get_object_member ("user").get_boolean_member ("verified");
-            var profile_image_file = "";
-            var in_reply_to_screen_name = tweetobject.get_string_member ("in_reply_to_screen_name");
+            id = tweetobject.get_string_member ("id_str");
+            retweeted = tweetobject.get_boolean_member ("retweeted");
+            favorited = tweetobject.get_boolean_member ("favorited");
+            user_name = tweetobject.get_object_member ("user").get_string_member ("name");
+            user_screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
+            text = tweetobject.get_string_member ("text");
+            created_at = tweetobject.get_string_member ("created_at");
+             profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
+            verified = tweetobject.get_object_member ("user").get_boolean_member ("verified");
+            in_reply_to_screen_name = tweetobject.get_string_member ("in_reply_to_screen_name");
 
-            if (in_reply_to_screen_name == null) {
+            if (in_reply_to_screen_name == null)
                 in_reply_to_screen_name = "";
-            }
 
             var entitiesobject = tweetobject.get_object_member ("entities");
 
@@ -371,7 +405,7 @@ namespace Birdie {
 
            if (entitiesobject.has_member("urls")) {
                 foreach (var url in entitiesobject.get_array_member ("urls").get_elements ()) {
-                    var expanded = url.get_object ().get_string_member ("expanded_url");
+                    expanded = url.get_object ().get_string_member ("expanded_url");
 
                     // intercept youtube links
                     if (expanded.contains ("youtube.com") || expanded.contains ("youtu.be")) {
@@ -390,6 +424,8 @@ namespace Birdie {
                         url.get_object ().get_string_member ("expanded_url"));
                 }
             }
+
+            text = Utils.escape_markup (text);
 
             return new Tweet (id, actual_id, user_name, user_screen_name,
                 Utils.highlight_all (text), created_at, profile_image_url, profile_image_file,
@@ -506,7 +542,8 @@ namespace Birdie {
                     var id = tweetobject.get_string_member ("id_str");
                     var user_name = tweetobject.get_object_member ("sender").get_string_member ("name");
                     var user_screen_name = tweetobject.get_object_member ("sender").get_string_member ("screen_name");
-                    var text = Utils.highlight_all(tweetobject.get_string_member ("text"));
+                    var text = Utils.escape_markup (tweetobject.get_string_member ("text"));
+                    text = Utils.highlight_all(text);
                     var created_at = tweetobject.get_string_member ("created_at");
                     var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
                     var profile_image_file = "";
@@ -553,7 +590,8 @@ namespace Birdie {
                     var id = tweetobject.get_string_member ("id_str");
                     var user_name = tweetobject.get_object_member ("sender").get_string_member ("name");
                     var user_screen_name = tweetobject.get_object_member ("recipient").get_string_member ("screen_name");
-                    var text = Utils.highlight_all (tweetobject.get_string_member ("text"));
+                    var text = Utils.escape_markup (tweetobject.get_string_member ("text"));
+                    text = Utils.highlight_all(text);
                     var created_at = tweetobject.get_string_member ("created_at");
                     var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
                     var profile_image_file = "";
