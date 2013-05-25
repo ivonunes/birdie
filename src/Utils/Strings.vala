@@ -20,7 +20,6 @@ namespace Birdie.Utils {
         text = highlight_urls (text);
         text = highlight_hashtags (text);
         text = highlight_users (text);
-        text = text.replace ("&", "&amp;");
         return text;
     }
 
@@ -65,13 +64,6 @@ namespace Birdie.Utils {
         return text;
     }
 
-    string escape_amp (string txt) {
-        string to_escape = txt;
-        if ("&" in to_escape)
-            to_escape = to_escape.replace ("&", "&amp;");
-        return to_escape;
-    }
-
     string remove_html_tags (string input) {
         try {
             string output = input;
@@ -114,14 +106,5 @@ namespace Birdie.Utils {
         }
         
         return input;
-    }
-
-    string escape_markup (string text) {
-        return GLib.Markup.escape_text (text);
-    }
-
-    string unescape_entities (string text) {
-        string escaped_text = text.replace ("&amp;", "&");
-        return escaped_text;
     }
 }

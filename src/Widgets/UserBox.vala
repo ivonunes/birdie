@@ -51,11 +51,6 @@ namespace Birdie.Widgets {
             this.avatar_img.margin_top = 12;
             this.user_box.pack_start (this.avatar_img, true, true, 0);
 
-            user.screen_name = Utils.escape_amp (user.screen_name);
-            user.name = Utils.escape_amp (user.name);
-            user.desc = Utils.escape_amp (user.desc);
-            user.location = Utils.escape_amp (user.location);
-
             string tweets_txt = _("TWEETS");
 
             string description_txt = user.desc +
@@ -200,11 +195,6 @@ namespace Birdie.Widgets {
             Array<string> friendship = new Array<string> ();
 
             this.avatar_img.set_from_file (Environment.get_home_dir () + "/.cache/birdie/" + user.profile_image_file);
-
-            user.screen_name = Utils.escape_amp (user.screen_name);
-            user.name = Utils.escape_amp (user.name);
-            user.desc = Utils.escape_amp (user.desc);
-            user.location = Utils.escape_amp (user.location);
 
             string followed_by = "";
 
