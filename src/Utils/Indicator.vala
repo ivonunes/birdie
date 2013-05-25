@@ -17,6 +17,7 @@
 namespace Birdie.Utils {
 
     public class Indicator : GLib.Object {
+    #if HAVE_LIBINDICATE
         public int unread { get; set; }
 
         private Indicate.Server indicator = null;
@@ -138,6 +139,9 @@ namespace Birdie.Utils {
             else
                 item.hide();
         }
-
+    #else
+        public Indicator (Birdie birdie) {
+        }
+    #endif
     }
 }

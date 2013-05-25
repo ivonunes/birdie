@@ -74,9 +74,14 @@ namespace Birdie {
         public API new_api;
 
         public string current_timeline;
-
+        
+        #if HAVE_LIBINDICATE
         private Utils.Indicator indicator;
-        private Utils.Launcher launcher;
+        #endif
+
+        #if HAVE_LIBUNITY
+	private Utils.Launcher launcher;
+	#endif
 
         private int unread_tweets;
         private int unread_mentions;
@@ -188,8 +193,12 @@ namespace Birdie {
                 this.m_window.window_height = settings.get_int ("window-height");
                 this.m_window.restore_window ();
 
+                #if HAVE_LIBINDICATE
                 this.indicator = new Utils.Indicator (this);
+                #endif
+		#if HAVE_LIBUNITY
                 this.launcher = new Utils.Launcher (this);
+		#endif
                 this.unread_tweets = 0;
                 this.unread_mentions = 0;
                 this.unread_dm = 0;
@@ -519,10 +528,11 @@ namespace Birdie {
                 this.m_window.add (this.notebook);
 
                 this.m_window.focus_in_event.connect ((w, e) => {
-
+                    #if HAVE_LIBUNITY
                     if (get_total_unread () > 0)
                         this.launcher.clean_launcher_count ();
-
+                    #endif
+                    #if HAVE_LIBINDICATE
                     switch (this.current_timeline) {
                         case "home":
                             clean_tweets_indicator ();
@@ -534,6 +544,7 @@ namespace Birdie {
                             clean_dm_indicator ();
                             break;
                     }
+                    #endif
                     return true;
                 });
 
@@ -556,10 +567,10 @@ namespace Birdie {
             } else {
                 this.m_window.show_all ();
                 this.m_window.present ();
-
+                #if HAVE_LIBUNITY
                 if (get_total_unread () > 0)
                     this.launcher.clean_launcher_count ();
-
+                #endif
                 while (Gtk.events_pending ())
                     Gtk.main_iteration ();
 
@@ -569,7 +580,7 @@ namespace Birdie {
                 if (w != null) {
                     w.activate (Gdk.x11_get_server_time (this.m_window.get_window ()));
                 }
-
+                #if HAVE_LIBINDICATE
                 switch (this.current_timeline) {
                     case "home":
                         clean_tweets_indicator ();
@@ -581,6 +592,7 @@ namespace Birdie {
                         clean_dm_indicator ();
                         break;
                 }
+                #endif
             }
         }
 
@@ -1042,8 +1054,12 @@ namespace Birdie {
             }
 
             if (this.tweet_notification && get_total_unread () > 0) {
+                #if HAVE_LIBINDICATE
                 this.indicator.update_tweets_indicator (this.unread_tweets);
+                #endif
+                #if HAVE_LIBUNITY
                 this.launcher.set_count (get_total_unread ());
+                #endif
             }
         }
 
@@ -1080,8 +1096,12 @@ namespace Birdie {
             }
 
             if (this.mention_notification && new_mentions) {
+                #if HAVE_LIBINDICATE
                 this.indicator.update_mentions_indicator (this.unread_mentions);
+                #endif
+                #if HAVE_LIBUNITY
                 this.launcher.set_count (get_total_unread ());
+                #endif
             }
         }
 
@@ -1120,8 +1140,12 @@ namespace Birdie {
             }
 
             if (this.dm_notification && new_dms) {
+                #if HAVE_LIBINDICATE
                 this.indicator.update_dm_indicator (this.unread_dm);
+                #endif
+                #if HAVE_LIBUNITY
                 this.launcher.set_count (get_total_unread ());
+                #endif
             }
         }
 
@@ -1140,7 +1164,7 @@ namespace Birdie {
         Indicator cleaning
 
         */
-
+        #if HAVE_LIBINDICATE
         private void clean_tweets_indicator () {
             if (this.unread_tweets > 0)
                 this.indicator.clean_tweets_indicator();
@@ -1158,6 +1182,7 @@ namespace Birdie {
                 this.indicator.clean_dm_indicator();
             this.unread_dm = 0;
         }
+        #endif
 
         /*
 
