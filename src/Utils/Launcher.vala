@@ -17,7 +17,7 @@
 namespace Birdie.Utils {
 
     public class Launcher : Object {
-
+    #if HAVE_LIBUNITY
         private Unity.LauncherEntry? launcher = null;
 
         Birdie birdie;
@@ -130,5 +130,9 @@ namespace Birdie.Utils {
             launcher.count = 0;
             launcher.count_visible = false;
         }
+    #else
+        public Launcher(Birdie birdie) {
+        }
+    #endif
     }
 }

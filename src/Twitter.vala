@@ -425,8 +425,6 @@ namespace Birdie {
                 }
             }
 
-            text = Utils.escape_markup (text);
-
             return new Tweet (id, actual_id, user_name, user_screen_name,
                 Utils.highlight_all (text), created_at, profile_image_url, profile_image_file,
                 retweeted, favorited, false, in_reply_to_screen_name,
@@ -542,7 +540,7 @@ namespace Birdie {
                     var id = tweetobject.get_string_member ("id_str");
                     var user_name = tweetobject.get_object_member ("sender").get_string_member ("name");
                     var user_screen_name = tweetobject.get_object_member ("sender").get_string_member ("screen_name");
-                    var text = Utils.escape_markup (tweetobject.get_string_member ("text"));
+                    var text = tweetobject.get_string_member ("text");
                     text = Utils.highlight_all(text);
                     var created_at = tweetobject.get_string_member ("created_at");
                     var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
@@ -590,7 +588,7 @@ namespace Birdie {
                     var id = tweetobject.get_string_member ("id_str");
                     var user_name = tweetobject.get_object_member ("sender").get_string_member ("name");
                     var user_screen_name = tweetobject.get_object_member ("recipient").get_string_member ("screen_name");
-                    var text = Utils.escape_markup (tweetobject.get_string_member ("text"));
+                    var text = tweetobject.get_string_member ("text");
                     text = Utils.highlight_all(text);
                     var created_at = tweetobject.get_string_member ("created_at");
                     var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");

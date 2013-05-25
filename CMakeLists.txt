@@ -28,6 +28,10 @@ include (ValaVersion)
 ensure_vala_version ("0.16.1" MINIMUM)
 include (ValaPrecompile)
 
+find_package(PkgConfig)
+pkg_check_modules(LIBUNITY QUIET unity)
+pkg_check_modules(LIBINDICATE QUIET indicate-0.7)
+
 configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
     "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"

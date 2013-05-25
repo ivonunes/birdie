@@ -153,12 +153,10 @@ namespace Birdie.Widgets {
             this.time_label.set_valign (Gtk.Align.START);
             this.update_date ();
             this.header_box.pack_start (this.time_label, true, true, 0);
-
-            tweet.text = Utils.unescape_entities (tweet.text);
-
+            
             // tweet
-            this.tweet_label = new Gtk.Label ("");
-            this.tweet_label.set_markup (tweet.text);
+            this.tweet_label = new Gtk.Label (tweet.text);
+            this.tweet_label.set_use_markup (true);
             this.tweet_label.set_selectable (true);
             this.tweet_label.set_line_wrap (true);
             this.tweet_label.wrap_mode = Pango.WrapMode.WORD_CHAR;
