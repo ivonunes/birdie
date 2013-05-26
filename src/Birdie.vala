@@ -74,14 +74,14 @@ namespace Birdie {
         public API new_api;
 
         public string current_timeline;
-        
+
         #if HAVE_LIBINDICATE
         private Utils.Indicator indicator;
         #endif
 
         #if HAVE_LIBUNITY
-	private Utils.Launcher launcher;
-	#endif
+        private Utils.Launcher launcher;
+        #endif
 
         private int unread_tweets;
         private int unread_mentions;
@@ -196,9 +196,11 @@ namespace Birdie {
                 #if HAVE_LIBINDICATE
                 this.indicator = new Utils.Indicator (this);
                 #endif
-		#if HAVE_LIBUNITY
+
+                #if HAVE_LIBUNITY
                 this.launcher = new Utils.Launcher (this);
-		#endif
+                #endif
+
                 this.unread_tweets = 0;
                 this.unread_mentions = 0;
                 this.unread_dm = 0;
@@ -532,7 +534,6 @@ namespace Birdie {
                     if (get_total_unread () > 0)
                         this.launcher.clean_launcher_count ();
                     #endif
-                    #if HAVE_LIBINDICATE
                     switch (this.current_timeline) {
                         case "home":
                             clean_tweets_indicator ();
@@ -544,7 +545,6 @@ namespace Birdie {
                             clean_dm_indicator ();
                             break;
                     }
-                    #endif
                     return true;
                 });
 
@@ -580,7 +580,6 @@ namespace Birdie {
                 if (w != null) {
                     w.activate (Gdk.x11_get_server_time (this.m_window.get_window ()));
                 }
-                #if HAVE_LIBINDICATE
                 switch (this.current_timeline) {
                     case "home":
                         clean_tweets_indicator ();
@@ -592,7 +591,6 @@ namespace Birdie {
                         clean_dm_indicator ();
                         break;
                 }
-                #endif
             }
         }
 
@@ -1164,25 +1162,30 @@ namespace Birdie {
         Indicator cleaning
 
         */
-        #if HAVE_LIBINDICATE
+
         private void clean_tweets_indicator () {
+            #if HAVE_LIBINDICATE
             if (this.unread_tweets > 0)
                 this.indicator.clean_tweets_indicator();
+            #endif
             this.unread_tweets = 0;
         }
 
         private void clean_mentions_indicator () {
+            #if HAVE_LIBINDICATE
             if (this.unread_mentions > 0)
                 this.indicator.clean_mentions_indicator();
+            #endif
             this.unread_mentions = 0;
         }
 
         private void clean_dm_indicator () {
+            #if HAVE_LIBINDICATE
             if (this.unread_dm > 0)
                 this.indicator.clean_dm_indicator();
+            #endif
             this.unread_dm = 0;
         }
-        #endif
 
         /*
 

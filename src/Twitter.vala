@@ -74,8 +74,8 @@ namespace Birdie {
             if (token == "" || token_secret == "") {
                 return 1;
             } else {
-                proxy.set_token(token);
-                proxy.set_token_secret(token_secret);
+                proxy.set_token (token);
+                proxy.set_token_secret (token_secret);
             }
 
             this.since_id_home = "";
