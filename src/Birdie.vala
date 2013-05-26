@@ -1200,51 +1200,55 @@ namespace Birdie {
             var text_url = "";
             var media_out = "";
 
-            if (dm)
-                code = this.api.send_direct_message (user_screen_name, text);
-            else
-                if (media_uri == "")
-                    code = this.api.update (text, id);
+            if (this.check_internet_connection ()) {
+                if (dm)
+                    code = this.api.send_direct_message (user_screen_name, text);
                 else
-                    code = this.api.update_with_media (text, id, media_uri, out media_out);
+                    if (media_uri == "")
+                        code = this.api.update (text, id);
+                    else
+                        code = this.api.update_with_media (text, id, media_uri, out media_out);
 
-            if (code != 1) {
-                text_url = Utils.highlight_urls (text);
+                if (code != 1) {
+                    text_url = Utils.highlight_urls (text);
 
-                if (media_out != "") {
-                    text_url = text_url + " <a href='" + media_out + "'>" + media_out + "</a>";
+                    if (media_out != "") {
+                        text_url = text_url + " <a href='" + media_out + "'>" + media_out + "</a>";
+                    }
+
+                    string user = user_screen_name;
+
+                    if ("@" in user_screen_name)
+                        user = user.replace ("@", "");
+
+                    if (user == "")
+                        user = this.api.account.screen_name;
+
+                    Tweet tweet_tmp = new Tweet (code.to_string (), code.to_string (),
+                        this.api.account.name, user, text_url, "", this.api.account.profile_image_url,
+                        this.api.account.profile_image_file, false, false, dm);
+
+                    if (dm) {
+                        this.dm_sent_list.append (tweet_tmp, this);
+                        this.switch_timeline ("dm");
+                        Idle.add (() => {
+                            this.notebook_dm.page = 1;
+                            return false;
+                        });
+                        get_avatar (this.dm_sent_list);
+                    } else {
+                        this.home_tmp.append (tweet_tmp);
+                        this.home_list.append (tweet_tmp, this);
+                        this.own_list.append (tweet_tmp, this);
+
+                        get_avatar (this.home_list);
+                        get_avatar (this.own_list);
+
+                        this.switch_timeline ("home");
+                    }
                 }
-
-                string user = user_screen_name;
-
-                if ("@" in user_screen_name)
-                    user = user.replace ("@", "");
-
-                if (user == "")
-                    user = this.api.account.screen_name;
-
-                Tweet tweet_tmp = new Tweet (code.to_string (), code.to_string (),
-                    this.api.account.name, user, text_url, "", this.api.account.profile_image_url,
-                    this.api.account.profile_image_file, false, false, dm);
-
-                if (dm) {
-                    this.dm_sent_list.append (tweet_tmp, this);
-                    this.switch_timeline ("dm");
-                    Idle.add (() => {
-                        this.notebook_dm.page = 1;
-                        return false;
-                    });
-                    get_avatar (this.dm_sent_list);
-                } else {
-                    this.home_tmp.append (tweet_tmp);
-                    this.home_list.append (tweet_tmp, this);
-                    this.own_list.append (tweet_tmp, this);
-
-                    get_avatar (this.home_list);
-                    get_avatar (this.own_list);
-
-                    this.switch_timeline ("home");
-                }
+            } else {
+                this.switch_timeline ("error");
             }
         }
 
