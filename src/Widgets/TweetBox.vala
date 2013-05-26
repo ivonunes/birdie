@@ -153,7 +153,7 @@ namespace Birdie.Widgets {
             this.time_label.set_valign (Gtk.Align.START);
             this.update_date ();
             this.header_box.pack_start (this.time_label, true, true, 0);
-            
+
             // tweet
             this.tweet_label = new Gtk.Label (tweet.text);
             this.tweet_label.set_use_markup (true);
@@ -377,7 +377,7 @@ namespace Birdie.Widgets {
             var light_window = new Granite.Widgets.LightWindow ();
             this.web_view = new WebKit.WebView ();
             this.web_view.load_html_string ("<iframe width='640' height='385' style='margin-left: -10px;' src='http://www.youtube.com/embed/" +
-                youtube_video_id + "?version=3&autohide=1&showinfo=0&showsearch=0&vq=hd720&autoplay=1' frameborder='0' allowfullscreen</iframe>", ".");
+                youtube_video_id + "?version=3&autohide=1&showinfo=0&showsearch=0&vq=hd720&autoplay=1' frameborder='0' allowfullscreen</iframe>", "http://www.youtube.com/embed/");
             light_window.add (this.web_view);
             light_window.set_position (Gtk.WindowPosition.CENTER);
             light_window.show_all ();
