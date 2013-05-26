@@ -20,6 +20,7 @@ namespace Birdie.Widgets {
 
         public User user;
         public Birdie birdie;
+
         private Gtk.Box user_box;
         private Gtk.Box buttons_box;
         private Gtk.Alignment buttons_alignment;
@@ -30,6 +31,8 @@ namespace Birdie.Widgets {
         private Gtk.Button unfollow_button;
         private Gtk.Button block_button;
         private Gtk.Button unblock_button;
+
+        private string description_txt = "";
 
         public UserBox () {
             GLib.Object (orientation: Gtk.Orientation.HORIZONTAL);
@@ -53,7 +56,7 @@ namespace Birdie.Widgets {
 
             string tweets_txt = _("TWEETS");
 
-            string description_txt = user.desc +
+            description_txt = user.desc +
                 "\n\n<span size='small' color='#666666'>" + tweets_txt +
                 " </span><span size='small' font_weight='bold'>" + user.statuses_count.to_string() + "</span>" +
                 " | <span size='small' color='#666666'> " + _("FOLLOWING") +
@@ -221,7 +224,7 @@ namespace Birdie.Widgets {
 
             string tweets_txt = _("TWEETS");
 
-            string description_txt = Utils.highlight_all (user.desc) + "\n\n<span size='small' color='#666666'>" + followed_by + "</span>" +
+            description_txt = Utils.highlight_all (user.desc) + "\n\n<span size='small' color='#666666'>" + followed_by + "</span>" +
                 "\n\n<span size='small' color='#666666'>" + tweets_txt +
                 " </span><span size='small' font_weight='bold'>" + user.statuses_count.to_string() + "</span>" +
                 " | <span size='small' color='#666666'> " + _("FOLLOWING") +
