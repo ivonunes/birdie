@@ -17,9 +17,10 @@
 namespace Birdie.Utils {
 
     string highlight_all (owned string text) {
-        text = highlight_urls (text);
+        text = escape_markup (text);
         text = highlight_hashtags (text);
         text = highlight_users (text);
+        text = highlight_urls (text);
         return text;
     }
 
@@ -53,7 +54,7 @@ namespace Birdie.Utils {
         Regex urls;
 
         try {
-            urls = new Regex("((http|https|ftp)://(([[:alpha:]0-9?=_#\\-&~+=,%$!]|[/.]|[~])*)\\b)");
+            urls = new Regex("((http|https|ftp)://(([[:alpha:]0-9?=_#\\-&~+=,;%$!]|[/.]|[~])*)\\b)");
             text = urls.replace(text, -1, 0,
                 "<span underline='none'><a href='\\0'>\\0</a></span>");
             if ("</a></span>/" in text)
