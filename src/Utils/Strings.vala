@@ -109,7 +109,19 @@ namespace Birdie.Utils {
         return input;
     }
 
-    string escape_markup (string text) {
-        return GLib.Markup.escape_text (text);
+    string escape_markup (owned string text) {
+        if ("&gt;" in text)
+            text = text.replace ("&gt;", ">");
+        if ("&lt;" in text)
+            text = text.replace ("&lt;", "<");
+        if ("&amp;" in text)
+            text = text.replace ("&amp;", "&");
+        if ("&copy;" in text)
+            text = text.replace ("&copy;", "©");
+        if ("&quot;" in text)
+            text = text.replace ("&quot;", "\"");
+
+        text = GLib.Markup.escape_text (text);
+        return text;
     }
 }
