@@ -120,6 +120,8 @@ namespace Birdie.Utils {
             text = text.replace ("&copy;", "©");
         if ("&quot;" in text)
             text = text.replace ("&quot;", "\"");
+        if ("&apos;" in text)
+            text = text.replace ("&apos;", "'");
 
         text = GLib.Markup.escape_text (text);
         return text;
