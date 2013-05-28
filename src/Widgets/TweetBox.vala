@@ -384,6 +384,21 @@ namespace Birdie.Widgets {
             this.full_image.set_valign (Gtk.Align.CENTER);
             light_window.add (this.full_image);
             light_window.set_position (Gtk.WindowPosition.CENTER);
+
+            light_window.add_events (Gdk.EventMask.KEY_PRESS_MASK);
+
+            // connect signal to handle key events
+            light_window.key_press_event.connect ((event, key) => {
+                // if Space or Esc pressed, destroy dialog
+                if (key.keyval == Gdk.Key.space) {
+                    Idle.add (() => {
+                        light_window.destroy ();
+                        return false;
+                    });
+                }
+                return false;
+            });
+
             light_window.show_all ();
         }
 
