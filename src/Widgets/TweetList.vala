@@ -23,7 +23,7 @@ namespace Birdie.Widgets {
         int count;
 
         public TweetList () {
-            GLib.Object (orientation: Gtk.Orientation.VERTICAL);
+            GLib.Object (orientation: Gtk.Orientation.VERTICAL, valign: Gtk.Align.START);
             this.first = true;
             this.count = 0;
         }
