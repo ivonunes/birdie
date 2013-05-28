@@ -30,6 +30,7 @@ namespace Birdie.Widgets {
         private Gtk.Label info_label;
         private Gtk.Label time_label;
         private Gtk.Box avatar_box;
+        private Gtk.EventBox avatar_event;
         private Gtk.Box header_box;
         private Gtk.Box buttons_box;
         private Gtk.Overlay context_overlay;
@@ -114,7 +115,20 @@ namespace Birdie.Widgets {
             this.avatar_img.set_from_file (Constants.PKGDATADIR + "/default.png");
             this.avatar_img.set_halign (Gtk.Align.START);
             this.avatar_img.set_valign (Gtk.Align.START);
-            this.avatar_box.pack_start (this.avatar_img, false, false, 0);
+            this.avatar_event = new Gtk.EventBox ();
+            this.avatar_event.add (this.avatar_img);
+            this.avatar_box.pack_start (this.avatar_event, false, false, 0);
+
+            this.avatar_event.button_release_event.connect ((event) => {
+                this.birdie.user = tweet.user_screen_name;
+                new Thread<void*> (null, this.birdie.show_user);
+                return false;
+            });
+
+            this.avatar_event.enter_notify_event.connect ((event) => {
+                on_mouse_enter (this, event);
+                return false;
+            });
 
             // header box
             this.header_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);

@@ -95,7 +95,7 @@ namespace Birdie {
 
         public Settings settings;
 
-        private string user;
+        public string user;
         private string search_term;
 
         private bool initialized;
@@ -1252,7 +1252,7 @@ namespace Birdie {
             }
         }
 
-        private void* show_user () {
+        public void* show_user () {
             if (this.check_internet_connection ()) {
                 Idle.add (() => {
                     this.switch_timeline ("loading");
