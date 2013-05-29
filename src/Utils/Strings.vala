@@ -17,19 +17,20 @@
 namespace Birdie.Utils {
 
     string highlight_all (owned string text) {
+        text = unescape_html (text);
         text = escape_markup (text);
+        text = highlight_urls (text);
         text = highlight_hashtags (text);
         text = highlight_users (text);
-        text = highlight_urls (text);
         return text;
     }
 
     string highlight_hashtags (owned string text) {
-        Regex urls;
+        Regex hashtags;
 
         try {
-            urls = new Regex("([#][[:alpha:]0-9_]+)");
-            text = urls.replace(text, -1, 0,
+            hashtags = new Regex("([#][[:alpha:]0-9_.-\\p{Latin}\\p{Greek}]+)");
+            text = hashtags.replace(text, -1, 0,
                 "<span underline='none'><a href='birdie://search/\\0'>\\0</a></span>");
         } catch (RegexError e) {
             warning ("regex error: %s", e.message);
@@ -38,11 +39,11 @@ namespace Birdie.Utils {
     }
 
     string highlight_users (owned string text) {
-        Regex urls;
+        Regex users;
 
         try {
-            urls = new Regex("([@][[:alpha:]0-9_]+)");
-            text = urls.replace(text, -1, 0,
+            users = new Regex("([@][[:alpha:]0-9_]+)");
+            text = users.replace(text, -1, 0,
                 "<span underline='none'><a href='birdie://user/\\0'>\\0</a></span>");
         } catch (RegexError e) {
             warning ("regex error: %s", e.message);
@@ -53,8 +54,11 @@ namespace Birdie.Utils {
     string highlight_urls (owned string text) {
         Regex urls;
 
+        // avoid breaking urls with closing quotes
+        text = text.replace ("&quot;", "\"");
+
         try {
-            urls = new Regex("((http|https|ftp)://(([[:alpha:]0-9?=_#\\-&~+=,;%$!]|[/.]|[~])*)\\b)");
+            urls = new Regex("((https?|ftp)://([A-Za-z0-9+&@#/%?'=~_|!:,.;-]*)([A-Za-z0-9+&@#/%=~_|$]))");
             text = urls.replace(text, -1, 0,
                 "<span underline='none'><a href='\\0'>\\0</a></span>");
             if ("</a></span>/" in text)
@@ -109,21 +113,20 @@ namespace Birdie.Utils {
         return input;
     }
 
-    string escape_markup (owned string text) {
-        if ("&gt;" in text)
-            text = text.replace ("&gt;", ">");
-        if ("&lt;" in text)
-            text = text.replace ("&lt;", "<");
-        if ("&amp;" in text)
-            text = text.replace ("&amp;", "&");
-        if ("&copy;" in text)
-            text = text.replace ("&copy;", "©");
-        if ("&quot;" in text)
-            text = text.replace ("&quot;", "\"");
-        if ("&apos;" in text)
-            text = text.replace ("&apos;", "'");
-
-        text = GLib.Markup.escape_text (text);
+    string unescape_html (owned string text) {
+        text = text.replace ("&lt;", "<").replace ("&gt;", ">");
+        text = text.replace ("&amp;", "?").replace ("&quot;", "\"");
+        text = text.replace ("&copy;", "©").replace ("&apos;", "'");
+        text = text.replace ("&nbsp;", " ").replace ("&cent;", "¢");
+        text = text.replace ("&pound;", "£").replace ("&yen;", "¥");
+        text = text.replace ("&euro;", "€").replace ("&sect;", "§");
+        text = text.replace ("&reg;", "®").replace ("&trade;", "™");
+        text = text.replace ("&deg;", "°").replace ("&plusmn;", "±");
+        text = text.replace ("&micro;", "µ").replace ("&frac12;", "½");
         return text;
+    }
+
+    string escape_markup (owned string text) {
+        return GLib.Markup.escape_text (text);
     }
 }
