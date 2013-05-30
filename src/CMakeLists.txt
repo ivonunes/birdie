@@ -11,12 +11,12 @@ if (LIBINDICATE_FOUND)
         ${EXTRA_PKG_CONFIG}
         indicate-0.7
     )
-    
+
     set(EXTRA_PACKAGES
         ${EXTRA_PACKAGES}
         Indicate-0.7
     )
-    
+
     set(EXTRA_VALA_OPTIONS
         ${EXTRA_VALA_OPTIONS}
         -D HAVE_LIBINDICATE
@@ -31,12 +31,12 @@ if (LIBUNITY_FOUND)
         ${EXTRA_PKG_CONFIG}
         unity
     )
-    
+
     set(EXTRA_PACKAGES
         ${EXTRA_PACKAGES}
         unity
     )
-    
+
     set(EXTRA_VALA_OPTIONS
         ${EXTRA_VALA_OPTIONS}
         -D HAVE_LIBUNITY
@@ -59,10 +59,11 @@ pkg_check_modules(DEPS REQUIRED
 	webkitgtk-3.0
 	sqlite3
 	xtst
+    purple
 	${EXTRA_PKG_CONFIG}
 )
 
-set(CFLAGS 
+set(CFLAGS
     ${DEPS_CFLAGS}
     ${DEPS_CFLAGS_OTHER}
     -D_VERSION=\"${VERSION}\"
@@ -78,12 +79,12 @@ if (NOT DEBUG)
     set(CFLAGS
         ${CFLAGS}
         -O2
-    )    
+    )
 endif ()
 
 set(BIRDIE_PACKAGES
     gtk+-3.0 granite rest-0.7 json-glib-1.0 libnotify>=0.7.5 libcanberra>=0.28
- Dbusmenu-0.4 libwnck-3.0 gdk-x11-3.0 webkitgtk-3.0 sqlite3 xtst ${EXTRA_PACKAGES}
+ Dbusmenu-0.4 libwnck-3.0 gdk-x11-3.0 webkitgtk-3.0 sqlite3 xtst purple ${EXTRA_PACKAGES}
 )
 
 set(VALAC_OPTIONS
