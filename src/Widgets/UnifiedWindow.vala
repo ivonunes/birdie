@@ -26,7 +26,7 @@ namespace Birdie.Widgets {
 
         const int HEIGHT = 48;
         const int ICON_SIZE = Gtk.IconSize.LARGE_TOOLBAR;
-        const string CSS = """
+        /*const string CSS = """
             .title {
                 color: #666;
                 text-shadow: 0 1 0 white;
@@ -36,7 +36,7 @@ namespace Birdie.Widgets {
                 box-shadow: inset 0 1 0 rgba(255,255,255,0.3);
             }
         """;
-        Gtk.CssProvider css;
+        Gtk.CssProvider css;*/
 
         Gtk.Label _title;
         public new string title {
@@ -63,11 +63,11 @@ namespace Birdie.Widgets {
             // set smooth scrolling events
             set_events(Gdk.EventMask.SMOOTH_SCROLL_MASK);
 
-            css = new Gtk.CssProvider ();
+            /*css = new Gtk.CssProvider ();
             try {
                 if (!legacy)
                     css.load_from_data (CSS, -1);
-            } catch (Error e) { warning (e.message); }
+            } catch (Error e) { warning (e.message); }*/
 
             toolbar = new Gtk.Toolbar ();
             toolbar.icon_size = ICON_SIZE;
@@ -75,7 +75,7 @@ namespace Birdie.Widgets {
                 toolbar.get_style_context ().add_class ("primary-toolbar");
             else
                 toolbar.get_style_context ().add_class ("titlebar");
-            toolbar.get_style_context ().add_provider (css, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+            //toolbar.get_style_context ().add_provider (css, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
             container = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             container.pack_start (toolbar, false);
@@ -104,7 +104,7 @@ namespace Birdie.Widgets {
                 label.add (_title);
                 label.set_expand (true);
                 label.get_style_context ().add_class ("title");
-                label.get_style_context ().add_provider (css, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+                //label.get_style_context ().add_provider (css, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
                 toolbar.insert (create_separator (), -1);
                 toolbar.insert (label, -1);
                 toolbar.insert (create_separator (), -1);
@@ -151,7 +151,7 @@ namespace Birdie.Widgets {
                 return true;
             });
             sep.get_style_context ().add_class ("sep");
-            sep.get_style_context ().add_provider (css, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+            //sep.get_style_context ().add_provider (css, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
             return sep;
         }

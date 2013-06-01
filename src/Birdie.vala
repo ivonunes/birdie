@@ -150,12 +150,16 @@ namespace Birdie {
         }*/
 
         public static const OptionEntry[] app_options = {
+            { "debug", 'd', 0, OptionArg.NONE, out Option.DEBUG, "Enable debug logging", null },
             { "start-hidden", 's', 0, OptionArg.NONE, out Option.START_HIDDEN, "Start hidden", null },
             { null }
         };
 
         public Birdie () {
-            set_flags (ApplicationFlags.HANDLES_OPEN);
+            GLib.Object(application_id: "org.birdie", flags: ApplicationFlags.HANDLES_OPEN);
+
+            Intl.bindtextdomain ("birdie", Constants.DATADIR + "/locale");
+
             this.initialized = false;
             this.changing_tab = false;
 
@@ -175,15 +179,16 @@ namespace Birdie {
 
         public override void activate (){
             if (get_windows () == null) {
-
-                #if HAVE_GRANITE
-                if (DEBUG)
-                    Granite.Services.Logger.DisplayLevel =
-                        Granite.Services.LogLevel.DEBUG;
-                 else
-                    Granite.Services.Logger.DisplayLevel =
-                        Granite.Services.LogLevel.INFO;
-                #endif
+                Utils.Logger.initialize ("birdie");
+                Utils.Logger.DisplayLevel = Utils.LogLevel.INFO;
+                message ("Birdie version: %s", Constants.VERSION);
+                var un = Posix.utsname ();
+                message ("Kernel version: %s", (string) un.release);
+                
+                if (Option.DEBUG)
+                    Utils.Logger.DisplayLevel = Utils.LogLevel.DEBUG;
+                else
+                    Utils.Logger.DisplayLevel = Utils.LogLevel.WARN;
 
                 // settings
                 this.settings = new Settings ("org.pantheon.birdie");

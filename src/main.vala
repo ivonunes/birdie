@@ -17,7 +17,7 @@
 namespace Birdie {
 
     namespace Option {
-
+        private static bool DEBUG = false;
         private static bool START_HIDDEN = false;
     }
 
