@@ -15,7 +15,7 @@
  */
 
 namespace Birdie.Widgets {
-    public class LightWindowNoDrag : Granite.Widgets.LightWindow {
+    public class LightWindowNoDrag : Gtk.Window {
         public override bool button_press_event (Gdk.EventButton e) {
             return false;
         }

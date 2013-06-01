@@ -15,7 +15,7 @@
  */
 
 namespace Birdie {
-    public class Birdie : Granite.Application {
+    public class Birdie : Gtk.Application {
         public Widgets.UnifiedWindow m_window;
         public Widgets.TweetList home_list;
         public Widgets.TweetList mentions_list;
@@ -37,7 +37,11 @@ namespace Birdie {
         public Gtk.ToggleToolButton dm;
         public Gtk.ToggleToolButton profile;
         private Gtk.ToggleToolButton search;
+        #if HAVE_GRANITE
         private Granite.Widgets.ToolButtonWithMenu appmenu;
+        #else
+        private Gtk.MenuToolButton appmenu;
+        #endif
 
         private Widgets.UserBox own_box_info;
         private Gtk.Box own_box;
@@ -54,6 +58,7 @@ namespace Birdie {
         private Gtk.ScrolledWindow scrolled_user;
         private Gtk.ScrolledWindow scrolled_search;
 
+        #if HAVE_GRANITE
         private Granite.Widgets.Welcome welcome;
         private Granite.Widgets.Welcome error_page;
 
@@ -63,6 +68,17 @@ namespace Birdie {
         private Granite.Widgets.StaticNotebook notebook_user;
 
         private Granite.Widgets.SearchBar search_entry;
+        #else
+        private Gtk.Box welcome;
+        private Gtk.Box error_page;
+
+        private Gtk.Notebook notebook;
+        private Gtk.Notebook notebook_dm;
+        private Gtk.Notebook notebook_own;
+        private Gtk.Notebook notebook_user;
+
+        private Gtk.SearchEntry search_entry;
+        #endif
 
         private Gtk.Spinner spinner;
 
@@ -113,7 +129,7 @@ namespace Birdie {
 
         public bool elementary;
 
-        construct {
+        /*construct {
             program_name        = "Birdie";
             exec_name           = "birdie";
             build_version       = Constants.VERSION;
@@ -131,7 +147,7 @@ namespace Birdie {
             about_documenters   = {};
             about_translators   = null;
             about_license_type  = Gtk.License.GPL_3_0;
-        }
+        }*/
 
         public static const OptionEntry[] app_options = {
             { "start-hidden", 's', 0, OptionArg.NONE, out Option.START_HIDDEN, "Start hidden", null },
@@ -160,20 +176,22 @@ namespace Birdie {
         public override void activate (){
             if (get_windows () == null) {
 
-                // logger
+                #if HAVE_GRANITE
                 if (DEBUG)
                     Granite.Services.Logger.DisplayLevel =
                         Granite.Services.LogLevel.DEBUG;
                  else
                     Granite.Services.Logger.DisplayLevel =
                         Granite.Services.LogLevel.INFO;
+                #endif
 
                 // settings
                 this.settings = new Settings ("org.pantheon.birdie");
                 this.tweet_notification = settings.get_boolean ("tweet-notification");
                 this.mention_notification = settings.get_boolean ("mention-notification");
                 this.dm_notification = settings.get_boolean ("dm-notification");
-                this.legacy_window = settings.get_boolean ("legacy-window");
+                //this.legacy_window = settings.get_boolean ("legacy-window");
+                this.legacy_window = true;
                 this.update_interval = settings.get_int ("update-interval");
                 this.limit_notifications = settings.get_int ("limit-notifications");
 
@@ -327,7 +345,8 @@ namespace Birdie {
                 right_sep.set_expand (true);
                 this.m_window.add_bar (right_sep);
 
-                menu = new Widgets.MenuPopOver (!elementary);
+                //menu = new Widgets.MenuPopOver (!elementary);
+                menu = new Widgets.MenuPopOver ();
                 this.account_appmenu = new Gtk.MenuItem.with_label (_("Add Account"));
                 account_appmenu.activate.connect (() => {
                     this.switch_timeline ("welcome");
@@ -362,7 +381,7 @@ namespace Birdie {
 
                 var about_appmenu = new Gtk.MenuItem.with_label (_("About"));
                 about_appmenu.activate.connect (() => {
-                    show_about (this.m_window);
+                    //show_about (this.m_window);
                 });
                 var donate_appmenu = new Gtk.MenuItem.with_label (_("Donate"));
                 donate_appmenu.activate.connect (() => {
@@ -391,8 +410,14 @@ namespace Birdie {
                 menu.add (about_appmenu);
                 menu.add (donate_appmenu);
                 menu.add (quit_appmenu);
+
+                #if HAVE_GRANITE
                 this.appmenu = new Granite.Widgets.ToolButtonWithMenu (new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU), _("Menu"), menu);
                 menu.move_to_widget (appmenu);
+                #else
+                this.appmenu = new Gtk.MenuToolButton (new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU), _("Menu"));
+                this.appmenu.set_menu (menu);
+                #endif
 
                 this.m_window.add_bar (appmenu);
 
@@ -426,7 +451,8 @@ namespace Birdie {
                 this.scrolled_search = new Gtk.ScrolledWindow (null, null);
                 this.scrolled_search.add_with_viewport (search_list);
 
-                this.welcome = new Granite.Widgets.Welcome (_("Birdie"), _("Twitter Client"));
+                #if HAVE_GRANITE
+                /*this.welcome = new Granite.Widgets.Welcome (_("Birdie"), _("Twitter Client"));
                 this.welcome.append ("add", _("Sign In"), _("Add an existing Twitter account."));
                 this.welcome.append ("edit", _("Sign Up"), _("Create a new Twitter account."));
                 this.welcome.activated.connect ((index) => {
@@ -442,9 +468,9 @@ namespace Birdie {
                             }
                             break;
                     }
-                });
+                });*/
 
-                this.error_page = new Granite.Widgets.Welcome (_("Unable to connect"), _("Please check your Internet Connection"));
+                /*this.error_page = new Granite.Widgets.Welcome (_("Unable to connect"), _("Please check your Internet Connection"));
                 this.error_page.append ("view-refresh", _("Retry"), _("Try to connect again"));
                 this.error_page.activated.connect (() => {
                     this.new_tweet.set_sensitive (true);
@@ -464,7 +490,7 @@ namespace Birdie {
                         this.switch_timeline ("loading");
                         new Thread<void*> (null, this.init);
                     }
-                });
+                });*/
 
                 this.notebook_dm = new Granite.Widgets.StaticNotebook (false);
                 this.notebook_dm.append_page (this.scrolled_dm, new Gtk.Label (_("Received")));
@@ -473,6 +499,66 @@ namespace Birdie {
                 this.notebook = new Granite.Widgets.StaticNotebook ();
                 this.notebook.set_switcher_visible (false);
                 this.notebook.get_style_context ().add_class (Granite.StyleClass.CONTENT_VIEW);
+                #else
+
+                this.welcome = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+
+                var signin = new Gtk.Button ();
+                signin.set_label (_("Sign In"));
+                signin.clicked.connect (() => {
+                    new Thread<void*> (null, this.request);
+                });
+
+                welcome.add (signin);
+
+                /*this.welcome.append ("add", _("Sign In"), _("Add an existing Twitter account."));
+                this.welcome.append ("edit", _("Sign Up"), _("Create a new Twitter account."));
+                this.welcome.activated.connect ((index) => {
+                    switch (index) {
+                        case 0:
+                            new Thread<void*> (null, this.request);
+                            break;
+                        case 1:
+                            try {
+                                GLib.Process.spawn_command_line_async ("x-www-browser \"http://www.twitter.com/signup/\"");
+                            } catch (Error e) {
+                                debug ("Could not open twitter.com/signup: " + e.message);
+                            }
+                            break;
+                    }
+                });*/
+
+                this.error_page = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+                /*this.error_page.append ("view-refresh", _("Retry"), _("Try to connect again"));
+                this.error_page.activated.connect (() => {
+                    this.new_tweet.set_sensitive (true);
+                    this.home.set_sensitive (true);
+                    this.mentions.set_sensitive (true);
+                    this.dm.set_sensitive (true);
+                    this.profile.set_sensitive (true);
+                    this.search.set_sensitive (true);
+                    this.account_appmenu.set_sensitive (true);
+                    this.remove_appmenu.set_sensitive (true);
+
+                    if (this.initialized) {
+                        this.switch_timeline ("loading");
+                        this.switch_timeline ("home");
+                        new Thread<void*> (null, this.update_timelines);
+                    } else {
+                        this.switch_timeline ("loading");
+                        new Thread<void*> (null, this.init);
+                    }
+                });*/
+
+                this.notebook_dm = new Gtk.Notebook ();
+                this.notebook_dm.append_page (this.scrolled_dm, new Gtk.Label (_("Received")));
+                this.notebook_dm.append_page (this.scrolled_dm_sent, new Gtk.Label (_("Sent")));
+
+                this.notebook = new Gtk.Notebook ();
+                this.notebook.show_tabs = false;
+                this.notebook.show_border = false;
+                //this.notebook.get_style_context ().add_class (Granite.StyleClass.CONTENT_VIEW);
+                #endif
 
                 this.spinner = new Gtk.Spinner ();
                 this.spinner.set_size_request (32, 32);
@@ -491,14 +577,14 @@ namespace Birdie {
                 this.scrolled_favorites.add_with_viewport (this.favorites);
                 this.scrolled_own.add_with_viewport (this.own_list);
 
-                this.notebook_own = new Granite.Widgets.StaticNotebook (true);
+                this.notebook_own = new Gtk.Notebook ();
                 this.notebook_own.append_page (this.scrolled_own, new Gtk.Label (_("Timeline")));
                 this.notebook_own.append_page (this.scrolled_favorites, new Gtk.Label (_("Favorites")));
                 this.own_box.pack_start (this.notebook_own, true, true, 0);
 
                 this.user_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
                 this.user_box_info = new Widgets.UserBox ();
-                this.notebook_user = new Granite.Widgets.StaticNotebook (true);
+                this.notebook_user = new Gtk.Notebook ();
                 this.notebook_user.append_page (this.scrolled_user, new Gtk.Label (_("Timeline")));
                 this.user_box.pack_start (this.user_box_info, false, false, 0);
 
@@ -509,7 +595,7 @@ namespace Birdie {
                 this.user_box.pack_start (this.notebook_user, true, true, 0);
 
                 var search_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-                search_entry = new Granite.Widgets.SearchBar ("Search");
+                search_entry = new Gtk.SearchEntry ();
                 search_entry.activate.connect (() => {
                     this.search_term = ((Gtk.Entry)search_entry).get_text ();
                     new Thread<void*> (null, this.show_search);

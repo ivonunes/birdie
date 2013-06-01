@@ -39,14 +39,6 @@
       <description>After limit, only show a summary notification.</description>
     </key>
 
-    <key name="legacy-window" type="b">
-      <default>true</default>
-      <summary>legacy-window</summary>
-      <description>
-        Use the old window style
-      </description>
-    </key>
-
     <key name="window-width" type="i">
       <default>450</default>
       <summary>Window Width</summary>

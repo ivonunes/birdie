@@ -17,11 +17,11 @@
 namespace Birdie.Widgets
 {
     public class MenuPopOver : Gtk.Menu {
-        public const string COMPOSITED_INDICATOR = "composited-indicator";
+        /*public const string COMPOSITED_INDICATOR = "composited-indicator";
 
         // used for drawing
         private Gtk.Window menu;
-        private Granite.Drawing.BufferSurface buffer;
+        //private Granite.Drawing.BufferSurface buffer;
         private int w = -1;
         private int h = -1;
         private int window_x = -1;
@@ -58,7 +58,7 @@ namespace Birdie.Widgets
         private void setup_drawing () {
             setup_entry_menu_parent ();
 
-            buffer = new Granite.Drawing.BufferSurface (100, 100);
+            //buffer = new Granite.Drawing.BufferSurface (100, 100);
 
             this.margin_top = 23;
             this.margin_bottom = 23;
@@ -83,10 +83,6 @@ namespace Birdie.Widgets
         }
 
         private void entry_menu_parent_size_allocate (Gtk.Allocation alloc) {
-            /* this.margin_left = 10;
-               this.margin_right = 9;
-               FIXME => This is what we want to get, but to solve spacing issues we do this: */
-
             this.get_children ().foreach ((c) => {
                 // make sure it is always right
                 c.margin_left = 10;
@@ -189,6 +185,6 @@ namespace Birdie.Widgets
 
         public void move_to_widget (Gtk.Widget w) {
             this.widget = w;
-        }
+        }*/
     }
 }
