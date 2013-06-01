@@ -70,6 +70,7 @@ set(TARGET_GLIB 2.32)
 
 pkg_check_modules(DEPS REQUIRED
 	gtk+-3.0
+    gee-1.0
 	rest-0.7
 	json-glib-1.0
 	libnotify
@@ -103,7 +104,7 @@ if (NOT DEBUG)
 endif ()
 
 set(BIRDIE_PACKAGES
-    gtk+-3.0 rest-0.7 json-glib-1.0 libnotify>=0.7.5 libcanberra>=0.28
+    gtk+-3.0 gee-1.0 rest-0.7 json-glib-1.0 libnotify>=0.7.5 libcanberra>=0.28
  Dbusmenu-0.4 libwnck-3.0 gdk-x11-3.0 webkitgtk-3.0 sqlite3 xtst purple posix ${EXTRA_PACKAGES}
 )
 
