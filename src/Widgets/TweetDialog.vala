@@ -15,7 +15,11 @@
  */
 
 namespace Birdie.Widgets {
-    public class TweetDialog : Gtk.Window {
+#if HAVE_GRANITE
+    public class TweetDialog : Granite.Widgets.LightWindow {
+#else
+    public class TweetDialog : Gtk.Dialog {
+#endif
         Gtk.Image avatar;
         Gtk.TextView view;
         Gtk.Entry entry;
@@ -44,7 +48,7 @@ namespace Birdie.Widgets {
 
         Birdie birdie;
 
-        private Gtk.Box box;
+        private Gtk.Box container;
 
         public TweetDialog (Birdie birdie, string id = "",
             string user_screen_name = "", bool dm = false) {
@@ -68,10 +72,17 @@ namespace Birdie.Widgets {
             else
                 this.set_title (_("New Message"));
 
-            /*this.box.foreach ((w) => {
+#if HAVE_GRANITE
+            this.box.foreach ((w) => {
                 this.box.remove (w);
-            });*/
-            this.add (box);
+            });
+
+            this.container = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+            this.box.add (container);
+#else
+            container = this.get_content_area ();
+            set_resizable (false);
+#endif      
 
             this.media_uri = "";
 
@@ -180,25 +191,8 @@ namespace Birdie.Widgets {
                 new Thread<void*> (null, this.tweet_thread);
             });
 
-            var d_provider = new Gtk.CssProvider ();
-
-            if (this.birdie.elementary) {
-                string css_dir = "/usr/share/themes/elementary/gtk-3.0";
-                File file = File.new_for_path (css_dir);
-                File child = file.get_child ("button.css");
-
-                try
-                {
-                    d_provider.load_from_file (child);
-                }
-                catch (GLib.Error error)
-                {
-                    stderr.printf("Could not load css for button: %s", error.message);
-                }
-            }
-
-            this.tweet.get_style_context ().add_provider (d_provider, Gtk.STYLE_PROVIDER_PRIORITY_THEME);
             this.tweet.get_style_context().add_class ("affirmative");
+
             this.file_chooser_btn = new Gtk.Button();
             this.file_chooser_btn.set_tooltip_text (_("Add a picture"));
             this.file_chooser_btn_image = new Gtk.Image.from_icon_name ("insert-image-symbolic", Gtk.IconSize.MENU);
@@ -218,8 +212,8 @@ namespace Birdie.Widgets {
             bottom.pack_start (this.cancel, false, false, 0);
             bottom.pack_start (this.tweet, false, false, 0);
             bottom.margin = 12;
-            this.add (top);
-            this.add (bottom);
+            this.container.add (top);
+            this.container.add (bottom);
             this.show_all ();
             this.restore_window ();
         }
@@ -378,6 +372,7 @@ namespace Birdie.Widgets {
             if (this.opening_x > 0 && this.opening_y > 0 && !this.birdie.m_window.get_visible ()) {
                 this.move (this.opening_x, this.opening_y);
             } else if (this.birdie.m_window.get_visible ()) {
+#if HAVE_GRANITE
                 int x, y, sx, sy, tx, ty;
 
                 this.birdie.m_window.get_position (out x, out y);
@@ -385,6 +380,7 @@ namespace Birdie.Widgets {
                 this.get_size (out tx, out ty);
 
                 this.move (x + sx / 2 - tx / 2, y + 60);
+#endif
             }
         }
 

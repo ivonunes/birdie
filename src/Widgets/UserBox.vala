@@ -149,37 +149,11 @@ namespace Birdie.Widgets {
             this.unblock_button.clicked.connect (() => {
                 new Thread<void*> (null, this.unblock_thread);
             });
-
-            // css
-            var d_provider = new Gtk.CssProvider ();
-            string? css_dir = null;
-
-            if (this.birdie.elementary) {
-                css_dir = "/usr/share/themes/elementary/gtk-3.0";
-                File file = File.new_for_path (css_dir);
-                File child = file.get_child ("button.css");
-
-                try
-                {
-                    d_provider.load_from_file (child);
-                }
-                catch (GLib.Error error)
-                {
-                    stderr.printf("Could not load css for button: %s", error.message);
-                }
-
-                follow_button.get_style_context ().add_provider (d_provider, Gtk.STYLE_PROVIDER_PRIORITY_THEME);
-                follow_button.get_style_context().add_class ("affirmative");
-
-                block_button.get_style_context ().add_provider (d_provider, Gtk.STYLE_PROVIDER_PRIORITY_THEME);
-                block_button.get_style_context().add_class ("noundo");
-
-                unfollow_button.get_style_context ().add_provider (d_provider, Gtk.STYLE_PROVIDER_PRIORITY_THEME);
-                unfollow_button.get_style_context().add_class ("noundo");
-
-                unblock_button.get_style_context ().add_provider (d_provider, Gtk.STYLE_PROVIDER_PRIORITY_THEME);
-                unblock_button.get_style_context().add_class ("affirmative");
-            }
+            
+            follow_button.get_style_context().add_class ("affirmative");
+            block_button.get_style_context().add_class ("noundo");
+            unfollow_button.get_style_context().add_class ("noundo");
+            unblock_button.get_style_context().add_class ("affirmative");
 
             this.unfollow_button.set_no_show_all (true);
             this.unblock_button.set_no_show_all (true);

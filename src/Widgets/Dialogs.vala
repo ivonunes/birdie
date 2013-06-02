@@ -17,7 +17,7 @@
 namespace Birdie.Widgets
 {
     public class AlertDialog : Object {
-    private Gtk.MessageDialog dialog;
+        private Gtk.MessageDialog dialog;
 
         public AlertDialog (Gtk.Window? parent,
                 Gtk.MessageType message_type, string primary,
@@ -41,20 +41,56 @@ namespace Birdie.Widgets
             dialog.destroy();
             return response;
         }
-}
-
-class ConfirmationDialog : AlertDialog {
-    public ConfirmationDialog (Gtk.Window? parent,
-            string primary, string? ok_button) {
-        base (parent, Gtk.MessageType.WARNING, primary,
-            ok_button, Gtk.Stock.CANCEL);
     }
-}
 
-class ErrorDialog : AlertDialog {
-    public ErrorDialog (Gtk.Window? parent,
-            string primary, string? secondary) {
-        base (parent, Gtk.MessageType.ERROR, primary, Gtk.Stock.OK, null);
+    class ConfirmationDialog : AlertDialog {
+        public ConfirmationDialog (Gtk.Window? parent,
+                string primary, string? ok_button) {
+            base (parent, Gtk.MessageType.WARNING, primary,
+                ok_button, Gtk.Stock.CANCEL);
+        }
     }
-}
+
+    class ErrorDialog : AlertDialog {
+        public ErrorDialog (Gtk.Window? parent,
+                string primary, string? secondary) {
+            base (parent, Gtk.MessageType.ERROR, primary, Gtk.Stock.OK, null);
+        }
+    }
+
+#if HAVE_GRANITE
+    public class LightWindow : Granite.Widgets.LightWindow {
+        bool drag;
+
+        public LightWindow (bool drag = true) {
+            this.drag = drag;
+        }
+
+        public override bool button_press_event (Gdk.EventButton e) {
+            if (drag)
+                return base.button_press_event (e);
+            else
+                return false;
+        }
+    }
+#else
+    public class LightWindow : Gtk.Window {
+        Gtk.Box box;
+
+        public LightWindow (bool drag = true) {
+            set_title (_("Preview"));
+
+            this.box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+            base.add (this.box);
+        }
+
+        public new void add (Gtk.Widget w) {
+            this.box.pack_start (w, true, true);
+        }
+
+        public new void remove (Gtk.Widget w) {
+            this.box.remove (w);
+        }
+    }
+#endif
 }

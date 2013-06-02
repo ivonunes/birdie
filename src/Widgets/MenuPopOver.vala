@@ -17,11 +17,12 @@
 namespace Birdie.Widgets
 {
     public class MenuPopOver : Gtk.Menu {
-        /*public const string COMPOSITED_INDICATOR = "composited-indicator";
+#if HAVE_GRANITE
+        public const string COMPOSITED_INDICATOR = "composited-indicator";
 
         // used for drawing
         private Gtk.Window menu;
-        //private Granite.Drawing.BufferSurface buffer;
+        private Granite.Drawing.BufferSurface buffer;
         private int w = -1;
         private int h = -1;
         private int window_x = -1;
@@ -41,24 +42,23 @@ namespace Birdie.Widgets
                 background-color:@transparent;
                 border-color:@transparent;
                 -unico-inner-stroke-width: 0;
+                background-image:none;
              }
              .popover_bg {
                background-color:#fff;
              }
          """;
 
-        public MenuPopOver (bool legacy = false) {
-            if (!legacy) {
-                get_style_context ().add_class (COMPOSITED_INDICATOR);
-                show ();
-                setup_drawing ();
-            }
+        public MenuPopOver () {
+            get_style_context ().add_class (COMPOSITED_INDICATOR);
+            show ();
+            setup_drawing ();
         }
 
         private void setup_drawing () {
             setup_entry_menu_parent ();
 
-            //buffer = new Granite.Drawing.BufferSurface (100, 100);
+            buffer = new Granite.Drawing.BufferSurface (100, 100);
 
             this.margin_top = 23;
             this.margin_bottom = 23;
@@ -185,6 +185,7 @@ namespace Birdie.Widgets
 
         public void move_to_widget (Gtk.Widget w) {
             this.widget = w;
-        }*/
+        }
+#endif
     }
 }

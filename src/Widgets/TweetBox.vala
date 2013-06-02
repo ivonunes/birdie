@@ -373,8 +373,7 @@ namespace Birdie.Widgets {
         }
 
         private void show_media (string media_file) {
-            //var light_window = new Granite.Widgets.LightWindow ();
-            var light_window = new Gtk.Window ();
+            var light_window = new LightWindow ();
 
             Gdk.Pixbuf pixbuf = Utils.fit_user_screen (Environment.get_home_dir ()
                 + "/.cache/birdie/media/" + media_file, light_window);
@@ -404,8 +403,7 @@ namespace Birdie.Widgets {
         }
 
         private void show_youtube_video (string youtube_video_id) {
-            //var light_window = new Granite.Widgets.LightWindow ();
-            var light_window = new Gtk.Window ();
+            var light_window = new LightWindow ();
             this.web_view = new WebKit.WebView ();
             this.web_view.load_html_string ("<iframe width='640' height='385' style='margin-left: -10px;' src='http://www.youtube.com/embed/" +
                 youtube_video_id + "?version=3&autohide=1&showinfo=0&showsearch=0&vq=hd720&autoplay=1' frameborder='0' allowfullscreen</iframe>", "http://www.youtube.com/embed/");
