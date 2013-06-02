@@ -217,13 +217,11 @@ namespace Birdie {
                 this.unread_mentions = 0;
                 this.unread_dm = 0;
 
-                var new_tweet_label = _("New Tweet");
-
                 if (this.tweet_notification || this.mention_notification || this.dm_notification)
                     this.m_window.hide_on_delete ();
 
-                this.new_tweet = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("mail-message-new", Gtk.IconSize.LARGE_TOOLBAR), new_tweet_label);
-                new_tweet.set_tooltip_text (new_tweet_label);
+                this.new_tweet = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("mail-message-new", Gtk.IconSize.LARGE_TOOLBAR), _("New Tweet"));
+                new_tweet.set_tooltip_text (_("New Tweet"));
 
                 new_tweet.clicked.connect (() => {
                     bool is_dm = false;
@@ -246,6 +244,7 @@ namespace Birdie {
                 this.home.set_icon_widget (new Gtk.Image.from_icon_name ("twitter-home", Gtk.IconSize.LARGE_TOOLBAR));
 
                 home.set_tooltip_text (_("Home"));
+                home.set_label (_("Home"));
 
                 home.toggled.connect (() => {
                     if (!this.changing_tab)
@@ -257,6 +256,7 @@ namespace Birdie {
                 this.mentions = new Gtk.ToggleToolButton ();
                 this.mentions.set_icon_widget (new Gtk.Image.from_icon_name ("twitter-mentions", Gtk.IconSize.LARGE_TOOLBAR));
                 mentions.set_tooltip_text (_("Mentions"));
+                mentions.set_label (_("Mentions"));
 
                 mentions.toggled.connect (() => {
                     if (!this.changing_tab)
@@ -269,6 +269,7 @@ namespace Birdie {
                 this.dm = new Gtk.ToggleToolButton ();
                 this.dm.set_icon_widget (new Gtk.Image.from_icon_name ("twitter-dm", Gtk.IconSize.LARGE_TOOLBAR));
                 dm.set_tooltip_text (_("Direct Messages"));
+                dm.set_label (_("Direct Messages"));
                 dm.toggled.connect (() => {
                     if (!this.changing_tab)
                         this.switch_timeline ("dm");
@@ -279,6 +280,7 @@ namespace Birdie {
                 this.profile = new Gtk.ToggleToolButton ();
                 this.profile.set_icon_widget (new Gtk.Image.from_icon_name ("twitter-profile", Gtk.IconSize.LARGE_TOOLBAR));
                 profile.set_tooltip_text (_("Profile"));
+                profile.set_label (_("Profile"));
 
                 profile.toggled.connect (() => {
                     if (!this.changing_tab)
@@ -290,6 +292,7 @@ namespace Birdie {
                 this.search = new Gtk.ToggleToolButton ();
                 this.search.set_icon_widget (new Gtk.Image.from_icon_name ("twitter-search", Gtk.IconSize.LARGE_TOOLBAR));
                 search.set_tooltip_text (_("Search"));
+                search.set_label (_("Search"));
 
                 search.toggled.connect (() => {
                     if (!this.changing_tab)
