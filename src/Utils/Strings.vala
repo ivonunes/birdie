@@ -71,7 +71,16 @@ namespace Birdie.Utils {
     }
 
     string remove_html_tags (string input) {
-        return Purple.markup_strip_html (input);
+        var without_html_tags = Purple.markup_strip_html (input);
+
+        foreach (var part in without_html_tags.split (" ")) {
+            if ("(birdie://" in part)
+                without_html_tags = without_html_tags.replace (part, "");
+        }
+
+        without_html_tags = without_html_tags.replace ("  ", " ");
+
+        return without_html_tags;
     }
 
     string unescape_html (owned string text) {

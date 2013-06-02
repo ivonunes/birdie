@@ -303,6 +303,33 @@ namespace Birdie.Widgets {
                         this.retweet_button.set_sensitive (false);
                         new Thread<void*> (null, this.retweet_thread);
                     });
+
+                    // show more options when right clicking the button
+                    var retweet_menu = new Gtk.Menu ();
+                    var retweet_menu_item = new Gtk.MenuItem.with_label (_("Retweet"));
+                    var retweet_quote_menu_item = new Gtk.MenuItem.with_label (_("Retweet with quote"));
+                    retweet_menu.append (retweet_menu_item);
+                    retweet_menu.append (retweet_quote_menu_item);
+                    retweet_menu_item.show ();
+                    retweet_quote_menu_item.show ();
+
+                    retweet_menu_item.activate.connect (() => {
+                        this.retweet_button.set_sensitive (false);
+                        new Thread<void*> (null, this.retweet_thread);
+                    });
+
+                    retweet_quote_menu_item.activate.connect (() => {
+                        Widgets.TweetDialog dialog = new TweetDialog (this.birdie, this.tweet.id, 
+                            "RT @" + this.tweet.user_screen_name + ": \"" + Utils.remove_html_tags (this.tweet.text) + "\"", this.tweet.dm);
+                        dialog.show_all ();
+                    });
+
+                    this.retweet_button.button_press_event.connect ((e) => {
+                        if (e.button == Gdk.BUTTON_SECONDARY)
+                            retweet_menu.popup (null, null, null, e.button, e.time);
+
+                        return false;
+                    });
                 }
 
                 if (this.tweet.retweeted && this.tweet.favorited) {

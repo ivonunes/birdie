@@ -147,8 +147,18 @@ namespace Birdie.Widgets {
             }
 
             if (!dm) {
-                if (id != "" && user_screen_name != "")
-                    this.view.buffer.insert_at_cursor ("@" + user_screen_name + " ", -1);
+                if (id != "" && user_screen_name != "") {
+                    if ("@" in user_screen_name) {
+                        this.view.buffer.insert_at_cursor (" " + user_screen_name, -1);
+
+                        Gtk.TextIter start;
+                        this.view.buffer.get_start_iter (out start);
+
+                        this.view.buffer.place_cursor (start);
+                    } else {
+                        this.view.buffer.insert_at_cursor ("@" + user_screen_name + " ", -1);
+                    }
+                }
             }
 
             var top = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
