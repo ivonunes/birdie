@@ -356,9 +356,9 @@ namespace Birdie {
 
                     dialog.logo_icon_name = "birdie";
                     dialog.program_name = "Birdie";
-                    dialog.comments = "Birdie is a Twitter client for Linux";
+                    dialog.comments = Constants.COMMENT;
                     dialog.copyright = "Copyright © 2013 Ivo Nunes / Vasco Nunes";
-                    dialog.version = "0.2";
+                    dialog.version = Constants.VERSION;
 
                     dialog.license_type = Gtk.License.GPL_3_0;
                     dialog.wrap_license = true;
