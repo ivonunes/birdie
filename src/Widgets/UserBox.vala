@@ -64,6 +64,7 @@ namespace Birdie.Widgets {
                 " </span><span size='small' font_weight='bold'>" + user.followers_count.to_string() + "</span>";
 
             description_txt = description_txt.chomp ();
+            description_txt = GLib.Markup.escape_text (description_txt);
 
             string txt = "<span underline='none' color='#000000' font_weight='bold' size='x-large'>" +
                 user.name + "</span> <span font_weight='light' color='#444444' size='small'>\n@" + user.screen_name + "</span>";
@@ -200,6 +201,7 @@ namespace Birdie.Widgets {
                 " </span><span size='small' font_weight='bold'>" + user.followers_count.to_string() + "</span>";
 
             description_txt = description_txt.chomp ();
+            description_txt = GLib.Markup.escape_text (description_txt);
 
             string txt = "<span underline='none' color='#000000' font_weight='bold' size='x-large'>" +
                 user.name + "</span> <span font_weight='light' color='#444444' size='small'>\n@" + user.screen_name + "</span>";
