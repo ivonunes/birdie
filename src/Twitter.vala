@@ -263,13 +263,13 @@ namespace Birdie {
                 screen_name = userobject.get_string_member ("screen_name");
                 profile_image_url = userobject.get_string_member ("profile_image_url");
 
-                if (userobject.has_member("location") &&
+                if (userobject.has_member ("location") &&
                     userobject.get_string_member ("location") != null) {
                      location = userobject.get_string_member ("location");
                 }
 
 
-                if (userobject.has_member("description") &&
+                if (userobject.has_member ("description") &&
                     userobject.get_string_member ("description") != null) {
                      desc = userobject.get_string_member ("description");
                 }

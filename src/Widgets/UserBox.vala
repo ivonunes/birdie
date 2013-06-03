@@ -23,7 +23,6 @@ namespace Birdie.Widgets {
 
         private Gtk.Box user_box;
         private Gtk.Box buttons_box;
-        private Gtk.Alignment buttons_alignment;
         private Gtk.Image avatar_img;
         private Gtk.Image verified_img;
         private Gtk.Label username_label;
@@ -57,23 +56,23 @@ namespace Birdie.Widgets {
             string tweets_txt = _("TWEETS");
 
             description_txt = user.desc +
-                "\n\n<span size='small' color='#666666'>" + tweets_txt +
+                "\n\n<span size='small' color='#444444'>" + tweets_txt +
                 " </span><span size='small' font_weight='bold'>" + user.statuses_count.to_string() + "</span>" +
-                " | <span size='small' color='#666666'> " + _("FOLLOWING") +
+                " | <span size='small' color='#444444'> " + _("FOLLOWING") +
                 " </span><span size='small' font_weight='bold'>" + user.friends_count.to_string() + "</span>" +
-                " | <span size='small' color='#666666'> " + _("FOLLOWERS") +
+                " | <span size='small' color='#444444'> " + _("FOLLOWERS") +
                 " </span><span size='small' font_weight='bold'>" + user.followers_count.to_string() + "</span>";
 
             description_txt = description_txt.chomp ();
 
             string txt = "<span underline='none' color='#000000' font_weight='bold' size='x-large'>" +
-                user.name + "</span> <span font_weight='light' color='#aaaaaa'>\n@" + user.screen_name + "</span>";
+                user.name + "</span> <span font_weight='light' color='#444444' size='small'>\n@" + user.screen_name + "</span>";
 
-            if (user.location != "")
-                txt = txt +  "\n<span size='small'>" + user.location + "</span>";
+            if (user.location != "") 
+                txt = txt +  " | <span size='small'>" + Utils.unescape_html (user.location) + "</span>";
 
             if (description_txt != "")
-                txt = txt +  "\n\n" + description_txt;
+                txt = txt +  "\n\n<span size='small'>" + Utils.unescape_html (description_txt) + "</span>";
 
             // user label
             this.username_label = new Gtk.Label (user.screen_name);
@@ -96,19 +95,13 @@ namespace Birdie.Widgets {
             this.user_box.margin_left = 12;
             this.user_box.margin_right = 12;
 
-            // buttons alignment
-            this.buttons_alignment = new Gtk.Alignment (0,0,1,1);
-            this.buttons_alignment.top_padding = 6;
-            this.buttons_alignment.right_padding = 12;
-            this.buttons_alignment.bottom_padding = 6;
-            this.buttons_alignment.left_padding = 6;
-            this.buttons_alignment.set_valign (Gtk.Align.CENTER);
-            this.user_box.pack_start (this.buttons_alignment, true, true, 0);
-
             // buttons box
-            this.buttons_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-            this.buttons_box.set_valign (Gtk.Align.FILL);
-            this.buttons_alignment.add (this.buttons_box);
+            this.buttons_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+            this.buttons_box.set_valign (Gtk.Align.CENTER);
+            this.buttons_box.set_halign (Gtk.Align.CENTER);
+            this.buttons_box.margin_top = 6;
+            this.buttons_box.margin_bottom = 6;
+            this.user_box.pack_start (this.buttons_box, true, true, 0);
 
             // follow button
             this.follow_button = new Gtk.Button.with_label (_("Follow"));
@@ -150,10 +143,10 @@ namespace Birdie.Widgets {
                 new Thread<void*> (null, this.unblock_thread);
             });
             
-            follow_button.get_style_context().add_class ("affirmative");
+            /*follow_button.get_style_context().add_class ("affirmative");
             block_button.get_style_context().add_class ("noundo");
             unfollow_button.get_style_context().add_class ("noundo");
-            unblock_button.get_style_context().add_class ("affirmative");
+            unblock_button.get_style_context().add_class ("affirmative");*/
 
             this.unfollow_button.set_no_show_all (true);
             this.unblock_button.set_no_show_all (true);
@@ -170,7 +163,7 @@ namespace Birdie.Widgets {
         public void update (User user) {
             this.user = user;
             Array<string> friendship = new Array<string> ();
-
+            this.hide_buttons ();
             this.avatar_img.set_from_file (Environment.get_home_dir () + "/.cache/birdie/" + user.profile_image_file);
 
             string followed_by = "";
@@ -198,29 +191,28 @@ namespace Birdie.Widgets {
 
             string tweets_txt = _("TWEETS");
 
-            description_txt = Utils.highlight_all (user.desc) + "\n\n<span size='small' color='#666666'>" + followed_by + "</span>" +
-                "\n\n<span size='small' color='#666666'>" + tweets_txt +
+            description_txt = Utils.highlight_all (user.desc) + "\n\n<span size='small' color='#444444'>" + followed_by + "</span>" +
+                "\n\n<span size='small' color='#444444'>" + tweets_txt +
                 " </span><span size='small' font_weight='bold'>" + user.statuses_count.to_string() + "</span>" +
-                " | <span size='small' color='#666666'> " + _("FOLLOWING") +
+                " | <span size='small' color='#444444'> " + _("FOLLOWING") +
                 " </span><span size='small' font_weight='bold'>" + user.friends_count.to_string() + "</span>" +
-                " | <span size='small' color='#666666'> " + _("FOLLOWERS") +
+                " | <span size='small' color='#444444'> " + _("FOLLOWERS") +
                 " </span><span size='small' font_weight='bold'>" + user.followers_count.to_string() + "</span>";
 
             description_txt = description_txt.chomp ();
 
             string txt = "<span underline='none' color='#000000' font_weight='bold' size='x-large'>" +
-                user.name + "</span> <span font_weight='light' color='#aaaaaa'>\n@" + user.screen_name + "</span>";
+                user.name + "</span> <span font_weight='light' color='#444444' size='small'>\n@" + user.screen_name + "</span>";
 
             if (user.location != "")
-                txt = txt +  "\n<span size='small'>" + user.location + "</span>";
+                txt = txt +  " | <span size='small'>" + Utils.unescape_html (user.location) + "</span>";
 
             if (description_txt != "")
-                txt = txt +  "\n\n" + description_txt;
+                txt = txt +  "\n\n<span size='small'>" + Utils.unescape_html (description_txt) + "</span>";
 
             this.username_label.set_markup (txt);
 
             this.show_all ();
-            this.hide_buttons ();
             this.verified_img.hide ();
 
             if (user.verified)
