@@ -173,7 +173,7 @@ namespace Birdie {
                 message ("Birdie version: %s", Constants.VERSION);
                 var un = Posix.utsname ();
                 message ("Kernel version: %s", (string) un.release);
-                
+
                 if (Option.DEBUG)
                     Utils.Logger.DisplayLevel = Utils.LogLevel.DEBUG;
                 else
@@ -194,8 +194,8 @@ namespace Birdie {
                 else
                     this.m_window = new Widgets.UnifiedWindow ();
 
-                this.m_window.set_default_size (450, 600);
-                this.m_window.set_size_request (430, 325);
+                this.m_window.set_default_size (355, 500);
+                this.m_window.set_size_request (355, 50);
                 this.m_window.set_application (this);
 
                 // restore main window size and position
@@ -496,7 +496,7 @@ namespace Birdie {
 #else
                 search_entry = new Gtk.Entry ();
 #endif
-                
+
                 search_entry.activate.connect (() => {
                     this.search_term = ((Gtk.Entry)search_entry).get_text ();
                     new Thread<void*> (null, this.show_search);
