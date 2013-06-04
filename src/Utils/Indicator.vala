@@ -17,7 +17,144 @@
 namespace Birdie.Utils {
 
     public class Indicator : GLib.Object {
-    #if HAVE_LIBINDICATE
+#if HAVE_LIBMESSAGINGMENU
+        Birdie birdie;
+        private MessagingMenu.App? app = null;
+
+        public signal void application_activated(uint32 timestamp);
+        //public signal void mentions_activated(Geary.Folder folder, uint32 timestamp);
+        public signal void tweet_activated(uint32 timestamp);
+
+        public Indicator (Birdie birdie) {
+            this.birdie = birdie;
+
+            app = new MessagingMenu.App("birdie.desktop");
+            app.register();
+            app.activate_source.connect(on_activate_source);
+
+            debug("Registered messaging-menu");
+
+            update_mentions_indicator ();
+            update_dm_indicator ();
+            update_new_tweet_indicator ();
+        }
+        
+        public static Indicator create(Birdie birdie) {
+            Indicator? indicator = null;
+            
+            if (indicator == null)
+                indicator = new Indicator (birdie);
+            
+            assert(indicator != null);
+            
+            return indicator;
+        }
+        
+        // Returns time as a uint32 (suitable for signals if event doesn't supply it)
+        protected uint32 now() {
+            return (uint32) TimeVal().tv_sec;
+        }
+
+        private void on_activate_source(string source_id) {
+            switch (source_id) {
+                case "tweets":
+                    this.birdie.switch_timeline ("home");
+                    this.birdie.activate ();
+                    update_tweets_indicator ();
+                    break;
+                case "mentions":
+                    this.birdie.switch_timeline ("mentions");
+                    this.birdie.activate ();
+                    update_mentions_indicator ();
+                    break;
+                case "dm":
+                    this.birdie.switch_timeline ("dm");
+                    this.birdie.activate ();
+                    update_dm_indicator ();
+                    break;
+                case "newtweet":
+                    Widgets.TweetDialog dialog = new Widgets.TweetDialog (birdie);
+                    dialog.show_all ();
+                    update_new_tweet_indicator ();
+                    break;
+            }
+        }
+
+        public void update_tweets_indicator(int count = 0) {
+            if (app.has_source("tweets"))
+                app.set_source_count("tweets", count);
+            else
+                app.append_source_with_count("tweets", null,
+                    _("Tweets"), count);
+            
+            if (count > 0)
+                app.draw_attention("tweets");
+            else
+                app.remove_attention("tweets");
+
+            if (app.has_source("newtweet")) {
+                app.remove_source ("newtweet");
+                update_new_tweet_indicator ();
+            }
+        }
+
+        public void update_mentions_indicator(int count = 0) {
+            if (app.has_source("mentions"))
+                app.set_source_count("mentions", count);
+            else
+                app.append_source_with_count("mentions", null,
+                    _("Mentions"), count);
+            
+            if (count > 0)
+                app.draw_attention("mentions");
+            else
+                app.remove_attention("mentions");
+
+            if (app.has_source("newtweet")) {
+                app.remove_source ("newtweet");
+                update_new_tweet_indicator ();
+            }
+        }
+
+        public void update_dm_indicator(int count = 0) {
+            if (app.has_source("dm"))
+                app.set_source_count("dm", count);
+            else
+                app.append_source_with_count("dm", null,
+                    _("Direct Messages"), count);
+            
+            if (count > 0)
+                app.draw_attention("dm");
+            else
+                app.remove_attention("dm");
+
+            if (app.has_source("newtweet")) {
+                app.remove_source ("newtweet");
+                update_new_tweet_indicator ();
+            }
+        }
+
+        public void update_new_tweet_indicator() {
+            if (!app.has_source("newtweet"))
+                app.append_source_with_count("newtweet", null,
+                    _("New Tweet"), 0);
+        }
+
+        public void clean_tweets_indicator () {
+            if (app.has_source("tweets"))
+                app.remove_attention ("tweets");
+        }
+
+        public void clean_mentions_indicator () {
+            if (app.has_source("mentions"))
+                app.remove_attention ("mentions");
+        }
+
+        public void clean_dm_indicator () {
+            if (app.has_source("mentions"))
+                app.remove_attention ("mentions");
+        }
+#elif HAVE_LIBINDICATE
         public int unread { get; set; }
 
         private Indicate.Server indicator = null;

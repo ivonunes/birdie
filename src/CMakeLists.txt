@@ -6,7 +6,7 @@ include(ValaPrecompile)
 
 # Packages
 if (LIBINDICATE_FOUND)
-    message(STATUS "Indicate support: ON")
+    message(STATUS "Indicator support: ON")
     set(EXTRA_PKG_CONFIG
         ${EXTRA_PKG_CONFIG}
         indicate-0.7
@@ -22,7 +22,7 @@ if (LIBINDICATE_FOUND)
         -D HAVE_LIBINDICATE
     )
 else ()
-    message(STATUS "Indicate support: OFF")
+    message(STATUS "Indicator support: OFF")
 endif ()
 
 if (LIBUNITY_FOUND)
@@ -42,9 +42,28 @@ if (LIBUNITY_FOUND)
         -D HAVE_LIBUNITY
     )
 else ()
-    message(STATUS "Unity support: OFF")
+    message(STATUS "Unity launcher support: OFF")
 endif ()
 
+if (LIBMESSAGINGMENU_FOUND)
+    message(STATUS "Unity messaging menu support: ON")
+    set(EXTRA_PKG_CONFIG
+        ${EXTRA_PKG_CONFIG}
+        messaging-menu
+    )
+    
+    set(EXTRA_PACKAGES
+        ${EXTRA_PACKAGES}
+        MessagingMenu-1.0
+    )
+    
+    set(EXTRA_VALA_OPTIONS
+        ${EXTRA_VALA_OPTIONS}
+        -D HAVE_LIBMESSAGINGMENU
+    )
+else ()
+    message(STATUS "Unity messaging menu support: OFF")
+endif ()
 
 if (GRANITE_FOUND)
     message(STATUS "Granite support: ON")

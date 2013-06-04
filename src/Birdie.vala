@@ -74,7 +74,7 @@ namespace Birdie {
 
         public string current_timeline;
 
-        #if HAVE_LIBINDICATE
+        #if HAVE_LIBINDICATE || HAVE_LIBMESSAGINGMENU
         private Utils.Indicator indicator;
         #endif
 
@@ -205,7 +205,7 @@ namespace Birdie {
                 this.m_window.window_height = settings.get_int ("window-height");
                 this.m_window.restore_window ();
 
-                #if HAVE_LIBINDICATE
+                #if HAVE_LIBINDICATE || HAVE_LIBMESSAGINGMENU
                 this.indicator = new Utils.Indicator (this);
                 #endif
 
@@ -1041,7 +1041,7 @@ namespace Birdie {
             }
 
             if (this.tweet_notification && get_total_unread () > 0) {
-                #if HAVE_LIBINDICATE
+                #if HAVE_LIBINDICATE || HAVE_LIBMESSAGINGMENU
                 this.indicator.update_tweets_indicator (this.unread_tweets);
                 #endif
                 #if HAVE_LIBUNITY
@@ -1083,7 +1083,7 @@ namespace Birdie {
             }
 
             if (this.mention_notification && new_mentions) {
-                #if HAVE_LIBINDICATE
+                #if HAVE_LIBINDICATE || HAVE_LIBMESSAGINGMENU
                 this.indicator.update_mentions_indicator (this.unread_mentions);
                 #endif
                 #if HAVE_LIBUNITY
@@ -1127,7 +1127,7 @@ namespace Birdie {
             }
 
             if (this.dm_notification && new_dms) {
-                #if HAVE_LIBINDICATE
+                #if HAVE_LIBINDICATE || HAVE_LIBMESSAGINGMENU
                 this.indicator.update_dm_indicator (this.unread_dm);
                 #endif
                 #if HAVE_LIBUNITY
@@ -1153,7 +1153,7 @@ namespace Birdie {
         */
 
         private void clean_tweets_indicator () {
-            #if HAVE_LIBINDICATE
+            #if HAVE_LIBINDICATE || HAVE_LIBMESSAGINGMENU
             if (this.unread_tweets > 0)
                 this.indicator.clean_tweets_indicator();
             #endif
@@ -1161,7 +1161,7 @@ namespace Birdie {
         }
 
         private void clean_mentions_indicator () {
-            #if HAVE_LIBINDICATE
+            #if HAVE_LIBINDICATE || HAVE_LIBMESSAGINGMENU
             if (this.unread_mentions > 0)
                 this.indicator.clean_mentions_indicator();
             #endif
@@ -1169,7 +1169,7 @@ namespace Birdie {
         }
 
         private void clean_dm_indicator () {
-            #if HAVE_LIBINDICATE
+            #if HAVE_LIBINDICATE || HAVE_LIBMESSAGINGMENU
             if (this.unread_dm > 0)
                 this.indicator.clean_dm_indicator();
             #endif
