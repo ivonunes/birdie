@@ -18,10 +18,12 @@ namespace Birdie {
     public class Twitter : API {
 
         SqliteDatabase db;
+        Birdie birdie;
 
-        public Twitter (SqliteDatabase db) {
+        public Twitter (Birdie birdie) {
 
-            this.db = db;
+            this.db = birdie.db;
+            this.birdie = birdie;
 
             this.CONSUMER_KEY = "T1VkU2dySk9DRFlZbjJJcDdWSGZRdw==";
             this.CONSUMER_SECRET = "UHZPdXcwWFJoVnJ5RU5yZXdGdDZWd1lGdnNoRlpwcHQxMUtkNDdvVWM=";
@@ -461,7 +463,7 @@ namespace Birdie {
             return tweet;
         }
 
-        public override int get_home_timeline () {
+      public override void get_home_timeline () {
             // setup call
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/statuses/home_timeline.json");
@@ -469,10 +471,17 @@ namespace Birdie {
             call.add_param ("count", this.retrieve_count);
             if (this.since_id_home != "")
                 call.add_param ("since_id", this.since_id_home);
-            try { call.sync (); } catch (Error e) {
+
+            Rest.ProxyCallAsyncCallback callback = get_home_timeline_response;
+            try {
+                call.run_async (callback);
+            } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
-                return 1;
             }
+        }
+
+        protected void get_home_timeline_response (
+            Rest.ProxyCall call, Error? error, Object? obj) {
 
             try {
                 var parser = new Json.Parser ();
@@ -497,10 +506,10 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse home_timeline.json\n");
             }
-            return 0;
+            this.birdie.update_home_ui ();
         }
 
-        public override int get_mentions_timeline () {
+        public override void get_mentions_timeline () {
             // setup call
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/statuses/mentions_timeline.json");
@@ -508,10 +517,17 @@ namespace Birdie {
             call.add_param ("count", retrieve_count);
             if (this.since_id_mentions != "")
                 call.add_param ("since_id", this.since_id_mentions);
-            try { call.sync (); } catch (Error e) {
+
+            Rest.ProxyCallAsyncCallback callback = get_mentions_response;
+            try {
+                call.run_async (callback);
+            } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
-                return 1;
             }
+        }
+
+        protected void get_mentions_response (
+            Rest.ProxyCall call, Error? error, Object? obj) {
 
             try {
                 var parser = new Json.Parser ();
@@ -537,10 +553,10 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse mentions_timeline.json\n");
             }
-            return 0;
-        }
+            this.birdie.update_mentions_ui ();
+        }    
 
-        public override int get_direct_messages () {
+        public override void get_direct_messages () {
             // setup call
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/direct_messages.json");
@@ -548,10 +564,18 @@ namespace Birdie {
             call.add_param ("count", retrieve_count);
             if (this.since_id_dm != "")
                 call.add_param ("since_id", this.since_id_dm);
-            try { call.sync (); } catch (Error e) {
+ 
+            Rest.ProxyCallAsyncCallback callback = get_dm_response;
+            try {
+                call.run_async (callback);
+            } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
-                return 1;
             }
+        }
+
+
+        protected void get_dm_response (
+            Rest.ProxyCall call, Error? error, Object? obj) {
 
             try {
                 var parser = new Json.Parser ();
@@ -592,19 +616,25 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse direct_messages.json\n");
             }
-            return 0;
+            this.birdie.update_dm_ui ();
         }
 
-        public override int get_direct_messages_sent () {
+        public override void get_direct_messages_sent () {
             // setup call
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/direct_messages/sent.json");
             call.set_method ("GET");
             call.add_param ("count", this.retrieve_count);
-            try { call.sync (); } catch (Error e) {
+            Rest.ProxyCallAsyncCallback callback = get_dm_sent_response;
+            try {
+                call.run_async (callback);
+            } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
-                return 1;
             }
+        }
+
+        protected void get_dm_sent_response (
+            Rest.ProxyCall call, Error? error, Object? obj) {
 
             try {
                 var parser = new Json.Parser ();
@@ -636,20 +666,25 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse sent.json\n");
             }
-            return 0;
-        }
+            this.birdie.update_dm_sent_ui ();
+        }      
 
-        public override int get_own_timeline () {
+        public override void get_own_timeline () {
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/statuses/user_timeline.json");
             call.set_method ("GET");
             call.add_param ("count", this.retrieve_count);
             call.add_param ("user_id", this.account.id);
-            try { call.sync (); } catch (Error e) {
+            Rest.ProxyCallAsyncCallback callback = get_own_timeline_response;
+            try {
+                call.run_async (callback);
+            } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
-                return 1;
             }
+        }
 
+        protected void get_own_timeline_response (
+            Rest.ProxyCall call, Error? error, Object? obj) {
             try {
                 var parser = new Json.Parser ();
                 parser.load_from_data ((string) call.get_payload (), -1);
@@ -669,20 +704,25 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse user_timeline.json\n");
             }
-            return 0;
+            this.birdie.update_own_timeline_ui ();
         }
 
-        public override int get_favorites () {
+        public override void get_favorites () {
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/favorites/list.json");
             call.set_method ("GET");
             call.add_param ("count", this.retrieve_count);
             call.add_param ("user_id", this.account.id);
-            try { call.sync (); } catch (Error e) {
+            Rest.ProxyCallAsyncCallback callback = get_favorites_response;
+            try {
+                call.run_async (callback);
+            } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
-                return 1;
             }
+        }
 
+        protected void get_favorites_response (
+            Rest.ProxyCall call, Error? error, Object? obj) {
             try {
                 var parser = new Json.Parser ();
                 parser.load_from_data ((string) call.get_payload (), -1);
@@ -703,7 +743,7 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse favorites.json\n");
             }
-            return 0;
+            this.birdie.update_favorites_ui ();
         }
 
         public override Array<string> get_followers (string screen_name) {
@@ -819,17 +859,22 @@ namespace Birdie {
             return 0;
         }
 
-        public override int get_user_timeline (string screen_name) {
+        public override void get_user_timeline (string screen_name) {
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/statuses/user_timeline.json");
             call.set_method ("GET");
             call.add_param ("count", this.retrieve_count);
             call.add_param ("screen_name", screen_name);
-            try { call.sync (); } catch (Error e) {
+            Rest.ProxyCallAsyncCallback callback = get_user_timeline_response;
+            try {
+                call.run_async (callback);
+            } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
-                return 1;
             }
+        }
 
+        protected void get_user_timeline_response (
+            Rest.ProxyCall call, Error? error, Object? obj) {
             this.user_timeline.foreach ((tweet) => {
                 this.user_timeline.remove (tweet);
             });
@@ -850,20 +895,25 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse user_timeline.json\n");
             }
-            return 0;
+            this.birdie.update_user_timeline_ui ();
         }
 
-        public override int get_search_timeline (string search_term) {
+        public override void get_search_timeline (string search_term) {
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/search/tweets.json");
             call.set_method ("GET");
             call.add_param ("count", this.retrieve_count);
             call.add_param ("q", search_term);
-            try { call.sync (); } catch (Error e) {
+            Rest.ProxyCallAsyncCallback callback = get_search_timeline_response;
+            try {
+                call.run_async (callback);
+            } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
-                return 1;
             }
+        }
 
+        protected void get_search_timeline_response (
+            Rest.ProxyCall call, Error? error, Object? obj) {
             this.search_timeline.foreach ((tweet) => {
                 this.search_timeline.remove (tweet);
             });
@@ -886,7 +936,7 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse tweets.json\n");
             }
-            return 0;
+            this.birdie.update_search_ui ();
         }
 
     }

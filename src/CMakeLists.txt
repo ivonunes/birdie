@@ -147,7 +147,6 @@ vala_precompile(VALA_C
     Birdie.vala
     API.vala
     Twitter.vala
-    Identica.vala
     Tweet.vala
     User.vala
     Imgur.vala

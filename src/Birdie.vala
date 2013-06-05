@@ -98,6 +98,7 @@ namespace Birdie {
         private string search_term;
 
         public bool initialized;
+        private bool ready;
         private bool changing_tab;
 
         public SqliteDatabase db;
@@ -150,6 +151,7 @@ namespace Birdie {
             Intl.bindtextdomain ("birdie", Constants.DATADIR + "/locale");
 
             this.initialized = false;
+            this.ready = false;
             this.changing_tab = false;
 
             // create cache and db dirs if needed
@@ -609,7 +611,7 @@ namespace Birdie {
         }
 
         public void* request () {
-            this.new_api = new Twitter (this.db);
+            this.new_api = new Twitter (this);
 
             Idle.add (() => {
                 var window_active = this.home.get_sensitive ();
@@ -677,22 +679,21 @@ namespace Birdie {
         */
 
         private void init_api () {
-            this.api = new Twitter (this.db);
+            this.api = new Twitter (this);
         }
 
         public void* init () {
             this.switch_timeline ("loading");
 
             if (this.check_internet_connection ()) {
+                if (this.ready)
+                    this.ready = false;
+
                 this.api.auth ();
                 this.api.get_account ();
 
-                this.api.get_home_timeline ();
-                this.api.get_mentions_timeline ();
-                this.api.get_direct_messages ();
-                this.api.get_direct_messages_sent ();
-                this.api.get_own_timeline ();
-                this.api.get_favorites ();
+                this.default_account = this.db.get_default_account ();
+                this.default_account_id = this.db.get_account_id ();
 
                 this.home_list.clear ();
                 this.mentions_list.clear ();
@@ -701,40 +702,12 @@ namespace Birdie {
                 this.own_list.clear ();
                 this.favorites.clear ();
 
-                this.default_account = this.db.get_default_account ();
-                this.default_account_id = this.db.get_account_id ();
-
-                this.api.home_timeline.foreach ((tweet) => {
-                    this.home_list.append (tweet, this);
-                    this.db.add_user (tweet.user_screen_name,
-                        tweet.user_name, this.default_account_id);
-                });
-
-                this.api.mentions_timeline.foreach ((tweet) => {
-                    this.mentions_list.append(tweet, this);
-                    this.db.add_user (tweet.user_screen_name,
-                        tweet.user_name, this.default_account_id);
-                });
-
-                this.api.dm_timeline.foreach ((tweet) => {
-                    this.dm_list.append(tweet, this);
-                    this.db.add_user (tweet.user_screen_name,
-                        tweet.user_name, this.default_account_id);
-                });
-
-                this.api.dm_sent_timeline.foreach ((tweet) => {
-                    this.dm_sent_list.append(tweet, this);
-                });
-
-                this.api.own_timeline.foreach ((tweet) => {
-                    this.own_list.append(tweet, this);
-                });
-
-                this.api.favorites.foreach ((tweet) => {
-                    this.favorites.append(tweet, this);
-                    this.db.add_user (tweet.user_screen_name,
-                        tweet.user_name, this.default_account_id);
-                });
+                this.api.get_home_timeline ();
+                this.api.get_mentions_timeline ();
+                this.api.get_direct_messages ();
+                this.api.get_direct_messages_sent ();
+                this.api.get_own_timeline ();
+                this.api.get_favorites ();
 
                 Idle.add (() => {
                     if (this.initialized) {
@@ -754,30 +727,6 @@ namespace Birdie {
 
                     return false;
                 });
-
-                this.add_timeout_online ();
-                this.add_timeout_offline ();
-
-                this.current_timeline = "home";
-                this.switch_timeline ("home");
-
-                this.spinner.stop ();
-
-                this.new_tweet.set_sensitive (true);
-                this.home.set_sensitive (true);
-                this.mentions.set_sensitive (true);
-                this.dm.set_sensitive (true);
-                this.profile.set_sensitive (true);
-                this.search.set_sensitive (true);
-                this.account_appmenu.set_sensitive (true);
-                this.remove_appmenu.set_sensitive (true);
-
-                get_avatar (this.home_list);
-                get_avatar (this.mentions_list);
-                get_avatar (this.dm_list);
-                get_avatar (this.dm_sent_list);
-                get_avatar (this.own_list);
-                get_avatar (this.favorites);
             } else {
                 this.switch_timeline ("error");
             }
@@ -994,20 +943,16 @@ namespace Birdie {
 
         public void* update_timelines () {
             if (this.check_internet_connection ()) {
-                this.update_home ();
-                this.update_mentions ();
-                this.update_dm ();
-                get_avatar (this.home_list);
-                get_avatar (this.mentions_list);
-                get_avatar (this.dm_list);
+                this.api.get_home_timeline ();
+                this.api.get_mentions_timeline ();
+                this.api.get_direct_messages ();
             } else {
                 this.switch_timeline ("error");
             }
             return null;
         }
 
-        public void update_home () {
-            this.api.get_home_timeline ();
+        public void update_home_ui () {
             string notify_header = "";
             string notify_text = "";
 
@@ -1048,14 +993,70 @@ namespace Birdie {
                 this.launcher.set_count (get_total_unread ());
                 #endif
             }
+
+            if (!this.ready) {
+                get_all_avatars ();
+
+                this.ready = true;
+
+                this.add_timeout_online ();
+                this.add_timeout_offline ();
+
+                this.current_timeline = "home";
+                this.switch_timeline ("home");
+
+                this.spinner.stop ();
+                this.set_widgets_sensitive (true);
+            }
         }
 
-        public void update_mentions () {
+        public void get_all_avatars () {
+            new Thread<void*> (null, () => {
+                get_avatar_unthreaded (this.home_list);
+
+                get_avatar (this.mentions_list);
+                get_avatar (this.dm_list);
+                get_avatar (this.dm_sent_list);
+                get_avatar (this.own_list);
+                get_avatar (this.favorites);
+                
+                return null;
+            });
+        }
+
+        public void update_dm_sent_ui () {
+            this.api.dm_sent_timeline.foreach ((tweet) => {
+                this.dm_sent_list.append(tweet, this);
+            });
+
+            if (this.ready)
+                get_avatar (this.dm_sent_list);
+        }
+
+        public void update_own_timeline_ui () {
+            this.api.own_timeline.foreach ((tweet) => {
+                this.own_list.append(tweet, this);
+            });
+
+            if (this.ready)
+                get_avatar (this.own_list);
+        }
+
+        public void update_favorites_ui () {
+            this.api.favorites.foreach ((tweet) => {
+                this.favorites.append(tweet, this);
+                this.db.add_user (tweet.user_screen_name,
+                    tweet.user_name, this.default_account_id);
+            });
+
+            if (this.ready)
+                get_avatar (this.favorites);
+        }
+
+        public void update_mentions_ui () {
             bool new_mentions = false;
             string notify_header = "";
             string notify_text = "";
-
-            this.api.get_mentions_timeline ();
 
             this.api.mentions_timeline.foreach ((tweet) => {
                 this.mentions_list.append (tweet, this);
@@ -1090,14 +1091,15 @@ namespace Birdie {
                 this.launcher.set_count (get_total_unread ());
                 #endif
             }
+
+            if (this.ready)
+                get_avatar (this.mentions_list);
         }
 
-        public void update_dm () {
+        public void update_dm_ui () {
             bool new_dms = false;
             string notify_header = "";
             string notify_text = "";
-
-            this.api.get_direct_messages ();
 
             this.api.dm_timeline.foreach ((tweet) => {
                 this.dm_list.append (tweet, this);
@@ -1134,6 +1136,9 @@ namespace Birdie {
                 this.launcher.set_count (get_total_unread ());
                 #endif
             }
+
+            if (this.ready)
+                get_avatar (this.dm_list);
         }
 
         public void* update_dates () {
@@ -1224,6 +1229,7 @@ namespace Birdie {
                             this.notebook_dm.page = 1;
                             return false;
                         });
+
                         get_avatar (this.dm_sent_list);
                     } else {
                         this.home_tmp.append (tweet_tmp);
@@ -1253,25 +1259,42 @@ namespace Birdie {
                 });
 
                 this.api.get_user_timeline (user);
-
-                this.api.user_timeline.foreach ((tweet) => {
-                    this.user_list.append (tweet, this);
-                });
-
-                Idle.add (() => {
-                    this.user_box_info.update (this.api.user);
-                    get_userbox_avatar (this.user_box_info);
-                    this.switch_timeline ("user");
-                    this.spinner.stop ();
-                    return false;
-                });
-
-                get_avatar (this.user_list);
             } else {
                 this.switch_timeline ("error");
             }
-
             return null;
+        }
+
+        public void update_user_timeline_ui () {
+            this.api.user_timeline.foreach ((tweet) => {
+                this.user_list.append (tweet, this);
+            });
+
+            Idle.add (() => {
+                this.user_box_info.update (this.api.user);
+                get_userbox_avatar (this.user_box_info);
+                this.switch_timeline ("user");
+                this.spinner.stop ();
+                return false;
+            });
+
+            if (this.ready)
+                get_avatar (this.user_list);
+        }
+
+        public void update_search_ui () {
+            Idle.add (() => {
+                this.spinner.stop ();
+                search_entry.text = search_term;
+                this.switch_timeline ("search");
+                return false;
+            });
+
+            this.api.search_timeline.foreach ((tweet) => {
+                this.search_list.append (tweet, this);
+            });
+
+            get_avatar (this.search_list);
         }
 
         private void* show_search () {
@@ -1287,19 +1310,6 @@ namespace Birdie {
                 });
 
                 this.api.get_search_timeline (search_term);
-
-                Idle.add (() => {
-                    this.spinner.stop ();
-                    search_entry.text = search_term;
-                    this.switch_timeline ("search");
-                    return false;
-                });
-
-                this.api.search_timeline.foreach ((tweet) => {
-                    this.search_list.append (tweet, this);
-                });
-
-                get_avatar (this.search_list);
             } else {
                 this.switch_timeline ("error");
             }
