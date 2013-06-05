@@ -144,10 +144,10 @@ namespace Birdie.Widgets {
                 new Thread<void*> (null, this.unblock_thread);
             });
             
-            /*follow_button.get_style_context().add_class ("affirmative");
+            follow_button.get_style_context().add_class ("affirmative");
             block_button.get_style_context().add_class ("noundo");
             unfollow_button.get_style_context().add_class ("noundo");
-            unblock_button.get_style_context().add_class ("affirmative");*/
+            unblock_button.get_style_context().add_class ("affirmative");
 
             this.unfollow_button.set_no_show_all (true);
             this.unblock_button.set_no_show_all (true);

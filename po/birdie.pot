@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-15 18:22+0100\n"
+"POT-Creation-Date: 2013-06-05 19:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,279 +17,300 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../../src/Birdie.vala:233 ../../src/Widgets/TweetDialog.vala:65
-#: ../../src/Utils/Indicator.vala:50 ../../src/Utils/Launcher.vala:40
+#: ../../src/Birdie.vala:223 ../../src/Birdie.vala:224
+#: ../../src/Widgets/TweetDialog.vala:71 ../../src/Utils/Indicator.vala:140
+#: ../../src/Utils/Indicator.vala:188 ../../src/Utils/Launcher.vala:40
 msgid "New Tweet"
 msgstr ""
 
-#: ../../src/Birdie.vala:261 ../../src/Birdie.vala:511
+#: ../../src/Birdie.vala:246 ../../src/Birdie.vala:247
+#: ../../src/Birdie.vala:509
 msgid "Home"
 msgstr ""
 
-#: ../../src/Birdie.vala:272 ../../src/Birdie.vala:512
-#: ../../src/Utils/Indicator.vala:48 ../../src/Utils/Launcher.vala:52
+#: ../../src/Birdie.vala:258 ../../src/Birdie.vala:259
+#: ../../src/Birdie.vala:510 ../../src/Utils/Indicator.vala:106
+#: ../../src/Utils/Indicator.vala:186 ../../src/Utils/Launcher.vala:52
 msgid "Mentions"
 msgstr ""
 
-#: ../../src/Birdie.vala:284 ../../src/Birdie.vala:513
-#: ../../src/Utils/Indicator.vala:49
+#: ../../src/Birdie.vala:271 ../../src/Birdie.vala:272
+#: ../../src/Birdie.vala:511 ../../src/Utils/Indicator.vala:124
+#: ../../src/Utils/Indicator.vala:187
 msgid "Direct Messages"
 msgstr ""
 
-#: ../../src/Birdie.vala:294 ../../src/Birdie.vala:514
-#: ../../src/Utils/Launcher.vala:64
+#: ../../src/Birdie.vala:282 ../../src/Birdie.vala:283
+#: ../../src/Birdie.vala:512 ../../src/Utils/Launcher.vala:64
 msgid "Profile"
 msgstr ""
 
-#: ../../src/Birdie.vala:305 ../../src/Birdie.vala:516
+#: ../../src/Birdie.vala:294 ../../src/Birdie.vala:295
+#: ../../src/Birdie.vala:495 ../../src/Birdie.vala:514
 msgid "Search"
 msgstr ""
 
-#: ../../src/Birdie.vala:320
+#: ../../src/Birdie.vala:310
 msgid "Add Account"
 msgstr ""
 
-#: ../../src/Birdie.vala:326
+#: ../../src/Birdie.vala:316
 msgid "Remove Account"
 msgstr ""
 
-#: ../../src/Birdie.vala:330
+#: ../../src/Birdie.vala:320
 msgid "Remove this account?"
 msgstr ""
 
-#: ../../src/Birdie.vala:331
+#: ../../src/Birdie.vala:321
 msgid "Remove"
 msgstr ""
 
-#: ../../src/Birdie.vala:331 ../../src/Widgets/TweetBox.vala:333
-#: ../../src/Widgets/TweetDialog.vala:161
+#: ../../src/Birdie.vala:321 ../../src/Widgets/TweetBox.vala:393
+#: ../../src/Widgets/TweetDialog.vala:185
 msgid "Cancel"
 msgstr ""
 
-#: ../../src/Birdie.vala:352
+#: ../../src/Birdie.vala:342
 msgid "About"
 msgstr ""
 
-#: ../../src/Birdie.vala:356
+#: ../../src/Birdie.vala:378
 msgid "Donate"
 msgstr ""
 
-#: ../../src/Birdie.vala:364
+#: ../../src/Birdie.vala:386
 msgid "Quit"
 msgstr ""
 
-#: ../../src/Birdie.vala:383
+#: ../../src/Birdie.vala:407 ../../src/Birdie.vala:410
 msgid "Menu"
 msgstr ""
 
-#: ../../src/Birdie.vala:418
-msgid "Birdie"
-msgstr ""
-
-#: ../../src/Birdie.vala:418 ../../src/config.vala:24
-msgid "Twitter Client"
-msgstr ""
-
-#: ../../src/Birdie.vala:419
-msgid "Sign In"
-msgstr ""
-
-#: ../../src/Birdie.vala:419
-msgid "Add an existing Twitter account."
-msgstr ""
-
-#: ../../src/Birdie.vala:420
-msgid "Sign Up"
-msgstr ""
-
-#: ../../src/Birdie.vala:420
-msgid "Create a new Twitter account."
-msgstr ""
-
-#: ../../src/Birdie.vala:436
-msgid "Unable to connect"
-msgstr ""
-
-#: ../../src/Birdie.vala:436
-msgid "Please check your Internet Connection"
-msgstr ""
-
-#: ../../src/Birdie.vala:437
-msgid "Retry"
-msgstr ""
-
-#: ../../src/Birdie.vala:437
-msgid "Try to connect again"
-msgstr ""
-
-#: ../../src/Birdie.vala:459
+#: ../../src/Birdie.vala:450
 msgid "Received"
 msgstr ""
 
-#: ../../src/Birdie.vala:460
+#: ../../src/Birdie.vala:451
 msgid "Sent"
 msgstr ""
 
-#: ../../src/Birdie.vala:484 ../../src/Birdie.vala:491
+#: ../../src/Birdie.vala:475 ../../src/Birdie.vala:483
 msgid "Timeline"
 msgstr ""
 
-#: ../../src/Birdie.vala:485
+#: ../../src/Birdie.vala:476
 msgid "Favorites"
 msgstr ""
 
-#: ../../src/Birdie.vala:509
+#: ../../src/Birdie.vala:507
 msgid "Loading"
 msgstr ""
 
-#: ../../src/Birdie.vala:510
+#: ../../src/Birdie.vala:508
 msgid "Welcome"
 msgstr ""
 
-#: ../../src/Birdie.vala:515
+#: ../../src/Birdie.vala:513
 msgid "User"
 msgstr ""
 
-#: ../../src/Birdie.vala:517
+#: ../../src/Birdie.vala:515
 msgid "Error"
 msgstr ""
 
-#: ../../src/Birdie.vala:663
+#: ../../src/Birdie.vala:660
 msgid "Sign in"
 msgstr ""
 
-#: ../../src/Birdie.vala:1028
+#: ../../src/Birdie.vala:1026
 msgid "New tweet from"
 msgstr ""
 
-#: ../../src/Birdie.vala:1042
+#: ../../src/Birdie.vala:1040
 msgid "new tweets"
 msgstr ""
 
-#: ../../src/Birdie.vala:1065
+#: ../../src/Birdie.vala:1067
 msgid "New mention from"
 msgstr ""
 
-#: ../../src/Birdie.vala:1080
+#: ../../src/Birdie.vala:1082
 msgid "new mentions"
 msgstr ""
 
-#: ../../src/Birdie.vala:1105
+#: ../../src/Birdie.vala:1111
 msgid "New direct message from"
 msgstr ""
 
-#: ../../src/Birdie.vala:1120
+#: ../../src/Birdie.vala:1126
 msgid "new direct messages"
 msgstr ""
 
-#: ../../src/config.vala:25
-msgid "Twitter client for elementary OS"
+#: ../../src/config.vala:24 ../../src/Widgets/Welcome.vala:22
+msgid "Twitter Client"
 msgstr ""
 
-#: ../../src/Widgets/TweetBox.vala:263 ../../src/Widgets/TweetBox.vala:542
+#: ../../src/config.vala:25
+msgid "Twitter client for Linux"
+msgstr ""
+
+#: ../../src/Widgets/Dialogs.vala:81
+msgid "Preview"
+msgstr ""
+
+#: ../../src/Widgets/TweetBox.vala:279
+msgid "Thread"
+msgstr ""
+
+#: ../../src/Widgets/TweetBox.vala:296 ../../src/Widgets/TweetBox.vala:665
 msgid "Favorite"
 msgstr ""
 
-#: ../../src/Widgets/TweetBox.vala:285
+#: ../../src/Widgets/TweetBox.vala:318 ../../src/Widgets/TweetBox.vala:334
 msgid "Retweet"
 msgstr ""
 
-#: ../../src/Widgets/TweetBox.vala:311
+#: ../../src/Widgets/TweetBox.vala:335
+msgid "Retweet with quote"
+msgstr ""
+
+#: ../../src/Widgets/TweetBox.vala:371
 msgid "Reply"
 msgstr ""
 
-#: ../../src/Widgets/TweetBox.vala:327 ../../src/Widgets/TweetBox.vala:333
+#: ../../src/Widgets/TweetBox.vala:387 ../../src/Widgets/TweetBox.vala:393
 msgid "Delete"
 msgstr ""
 
-#: ../../src/Widgets/TweetBox.vala:332
+#: ../../src/Widgets/TweetBox.vala:392
 msgid "Delete this tweet?"
 msgstr ""
 
-#: ../../src/Widgets/TweetBox.vala:539
+#: ../../src/Widgets/TweetBox.vala:662
 msgid "Unfavorite"
 msgstr ""
 
-#: ../../src/Widgets/TweetBox.vala:550
+#: ../../src/Widgets/TweetBox.vala:673
 #, c-format
 msgid "retweeted by %s"
 msgstr ""
 
-#: ../../src/Widgets/TweetBox.vala:575
+#: ../../src/Widgets/TweetBox.vala:698
 #, c-format
 msgid "in reply to @%s"
 msgstr ""
 
-#: ../../src/Widgets/TweetDialog.vala:67
+#: ../../src/Widgets/TweetDialog.vala:73
 msgid "New Message"
 msgstr ""
 
-#: ../../src/Widgets/TweetDialog.vala:169
+#: ../../src/Widgets/TweetDialog.vala:193
 msgid "Send"
 msgstr ""
 
-#: ../../src/Widgets/TweetDialog.vala:171
+#: ../../src/Widgets/TweetDialog.vala:195
 msgid "Tweet"
 msgstr ""
 
-#: ../../src/Widgets/TweetDialog.vala:200
+#: ../../src/Widgets/TweetDialog.vala:207
 msgid "Add a picture"
 msgstr ""
 
-#: ../../src/Widgets/TweetDialog.vala:225
+#: ../../src/Widgets/TweetDialog.vala:232
 msgid "Select a Picture"
 msgstr ""
 
-#: ../../src/Widgets/UserBox.vala:59 ../../src/Widgets/UserBox.vala:232
+#: ../../src/Widgets/UserBox.vala:56 ../../src/Widgets/UserBox.vala:193
 msgid "TWEETS"
 msgstr ""
 
-#: ../../src/Widgets/UserBox.vala:64 ../../src/Widgets/UserBox.vala:237
+#: ../../src/Widgets/UserBox.vala:61 ../../src/Widgets/UserBox.vala:198
 msgid "FOLLOWING"
 msgstr ""
 
-#: ../../src/Widgets/UserBox.vala:66 ../../src/Widgets/UserBox.vala:239
+#: ../../src/Widgets/UserBox.vala:63 ../../src/Widgets/UserBox.vala:200
 msgid "FOLLOWERS"
 msgstr ""
 
-#: ../../src/Widgets/UserBox.vala:116
+#: ../../src/Widgets/UserBox.vala:108
 msgid "Follow"
 msgstr ""
 
-#: ../../src/Widgets/UserBox.vala:118
+#: ../../src/Widgets/UserBox.vala:110
 msgid "Follow user"
 msgstr ""
 
-#: ../../src/Widgets/UserBox.vala:126
+#: ../../src/Widgets/UserBox.vala:118
 msgid "Unfollow"
 msgstr ""
 
-#: ../../src/Widgets/UserBox.vala:128
+#: ../../src/Widgets/UserBox.vala:120
 msgid "Unfollow user"
 msgstr ""
 
-#: ../../src/Widgets/UserBox.vala:136
+#: ../../src/Widgets/UserBox.vala:128
 msgid "Block"
 msgstr ""
 
-#: ../../src/Widgets/UserBox.vala:138
+#: ../../src/Widgets/UserBox.vala:130
 msgid "Block user"
 msgstr ""
 
-#: ../../src/Widgets/UserBox.vala:146
+#: ../../src/Widgets/UserBox.vala:138
 msgid "Unblock"
 msgstr ""
 
-#: ../../src/Widgets/UserBox.vala:148
+#: ../../src/Widgets/UserBox.vala:140
 msgid "Unblock user"
 msgstr ""
 
-#: ../../src/Widgets/UserBox.vala:226
+#: ../../src/Widgets/UserBox.vala:187
 msgid "Following you."
 msgstr ""
 
-#: ../../src/Widgets/UserBox.vala:228
+#: ../../src/Widgets/UserBox.vala:189
 msgid "Not following you."
+msgstr ""
+
+#: ../../src/Widgets/Welcome.vala:22
+msgid "Birdie"
+msgstr ""
+
+#: ../../src/Widgets/Welcome.vala:24
+msgid "Sign In"
+msgstr ""
+
+#: ../../src/Widgets/Welcome.vala:24 ../../src/Widgets/Welcome.vala:67
+msgid "Add an existing Twitter account."
+msgstr ""
+
+#: ../../src/Widgets/Welcome.vala:25
+msgid "Sign Up"
+msgstr ""
+
+#: ../../src/Widgets/Welcome.vala:25 ../../src/Widgets/Welcome.vala:73
+msgid "Create a new Twitter account."
+msgstr ""
+
+#: ../../src/Widgets/Welcome.vala:49 ../../src/Widgets/Welcome.vala:99
+msgid "Unable to connect"
+msgstr ""
+
+#: ../../src/Widgets/Welcome.vala:49 ../../src/Widgets/Welcome.vala:100
+msgid "Please check your Internet Connection"
+msgstr ""
+
+#: ../../src/Widgets/Welcome.vala:51 ../../src/Widgets/Welcome.vala:94
+msgid "Retry"
+msgstr ""
+
+#: ../../src/Widgets/Welcome.vala:51
+msgid "Try to connect again"
+msgstr ""
+
+#: ../../src/Widgets/Welcome.vala:82
+msgid "Welcome to Birdie"
 msgstr ""
 
 #: ../../src/Utils/Date.vala:65
@@ -326,7 +347,8 @@ msgstr ""
 msgid "now"
 msgstr ""
 
-#: ../../src/Utils/Indicator.vala:47 ../../src/Utils/Launcher.vala:46
+#: ../../src/Utils/Indicator.vala:88 ../../src/Utils/Indicator.vala:185
+#: ../../src/Utils/Launcher.vala:46
 msgid "Tweets"
 msgstr ""
 

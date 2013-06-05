@@ -24,8 +24,6 @@ install(FILES 48x48/apps/birdie.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/ic
 install(FILES 64x64/apps/birdie.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/64x64/apps)
 install(FILES 128x128/apps/birdie.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/128x128/apps)
 install(FILES twitter-verified.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/22x22/emblems)
-install(FILES 16x16/panel/birdie-panel.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/hicolor/16x16/panel)
-install(FILES 16x16/panel-elementary/birdie-panel.png DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/elementary/panel/16)
 
 install(
     CODE

@@ -22,5 +22,5 @@ namespace Constants {
     
     // translatable strings for the .desktop file
     private const string GENERIC_NAME = _("Twitter Client");
-    private const string COMMENT = _("Twitter client for elementary OS");
+    private const string COMMENT = _("Twitter client for Linux");
 }
