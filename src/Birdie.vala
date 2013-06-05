@@ -1007,6 +1007,8 @@ namespace Birdie {
 
                 this.spinner.stop ();
                 this.set_widgets_sensitive (true);
+            } else {
+                get_avatar (this.home_list);
             }
         }
 
