@@ -58,7 +58,7 @@ namespace Birdie {
         public abstract int favorite_destroy (string id);
         public abstract int send_direct_message (string recipient, string status);
         public abstract int get_account ();
-        public abstract Tweet get_single_tweet (int tweet_id);
+        public abstract Tweet get_single_tweet (string tweet_id);
         public abstract int get_home_timeline ();
         public abstract int get_mentions_timeline ();
         public abstract int get_direct_messages ();

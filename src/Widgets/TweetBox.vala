@@ -497,7 +497,7 @@ namespace Birdie.Widgets {
             List<Tweet> tweets = new List<Tweet> ();
 
             for (int i = 0; i < 5; i++) {
-                var tweet = this.birdie.api.get_single_tweet (int.parse (parsing_id));
+                var tweet = this.birdie.api.get_single_tweet (parsing_id);
 
                 tweets.append (tweet);
 
@@ -510,9 +510,13 @@ namespace Birdie.Widgets {
             tweets.reverse ();
             tweets.foreach ((tweet) => {
                 var tweet_box = new TweetBox (tweet, this.birdie);
+                get_single_avatar (tweet_box);
 
-                this.thread_box.pack_start (tweet_box, false, false, 0);
-                tweet_box.show ();
+                Idle.add ( () => {
+                    this.thread_box.pack_start (tweet_box, false, false, 0);
+                    tweet_box.show_all ();
+                    return false;
+                });
             });
 
             Idle.add ( () => {

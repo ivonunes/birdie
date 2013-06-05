@@ -434,14 +434,14 @@ namespace Birdie {
                 retweeted_by, retweeted_by_name, media_url, youtube_video, verified, in_reply_to_status_id);
         }
 
-        public override Tweet get_single_tweet (int tweet_id) {
+        public override Tweet get_single_tweet (string tweet_id) {
             Tweet tweet = new Tweet ();
 
             // setup call
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/statuses/show.json");
             call.set_method ("GET");
-            call.add_param ("id", tweet_id.to_string ());
+            call.add_param ("id", tweet_id);
             
             try { call.sync (); } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);

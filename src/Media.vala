@@ -53,6 +53,37 @@ namespace Birdie {
         timeline.boxes.reverse ();
     }
 
+    public void get_single_avatar (Widgets.TweetBox tweetbox) {
+        var profile_image_url = tweetbox.tweet.profile_image_url;
+        var profile_image_file = profile_image_url;
+
+        if ("/" in profile_image_file)
+            profile_image_file = profile_image_file.split ("/")[4] + "_" + profile_image_file.split ("/")[5];
+
+        if (".png" in profile_image_url) {
+        } else {
+            if ("." in profile_image_file) {
+                profile_image_file = profile_image_file.split (".")[0];
+            }
+            profile_image_file = profile_image_file + ".png";
+        }
+
+        Utils.Downloader download_handler =
+            new Utils.Downloader (profile_image_url,
+            Environment.get_home_dir () +
+            "/.cache/birdie/" + profile_image_file);
+
+        if (download_handler.download_complete && !download_handler.download_skip) {
+            Utils.generate_rounded_avatar (Environment.get_home_dir () +
+                "/.cache/birdie/" + profile_image_file);
+        }
+
+        if (download_handler.download_complete) {
+            tweetbox.set_avatar (Environment.get_home_dir () +
+                "/.cache/birdie/" + profile_image_file);
+        }
+    }
+
     public void get_userbox_avatar (Widgets.UserBox userbox, bool own = false) {
         var profile_image_url = userbox.user.profile_image_url;
         var profile_image_file = profile_image_url;
