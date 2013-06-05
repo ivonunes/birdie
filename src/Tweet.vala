@@ -29,6 +29,7 @@ namespace Birdie {
         public string retweeted_by_name;
         public string media_url;
         public string youtube_video;
+        public string in_reply_to_status_id;
         public bool verified;
         public bool retweeted;
         public bool favorited;
@@ -42,7 +43,7 @@ namespace Birdie {
          bool dm = false, string in_reply_to_screen_name = "",
          string retweeted_by = "", string retweeted_by_name = "",
          string media_url = "", string youtube_video = "",
-         bool verified = false) {
+         bool verified = false, string in_reply_to_status_id = "") {
 
             this.id = id;
             this.actual_id = actual_id;
@@ -61,6 +62,7 @@ namespace Birdie {
             this.media_url = media_url;
             this.youtube_video = youtube_video;
             this.verified = verified;
+            this.in_reply_to_status_id = in_reply_to_status_id;
         }
     }
 }

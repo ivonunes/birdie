@@ -362,6 +362,7 @@ namespace Birdie {
             string youtube_video = "";
             string? in_reply_to_screen_name = "";
             string expanded = "";
+            string? in_reply_to_status_id = "";
 
             bool retweeted = false;
             bool favorited = false;
@@ -387,9 +388,12 @@ namespace Birdie {
              profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
             verified = tweetobject.get_object_member ("user").get_boolean_member ("verified");
             in_reply_to_screen_name = tweetobject.get_string_member ("in_reply_to_screen_name");
+            in_reply_to_status_id = tweetobject.get_string_member ("in_reply_to_status_id_str");
 
             if (in_reply_to_screen_name == null)
                 in_reply_to_screen_name = "";
+            if (in_reply_to_status_id == null)
+                in_reply_to_status_id = "";
 
             var entitiesobject = tweetobject.get_object_member ("entities");
 
@@ -427,7 +431,34 @@ namespace Birdie {
             return new Tweet (id, actual_id, user_name, user_screen_name,
                 Utils.highlight_all (text), created_at, profile_image_url, profile_image_file,
                 retweeted, favorited, false, in_reply_to_screen_name,
-                retweeted_by, retweeted_by_name, media_url, youtube_video, verified);
+                retweeted_by, retweeted_by_name, media_url, youtube_video, verified, in_reply_to_status_id);
+        }
+
+        public override Tweet get_single_tweet (int tweet_id) {
+            Tweet tweet = new Tweet ();
+
+            // setup call
+            Rest.ProxyCall call = proxy.new_call ();
+            call.set_function ("1.1/statuses/show.json");
+            call.set_method ("GET");
+            call.add_param ("id", tweet_id.to_string ());
+            
+            try { call.sync (); } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+                return tweet;
+            }
+
+            try {
+                var parser = new Json.Parser ();
+                parser.load_from_data ((string) call.get_payload (), -1);
+                var node = parser.get_root ();
+
+                tweet = this.get_tweet (node);
+            } catch (Error e) {
+                stderr.printf ("Unable to parse show.json\n");
+            }
+
+            return tweet;
         }
 
         public override int get_home_timeline () {

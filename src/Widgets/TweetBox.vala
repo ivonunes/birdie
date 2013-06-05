@@ -19,6 +19,7 @@ namespace Birdie.Widgets {
         public Tweet tweet;
         public Birdie birdie;
 
+        private Gtk.Box thread_box;
         private Gtk.Box tweet_box;
         private Gtk.Alignment avatar_alignment;
         private Gtk.Alignment content_alignment;
@@ -34,10 +35,12 @@ namespace Birdie.Widgets {
         private Gtk.Box header_box;
         private Gtk.Box buttons_box;
         private Gtk.Overlay context_overlay;
+        private Gtk.Button thread_button;
         private Gtk.Button favorite_button;
         private Gtk.Button retweet_button;
         private Gtk.Button reply_button;
         private Gtk.Button delete_button;
+        private Gtk.Image thread_icon;
         private Gtk.Image favorite_icon;
         private Gtk.Image retweet_icon;
         private Gtk.Image reply_icon;
@@ -73,9 +76,13 @@ namespace Birdie.Widgets {
             this.month = 0;
             this.year = 0;
 
+            // thread box
+            this.thread_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+            this.add (this.thread_box);
+
             // tweet box
             this.tweet_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-            this.add (this.tweet_box);
+            this.thread_box.pack_end (this.tweet_box, true, true, 0);
 
             // avatar alignment
             this.avatar_alignment = new Gtk.Alignment (0,0,0,1);
@@ -260,6 +267,24 @@ namespace Birdie.Widgets {
             this.buttons_box.hide ();
 
             // FIXME: Split this button crap into a method like the info header
+
+            // thread button
+            if (!this.tweet.dm) {
+                if (this.tweet.in_reply_to_status_id != "") {
+                    this.thread_button = new Gtk.Button ();
+                    this.thread_button.set_halign (Gtk.Align.END);
+                    this.thread_button.set_relief (Gtk.ReliefStyle.NONE);
+                    this.thread_icon = new Gtk.Image.from_icon_name ("twitter-fav", Gtk.IconSize.SMALL_TOOLBAR);
+                    this.thread_button.child = this.thread_icon;
+                    this.thread_button.set_tooltip_text (_("Thread"));
+                    this.buttons_box.pack_start (thread_button, false, true, 0);
+
+                    this.thread_button.clicked.connect (() => {
+                        this.thread_button.set_sensitive (false);
+                        new Thread<void*> (null, this.thread_thread);
+                    });
+                }
+            }
 
             // favorite button
             if (!this.tweet.dm) {
@@ -455,6 +480,50 @@ namespace Birdie.Widgets {
             this.buttons_box.show_all ();
             this.buttons_box.set_no_show_all (true);
             this.time_label.hide ();
+        }
+
+        private void* thread_thread () {
+            var spinner = new Gtk.Spinner ();
+
+            Idle.add ( () => {
+                this.thread_box.pack_start (spinner, false, false, 0);
+                spinner.start ();
+                spinner.show ();
+                return false;
+            });
+
+            string parsing_id = this.tweet.in_reply_to_status_id;
+
+            List<Tweet> tweets = new List<Tweet> ();
+
+            for (int i = 0; i < 5; i++) {
+                var tweet = this.birdie.api.get_single_tweet (int.parse (parsing_id));
+
+                tweets.append (tweet);
+
+                if (tweet.in_reply_to_status_id != "")
+                    parsing_id = tweet.in_reply_to_status_id;
+                else
+                    break;
+            }
+
+            tweets.reverse ();
+            tweets.foreach ((tweet) => {
+                var tweet_box = new TweetBox (tweet, this.birdie);
+
+                this.thread_box.pack_start (tweet_box, false, false, 0);
+                tweet_box.show ();
+            });
+
+            Idle.add ( () => {
+                spinner.stop ();
+                spinner.hide ();
+                this.thread_box.remove (spinner);
+                spinner.destroy ();
+                return false;
+            });
+
+            return null;
         }
 
         private void* favorite_thread () {
