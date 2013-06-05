@@ -274,7 +274,7 @@ namespace Birdie.Widgets {
                     this.thread_button = new Gtk.Button ();
                     this.thread_button.set_halign (Gtk.Align.END);
                     this.thread_button.set_relief (Gtk.ReliefStyle.NONE);
-                    this.thread_icon = new Gtk.Image.from_icon_name ("twitter-fav", Gtk.IconSize.SMALL_TOOLBAR);
+                    this.thread_icon = new Gtk.Image.from_icon_name ("twitter-thread", Gtk.IconSize.SMALL_TOOLBAR);
                     this.thread_button.child = this.thread_icon;
                     this.thread_button.set_tooltip_text (_("Thread"));
                     this.buttons_box.pack_start (thread_button, false, true, 0);
