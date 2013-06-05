@@ -12,7 +12,7 @@
  * Boston, MA 02111-1307, USA.
  *
  * Authored by: Oliver Sauder <os@esite.ch>
- *              Ivo Nunes <ivo@elementaryos.org>
+ *              Ivo Nunes <ivoavnunes@gmail.com>
  *              Vasco Nunes <vascomfnunes@gmail.com>
  */
 
