@@ -64,7 +64,7 @@ namespace Birdie.Widgets {
 
         private string date;
 
-        public TweetBox (Tweet tweet, Birdie birdie) {
+        public TweetBox (Tweet tweet, Birdie birdie, bool inside_thread = false) {
 
             this.birdie = birdie;
             this.tweet = tweet;
@@ -270,7 +270,7 @@ namespace Birdie.Widgets {
 
             // thread button
             if (!this.tweet.dm) {
-                if (this.tweet.in_reply_to_status_id != "") {
+                if (this.tweet.in_reply_to_status_id != "" && !inside_thread) {
                     this.thread_button = new Gtk.Button ();
                     this.thread_button.set_halign (Gtk.Align.END);
                     this.thread_button.set_relief (Gtk.ReliefStyle.NONE);
@@ -509,7 +509,7 @@ namespace Birdie.Widgets {
 
             tweets.reverse ();
             tweets.foreach ((tweet) => {
-                var tweet_box = new TweetBox (tweet, this.birdie);
+                var tweet_box = new TweetBox (tweet, this.birdie, true);
                 get_single_avatar (tweet_box);
 
                 Idle.add ( () => {
@@ -686,7 +686,7 @@ namespace Birdie.Widgets {
                 avatar_box.pack_start (retweeted_img, false, false, 0);
                 content_box.pack_start (this.info_label, false, false, 0);
 
-            } else if (this.tweet.in_reply_to_screen_name != "") {
+            } else if (this.tweet.in_reply_to_screen_name != "" && this.tweet.in_reply_to_status_id != "") {
                 var reply_img = new Gtk.Image ();
                 reply_img.set_from_icon_name ("twitter-reply", Gtk.IconSize.MENU);
                 reply_img.set_halign (Gtk.Align.END);
