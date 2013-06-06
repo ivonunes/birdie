@@ -502,7 +502,6 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
             }
-            api_mutex.unlock ();
         }
 
         protected void get_home_timeline_response (
@@ -531,6 +530,7 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse home_timeline.json\n");
             }
+            api_mutex.unlock ();
             this.birdie.update_home_ui ();
         }
 
@@ -550,7 +550,6 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
             }
-            api_mutex.unlock ();
         }
 
         protected void get_mentions_response (
@@ -580,6 +579,7 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse mentions_timeline.json\n");
             }
+            api_mutex.unlock ();
             this.birdie.update_mentions_ui ();
         }    
 
@@ -599,7 +599,6 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
             }
-            api_mutex.unlock ();
         }
 
 
@@ -645,6 +644,7 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse direct_messages.json\n");
             }
+            api_mutex.unlock ();
             this.birdie.update_dm_ui ();
         }
 
@@ -661,7 +661,6 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
             }
-            api_mutex.unlock ();
         }
 
         protected void get_dm_sent_response (
@@ -697,6 +696,7 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse sent.json\n");
             }
+            api_mutex.unlock ();
             this.birdie.update_dm_sent_ui ();
         }      
 
@@ -713,7 +713,6 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
             }
-            api_mutex.unlock ();
         }
 
         protected void get_own_timeline_response (
@@ -737,6 +736,7 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse user_timeline.json\n");
             }
+            api_mutex.unlock ();
             this.birdie.update_own_timeline_ui ();
         }
 
@@ -753,7 +753,6 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
             }
-            api_mutex.unlock ();
         }
 
         protected void get_favorites_response (
@@ -778,6 +777,7 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse favorites.json\n");
             }
+            api_mutex.unlock ();
             this.birdie.update_favorites_ui ();
         }
 
@@ -800,11 +800,11 @@ namespace Birdie {
                 var root = parser.get_root ();
                 var userobject = root.get_object ();
                 var ids = userobject.get_object_member ("ids");
-                api_mutex.unlock ();
                 followers = (Array<string>)ids;
             } catch (Error e) {
                 stderr.printf ("Unable to parse user_timeline.json\n");
             }
+            api_mutex.unlock ();
             return followers;
         }
 
@@ -836,11 +836,12 @@ namespace Birdie {
                 following = usermember.get_object_member ("source").get_boolean_member ("following");
                 blocking = usermember.get_object_member ("source").get_boolean_member ("blocking");
                 followed = usermember.get_object_member ("source").get_boolean_member ("followed_by");
-                api_mutex.unlock ();
 
             } catch (Error e) {
                 stderr.printf ("Unable to parse sent.json\n");
             }
+
+            api_mutex.unlock ();
 
             friendship.append_val (following.to_string ());
             friendship.append_val (blocking.to_string ());
@@ -922,7 +923,6 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
             }
-            api_mutex.unlock ();
         }
 
         protected void get_user_timeline_response (
@@ -947,6 +947,7 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse user_timeline.json\n");
             }
+            api_mutex.unlock ();
             this.birdie.update_user_timeline_ui ();
         }
 
@@ -963,7 +964,6 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
             }
-            api_mutex.unlock ();
         }
 
         protected void get_search_timeline_response (
@@ -990,6 +990,7 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse tweets.json\n");
             }
+            api_mutex.unlock ();
             this.birdie.update_search_ui ();
         }
 
