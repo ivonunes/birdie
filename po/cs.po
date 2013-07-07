@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: birdie\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-05-15 18:22+0100\n"
-"PO-Revision-Date: 2013-03-31 18:16+0000\n"
-"Last-Translator: Petr Horáček <p.horacek94@gmail.com>\n"
+"PO-Revision-Date: 2013-07-02 14:40+0000\n"
+"Last-Translator: Michal Řeřicha <Unknown>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-05-16 05:55+0000\n"
-"X-Generator: Launchpad (build 16626)\n"
+"X-Launchpad-Export-Date: 2013-07-07 09:44+0000\n"
+"X-Generator: Launchpad (build 16696)\n"
 
 #: ../../src/Birdie.vala:233 ../../src/Widgets/TweetDialog.vala:65
 #: ../../src/Utils/Indicator.vala:50 ../../src/Utils/Launcher.vala:40
@@ -29,7 +29,7 @@ msgstr "Domů"
 #: ../../src/Birdie.vala:272 ../../src/Birdie.vala:512
 #: ../../src/Utils/Indicator.vala:48 ../../src/Utils/Launcher.vala:52
 msgid "Mentions"
-msgstr ""
+msgstr "Zmínky"
 
 #: ../../src/Birdie.vala:284 ../../src/Birdie.vala:513
 #: ../../src/Utils/Indicator.vala:49
@@ -43,23 +43,23 @@ msgstr "Profil"
 
 #: ../../src/Birdie.vala:305 ../../src/Birdie.vala:516
 msgid "Search"
-msgstr ""
+msgstr "Hledat"
 
 #: ../../src/Birdie.vala:320
 msgid "Add Account"
-msgstr ""
+msgstr "Přidat účet"
 
 #: ../../src/Birdie.vala:326
 msgid "Remove Account"
-msgstr ""
+msgstr "Odebrat účet"
 
 #: ../../src/Birdie.vala:330
 msgid "Remove this account?"
-msgstr ""
+msgstr "Odebrat tento účet?"
 
 #: ../../src/Birdie.vala:331
 msgid "Remove"
-msgstr ""
+msgstr "Odstranit"
 
 #: ../../src/Birdie.vala:331 ../../src/Widgets/TweetBox.vala:333
 #: ../../src/Widgets/TweetDialog.vala:161
@@ -72,7 +72,7 @@ msgstr "O programu"
 
 #: ../../src/Birdie.vala:356
 msgid "Donate"
-msgstr ""
+msgstr "Přispět"
 
 #: ../../src/Birdie.vala:364
 msgid "Quit"
@@ -92,19 +92,19 @@ msgstr "Twitter Klient"
 
 #: ../../src/Birdie.vala:419
 msgid "Sign In"
-msgstr ""
+msgstr "Přihlásit se"
 
 #: ../../src/Birdie.vala:419
 msgid "Add an existing Twitter account."
-msgstr ""
+msgstr "Přidat existující Twitter účet"
 
 #: ../../src/Birdie.vala:420
 msgid "Sign Up"
-msgstr ""
+msgstr "Zaregistrovat se"
 
 #: ../../src/Birdie.vala:420
 msgid "Create a new Twitter account."
-msgstr ""
+msgstr "Vytvořit nový Twitter účet"
 
 #: ../../src/Birdie.vala:436
 msgid "Unable to connect"
@@ -112,7 +112,7 @@ msgstr "Nelze se připojit"
 
 #: ../../src/Birdie.vala:436
 msgid "Please check your Internet Connection"
-msgstr ""
+msgstr "Zkontrolujte prosím své internetové připojení"
 
 #: ../../src/Birdie.vala:437
 msgid "Retry"
@@ -120,7 +120,7 @@ msgstr "Opakovat"
 
 #: ../../src/Birdie.vala:437
 msgid "Try to connect again"
-msgstr ""
+msgstr "Opakovat pokus o spojení"
 
 #: ../../src/Birdie.vala:459
 msgid "Received"
@@ -132,7 +132,7 @@ msgstr "Odeslané"
 
 #: ../../src/Birdie.vala:484 ../../src/Birdie.vala:491
 msgid "Timeline"
-msgstr ""
+msgstr "Timeline"
 
 #: ../../src/Birdie.vala:485
 msgid "Favorites"
@@ -156,43 +156,43 @@ msgstr "Chyba"
 
 #: ../../src/Birdie.vala:663
 msgid "Sign in"
-msgstr ""
+msgstr "Přihlásit se"
 
 #: ../../src/Birdie.vala:1028
 msgid "New tweet from"
-msgstr ""
+msgstr "Nový tweet od"
 
 #: ../../src/Birdie.vala:1042
 msgid "new tweets"
-msgstr ""
+msgstr "nové tweety"
 
 #: ../../src/Birdie.vala:1065
 msgid "New mention from"
-msgstr ""
+msgstr "Nová zmínka od"
 
 #: ../../src/Birdie.vala:1080
 msgid "new mentions"
-msgstr ""
+msgstr "nové zmínky"
 
 #: ../../src/Birdie.vala:1105
 msgid "New direct message from"
-msgstr ""
+msgstr "Nová přímá zpráva od"
 
 #: ../../src/Birdie.vala:1120
 msgid "new direct messages"
-msgstr ""
+msgstr "nové přímé zprávy"
 
 #: ../../src/config.vala:25
 msgid "Twitter client for elementary OS"
-msgstr ""
+msgstr "Twitter klient pro základní OS"
 
 #: ../../src/Widgets/TweetBox.vala:263 ../../src/Widgets/TweetBox.vala:542
 msgid "Favorite"
-msgstr "Oblíbené"
+msgstr "Favorite"
 
 #: ../../src/Widgets/TweetBox.vala:285
 msgid "Retweet"
-msgstr "Retweetnout"
+msgstr "Retweet"
 
 #: ../../src/Widgets/TweetBox.vala:311
 msgid "Reply"
@@ -204,25 +204,25 @@ msgstr "Smazat"
 
 #: ../../src/Widgets/TweetBox.vala:332
 msgid "Delete this tweet?"
-msgstr ""
+msgstr "Smazat tento tweet?"
 
 #: ../../src/Widgets/TweetBox.vala:539
 msgid "Unfavorite"
-msgstr ""
+msgstr "Unfavorite"
 
 #: ../../src/Widgets/TweetBox.vala:550
 #, c-format
 msgid "retweeted by %s"
-msgstr ""
+msgstr "retweetováno %s"
 
 #: ../../src/Widgets/TweetBox.vala:575
 #, c-format
 msgid "in reply to @%s"
-msgstr ""
+msgstr "jako odpověď na @%s"
 
 #: ../../src/Widgets/TweetDialog.vala:67
 msgid "New Message"
-msgstr ""
+msgstr "Nová zpráva"
 
 #: ../../src/Widgets/TweetDialog.vala:169
 msgid "Send"
@@ -234,39 +234,39 @@ msgstr "Tweet"
 
 #: ../../src/Widgets/TweetDialog.vala:200
 msgid "Add a picture"
-msgstr ""
+msgstr "Přidat obrázek"
 
 #: ../../src/Widgets/TweetDialog.vala:225
 msgid "Select a Picture"
-msgstr ""
+msgstr "Vybrat obrázek"
 
 #: ../../src/Widgets/UserBox.vala:59 ../../src/Widgets/UserBox.vala:232
 msgid "TWEETS"
-msgstr ""
+msgstr "TWEETY"
 
 #: ../../src/Widgets/UserBox.vala:64 ../../src/Widgets/UserBox.vala:237
 msgid "FOLLOWING"
-msgstr ""
+msgstr "JÁ SLEDUJI"
 
 #: ../../src/Widgets/UserBox.vala:66 ../../src/Widgets/UserBox.vala:239
 msgid "FOLLOWERS"
-msgstr ""
+msgstr "MĚ SLEDUJÍ"
 
 #: ../../src/Widgets/UserBox.vala:116
 msgid "Follow"
-msgstr ""
+msgstr "Sledovat"
 
 #: ../../src/Widgets/UserBox.vala:118
 msgid "Follow user"
-msgstr ""
+msgstr "Sledovat uživatele"
 
 #: ../../src/Widgets/UserBox.vala:126
 msgid "Unfollow"
-msgstr "Neodebírat"
+msgstr "Nesledovat"
 
 #: ../../src/Widgets/UserBox.vala:128
 msgid "Unfollow user"
-msgstr "Neodebírat uživatele"
+msgstr "Nesledovat uživatele"
 
 #: ../../src/Widgets/UserBox.vala:136
 msgid "Block"
@@ -286,11 +286,11 @@ msgstr "Odblokovat uživatele"
 
 #: ../../src/Widgets/UserBox.vala:226
 msgid "Following you."
-msgstr ""
+msgstr "Sleduje vás"
 
 #: ../../src/Widgets/UserBox.vala:228
 msgid "Not following you."
-msgstr ""
+msgstr "Nesleduje vás"
 
 #: ../../src/Utils/Date.vala:65
 #, c-format

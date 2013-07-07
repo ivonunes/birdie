@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: birdie\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-05-15 18:22+0100\n"
-"PO-Revision-Date: 2013-04-17 03:27+0000\n"
-"Last-Translator: Mohamed Touhami MAHDI <dragnucs@gmail.com>\n"
+"PO-Revision-Date: 2013-07-05 13:58+0000\n"
+"Last-Translator: Abdullatif Alomair <omair5354@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-05-16 05:55+0000\n"
-"X-Generator: Launchpad (build 16626)\n"
+"X-Launchpad-Export-Date: 2013-07-07 09:44+0000\n"
+"X-Generator: Launchpad (build 16696)\n"
 
 #: ../../src/Birdie.vala:233 ../../src/Widgets/TweetDialog.vala:65
 #: ../../src/Utils/Indicator.vala:50 ../../src/Utils/Launcher.vala:40
@@ -47,19 +47,19 @@ msgstr "إبحث"
 
 #: ../../src/Birdie.vala:320
 msgid "Add Account"
-msgstr ""
+msgstr "أضف حسابًا"
 
 #: ../../src/Birdie.vala:326
 msgid "Remove Account"
-msgstr ""
+msgstr "أزل الحساب"
 
 #: ../../src/Birdie.vala:330
 msgid "Remove this account?"
-msgstr ""
+msgstr "حذف الحساب؟"
 
 #: ../../src/Birdie.vala:331
 msgid "Remove"
-msgstr ""
+msgstr "احذف"
 
 #: ../../src/Birdie.vala:331 ../../src/Widgets/TweetBox.vala:333
 #: ../../src/Widgets/TweetDialog.vala:161
@@ -72,7 +72,7 @@ msgstr "عن البرنامج"
 
 #: ../../src/Birdie.vala:356
 msgid "Donate"
-msgstr ""
+msgstr "تبرّع"
 
 #: ../../src/Birdie.vala:364
 msgid "Quit"
@@ -84,27 +84,27 @@ msgstr "القائمة"
 
 #: ../../src/Birdie.vala:418
 msgid "Birdie"
-msgstr ""
+msgstr "بيردي"
 
 #: ../../src/Birdie.vala:418 ../../src/config.vala:24
 msgid "Twitter Client"
-msgstr ""
+msgstr "متصفح تويتر"
 
 #: ../../src/Birdie.vala:419
 msgid "Sign In"
-msgstr ""
+msgstr "تسجيل الدخول"
 
 #: ../../src/Birdie.vala:419
 msgid "Add an existing Twitter account."
-msgstr ""
+msgstr "سجل الدخول بحساب موجود"
 
 #: ../../src/Birdie.vala:420
 msgid "Sign Up"
-msgstr ""
+msgstr "تسجيل"
 
 #: ../../src/Birdie.vala:420
 msgid "Create a new Twitter account."
-msgstr ""
+msgstr "تسجيل حساب تويتر جديد"
 
 #: ../../src/Birdie.vala:436
 msgid "Unable to connect"
@@ -112,7 +112,7 @@ msgstr "تعذّر الاتصال"
 
 #: ../../src/Birdie.vala:436
 msgid "Please check your Internet Connection"
-msgstr ""
+msgstr "يرجى التحقق من اتصال الإنترنت الخاص بك"
 
 #: ../../src/Birdie.vala:437
 msgid "Retry"
@@ -120,7 +120,7 @@ msgstr "أعِد المحاولة"
 
 #: ../../src/Birdie.vala:437
 msgid "Try to connect again"
-msgstr ""
+msgstr "حاول الاتصال مجددا"
 
 #: ../../src/Birdie.vala:459
 msgid "Received"
@@ -156,35 +156,35 @@ msgstr "خطأ"
 
 #: ../../src/Birdie.vala:663
 msgid "Sign in"
-msgstr ""
+msgstr "تسجيل الدخول"
 
 #: ../../src/Birdie.vala:1028
 msgid "New tweet from"
-msgstr ""
+msgstr "تغريدة جديدة من"
 
 #: ../../src/Birdie.vala:1042
 msgid "new tweets"
-msgstr ""
+msgstr "تغريدات جديدة"
 
 #: ../../src/Birdie.vala:1065
 msgid "New mention from"
-msgstr ""
+msgstr "رد جديد من"
 
 #: ../../src/Birdie.vala:1080
 msgid "new mentions"
-msgstr ""
+msgstr "ردود جديدة"
 
 #: ../../src/Birdie.vala:1105
 msgid "New direct message from"
-msgstr ""
+msgstr "رسالة مباشرة جديدة من"
 
 #: ../../src/Birdie.vala:1120
 msgid "new direct messages"
-msgstr ""
+msgstr "رسائل مباشر جديدة"
 
 #: ../../src/config.vala:25
 msgid "Twitter client for elementary OS"
-msgstr ""
+msgstr "برنامج لتويتر  لنظام إليمنتاري"
 
 #: ../../src/Widgets/TweetBox.vala:263 ../../src/Widgets/TweetBox.vala:542
 msgid "Favorite"
@@ -204,16 +204,16 @@ msgstr "حذف"
 
 #: ../../src/Widgets/TweetBox.vala:332
 msgid "Delete this tweet?"
-msgstr ""
+msgstr "حذف هذه التغريدة؟"
 
 #: ../../src/Widgets/TweetBox.vala:539
 msgid "Unfavorite"
-msgstr ""
+msgstr "إزالة من المفضلة؟"
 
 #: ../../src/Widgets/TweetBox.vala:550
 #, c-format
 msgid "retweeted by %s"
-msgstr ""
+msgstr "أعيد تغريدها بواسطة %s"
 
 #: ../../src/Widgets/TweetBox.vala:575
 #, c-format
@@ -222,7 +222,7 @@ msgstr "ردا على @%s"
 
 #: ../../src/Widgets/TweetDialog.vala:67
 msgid "New Message"
-msgstr ""
+msgstr "رسالة جديدة"
 
 #: ../../src/Widgets/TweetDialog.vala:169
 msgid "Send"
@@ -234,11 +234,11 @@ msgstr "تغريدة"
 
 #: ../../src/Widgets/TweetDialog.vala:200
 msgid "Add a picture"
-msgstr ""
+msgstr "أضف صورة"
 
 #: ../../src/Widgets/TweetDialog.vala:225
 msgid "Select a Picture"
-msgstr ""
+msgstr "اختر صورة"
 
 #: ../../src/Widgets/UserBox.vala:59 ../../src/Widgets/UserBox.vala:232
 msgid "TWEETS"
@@ -246,7 +246,7 @@ msgstr "تغريدات"
 
 #: ../../src/Widgets/UserBox.vala:64 ../../src/Widgets/UserBox.vala:237
 msgid "FOLLOWING"
-msgstr ""
+msgstr "يتابع"
 
 #: ../../src/Widgets/UserBox.vala:66 ../../src/Widgets/UserBox.vala:239
 msgid "FOLLOWERS"
