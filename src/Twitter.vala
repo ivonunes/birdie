@@ -80,9 +80,13 @@ namespace Birdie {
                 proxy.set_token_secret (token_secret);
             }
 
-            this.since_id_home = "";
-            this.since_id_mentions = "";
-            this.since_id_dm = "";
+            this.account_id = db.get_account_id ();
+            this.since_id_home = this.db.get_since_id ("tweets", this.account_id);
+            this.since_id_mentions = this.db.get_since_id ("mentions", this.account_id);
+            this.since_id_dm = this.db.get_since_id ("dm_inbox", this.account_id);
+            this.since_id_dm_outbox = this.db.get_since_id ("dm_outbox", this.account_id);
+            this.since_id_own = this.db.get_since_id ("own", this.account_id);
+            this.since_id_favorites = this.db.get_since_id ("favorites", this.account_id);
 
             return 0;
         }
@@ -328,7 +332,7 @@ namespace Birdie {
             int64 followers_count = 0;
             int64 statuses_count = 0;
             bool verified = false;
-           
+
             var tweetobject = tweetnode.get_object();
 
             id = tweetobject.get_object_member ("user").get_string_member ("id_str");
@@ -466,7 +470,7 @@ namespace Birdie {
             call.set_function ("1.1/statuses/show.json");
             call.set_method ("GET");
             call.add_param ("id", tweet_id);
-            
+
             try { call.sync (); } catch (Error e) {
                 stderr.printf ("Cannot make call: %s\n", e.message);
                 api_mutex.unlock ();
@@ -493,7 +497,7 @@ namespace Birdie {
             call.set_function ("1.1/statuses/home_timeline.json");
             call.set_method ("GET");
             call.add_param ("count", this.retrieve_count);
-            if (this.since_id_home != "")
+            if (this.since_id_home != "" && this.since_id_home != null)
                 call.add_param ("since_id", this.since_id_home);
 
             Rest.ProxyCallAsyncCallback callback = get_home_timeline_response;
@@ -520,12 +524,15 @@ namespace Birdie {
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
                     var tweet = this.get_tweet (tweetnode);
                     home_timeline.append (tweet);
+                    this.db.add_tweet (tweet, "tweets", this.account_id);
                 }
 
                 this.home_timeline.reverse ();
                 this.home_timeline.foreach ((tweet) => {
                     this.since_id_home = tweet.actual_id;
                 });
+
+                this.db.purge_tweets ("tweets");
 
             } catch (Error e) {
                 stderr.printf ("Unable to parse home_timeline.json\n");
@@ -541,7 +548,7 @@ namespace Birdie {
             call.set_function ("1.1/statuses/mentions_timeline.json");
             call.set_method ("GET");
             call.add_param ("count", retrieve_count);
-            if (this.since_id_mentions != "")
+            if (this.since_id_mentions != "" && this.since_id_mentions != null)
                 call.add_param ("since_id", this.since_id_mentions);
 
             Rest.ProxyCallAsyncCallback callback = get_mentions_response;
@@ -569,6 +576,7 @@ namespace Birdie {
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
                     var tweet = this.get_tweet (tweetnode);
                     mentions_timeline.append (tweet);
+                    this.db.add_tweet (tweet, "mentions", this.account_id);
                 }
 
                 this.mentions_timeline.reverse ();
@@ -576,12 +584,14 @@ namespace Birdie {
                     this.since_id_mentions = tweet.actual_id;
                 });
 
+                this.db.purge_tweets ("mentions");
+
             } catch (Error e) {
                 stderr.printf ("Unable to parse mentions_timeline.json\n");
             }
             api_mutex.unlock ();
             this.birdie.update_mentions_ui ();
-        }    
+        }
 
         public override void get_direct_messages () {
             // setup call
@@ -590,9 +600,9 @@ namespace Birdie {
             call.set_function ("1.1/direct_messages.json");
             call.set_method ("GET");
             call.add_param ("count", retrieve_count);
-            if (this.since_id_dm != "")
+            if (this.since_id_dm != "" && this.since_id_dm != null)
                 call.add_param ("since_id", this.since_id_dm);
- 
+
             Rest.ProxyCallAsyncCallback callback = get_dm_response;
             try {
                 call.run_async (callback);
@@ -634,12 +644,15 @@ namespace Birdie {
                         false, false, true);
 
                     dm_timeline.append (tweet);
+                    this.db.add_tweet (tweet, "dm_inbox", this.account_id);
                 }
 
                 this.dm_timeline.reverse ();
                 this.dm_timeline.foreach ((tweet) => {
                     this.since_id_dm = tweet.actual_id;
                 });
+
+                this.db.purge_tweets ("dm_inbox");
 
             } catch (Error e) {
                 stderr.printf ("Unable to parse direct_messages.json\n");
@@ -655,6 +668,8 @@ namespace Birdie {
             call.set_function ("1.1/direct_messages/sent.json");
             call.set_method ("GET");
             call.add_param ("count", this.retrieve_count);
+            if (this.since_id_dm_outbox != "" && this.since_id_dm_outbox != null)
+                call.add_param ("since_id", this.since_id_dm_outbox);
             Rest.ProxyCallAsyncCallback callback = get_dm_sent_response;
             try {
                 call.run_async (callback);
@@ -689,16 +704,19 @@ namespace Birdie {
                         false, false, true);
 
                     dm_sent_timeline.append (tweet);
+                    this.db.add_tweet (tweet, "dm_outbox", this.account_id);
                 }
 
                 this.dm_sent_timeline.reverse ();
+
+                this.db.purge_tweets ("dm_outbox");
 
             } catch (Error e) {
                 stderr.printf ("Unable to parse sent.json\n");
             }
             api_mutex.unlock ();
             this.birdie.update_dm_sent_ui ();
-        }      
+        }
 
         public override void get_own_timeline () {
             api_mutex.lock ();
@@ -706,6 +724,8 @@ namespace Birdie {
             call.set_function ("1.1/statuses/user_timeline.json");
             call.set_method ("GET");
             call.add_param ("count", this.retrieve_count);
+            if (this.since_id_own != "" && this.since_id_own != null)
+                call.add_param ("since_id", this.since_id_own);
             call.add_param ("user_id", this.account.id);
             Rest.ProxyCallAsyncCallback callback = get_own_timeline_response;
             try {
@@ -731,8 +751,10 @@ namespace Birdie {
                     }
 
                     own_timeline.append (tweet);
+                    this.db.add_tweet (tweet, "own", this.account_id);
                 }
                 own_timeline.reverse ();
+                this.db.purge_tweets ("own");
             } catch (Error e) {
                 stderr.printf ("Unable to parse user_timeline.json\n");
             }
@@ -746,6 +768,8 @@ namespace Birdie {
             call.set_function ("1.1/favorites/list.json");
             call.set_method ("GET");
             call.add_param ("count", this.retrieve_count);
+            if (this.since_id_favorites != "" && this.since_id_favorites != null)
+                call.add_param ("since_id", this.since_id_favorites);
             call.add_param ("user_id", this.account.id);
             Rest.ProxyCallAsyncCallback callback = get_favorites_response;
             try {
@@ -771,8 +795,9 @@ namespace Birdie {
                     }
 
                     favorites.append (tweet);
+                    this.db.add_tweet (tweet, "favorites", this.account_id);
                 }
-
+                this.db.purge_tweets ("favorites");
                 favorites.reverse ();
             } catch (Error e) {
                 stderr.printf ("Unable to parse favorites.json\n");

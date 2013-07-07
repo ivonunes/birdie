@@ -28,6 +28,11 @@ namespace Birdie {
         public string since_id_home;
         public string since_id_mentions;
         public string since_id_dm;
+        public string since_id_dm_outbox;
+        public string since_id_own;
+        public string since_id_favorites;
+
+        public int account_id;
 
         public User account;
         public User user;

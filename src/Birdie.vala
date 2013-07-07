@@ -689,9 +689,11 @@ namespace Birdie {
                 if (this.ready)
                     this.ready = false;
 
+                // initialize the api
                 this.api.auth ();
                 this.api.get_account ();
 
+                // get the current account
                 this.default_account = this.db.get_default_account ();
                 this.default_account_id = this.db.get_account_id ();
 
@@ -701,6 +703,38 @@ namespace Birdie {
                 this.dm_sent_list.clear ();
                 this.own_list.clear ();
                 this.favorites.clear ();
+
+                // load the cached tweets
+                db.get_tweets ("tweets", this.default_account_id).foreach ((tweet) => {
+                    this.home_list.append(tweet, this);
+                });
+                get_avatar (this.home_list);
+
+                // load the cached mentions
+                db.get_tweets ("mentions", this.default_account_id).foreach ((tweet) => {
+                    this.mentions_list.append(tweet, this);
+                });
+                get_avatar (this.mentions_list);
+
+                // load the cached dms
+                db.get_tweets ("dm_inbox", this.default_account_id).foreach ((tweet) => {
+                    this.dm_list.append(tweet, this);
+                });
+                get_avatar (this.dm_list);
+                db.get_tweets ("dm_outbox", this.default_account_id).foreach ((tweet) => {
+                    this.dm_sent_list.append(tweet, this);
+                });
+                get_avatar (this.dm_sent_list);
+
+                // load the cached user
+                db.get_tweets ("own", this.default_account_id).foreach ((tweet) => {
+                    this.own_list.append(tweet, this);
+                });
+                get_avatar (this.own_list);
+                db.get_tweets ("favorites", this.default_account_id).foreach ((tweet) => {
+                    this.favorites.append(tweet, this);
+                });
+                get_avatar (this.favorites);
 
                 this.api.get_home_timeline ();
                 this.api.get_mentions_timeline ();
@@ -1012,7 +1046,7 @@ namespace Birdie {
                     get_avatar (this.home_list);
                 }
                 return false;
-            });      
+            });
         }
 
         public void get_all_avatars () {
@@ -1024,7 +1058,7 @@ namespace Birdie {
                 get_avatar (this.dm_sent_list);
                 get_avatar (this.own_list);
                 get_avatar (this.favorites);
-                
+
                 return null;
             });
         }
@@ -1045,7 +1079,7 @@ namespace Birdie {
         public void update_own_timeline_ui () {
             Idle.add (() => {
                 this.api.own_timeline.foreach ((tweet) => {
-                    this.own_list.append(tweet, this);
+                    this.own_list.append (tweet, this);
                 });
 
                 if (this.ready)
