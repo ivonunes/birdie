@@ -64,16 +64,15 @@ namespace Birdie.Widgets {
                 " </span><span size='small' font_weight='bold'>" + user.followers_count.to_string() + "</span>";
 
             description_txt = description_txt.chomp ();
-            description_txt = GLib.Markup.escape_text (description_txt);
 
             string txt = "<span underline='none' color='#000000' font_weight='bold' size='x-large'>" +
-                user.name + "</span> <span font_weight='light' color='#444444' size='small'>\n@" + user.screen_name + "</span>";
+                user.name.chomp () + "</span> <span font_weight='light' color='#444444' size='small'>\n@" + user.screen_name + "</span>";
 
-            if (user.location != "") 
-                txt = txt +  " | <span size='small'>" + Utils.unescape_html (user.location) + "</span>";
+            if (user.location != "")
+                txt = txt +  " | <span size='small'>" + user.location + "</span>";
 
             if (description_txt != "")
-                txt = txt +  "\n\n<span size='small'>" + Utils.unescape_html (description_txt) + "</span>";
+                txt = txt +  "\n\n<span size='small'>" + description_txt + "</span>";
 
             // user label
             this.username_label = new Gtk.Label (user.screen_name);
@@ -143,7 +142,7 @@ namespace Birdie.Widgets {
             this.unblock_button.clicked.connect (() => {
                 new Thread<void*> (null, this.unblock_thread);
             });
-            
+
             follow_button.get_style_context().add_class ("affirmative");
             block_button.get_style_context().add_class ("noundo");
             unfollow_button.get_style_context().add_class ("noundo");
@@ -192,7 +191,7 @@ namespace Birdie.Widgets {
 
             string tweets_txt = _("TWEETS");
 
-            description_txt = Utils.highlight_all (user.desc) + "\n\n<span size='small' color='#444444'>" + followed_by + "</span>" +
+            description_txt = user.desc + "\n\n<span size='small' color='#444444'>" + followed_by + "</span>" +
                 "\n\n<span size='small' color='#444444'>" + tweets_txt +
                 " </span><span size='small' font_weight='bold'>" + user.statuses_count.to_string() + "</span>" +
                 " | <span size='small' color='#444444'> " + _("FOLLOWING") +
@@ -204,7 +203,7 @@ namespace Birdie.Widgets {
             description_txt = GLib.Markup.escape_text (description_txt);
 
             string txt = "<span underline='none' color='#000000' font_weight='bold' size='x-large'>" +
-                user.name + "</span> <span font_weight='light' color='#444444' size='small'>\n@" + user.screen_name + "</span>";
+                user.name.chomp () + "</span> <span font_weight='light' color='#444444' size='small'>\n@" + user.screen_name + "</span>";
 
             if (user.location != "")
                 txt = txt +  " | <span size='small'>" + Utils.unescape_html (user.location) + "</span>";

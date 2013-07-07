@@ -160,7 +160,7 @@ namespace Birdie.Widgets {
             this.username_label.set_selectable (true);
             this.username_label.set_markup (
                 "<span underline='none' color='#222' font_weight='bold' size='large'><a href='birdie://user/" +
-                tweet.user_screen_name + "'>" + tweet.user_name +
+                tweet.user_screen_name + "'>" + tweet.user_name.chomp () +
                 "</a></span> <span font_weight='light' color='#aaa'>@" +
                 tweet.user_screen_name + "</span>"
                 );
@@ -344,7 +344,7 @@ namespace Birdie.Widgets {
                     });
 
                     retweet_quote_menu_item.activate.connect (() => {
-                        Widgets.TweetDialog dialog = new TweetDialog (this.birdie, this.tweet.id, 
+                        Widgets.TweetDialog dialog = new TweetDialog (this.birdie, this.tweet.id,
                             "RT @" + this.tweet.user_screen_name + ": \"" + Utils.remove_html_tags (this.tweet.text) + "\"", this.tweet.dm);
                         dialog.show_all ();
                     });

@@ -41,12 +41,12 @@ namespace Birdie {
             ) {
 
             this.id = id;
-            this.name = name;
+            this.name = Utils.highlight_all (name.chomp ());
             this.screen_name = screen_name;
             this.profile_image_url = profile_image_url;
             this.profile_image_file = profile_image_file;
-            this.location = location;
-            this.desc = desc;
+            this.location = Utils.highlight_all (location);
+            this.desc = Utils.highlight_all (desc);
             this.friends_count = friends_count;
             this.followers_count = followers_count;
             this.statuses_count = statuses_count;
