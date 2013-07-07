@@ -1,9 +1,10 @@
-Birdie 0.3 - x July 2013
+Birdie 0.3 - 7 July 2013
 ------------------------
 
     * Threaded conversations
     * Stability improvements
     * Cache tweets
+    * Give notifications since last session
     * Asynchronous api calls
     * libmessaging-menu support
     * Retweet with quote support
