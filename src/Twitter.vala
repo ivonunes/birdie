@@ -940,6 +940,7 @@ namespace Birdie {
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/statuses/user_timeline.json");
             call.set_method ("GET");
+            debug ("aqui " + this.retrieve_count.to_string());
             call.add_param ("count", this.retrieve_count);
             call.add_param ("screen_name", screen_name);
             Rest.ProxyCallAsyncCallback callback = get_user_timeline_response;

@@ -1,0 +1,11 @@
+Birdie 0.3 - x July 2013
+------------------------
+
+    * Threaded conversations
+    * Stability improvements
+    * Cache tweets
+    * Asynchronous api calls
+    * libmessaging-menu support
+    * Retweet with quote support
+    * Full Gtk support with optional libgranite
+    * Many bugfixes

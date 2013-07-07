@@ -548,7 +548,6 @@ namespace Birdie {
             Sqlite.Statement stmt;
             int res;
             int rows = get_row_count (table);
-            debug (rows.to_string ());
             if (rows > 100) {
                 res = db.prepare_v2 ("DELETE FROM " + table +
                 " WHERE id IN (SELECT id FROM " + table +
