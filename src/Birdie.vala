@@ -82,6 +82,8 @@ namespace Birdie {
         private Utils.Launcher launcher;
         #endif
 
+        private Utils.StatusIcon statusIcon;
+
         private int unread_tweets;
         private int unread_mentions;
         private int unread_dm;
@@ -214,6 +216,8 @@ namespace Birdie {
                 #if HAVE_LIBUNITY
                 this.launcher = new Utils.Launcher (this);
                 #endif
+
+                this.statusIcon = new Utils.StatusIcon (this);
 
                 this.unread_tweets = 0;
                 this.unread_mentions = 0;

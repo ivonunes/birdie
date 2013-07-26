@@ -173,6 +173,7 @@ vala_precompile(VALA_C
     Utils/Files.vala
     Utils/KeybindingManager.vala
     Utils/Logger.vala
+    Utils/StatusIcon.vala
 PACKAGES
     ${BIRDIE_PACKAGES}
 OPTIONS

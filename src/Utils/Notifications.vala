@@ -16,8 +16,11 @@
 
 namespace Birdie.Utils {
     private static Canberra.Context? sound_context = null;
+    //private unowned List<string> caps;
 
     public int notify (string username, string message) {
+
+        //caps = Notify.get_server_caps();
     
         Notify.Notification notification = (Notify.Notification) GLib.Object.new(
             typeof (Notify.Notification),
@@ -26,9 +29,10 @@ namespace Birdie.Utils {
         Notify.init (GLib.Environment.get_application_name());
         notification.set_hint_string ("desktop-entry", "birdie");
         notification.set ("body", Utils.remove_html_tags (message));
-        notification.set_hint_string ("sound-name", "message");   
+        //if (caps.find_custom ("actions", GLib.strcmp) != null)
+            //notification.add_action ("default", _("Open"), on_default_action);
         try {
-            notification.show();
+            notification.show ();
         } catch (GLib.Error error) {
             warning ("Failed to show notification: %s", error.message);
         }
@@ -39,4 +43,8 @@ namespace Birdie.Utils {
         
         return 0;   
     }
+
+    //private void on_default_action (Notify.Notification notification, string action) {
+        
+    //}
 }
