@@ -161,7 +161,7 @@ namespace Birdie.Widgets {
             this.username_label.set_markup (
                 "<span underline='none' color='#222' font_weight='bold' size='large'><a href='birdie://user/" +
                 tweet.user_screen_name + "'>" + tweet.user_name.chomp () +
-                "</a></span> <span font_weight='light' color='#aaa'>@" +
+                "</a></span> <span font_weight='light' color='#999'>@" +
                 tweet.user_screen_name + "</span>"
                 );
 
@@ -651,7 +651,7 @@ namespace Birdie.Widgets {
             }
 
             Idle.add ( () => {
-                this.time_label.set_markup ("<span color='#aaaaaa'>" + this.date + "</span>");
+                this.time_label.set_markup ("<span color='#999aaa'>" + this.date + "</span>");
                 return false;
             });
         }
@@ -669,7 +669,7 @@ namespace Birdie.Widgets {
         private void set_header () {
             var retweeted_by_label = "";
 
-            retweeted_by_label = ("<span color='#aaa'>" +
+            retweeted_by_label = ("<span color='#999'>" +
                 _("retweeted by %s").printf ("<span underline='none'><a href='birdie://user/" +
                 this.tweet.retweeted_by + "'>" + this.tweet.retweeted_by_name +
                 "</a></span>") + "</span>");
@@ -682,7 +682,7 @@ namespace Birdie.Widgets {
                 this.info_label = new Gtk.Label ("");
                 this.info_label.set_halign (Gtk.Align.START);
                 this.info_label.margin_bottom = 6;
-                this.info_label.set_markup ("<span color='#aaa'>" + retweeted_by_label + "</span>");
+                this.info_label.set_markup ("<span color='#999'>" + retweeted_by_label + "</span>");
                 avatar_box.pack_start (retweeted_img, false, false, 0);
                 content_box.pack_start (this.info_label, false, false, 0);
 
@@ -694,7 +694,7 @@ namespace Birdie.Widgets {
                 this.info_label = new Gtk.Label ("");
                 this.info_label.set_halign (Gtk.Align.START);
                 this.info_label.margin_bottom = 6;
-                var in_reply_label = ("<span color='#aaa'>" +
+                var in_reply_label = ("<span color='#999'>" +
                     _("in reply to @%s").printf ("<span underline='none'><a href='birdie://user/" +
                     this.tweet.in_reply_to_screen_name + "'>" +
                     this.tweet.in_reply_to_screen_name + "</a></span>") + "</span>");
