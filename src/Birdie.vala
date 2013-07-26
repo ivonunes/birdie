@@ -1008,7 +1008,8 @@ namespace Birdie {
                         if ((this.api.account.screen_name != tweet.user_screen_name) &&
                                 this.api.home_timeline.length () <= this.limit_notifications) {
                             notify_header = _("New tweet from") + " " + tweet.user_screen_name;
-                            notify_text = Utils.escape_markup (tweet.text);
+                            notify_text = Utils.remove_html_tags (tweet.text);
+                            notify_text = Utils.escape_markup (notify_text);
                         }
                         this.unread_tweets++;
                     }
