@@ -79,9 +79,14 @@ namespace Birdie.Widgets
                 }
             });
 
-            this.pack_start (new Gtk.Label (_("Welcome to Birdie")), false, false, 0);
-            this.pack_start (signin, false, false, 0);
-            this.pack_start (signup, false, false, 0);
+            this.set_valign (Gtk.Align.CENTER);
+            this.set_halign (Gtk.Align.CENTER);
+            Gtk.Label welcome_label = new Gtk.Label ("");
+            welcome_label.set_markup ("<span font_weight='bold' size='x-large'>" +
+                _("Welcome to Birdie") + "</span>");
+            this.pack_start (welcome_label, false, false, 12);
+            this.pack_start (signin, false, false, 6);
+            this.pack_start (signup, false, false, 6);
             this.show_all ();
         }
     }
@@ -96,8 +101,13 @@ namespace Birdie.Widgets
                 error_page_retry (birdie);
             });
 
-            this.pack_start (new Gtk.Label (_("Unable to connect")), false, false, 0);
-            this.pack_start (new Gtk.Label (_("Please check your Internet Connection")), false, false, 0);
+            this.set_valign (Gtk.Align.CENTER);
+            this.set_halign (Gtk.Align.CENTER);
+            Gtk.Label error_label = new Gtk.Label ("");
+            error_label.set_markup ("<span font_weight='bold' size='x-large'>" +
+                _("Unable to connect") + "</span>");
+            this.pack_start (error_label, false, false, 12);
+            this.pack_start (new Gtk.Label (_("Please check your Internet Connection")), false, false, 6);
             this.pack_start (retry, false, false, 0);
             this.show_all ();
         }
