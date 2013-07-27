@@ -32,6 +32,8 @@ namespace Birdie {
         public string since_id_own;
         public string since_id_favorites;
 
+        public string max_id_home;
+
         public int account_id;
 
         public User account;
@@ -64,6 +66,7 @@ namespace Birdie {
         public abstract int send_direct_message (string recipient, string status);
         public abstract int get_account ();
         public abstract Tweet get_single_tweet (string tweet_id);
+
         public abstract void get_home_timeline ();
         public abstract void get_mentions_timeline ();
         public abstract void get_direct_messages ();
@@ -72,6 +75,9 @@ namespace Birdie {
         public abstract void get_user_timeline (string user_id);
         public abstract void get_search_timeline (string search_term);
         public abstract void get_favorites ();
+
+        public abstract void get_older_home_timeline ();
+
         public abstract Array<string> get_friendship (string source_user, string target_user);
         public abstract int create_friendship (string screen_name);
         public abstract int destroy_friendship (string screen_name);

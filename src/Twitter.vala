@@ -541,6 +541,54 @@ namespace Birdie {
             this.birdie.update_home_ui ();
         }
 
+
+
+        public override void get_older_home_timeline () {
+            // setup call
+            api_mutex.lock ();
+            Rest.ProxyCall call = proxy.new_call ();
+            call.set_function ("1.1/statuses/home_timeline.json");
+            call.set_method ("GET");
+            call.add_param ("count", this.retrieve_count);
+            if (this.since_id_home != "" && this.since_id_home != null)
+                call.add_param ("max_id", this.birdie.home_list.get_oldest ());
+
+            Rest.ProxyCallAsyncCallback callback = get_older_home_timeline_response;
+            try {
+                call.run_async (callback);
+            } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+            }
+        }
+
+        protected void get_older_home_timeline_response (
+            Rest.ProxyCall call, Error? error, Object? obj) {
+
+            try {
+                var parser = new Json.Parser ();
+                parser.load_from_data ((string) call.get_payload (), -1);
+                var root = parser.get_root ();
+
+                this.home_timeline.foreach ((tweet) => {
+                    this.home_timeline.remove (tweet);
+                });
+
+                foreach (var tweetnode in root.get_array ().get_elements ()) {
+                    var tweet = this.get_tweet (tweetnode);
+                    home_timeline.append (tweet);
+                }
+
+                this.home_timeline.foreach ((tweet) => {
+                    this.max_id_home = tweet.actual_id;
+                });
+
+            } catch (Error e) {
+                stderr.printf ("Unable to parse home_timeline.json\n");
+            }
+            api_mutex.unlock ();
+            this.birdie.update_older_home_ui ();
+        }
+
         public override void get_mentions_timeline () {
             // setup call
             api_mutex.lock ();

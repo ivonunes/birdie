@@ -19,6 +19,8 @@ namespace Birdie.Widgets {
         public GLib.List<TweetBox> boxes;
         public GLib.List<Gtk.Separator> separators;
 
+        public MoreButton more_button;
+
         bool first;
         int count;
 
@@ -26,6 +28,10 @@ namespace Birdie.Widgets {
             GLib.Object (orientation: Gtk.Orientation.VERTICAL, valign: Gtk.Align.START);
             this.first = true;
             this.count = 0;
+
+            this.more_button = new MoreButton ();
+            this.pack_end (this.more_button, false, false, 0);
+            this.more_button.show_all ();
         }
 
         public void append (Tweet tweet, Birdie birdie) {
@@ -59,6 +65,32 @@ namespace Birdie.Widgets {
 
                 return false;
             });
+        }
+
+        public void prepend (Tweet tweet, Birdie birdie) {
+            if (this.boxes.nth_data (0).tweet.actual_id != tweet.actual_id) {
+                TweetBox box = new TweetBox(tweet, birdie);
+                Gtk.Separator separator = new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
+
+                boxes.prepend (box);
+                separators.prepend (separator);
+
+                Idle.add( () => {
+                    if (!this.first)
+                        this.pack_end (separator, false, false, 0);
+                    this.pack_end (box, false, false, 0);
+
+                    this.reorder_child (box, 1);
+                    this.reorder_child (separator, 2);
+
+                    if (this.first)
+                        this.first = false;
+
+                    this.show_all ();
+
+                    return false;
+                });
+            }
         }
 
         public new void remove (Tweet tweet) {
@@ -125,6 +157,10 @@ namespace Birdie.Widgets {
                     return false;
                 });
             });
+        }
+
+        public string get_oldest () {
+            return this.boxes.nth_data (0).tweet.actual_id;
         }
     }
 }

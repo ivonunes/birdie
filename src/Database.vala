@@ -509,7 +509,7 @@ namespace Birdie {
 
             return stmt.column_text (0);
         }
-
+        
         public int get_row_count (string table) {
             Sqlite.Statement stmt;
 

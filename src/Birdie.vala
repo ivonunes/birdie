@@ -429,6 +429,8 @@ namespace Birdie {
                 this.favorites = new Widgets.TweetList ();
                 this.search_list = new Widgets.TweetList ();
 
+                this.home_list.more_button.button.clicked.connect (get_older_tweets);
+
                 this.scrolled_home = new Gtk.ScrolledWindow (null, null);
                 this.scrolled_home.add_with_viewport (home_list);
 
@@ -740,6 +742,8 @@ namespace Birdie {
                     this.favorites.append(tweet, this);
                 });
                 get_avatar (this.favorites);
+
+                this.update_home_ui ();
 
                 this.api.get_home_timeline ();
                 this.api.get_mentions_timeline ();
@@ -1213,6 +1217,44 @@ namespace Birdie {
 
         private int get_total_unread () {
             return this.unread_tweets + this.unread_mentions + this.unread_dm;
+        }
+
+        /*
+
+        Older statuses
+
+        */
+
+        private void get_older_tweets ()  {
+            if (this.check_internet_connection ()) {
+                this.api.get_older_home_timeline ();
+            } else {
+                this.switch_timeline ("error");
+            }
+        }
+
+        public void update_older_home_ui () {
+            Idle.add (() => {
+                this.home_tmp.foreach ((tweet) => {
+                    this.home_list.remove (tweet);
+                    this.home_tmp.remove (tweet);
+                });
+
+                this.api.home_timeline.foreach ((tweet) => {
+                    this.home_list.prepend (tweet, this);
+                    this.db.add_user (tweet.user_screen_name,
+                        tweet.user_name, this.default_account_id);
+                });
+
+                if (!this.ready) {
+                    get_all_avatars ();
+                    this.ready = true;
+                    this.set_widgets_sensitive (true);
+                } else {
+                    get_avatar (this.home_list);
+                }
+                return false;
+            });  
         }
 
         /*
