@@ -81,5 +81,13 @@
       <description>Specifies the maximum number of records to retrieve in each update. Must be less than or equal to 200.</description>
     </key>
 
+    <key name="status-icon" type="b">
+      <default>true</default>
+      <summary>status-icon</summary>
+      <description>
+        Show a status icon in system tray, if supported
+      </description>
+    </key>
+
   </schema>
 </schemalist>

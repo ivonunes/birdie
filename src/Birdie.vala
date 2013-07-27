@@ -217,7 +217,8 @@ namespace Birdie {
                 this.launcher = new Utils.Launcher (this);
                 #endif
 
-                this.statusIcon = new Utils.StatusIcon (this);
+                if (settings.get_boolean ("status-icon"))
+                    this.statusIcon = new Utils.StatusIcon (this);
 
                 this.unread_tweets = 0;
                 this.unread_mentions = 0;
