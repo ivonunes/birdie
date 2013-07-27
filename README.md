@@ -1,16 +1,15 @@
-Birdie
-======
+# Birdie
 
 A Twitter client for Linux
 
 * **Installation and Licensing**  
-Please consult the INSTALL and COPYING files for more information.
+Please consult the `INSTALL` and `COPYING` files for more information.
 
 * **Website**  
 Projects's oficial website at http://www.ivonunes.net/birdie/.
 
 * **Bugs**  
-To report bugs, please use our git repository at http://github.com/ivonunes/birdie.
+To report bugs, please use our Git repository at http://github.com/ivonunes/birdie.
 
 * **Translations**  
 To contribute for translations, please use our Transifex repository at http://www.transifex.com/projects/p/birdie/.

@@ -5,7 +5,7 @@
 default_target: all
 .PHONY : default_target
 
-#=============================================================================
+# =============================================================================
 # Special targets provided by cmake.
 
 # Disable implicit rules so canoncical targets will work.
@@ -23,7 +23,7 @@ $(VERBOSE).SILENT:
 cmake_force:
 .PHONY : cmake_force
 
-#=============================================================================
+# =============================================================================
 # Set environment variables for the build.
 
 # The shell in which to execute make rules.
@@ -41,7 +41,7 @@ CMAKE_SOURCE_DIR = /home/mefrio/Scrivania/cmake
 # The top-level build directory on which CMake was run.
 CMAKE_BINARY_DIR = /home/mefrio/Scrivania/cmake/cmake
 
-#=============================================================================
+# =============================================================================
 # Targets provided globally by CMake.
 
 # Special rule for the target edit_cache
@@ -136,7 +136,7 @@ depend:
 	$(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
-#=============================================================================
+# =============================================================================
 # Target rules for targets named scratch
 
 # Build rule for target.
@@ -274,7 +274,7 @@ help:
 
 
 
-#=============================================================================
+# =============================================================================
 # Special targets to cleanup operation of make.
 
 # Special rule to run CMake to check the build system integrity.
