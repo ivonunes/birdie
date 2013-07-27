@@ -1,0 +1,66 @@
+/* 
+  Retriever: custom bootstrap theme. 
+  Author: Damian Sowers
+  Licensed under the Apache License v2.0
+  http://www.apache.org/licenses/LICENSE-2.0
+*/
+@import url("http://fonts.googleapis.com/css?family=Raleway:400");
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Raleway', sans-serif;
+  font-weight:400;
+}
+.navbar-inner {
+  padding-top:10px;
+  filter: none;
+  background-image: url('img/stitch.png');
+  background-repeat: repeat-x;
+  height:49px;
+}
+.navbar .brand {
+  font-family: 'Raleway', sans-serif;
+  font-size:30px;
+  font-size: 28px;
+  font-weight: 400;
+  color: #eee;
+  text-shadow: 0 2px 0 #000;
+}
+.navbar .nav > .active > a, .navbar .nav > .active > a:hover, .navbar .nav > .active > a:focus {
+  color: #eee;
+  text-decoration: none;
+  background-color: #222;
+  margin-top:-10px;
+  padding-top:20px;
+  padding-bottom:18px;
+  -webkit-box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.125);
+  -moz-box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.125);
+  box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.125);
+}
+.navbar .nav > li > a {
+  float: none;
+  font-size:16px;
+  padding: 10px 15px 10px;
+  color: #eee;
+  text-decoration: none;
+  text-shadow: 0 1px 0 #000;
+}
+.navbar .nav > li > a:hover {
+  color:#0088cc;
+}
+.collapse {
+  background-color:#333;
+}
+@media (max-width: 979px) {
+.nav-collapse .nav > li > a:hover, .nav-collapse .nav > li > a:focus, .nav-collapse .dropdown-menu a:hover, .nav-collapse .dropdown-menu a:focus {
+  background-color: #000;
+  color:#fff;
+  }
+}
+.well {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  background: -webkit-linear-gradient(top, #ffffff, #f9f9f9);
+  background: -moz-linear-gradient(top, #ffffff, #f9f9f9);
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+}
