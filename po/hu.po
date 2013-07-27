@@ -3,8 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Eownis <Eownis@gmail.com>, 2013
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013
+# Attila Zsigmond <spammy@freemail.hu>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Birdie\n"
@@ -12,36 +11,36 @@ msgstr ""
 "POT-Creation-Date: 2013-07-27 11:27+0100\n"
 "PO-Revision-Date: 2013-07-27 10:36+0000\n"
 "Last-Translator: vascomfnunes <vascomfnunes@gmail.com>\n"
-"Language-Team: French (http://www.transifex.com/projects/p/birdie/language/fr/)\n"
+"Language-Team: Hungarian (http://www.transifex.com/projects/p/birdie/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: hu\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../../src/Birdie.vala:229 ../../src/Birdie.vala:230
 #: ../../src/Widgets/TweetDialog.vala:71 ../../src/Utils/Indicator.vala:140
 #: ../../src/Utils/Indicator.vala:188 ../../src/Utils/Launcher.vala:40
 #: ../../src/Utils/StatusIcon.vala:41
 msgid "New Tweet"
-msgstr "Nouveau Tweet"
+msgstr "Új tweet"
 
 #: ../../src/Birdie.vala:252 ../../src/Birdie.vala:253
 #: ../../src/Birdie.vala:515
 msgid "Home"
-msgstr "Accueil"
+msgstr "Home"
 
 #: ../../src/Birdie.vala:264 ../../src/Birdie.vala:265
 #: ../../src/Birdie.vala:516 ../../src/Utils/Indicator.vala:106
 #: ../../src/Utils/Indicator.vala:186 ../../src/Utils/Launcher.vala:52
 msgid "Mentions"
-msgstr "Mentions"
+msgstr "Említések"
 
 #: ../../src/Birdie.vala:277 ../../src/Birdie.vala:278
 #: ../../src/Birdie.vala:517 ../../src/Utils/Indicator.vala:124
 #: ../../src/Utils/Indicator.vala:187
 msgid "Direct Messages"
-msgstr "Messages privés"
+msgstr "Közvetlen üzenet"
 
 #: ../../src/Birdie.vala:288 ../../src/Birdie.vala:289
 #: ../../src/Birdie.vala:518 ../../src/Utils/Launcher.vala:64
@@ -51,230 +50,230 @@ msgstr "Profil"
 #: ../../src/Birdie.vala:300 ../../src/Birdie.vala:301
 #: ../../src/Birdie.vala:501 ../../src/Birdie.vala:520
 msgid "Search"
-msgstr "Rechercher"
+msgstr "Keresés"
 
 #: ../../src/Birdie.vala:316
 msgid "Add Account"
-msgstr "Ajouter un compte"
+msgstr "fiók hozzáadása"
 
 #: ../../src/Birdie.vala:322
 msgid "Remove Account"
-msgstr "Supprimer un compte"
+msgstr "Fiók törlése"
 
 #: ../../src/Birdie.vala:326
 msgid "Remove this account?"
-msgstr "Supprimer ce compte ?"
+msgstr "Töröljük a fiókot?"
 
 #: ../../src/Birdie.vala:327
 msgid "Remove"
-msgstr "Supprimer"
+msgstr "Törlés"
 
 #: ../../src/Birdie.vala:327 ../../src/Widgets/TweetBox.vala:393
 #: ../../src/Widgets/TweetDialog.vala:185
 msgid "Cancel"
-msgstr "Annuler"
+msgstr "Mégsem"
 
 #: ../../src/Birdie.vala:348
 msgid "About"
-msgstr "À propos"
+msgstr "Névjegy"
 
 #: ../../src/Birdie.vala:384
 msgid "Donate"
-msgstr "Faire un don"
+msgstr "Támogatás"
 
 #: ../../src/Birdie.vala:392
 msgid "Quit"
-msgstr "Quitter"
+msgstr "Kilépés"
 
 #: ../../src/Birdie.vala:413 ../../src/Birdie.vala:416
 msgid "Menu"
-msgstr "Menu"
+msgstr "Menü"
 
 #: ../../src/Birdie.vala:456
 msgid "Received"
-msgstr "Reçus"
+msgstr "Fogadott"
 
 #: ../../src/Birdie.vala:457
 msgid "Sent"
-msgstr "Envoyés"
+msgstr "Küldött"
 
 #: ../../src/Birdie.vala:481 ../../src/Birdie.vala:489
 msgid "Timeline"
-msgstr "Timeline"
+msgstr "Idővonal"
 
 #: ../../src/Birdie.vala:482
 msgid "Favorites"
-msgstr "Favoris"
+msgstr "Kedvencek"
 
 #: ../../src/Birdie.vala:513
 msgid "Loading"
-msgstr "Chargement en cours"
+msgstr "Betöltés"
 
 #: ../../src/Birdie.vala:514
 msgid "Welcome"
-msgstr "Bienvenue"
+msgstr "Üdvözöllek"
 
 #: ../../src/Birdie.vala:519
 msgid "User"
-msgstr "Utilisateur"
+msgstr "Felhasználó"
 
 #: ../../src/Birdie.vala:521
 msgid "Error"
-msgstr "Erreur"
+msgstr "Hiba"
 
 #: ../../src/Birdie.vala:666
 msgid "Sign in"
-msgstr "Connexion"
+msgstr "Bejelentkezés"
 
 #: ../../src/Birdie.vala:1010
 msgid "New tweet from"
-msgstr "Nouveau tweet de"
+msgstr "Új tweet innen:"
 
 #: ../../src/Birdie.vala:1024
 msgid "new tweets"
-msgstr "nouveaux tweets"
+msgstr "Új üzenetek"
 
 #: ../../src/Birdie.vala:1124
 msgid "New mention from"
-msgstr "Nouveau tweet de"
+msgstr "Új említés innen:"
 
 #: ../../src/Birdie.vala:1139
 msgid "new mentions"
-msgstr "Nouvelles mentions"
+msgstr "új említések"
 
 #: ../../src/Birdie.vala:1173
 msgid "New direct message from"
-msgstr "Nouveau tweet de"
+msgstr "Új közvetlen üzenet innen:"
 
 #: ../../src/Birdie.vala:1188
 msgid "new direct messages"
-msgstr "Nouveaux messages privés"
+msgstr "új közvetlen üzenetek"
 
 #: ../../src/config.vala:24 ../../src/Widgets/Welcome.vala:22
 msgid "Twitter Client"
-msgstr "Client Twitter"
+msgstr "Twitter kliens"
 
 #: ../../src/config.vala:25
 msgid "Twitter client for Linux"
-msgstr "Client Twitter pour Linux"
+msgstr "Twitter kliens Linuxra"
 
 #: ../../src/Widgets/Dialogs.vala:81
 msgid "Preview"
-msgstr "Aperçu"
+msgstr "Előnézet"
 
 #: ../../src/Widgets/TweetBox.vala:279
 msgid "Thread"
-msgstr "Discussion"
+msgstr "Szál"
 
 #: ../../src/Widgets/TweetBox.vala:296 ../../src/Widgets/TweetBox.vala:665
 msgid "Favorite"
-msgstr "Favori"
+msgstr "Kedvenc"
 
 #: ../../src/Widgets/TweetBox.vala:318 ../../src/Widgets/TweetBox.vala:334
 msgid "Retweet"
-msgstr "Retweeter"
+msgstr "Továbbküldés"
 
 #: ../../src/Widgets/TweetBox.vala:335
 msgid "Retweet with quote"
-msgstr "Retweeter en citant"
+msgstr "Újraküldés idézve"
 
 #: ../../src/Widgets/TweetBox.vala:371
 msgid "Reply"
-msgstr "Répondre"
+msgstr "Válasz"
 
 #: ../../src/Widgets/TweetBox.vala:387 ../../src/Widgets/TweetBox.vala:393
 msgid "Delete"
-msgstr "Supprimer"
+msgstr "Törlés"
 
 #: ../../src/Widgets/TweetBox.vala:392
 msgid "Delete this tweet?"
-msgstr "Supprimer ce tweet ?"
+msgstr "Töröljük a tweetet?"
 
 #: ../../src/Widgets/TweetBox.vala:662
 msgid "Unfavorite"
-msgstr "Retirer des favoris"
+msgstr "Nem kedvenc"
 
 #: ../../src/Widgets/TweetBox.vala:673
 #, c-format
 msgid "retweeted by %s"
-msgstr "retweeté par %s"
+msgstr "továbbküldte %s"
 
 #: ../../src/Widgets/TweetBox.vala:698
 #, c-format
 msgid "in reply to @%s"
-msgstr "en réponse à @%s"
+msgstr "válaszként @%s üzenetére"
 
 #: ../../src/Widgets/TweetDialog.vala:73
 msgid "New Message"
-msgstr "Nouveau Message"
+msgstr "Új üzenet"
 
 #: ../../src/Widgets/TweetDialog.vala:193
 msgid "Send"
-msgstr "Envoyer"
+msgstr "Küldés"
 
 #: ../../src/Widgets/TweetDialog.vala:195
 msgid "Tweet"
-msgstr "Tweeter"
+msgstr "Tweet"
 
 #: ../../src/Widgets/TweetDialog.vala:207
 msgid "Add a picture"
-msgstr "Ajoutez une image"
+msgstr "Kép hozzáadása"
 
 #: ../../src/Widgets/TweetDialog.vala:232
 msgid "Select a Picture"
-msgstr "Sélectionnez une image"
+msgstr "Válassz egy képet"
 
 #: ../../src/Widgets/UserBox.vala:56 ../../src/Widgets/UserBox.vala:192
 msgid "TWEETS"
-msgstr "TWEETS"
+msgstr "ÜZENETEK"
 
 #: ../../src/Widgets/UserBox.vala:61 ../../src/Widgets/UserBox.vala:197
 msgid "FOLLOWING"
-msgstr "ABONNEMENTS"
+msgstr "KÖVETETTEK"
 
 #: ../../src/Widgets/UserBox.vala:63 ../../src/Widgets/UserBox.vala:199
 msgid "FOLLOWERS"
-msgstr "ABONNÉS"
+msgstr "KÖVETŐK"
 
 #: ../../src/Widgets/UserBox.vala:107
 msgid "Follow"
-msgstr "Suivre"
+msgstr "Kövesd"
 
 #: ../../src/Widgets/UserBox.vala:109
 msgid "Follow user"
-msgstr "S'abonner à l'utilisateur"
+msgstr "Kövesd a felhasználót"
 
 #: ../../src/Widgets/UserBox.vala:117
 msgid "Unfollow"
-msgstr "Se désabonner"
+msgstr "Ne kövesd"
 
 #: ../../src/Widgets/UserBox.vala:119
 msgid "Unfollow user"
-msgstr "Se désabonner de l'utilisateur"
+msgstr "Ne kövesd a felhasználót"
 
 #: ../../src/Widgets/UserBox.vala:127
 msgid "Block"
-msgstr "Bloquer"
+msgstr "Blokkold"
 
 #: ../../src/Widgets/UserBox.vala:129
 msgid "Block user"
-msgstr "Bloquer l'utilisateur"
+msgstr "Blokkold a felhasználót"
 
 #: ../../src/Widgets/UserBox.vala:137
 msgid "Unblock"
-msgstr "Débloquer"
+msgstr "Ne blokkold"
 
 #: ../../src/Widgets/UserBox.vala:139
 msgid "Unblock user"
-msgstr "Débloquer l'utilisateur"
+msgstr "Ne blokkold a felhasználót"
 
 #: ../../src/Widgets/UserBox.vala:186
 msgid "Following you."
-msgstr "Vous suit."
+msgstr "Követ téged"
 
 #: ../../src/Widgets/UserBox.vala:188
 msgid "Not following you."
-msgstr "Ne vous suit pas."
+msgstr "Nem követ téged"
 
 #: ../../src/Widgets/Welcome.vala:22 ../../src/Utils/StatusIcon.vala:31
 msgid "Birdie"
@@ -282,82 +281,82 @@ msgstr "Birdie"
 
 #: ../../src/Widgets/Welcome.vala:24
 msgid "Sign In"
-msgstr "Connexion"
+msgstr "Bejelentkezés"
 
 #: ../../src/Widgets/Welcome.vala:24 ../../src/Widgets/Welcome.vala:67
 msgid "Add an existing Twitter account."
-msgstr "Ajouter un compte Twitter existant."
+msgstr "Létező twitter fiók hozzáadása"
 
 #: ../../src/Widgets/Welcome.vala:25
 msgid "Sign Up"
-msgstr "Inscription"
+msgstr "Fiók létrehozása"
 
 #: ../../src/Widgets/Welcome.vala:25 ../../src/Widgets/Welcome.vala:73
 msgid "Create a new Twitter account."
-msgstr "Créer un nouveau compte Twitter."
+msgstr "Új twitter fiók létrehozása"
 
 #: ../../src/Widgets/Welcome.vala:49 ../../src/Widgets/Welcome.vala:108
 msgid "Unable to connect"
-msgstr "Impossible de se connecter"
+msgstr "Kapcsolódási hiba"
 
 #: ../../src/Widgets/Welcome.vala:49 ../../src/Widgets/Welcome.vala:110
 msgid "Please check your Internet Connection"
-msgstr "Veuillez vérifier votre connexion Internet"
+msgstr "Ellenőrizd az internetkapcsolatodat"
 
 #: ../../src/Widgets/Welcome.vala:51 ../../src/Widgets/Welcome.vala:99
 msgid "Retry"
-msgstr "Réessayer"
+msgstr "Ismét"
 
 #: ../../src/Widgets/Welcome.vala:51
 msgid "Try to connect again"
-msgstr "Essayer de se reconnecter"
+msgstr "Próbálj újra csatlakozni"
 
 #: ../../src/Widgets/Welcome.vala:86
 msgid "Welcome to Birdie"
-msgstr "Bienvenue sur Birdie"
+msgstr "Üdvözöl a Birdie"
 
 #: ../../src/Utils/Date.vala:65
 #, c-format
 msgid "%d y"
-msgstr "%d an"
+msgstr "%d éve"
 
 #: ../../src/Utils/Date.vala:68
 #, c-format
 msgid "%d mo"
-msgstr "%d mois"
+msgstr "%d hónapja"
 
 #: ../../src/Utils/Date.vala:71
 #, c-format
 msgid "%d w"
-msgstr "%d sem"
+msgstr "%d hete"
 
 #: ../../src/Utils/Date.vala:74
 #, c-format
 msgid "%d d"
-msgstr "%d j"
+msgstr "%d napja"
 
 #: ../../src/Utils/Date.vala:76
 #, c-format
 msgid "%d h"
-msgstr "%d h"
+msgstr "%d órája"
 
 #: ../../src/Utils/Date.vala:78
 #, c-format
 msgid "%d m"
-msgstr "%d min"
+msgstr "%d perce"
 
 #: ../../src/Utils/Date.vala:81
 msgid "now"
-msgstr "maintenant"
+msgstr "most"
 
 #: ../../src/Utils/Indicator.vala:88 ../../src/Utils/Indicator.vala:185
 #: ../../src/Utils/Launcher.vala:46
 msgid "Tweets"
-msgstr "Tweets"
+msgstr "Tweetek"
 
 #: ../../src/Utils/Launcher.vala:58
 msgid "Messages"
-msgstr "Messages"
+msgstr "Üzenetek"
 
 #: ../../src/Utils/Notifications.vala:47
 msgid "View"

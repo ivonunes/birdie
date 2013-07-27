@@ -3,278 +3,278 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Eownis <Eownis@gmail.com>, 2013
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013
+# Zlatan Vasović <legospace9876@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Birdie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-07-27 11:27+0100\n"
-"PO-Revision-Date: 2013-07-27 10:36+0000\n"
-"Last-Translator: vascomfnunes <vascomfnunes@gmail.com>\n"
-"Language-Team: French (http://www.transifex.com/projects/p/birdie/language/fr/)\n"
+"PO-Revision-Date: 2013-07-27 10:40+0000\n"
+"Last-Translator: Zlatan Vasović <legospace9876@gmail.com>\n"
+"Language-Team: Serbian (Latin) (Serbia) (http://www.transifex.com/projects/p/birdie/language/sr_RS@latin/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: sr_RS@latin\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: ../../src/Birdie.vala:229 ../../src/Birdie.vala:230
 #: ../../src/Widgets/TweetDialog.vala:71 ../../src/Utils/Indicator.vala:140
 #: ../../src/Utils/Indicator.vala:188 ../../src/Utils/Launcher.vala:40
 #: ../../src/Utils/StatusIcon.vala:41
 msgid "New Tweet"
-msgstr "Nouveau Tweet"
+msgstr "Novi tvit"
 
 #: ../../src/Birdie.vala:252 ../../src/Birdie.vala:253
 #: ../../src/Birdie.vala:515
 msgid "Home"
-msgstr "Accueil"
+msgstr "Početna"
 
 #: ../../src/Birdie.vala:264 ../../src/Birdie.vala:265
 #: ../../src/Birdie.vala:516 ../../src/Utils/Indicator.vala:106
 #: ../../src/Utils/Indicator.vala:186 ../../src/Utils/Launcher.vala:52
 msgid "Mentions"
-msgstr "Mentions"
+msgstr "Pominjanja"
 
 #: ../../src/Birdie.vala:277 ../../src/Birdie.vala:278
 #: ../../src/Birdie.vala:517 ../../src/Utils/Indicator.vala:124
 #: ../../src/Utils/Indicator.vala:187
 msgid "Direct Messages"
-msgstr "Messages privés"
+msgstr "Direktne poruke"
 
 #: ../../src/Birdie.vala:288 ../../src/Birdie.vala:289
 #: ../../src/Birdie.vala:518 ../../src/Utils/Launcher.vala:64
 msgid "Profile"
-msgstr "Profil"
+msgstr "Nalog"
 
 #: ../../src/Birdie.vala:300 ../../src/Birdie.vala:301
 #: ../../src/Birdie.vala:501 ../../src/Birdie.vala:520
 msgid "Search"
-msgstr "Rechercher"
+msgstr "Pretraga"
 
 #: ../../src/Birdie.vala:316
 msgid "Add Account"
-msgstr "Ajouter un compte"
+msgstr "Dodaj nalog"
 
 #: ../../src/Birdie.vala:322
 msgid "Remove Account"
-msgstr "Supprimer un compte"
+msgstr "Ukloni nalog"
 
 #: ../../src/Birdie.vala:326
 msgid "Remove this account?"
-msgstr "Supprimer ce compte ?"
+msgstr "Ukloni ovaj nalog?"
 
 #: ../../src/Birdie.vala:327
 msgid "Remove"
-msgstr "Supprimer"
+msgstr "Ukloni"
 
 #: ../../src/Birdie.vala:327 ../../src/Widgets/TweetBox.vala:393
 #: ../../src/Widgets/TweetDialog.vala:185
 msgid "Cancel"
-msgstr "Annuler"
+msgstr "Otkaži"
 
 #: ../../src/Birdie.vala:348
 msgid "About"
-msgstr "À propos"
+msgstr "O programu"
 
 #: ../../src/Birdie.vala:384
 msgid "Donate"
-msgstr "Faire un don"
+msgstr "Doniraj"
 
 #: ../../src/Birdie.vala:392
 msgid "Quit"
-msgstr "Quitter"
+msgstr "Izađi"
 
 #: ../../src/Birdie.vala:413 ../../src/Birdie.vala:416
 msgid "Menu"
-msgstr "Menu"
+msgstr "Izbornik"
 
 #: ../../src/Birdie.vala:456
 msgid "Received"
-msgstr "Reçus"
+msgstr "Primljeno"
 
 #: ../../src/Birdie.vala:457
 msgid "Sent"
-msgstr "Envoyés"
+msgstr "Poslato"
 
 #: ../../src/Birdie.vala:481 ../../src/Birdie.vala:489
 msgid "Timeline"
-msgstr "Timeline"
+msgstr "Vremenska linija"
 
 #: ../../src/Birdie.vala:482
 msgid "Favorites"
-msgstr "Favoris"
+msgstr "Omiljeno"
 
 #: ../../src/Birdie.vala:513
 msgid "Loading"
-msgstr "Chargement en cours"
+msgstr "Učitavam"
 
 #: ../../src/Birdie.vala:514
 msgid "Welcome"
-msgstr "Bienvenue"
+msgstr "Dobrodošli"
 
 #: ../../src/Birdie.vala:519
 msgid "User"
-msgstr "Utilisateur"
+msgstr "Korisnik"
 
 #: ../../src/Birdie.vala:521
 msgid "Error"
-msgstr "Erreur"
+msgstr "Greška"
 
 #: ../../src/Birdie.vala:666
 msgid "Sign in"
-msgstr "Connexion"
+msgstr "Prijavi me"
 
 #: ../../src/Birdie.vala:1010
 msgid "New tweet from"
-msgstr "Nouveau tweet de"
+msgstr "Novi tvit od"
 
 #: ../../src/Birdie.vala:1024
 msgid "new tweets"
-msgstr "nouveaux tweets"
+msgstr "novi tvitovi"
 
 #: ../../src/Birdie.vala:1124
 msgid "New mention from"
-msgstr "Nouveau tweet de"
+msgstr "Novo pominjanje od"
 
 #: ../../src/Birdie.vala:1139
 msgid "new mentions"
-msgstr "Nouvelles mentions"
+msgstr "nova pominjanja"
 
 #: ../../src/Birdie.vala:1173
 msgid "New direct message from"
-msgstr "Nouveau tweet de"
+msgstr "Nova direktna poruka od"
 
 #: ../../src/Birdie.vala:1188
 msgid "new direct messages"
-msgstr "Nouveaux messages privés"
+msgstr "nove direktne poruke"
 
 #: ../../src/config.vala:24 ../../src/Widgets/Welcome.vala:22
 msgid "Twitter Client"
-msgstr "Client Twitter"
+msgstr "Tviter klijent"
 
 #: ../../src/config.vala:25
 msgid "Twitter client for Linux"
-msgstr "Client Twitter pour Linux"
+msgstr "Tviter klijent za Linuks"
 
 #: ../../src/Widgets/Dialogs.vala:81
 msgid "Preview"
-msgstr "Aperçu"
+msgstr "Pregledaj"
 
 #: ../../src/Widgets/TweetBox.vala:279
 msgid "Thread"
-msgstr "Discussion"
+msgstr "Tema"
 
 #: ../../src/Widgets/TweetBox.vala:296 ../../src/Widgets/TweetBox.vala:665
 msgid "Favorite"
-msgstr "Favori"
+msgstr "Označi kao omiljeno"
 
 #: ../../src/Widgets/TweetBox.vala:318 ../../src/Widgets/TweetBox.vala:334
 msgid "Retweet"
-msgstr "Retweeter"
+msgstr "Retvituj"
 
 #: ../../src/Widgets/TweetBox.vala:335
 msgid "Retweet with quote"
-msgstr "Retweeter en citant"
+msgstr "Retvituj sa citatom"
 
 #: ../../src/Widgets/TweetBox.vala:371
 msgid "Reply"
-msgstr "Répondre"
+msgstr "Odgovori"
 
 #: ../../src/Widgets/TweetBox.vala:387 ../../src/Widgets/TweetBox.vala:393
 msgid "Delete"
-msgstr "Supprimer"
+msgstr "Obriši"
 
 #: ../../src/Widgets/TweetBox.vala:392
 msgid "Delete this tweet?"
-msgstr "Supprimer ce tweet ?"
+msgstr "Obriši ovaj tvit?"
 
 #: ../../src/Widgets/TweetBox.vala:662
 msgid "Unfavorite"
-msgstr "Retirer des favoris"
+msgstr "Ukloni oznaku omiljenog"
 
 #: ../../src/Widgets/TweetBox.vala:673
 #, c-format
 msgid "retweeted by %s"
-msgstr "retweeté par %s"
+msgstr "retvitovano od %s"
 
 #: ../../src/Widgets/TweetBox.vala:698
 #, c-format
 msgid "in reply to @%s"
-msgstr "en réponse à @%s"
+msgstr "u odgovoru za @%s"
 
 #: ../../src/Widgets/TweetDialog.vala:73
 msgid "New Message"
-msgstr "Nouveau Message"
+msgstr "Nova poruka"
 
 #: ../../src/Widgets/TweetDialog.vala:193
 msgid "Send"
-msgstr "Envoyer"
+msgstr "Pošalji"
 
 #: ../../src/Widgets/TweetDialog.vala:195
 msgid "Tweet"
-msgstr "Tweeter"
+msgstr "Tvituj"
 
 #: ../../src/Widgets/TweetDialog.vala:207
 msgid "Add a picture"
-msgstr "Ajoutez une image"
+msgstr "Dodaj sliku"
 
 #: ../../src/Widgets/TweetDialog.vala:232
 msgid "Select a Picture"
-msgstr "Sélectionnez une image"
+msgstr "Odaberi sliku"
 
 #: ../../src/Widgets/UserBox.vala:56 ../../src/Widgets/UserBox.vala:192
 msgid "TWEETS"
-msgstr "TWEETS"
+msgstr "TVITOVI"
 
 #: ../../src/Widgets/UserBox.vala:61 ../../src/Widgets/UserBox.vala:197
 msgid "FOLLOWING"
-msgstr "ABONNEMENTS"
+msgstr "PRATI"
 
 #: ../../src/Widgets/UserBox.vala:63 ../../src/Widgets/UserBox.vala:199
 msgid "FOLLOWERS"
-msgstr "ABONNÉS"
+msgstr "PRATIOCI"
 
 #: ../../src/Widgets/UserBox.vala:107
 msgid "Follow"
-msgstr "Suivre"
+msgstr "Prati"
 
 #: ../../src/Widgets/UserBox.vala:109
 msgid "Follow user"
-msgstr "S'abonner à l'utilisateur"
+msgstr "Prati korisnika"
 
 #: ../../src/Widgets/UserBox.vala:117
 msgid "Unfollow"
-msgstr "Se désabonner"
+msgstr "Opozovi praćenje"
 
 #: ../../src/Widgets/UserBox.vala:119
 msgid "Unfollow user"
-msgstr "Se désabonner de l'utilisateur"
+msgstr "Opozovi praćenje korisnika"
 
 #: ../../src/Widgets/UserBox.vala:127
 msgid "Block"
-msgstr "Bloquer"
+msgstr "Blokiraj"
 
 #: ../../src/Widgets/UserBox.vala:129
 msgid "Block user"
-msgstr "Bloquer l'utilisateur"
+msgstr "Blokiraj korisnika"
 
 #: ../../src/Widgets/UserBox.vala:137
 msgid "Unblock"
-msgstr "Débloquer"
+msgstr "Odblokiraj"
 
 #: ../../src/Widgets/UserBox.vala:139
 msgid "Unblock user"
-msgstr "Débloquer l'utilisateur"
+msgstr "Odblokiraj korisnika"
 
 #: ../../src/Widgets/UserBox.vala:186
 msgid "Following you."
-msgstr "Vous suit."
+msgstr "Prati vas."
 
 #: ../../src/Widgets/UserBox.vala:188
 msgid "Not following you."
-msgstr "Ne vous suit pas."
+msgstr "Ne prati vas."
 
 #: ../../src/Widgets/Welcome.vala:22 ../../src/Utils/StatusIcon.vala:31
 msgid "Birdie"
@@ -282,59 +282,59 @@ msgstr "Birdie"
 
 #: ../../src/Widgets/Welcome.vala:24
 msgid "Sign In"
-msgstr "Connexion"
+msgstr "Prijavi se"
 
 #: ../../src/Widgets/Welcome.vala:24 ../../src/Widgets/Welcome.vala:67
 msgid "Add an existing Twitter account."
-msgstr "Ajouter un compte Twitter existant."
+msgstr "Dodaj postojeći Tviter nalog"
 
 #: ../../src/Widgets/Welcome.vala:25
 msgid "Sign Up"
-msgstr "Inscription"
+msgstr "Napravi nalog"
 
 #: ../../src/Widgets/Welcome.vala:25 ../../src/Widgets/Welcome.vala:73
 msgid "Create a new Twitter account."
-msgstr "Créer un nouveau compte Twitter."
+msgstr "Napravi novi Tviter nalog"
 
 #: ../../src/Widgets/Welcome.vala:49 ../../src/Widgets/Welcome.vala:108
 msgid "Unable to connect"
-msgstr "Impossible de se connecter"
+msgstr "Ne mogu da se povežem"
 
 #: ../../src/Widgets/Welcome.vala:49 ../../src/Widgets/Welcome.vala:110
 msgid "Please check your Internet Connection"
-msgstr "Veuillez vérifier votre connexion Internet"
+msgstr "Molimo proverite vašu Internet konekciju"
 
 #: ../../src/Widgets/Welcome.vala:51 ../../src/Widgets/Welcome.vala:99
 msgid "Retry"
-msgstr "Réessayer"
+msgstr "Pokušaj ponovo"
 
 #: ../../src/Widgets/Welcome.vala:51
 msgid "Try to connect again"
-msgstr "Essayer de se reconnecter"
+msgstr "Pokušaj da se ponovo povežeš"
 
 #: ../../src/Widgets/Welcome.vala:86
 msgid "Welcome to Birdie"
-msgstr "Bienvenue sur Birdie"
+msgstr "Dobrodošli u Birdie"
 
 #: ../../src/Utils/Date.vala:65
 #, c-format
 msgid "%d y"
-msgstr "%d an"
+msgstr "%d y"
 
 #: ../../src/Utils/Date.vala:68
 #, c-format
 msgid "%d mo"
-msgstr "%d mois"
+msgstr "%d mo"
 
 #: ../../src/Utils/Date.vala:71
 #, c-format
 msgid "%d w"
-msgstr "%d sem"
+msgstr "%d w"
 
 #: ../../src/Utils/Date.vala:74
 #, c-format
 msgid "%d d"
-msgstr "%d j"
+msgstr "%d d"
 
 #: ../../src/Utils/Date.vala:76
 #, c-format
@@ -344,21 +344,21 @@ msgstr "%d h"
 #: ../../src/Utils/Date.vala:78
 #, c-format
 msgid "%d m"
-msgstr "%d min"
+msgstr "%d m"
 
 #: ../../src/Utils/Date.vala:81
 msgid "now"
-msgstr "maintenant"
+msgstr "sada"
 
 #: ../../src/Utils/Indicator.vala:88 ../../src/Utils/Indicator.vala:185
 #: ../../src/Utils/Launcher.vala:46
 msgid "Tweets"
-msgstr "Tweets"
+msgstr "Tvitovi"
 
 #: ../../src/Utils/Launcher.vala:58
 msgid "Messages"
-msgstr "Messages"
+msgstr "Poruke"
 
 #: ../../src/Utils/Notifications.vala:47
 msgid "View"
-msgstr ""
+msgstr "Pogledaj"

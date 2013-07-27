@@ -1,296 +1,319 @@
-# Swedish translation for birdie
-# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
-# This file is distributed under the same license as the birdie package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013
 msgid ""
 msgstr ""
-"Project-Id-Version: birdie\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-05-15 18:22+0100\n"
-"PO-Revision-Date: 2013-06-23 21:36+0000\n"
-"Last-Translator: Jesper Falk <Unknown>\n"
-"Language-Team: Swedish <sv@li.org>\n"
+"Project-Id-Version: Birdie\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-07-27 11:27+0100\n"
+"PO-Revision-Date: 2013-07-27 10:36+0000\n"
+"Last-Translator: vascomfnunes <vascomfnunes@gmail.com>\n"
+"Language-Team: Swedish (http://www.transifex.com/projects/p/birdie/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-07-07 09:44+0000\n"
-"X-Generator: Launchpad (build 16696)\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../../src/Birdie.vala:233 ../../src/Widgets/TweetDialog.vala:65
-#: ../../src/Utils/Indicator.vala:50 ../../src/Utils/Launcher.vala:40
+#: ../../src/Birdie.vala:229 ../../src/Birdie.vala:230
+#: ../../src/Widgets/TweetDialog.vala:71 ../../src/Utils/Indicator.vala:140
+#: ../../src/Utils/Indicator.vala:188 ../../src/Utils/Launcher.vala:40
+#: ../../src/Utils/StatusIcon.vala:41
 msgid "New Tweet"
 msgstr "Ny Tweet"
 
-#: ../../src/Birdie.vala:261 ../../src/Birdie.vala:511
+#: ../../src/Birdie.vala:252 ../../src/Birdie.vala:253
+#: ../../src/Birdie.vala:515
 msgid "Home"
 msgstr "Hem"
 
-#: ../../src/Birdie.vala:272 ../../src/Birdie.vala:512
-#: ../../src/Utils/Indicator.vala:48 ../../src/Utils/Launcher.vala:52
+#: ../../src/Birdie.vala:264 ../../src/Birdie.vala:265
+#: ../../src/Birdie.vala:516 ../../src/Utils/Indicator.vala:106
+#: ../../src/Utils/Indicator.vala:186 ../../src/Utils/Launcher.vala:52
 msgid "Mentions"
 msgstr ""
 
-#: ../../src/Birdie.vala:284 ../../src/Birdie.vala:513
-#: ../../src/Utils/Indicator.vala:49
+#: ../../src/Birdie.vala:277 ../../src/Birdie.vala:278
+#: ../../src/Birdie.vala:517 ../../src/Utils/Indicator.vala:124
+#: ../../src/Utils/Indicator.vala:187
 msgid "Direct Messages"
 msgstr "Direktmeddelanden"
 
-#: ../../src/Birdie.vala:294 ../../src/Birdie.vala:514
-#: ../../src/Utils/Launcher.vala:64
+#: ../../src/Birdie.vala:288 ../../src/Birdie.vala:289
+#: ../../src/Birdie.vala:518 ../../src/Utils/Launcher.vala:64
 msgid "Profile"
 msgstr "Profil"
 
-#: ../../src/Birdie.vala:305 ../../src/Birdie.vala:516
+#: ../../src/Birdie.vala:300 ../../src/Birdie.vala:301
+#: ../../src/Birdie.vala:501 ../../src/Birdie.vala:520
 msgid "Search"
 msgstr "Sök"
 
-#: ../../src/Birdie.vala:320
+#: ../../src/Birdie.vala:316
 msgid "Add Account"
 msgstr "Lägg till konto"
 
-#: ../../src/Birdie.vala:326
+#: ../../src/Birdie.vala:322
 msgid "Remove Account"
 msgstr "Ta bort konto"
 
-#: ../../src/Birdie.vala:330
+#: ../../src/Birdie.vala:326
 msgid "Remove this account?"
 msgstr "Ta bort detta konto?"
 
-#: ../../src/Birdie.vala:331
+#: ../../src/Birdie.vala:327
 msgid "Remove"
 msgstr "Ta bort"
 
-#: ../../src/Birdie.vala:331 ../../src/Widgets/TweetBox.vala:333
-#: ../../src/Widgets/TweetDialog.vala:161
+#: ../../src/Birdie.vala:327 ../../src/Widgets/TweetBox.vala:393
+#: ../../src/Widgets/TweetDialog.vala:185
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: ../../src/Birdie.vala:352
+#: ../../src/Birdie.vala:348
 msgid "About"
 msgstr "Om"
 
-#: ../../src/Birdie.vala:356
+#: ../../src/Birdie.vala:384
 msgid "Donate"
 msgstr "Donera"
 
-#: ../../src/Birdie.vala:364
+#: ../../src/Birdie.vala:392
 msgid "Quit"
 msgstr "Avsluta"
 
-#: ../../src/Birdie.vala:383
+#: ../../src/Birdie.vala:413 ../../src/Birdie.vala:416
 msgid "Menu"
 msgstr "Meny"
 
-#: ../../src/Birdie.vala:418
-msgid "Birdie"
-msgstr "Birdie"
-
-#: ../../src/Birdie.vala:418 ../../src/config.vala:24
-msgid "Twitter Client"
-msgstr "Twitter Klient"
-
-#: ../../src/Birdie.vala:419
-msgid "Sign In"
-msgstr "Logga in"
-
-#: ../../src/Birdie.vala:419
-msgid "Add an existing Twitter account."
-msgstr "Lägg till ett existerande Twitter-konto"
-
-#: ../../src/Birdie.vala:420
-msgid "Sign Up"
-msgstr "Registrera dig"
-
-#: ../../src/Birdie.vala:420
-msgid "Create a new Twitter account."
-msgstr "Skapa ett nytt Twitter-konto"
-
-#: ../../src/Birdie.vala:436
-msgid "Unable to connect"
-msgstr "Kan inte ansluta"
-
-#: ../../src/Birdie.vala:436
-msgid "Please check your Internet Connection"
-msgstr "Var god kontrollera din internet anslutning"
-
-#: ../../src/Birdie.vala:437
-msgid "Retry"
-msgstr "Försök igen"
-
-#: ../../src/Birdie.vala:437
-msgid "Try to connect again"
-msgstr "Försök ansluta igen"
-
-#: ../../src/Birdie.vala:459
+#: ../../src/Birdie.vala:456
 msgid "Received"
 msgstr "Mottaget"
 
-#: ../../src/Birdie.vala:460
+#: ../../src/Birdie.vala:457
 msgid "Sent"
 msgstr "Skickat"
 
-#: ../../src/Birdie.vala:484 ../../src/Birdie.vala:491
+#: ../../src/Birdie.vala:481 ../../src/Birdie.vala:489
 msgid "Timeline"
 msgstr "Tidslinje"
 
-#: ../../src/Birdie.vala:485
+#: ../../src/Birdie.vala:482
 msgid "Favorites"
 msgstr "Favoriter"
 
-#: ../../src/Birdie.vala:509
+#: ../../src/Birdie.vala:513
 msgid "Loading"
 msgstr "Laddar"
 
-#: ../../src/Birdie.vala:510
+#: ../../src/Birdie.vala:514
 msgid "Welcome"
 msgstr "Välkommen"
 
-#: ../../src/Birdie.vala:515
+#: ../../src/Birdie.vala:519
 msgid "User"
 msgstr "Användare"
 
-#: ../../src/Birdie.vala:517
+#: ../../src/Birdie.vala:521
 msgid "Error"
 msgstr "Fel"
 
-#: ../../src/Birdie.vala:663
+#: ../../src/Birdie.vala:666
 msgid "Sign in"
 msgstr "Logga in"
 
-#: ../../src/Birdie.vala:1028
+#: ../../src/Birdie.vala:1010
 msgid "New tweet from"
 msgstr "Ny tweet från"
 
-#: ../../src/Birdie.vala:1042
+#: ../../src/Birdie.vala:1024
 msgid "new tweets"
 msgstr "nya tweets"
 
-#: ../../src/Birdie.vala:1065
+#: ../../src/Birdie.vala:1124
 msgid "New mention from"
 msgstr ""
 
-#: ../../src/Birdie.vala:1080
+#: ../../src/Birdie.vala:1139
 msgid "new mentions"
 msgstr ""
 
-#: ../../src/Birdie.vala:1105
+#: ../../src/Birdie.vala:1173
 msgid "New direct message from"
 msgstr "Nytt direktmeddelande från"
 
-#: ../../src/Birdie.vala:1120
+#: ../../src/Birdie.vala:1188
 msgid "new direct messages"
 msgstr "nya direktmeddelanden"
 
+#: ../../src/config.vala:24 ../../src/Widgets/Welcome.vala:22
+msgid "Twitter Client"
+msgstr "Twitter Klient"
+
 #: ../../src/config.vala:25
-msgid "Twitter client for elementary OS"
+msgid "Twitter client for Linux"
 msgstr ""
 
-#: ../../src/Widgets/TweetBox.vala:263 ../../src/Widgets/TweetBox.vala:542
+#: ../../src/Widgets/Dialogs.vala:81
+msgid "Preview"
+msgstr ""
+
+#: ../../src/Widgets/TweetBox.vala:279
+msgid "Thread"
+msgstr ""
+
+#: ../../src/Widgets/TweetBox.vala:296 ../../src/Widgets/TweetBox.vala:665
 msgid "Favorite"
 msgstr "Favorit"
 
-#: ../../src/Widgets/TweetBox.vala:285
+#: ../../src/Widgets/TweetBox.vala:318 ../../src/Widgets/TweetBox.vala:334
 msgid "Retweet"
 msgstr "Retweeta"
 
-#: ../../src/Widgets/TweetBox.vala:311
+#: ../../src/Widgets/TweetBox.vala:335
+msgid "Retweet with quote"
+msgstr ""
+
+#: ../../src/Widgets/TweetBox.vala:371
 msgid "Reply"
 msgstr "Svara"
 
-#: ../../src/Widgets/TweetBox.vala:327 ../../src/Widgets/TweetBox.vala:333
+#: ../../src/Widgets/TweetBox.vala:387 ../../src/Widgets/TweetBox.vala:393
 msgid "Delete"
 msgstr "Ta bort"
 
-#: ../../src/Widgets/TweetBox.vala:332
+#: ../../src/Widgets/TweetBox.vala:392
 msgid "Delete this tweet?"
 msgstr "Ta bort denna tweet?"
 
-#: ../../src/Widgets/TweetBox.vala:539
+#: ../../src/Widgets/TweetBox.vala:662
 msgid "Unfavorite"
 msgstr ""
 
-#: ../../src/Widgets/TweetBox.vala:550
+#: ../../src/Widgets/TweetBox.vala:673
 #, c-format
 msgid "retweeted by %s"
 msgstr "retweetad av %s"
 
-#: ../../src/Widgets/TweetBox.vala:575
+#: ../../src/Widgets/TweetBox.vala:698
 #, c-format
 msgid "in reply to @%s"
 msgstr ""
 
-#: ../../src/Widgets/TweetDialog.vala:67
+#: ../../src/Widgets/TweetDialog.vala:73
 msgid "New Message"
 msgstr "Nytt meddelande"
 
-#: ../../src/Widgets/TweetDialog.vala:169
+#: ../../src/Widgets/TweetDialog.vala:193
 msgid "Send"
 msgstr "Skicka"
 
-#: ../../src/Widgets/TweetDialog.vala:171
+#: ../../src/Widgets/TweetDialog.vala:195
 msgid "Tweet"
 msgstr "Tweet"
 
-#: ../../src/Widgets/TweetDialog.vala:200
+#: ../../src/Widgets/TweetDialog.vala:207
 msgid "Add a picture"
 msgstr "Lägg till bild"
 
-#: ../../src/Widgets/TweetDialog.vala:225
+#: ../../src/Widgets/TweetDialog.vala:232
 msgid "Select a Picture"
 msgstr "Välj en bild"
 
-#: ../../src/Widgets/UserBox.vala:59 ../../src/Widgets/UserBox.vala:232
+#: ../../src/Widgets/UserBox.vala:56 ../../src/Widgets/UserBox.vala:192
 msgid "TWEETS"
 msgstr "TWEETS"
 
-#: ../../src/Widgets/UserBox.vala:64 ../../src/Widgets/UserBox.vala:237
+#: ../../src/Widgets/UserBox.vala:61 ../../src/Widgets/UserBox.vala:197
 msgid "FOLLOWING"
 msgstr "FÖLJER"
 
-#: ../../src/Widgets/UserBox.vala:66 ../../src/Widgets/UserBox.vala:239
+#: ../../src/Widgets/UserBox.vala:63 ../../src/Widgets/UserBox.vala:199
 msgid "FOLLOWERS"
 msgstr "FÖLJARE"
 
-#: ../../src/Widgets/UserBox.vala:116
+#: ../../src/Widgets/UserBox.vala:107
 msgid "Follow"
 msgstr "Följ"
 
-#: ../../src/Widgets/UserBox.vala:118
+#: ../../src/Widgets/UserBox.vala:109
 msgid "Follow user"
 msgstr "Följ användare"
 
-#: ../../src/Widgets/UserBox.vala:126
+#: ../../src/Widgets/UserBox.vala:117
 msgid "Unfollow"
 msgstr "Sluta följa"
 
-#: ../../src/Widgets/UserBox.vala:128
+#: ../../src/Widgets/UserBox.vala:119
 msgid "Unfollow user"
 msgstr "Sluta följa användare"
 
-#: ../../src/Widgets/UserBox.vala:136
+#: ../../src/Widgets/UserBox.vala:127
 msgid "Block"
 msgstr "Blockera"
 
-#: ../../src/Widgets/UserBox.vala:138
+#: ../../src/Widgets/UserBox.vala:129
 msgid "Block user"
 msgstr "Blockera användare"
 
-#: ../../src/Widgets/UserBox.vala:146
+#: ../../src/Widgets/UserBox.vala:137
 msgid "Unblock"
 msgstr "Ta bort blockering"
 
-#: ../../src/Widgets/UserBox.vala:148
+#: ../../src/Widgets/UserBox.vala:139
 msgid "Unblock user"
 msgstr "Avblockera användare"
 
-#: ../../src/Widgets/UserBox.vala:226
+#: ../../src/Widgets/UserBox.vala:186
 msgid "Following you."
 msgstr "Följer dig."
 
-#: ../../src/Widgets/UserBox.vala:228
+#: ../../src/Widgets/UserBox.vala:188
 msgid "Not following you."
 msgstr "Följer inte dig."
+
+#: ../../src/Widgets/Welcome.vala:22 ../../src/Utils/StatusIcon.vala:31
+msgid "Birdie"
+msgstr "Birdie"
+
+#: ../../src/Widgets/Welcome.vala:24
+msgid "Sign In"
+msgstr "Logga in"
+
+#: ../../src/Widgets/Welcome.vala:24 ../../src/Widgets/Welcome.vala:67
+msgid "Add an existing Twitter account."
+msgstr "Lägg till ett existerande Twitter-konto"
+
+#: ../../src/Widgets/Welcome.vala:25
+msgid "Sign Up"
+msgstr "Registrera dig"
+
+#: ../../src/Widgets/Welcome.vala:25 ../../src/Widgets/Welcome.vala:73
+msgid "Create a new Twitter account."
+msgstr "Skapa ett nytt Twitter-konto"
+
+#: ../../src/Widgets/Welcome.vala:49 ../../src/Widgets/Welcome.vala:108
+msgid "Unable to connect"
+msgstr "Kan inte ansluta"
+
+#: ../../src/Widgets/Welcome.vala:49 ../../src/Widgets/Welcome.vala:110
+msgid "Please check your Internet Connection"
+msgstr "Var god kontrollera din internet anslutning"
+
+#: ../../src/Widgets/Welcome.vala:51 ../../src/Widgets/Welcome.vala:99
+msgid "Retry"
+msgstr "Försök igen"
+
+#: ../../src/Widgets/Welcome.vala:51
+msgid "Try to connect again"
+msgstr "Försök ansluta igen"
+
+#: ../../src/Widgets/Welcome.vala:86
+msgid "Welcome to Birdie"
+msgstr ""
 
 #: ../../src/Utils/Date.vala:65
 #, c-format
@@ -326,10 +349,15 @@ msgstr "%d m"
 msgid "now"
 msgstr "nu"
 
-#: ../../src/Utils/Indicator.vala:47 ../../src/Utils/Launcher.vala:46
+#: ../../src/Utils/Indicator.vala:88 ../../src/Utils/Indicator.vala:185
+#: ../../src/Utils/Launcher.vala:46
 msgid "Tweets"
 msgstr "Tweets"
 
 #: ../../src/Utils/Launcher.vala:58
 msgid "Messages"
 msgstr "Meddelanden"
+
+#: ../../src/Utils/Notifications.vala:47
+msgid "View"
+msgstr ""
