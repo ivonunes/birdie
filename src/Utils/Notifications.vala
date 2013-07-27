@@ -16,21 +16,41 @@
 
 namespace Birdie.Utils {
     private static Canberra.Context? sound_context = null;
-    //private unowned List<string> caps;
+    private unowned List<string> caps;
+    private Notify.Notification notification;
+    private string switch_timeline;
+    private Birdie birdie_app;
 
-    public int notify (string username, string message) {
+    public int notify (string username, string message, string timeline, Birdie birdie) {
 
-        //caps = Notify.get_server_caps();
-    
-        Notify.Notification notification = (Notify.Notification) GLib.Object.new(
+        switch_timeline = timeline;
+        birdie_app = birdie;
+        string notification_txt;
+
+        if (!Notify.is_initted()) {
+            if (!Notify.init(GLib.Environment.get_application_name()))
+                critical("Failed to initialize libnotify.");
+        }
+
+        init_sound ();
+
+        caps = Notify.get_server_caps();
+
+        notification = (Notify.Notification) GLib.Object.new(
             typeof (Notify.Notification),
             "icon-name", "birdie",
             "summary", username);
-        Notify.init (GLib.Environment.get_application_name());
+
         notification.set_hint_string ("desktop-entry", "birdie");
-        notification.set ("body", Utils.remove_html_tags (message));
-        //if (caps.find_custom ("actions", GLib.strcmp) != null)
-            //notification.add_action ("default", _("Open"), on_default_action);
+        
+        if (caps.find_custom ("actions", GLib.strcmp) != null)
+            notification.add_action ("default", _("View"), on_default_action);
+        
+        notification_txt = Utils.remove_html_tags (message);
+        notification_txt = Utils.escape_markup (notification_txt);
+        notification_txt = Utils.highlight_urls_no_span (notification_txt);
+        notification.set ("body", notification_txt);
+
         try {
             notification.show ();
         } catch (GLib.Error error) {
@@ -38,13 +58,18 @@ namespace Birdie.Utils {
         }
 
         // play sound
-        Canberra.Context.create (out sound_context);
         sound_context.play (0, Canberra.PROP_EVENT_ID, "message");
         
         return 0;   
     }
 
-    //private void on_default_action (Notify.Notification notification, string action) {
-        
-    //}
+    private static void init_sound () {
+        if (sound_context == null)
+            Canberra.Context.create (out sound_context);
+    }
+
+    private void on_default_action (Notify.Notification notification, string action) {
+        birdie_app.switch_timeline (switch_timeline);
+        birdie_app.activate ();
+    }
 }

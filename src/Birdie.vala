@@ -1008,8 +1008,7 @@ namespace Birdie {
                         if ((this.api.account.screen_name != tweet.user_screen_name) &&
                                 this.api.home_timeline.length () <= this.limit_notifications) {
                             notify_header = _("New tweet from") + " " + tweet.user_screen_name;
-                            notify_text = Utils.remove_html_tags (tweet.text);
-                            notify_text = Utils.escape_markup (notify_text);
+                            notify_text = tweet.text;
                         }
                         this.unread_tweets++;
                     }
@@ -1018,11 +1017,11 @@ namespace Birdie {
                 if (this.tweet_notification && this.api.home_timeline.length () <=
                     this.limit_notifications  &&
                     this.api.home_timeline.length () > 0) {
-                        Utils.notify (notify_header, notify_text);
+                        Utils.notify (notify_header, notify_text, "home", this);
                 }
 
                 if (this.tweet_notification && this.api.home_timeline.length () > this.limit_notifications) {
-                    Utils.notify (this.unread_tweets.to_string () + " " + _("new tweets"), "");
+                    Utils.notify (this.unread_tweets.to_string () + " " + _("new tweets"), "", "home", this);
                 }
 
                 if (this.tweet_notification && get_total_unread () > 0) {
@@ -1133,11 +1132,11 @@ namespace Birdie {
                 if (this.tweet_notification && this.api.mentions_timeline.length () <=
                     this.limit_notifications &&
                     this.api.mentions_timeline.length () > 0) {
-                        Utils.notify (notify_header, notify_text);
+                        Utils.notify (notify_header, notify_text, "mentions", this);
                 }
 
                 if (this.mention_notification && this.api.mentions_timeline.length () > this.limit_notifications) {
-                    Utils.notify (this.unread_mentions.to_string () + " " + _("new mentions"), "");
+                    Utils.notify (this.unread_mentions.to_string () + " " + _("new mentions"), "", "mentions", this);
                 }
 
                 if (this.mention_notification && new_mentions) {
@@ -1182,11 +1181,11 @@ namespace Birdie {
                 if (this.tweet_notification && this.api.dm_timeline.length () <=
                     this.limit_notifications  &&
                     this.api.dm_timeline.length () > 0) {
-                        Utils.notify (notify_header, notify_text);
+                        Utils.notify (notify_header, notify_text, "dm", this);
                 }
 
                 if (this.dm_notification && this.api.dm_timeline.length () > this.limit_notifications) {
-                    Utils.notify (this.unread_dm.to_string () + " " + _("new direct messages"), "");
+                    Utils.notify (this.unread_dm.to_string () + " " + _("new direct messages"), "", "dm", this);
                 }
 
                 if (this.dm_notification && new_dms) {
