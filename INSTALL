@@ -4,7 +4,7 @@
 # BUILDING
 # -----------------------------------------------------------------------------
 
-bzr branch lp:birdie
+git clone https://github.com/ivonunes/birdie.git
 cd birdie
 mkdir build
 cd build
