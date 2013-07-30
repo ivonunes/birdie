@@ -30,8 +30,8 @@ namespace Birdie.Widgets {
             this.count = 0;
 
             this.more_button = new MoreButton ();
+            this.more_button.set_no_show_all (true);
             this.pack_end (this.more_button, false, false, 0);
-            this.more_button.show_all ();
         }
 
         public void append (Tweet tweet, Birdie birdie) {
@@ -59,7 +59,9 @@ namespace Birdie.Widgets {
                 if (this.first)
                     this.first = false;
 
+                this.more_button.set_no_show_all (false);
                 this.show_all ();
+                this.more_button.set_no_show_all (true);
 
                 this.count++;
 
@@ -86,7 +88,9 @@ namespace Birdie.Widgets {
                     if (this.first)
                         this.first = false;
 
+                    this.more_button.set_no_show_all (false);
                     this.show_all ();
+                    this.more_button.set_no_show_all (true);
 
                     return false;
                 });
@@ -140,27 +144,26 @@ namespace Birdie.Widgets {
         }
 
         public void clear () {
-            this.boxes.foreach ((box) => {
-                Idle.add (() => {
-                    base.remove (box);
-                    this.boxes.remove (box);
-                    box.destroy ();
-                    return false;
-                });
-            });
+            foreach (Gtk.Widget w in this.get_children()) {
+                if (w != this.more_button) {
+                    Idle.add (() => {
+                        w.destroy ();
+                        return false;
+                    });
+                }
+            }
 
-            this.separators.foreach ((sep) => {
-                Idle.add (() => {
-                    base.remove (sep);
-                    this.separators.remove (sep);
-                    sep.destroy ();
-                    return false;
-                });
+            Idle.add (() => {
+                this.more_button.hide ();
+                return false;
             });
         }
 
         public string get_oldest () {
-            return this.boxes.nth_data (0).tweet.actual_id;
+            if (this.boxes.nth_data (0).tweet.actual_id != null)
+                return this.boxes.nth_data (0).tweet.actual_id;
+            else
+                return "";
         }
     }
 }

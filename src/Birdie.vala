@@ -430,6 +430,7 @@ namespace Birdie {
                 this.search_list = new Widgets.TweetList ();
 
                 this.home_list.more_button.button.clicked.connect (get_older_tweets);
+                this.search_list.more_button.button.clicked.connect (get_older_search);
 
                 this.scrolled_home = new Gtk.ScrolledWindow (null, null);
                 this.scrolled_home.add_with_viewport (home_list);
@@ -1257,6 +1258,29 @@ namespace Birdie {
             });  
         }
 
+        private void get_older_search ()  {
+            if (this.check_internet_connection ()) {
+                this.api.get_older_search_timeline (search_term);
+            } else {
+                this.switch_timeline ("error");
+            }
+        }
+
+        public void update_older_search_ui () {
+            Idle.add (() => {
+                search_entry.text = search_term;
+
+                this.api.search_timeline.foreach ((tweet) => {
+                    this.search_list.prepend (tweet, this);
+                });
+
+                if (this.ready)
+                    get_avatar (this.search_list);
+
+                return false;
+            });
+        }
+
         /*
 
         Indicator cleaning
@@ -1411,9 +1435,7 @@ namespace Birdie {
 
         private void* show_search () {
             if (this.check_internet_connection ()) {
-                this.api.search_timeline.foreach ((tweet) => {
-                    this.search_list.remove (tweet);
-                });
+                this.search_list.clear ();
 
                 Idle.add (() => {
                     this.switch_timeline ("loading");

@@ -224,6 +224,7 @@ namespace Birdie {
         public override int favorite_destroy (string id) {
             // setup call
             api_mutex.lock ();
+            debug (id);
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/favorites/destroy.json");
             call.set_method ("POST");
@@ -541,7 +542,7 @@ namespace Birdie {
             this.birdie.update_home_ui ();
         }
 
-
+        // get older statuses
 
         public override void get_older_home_timeline () {
             // setup call
@@ -550,8 +551,7 @@ namespace Birdie {
             call.set_function ("1.1/statuses/home_timeline.json");
             call.set_method ("GET");
             call.add_param ("count", this.retrieve_count);
-            if (this.since_id_home != "" && this.since_id_home != null)
-                call.add_param ("max_id", this.birdie.home_list.get_oldest ());
+            call.add_param ("max_id", this.birdie.home_list.get_oldest ());
 
             Rest.ProxyCallAsyncCallback callback = get_older_home_timeline_response;
             try {
@@ -588,6 +588,52 @@ namespace Birdie {
             api_mutex.unlock ();
             this.birdie.update_older_home_ui ();
         }
+
+        public override void get_older_search_timeline (string search_term) {
+            api_mutex.lock ();
+            Rest.ProxyCall call = proxy.new_call ();
+            call.set_function ("1.1/search/tweets.json");
+            call.set_method ("GET");
+            call.add_param ("count", this.retrieve_count);
+            call.add_param ("q", search_term);
+            call.add_param ("max_id", this.birdie.search_list.get_oldest ());
+            Rest.ProxyCallAsyncCallback callback = get_older_search_timeline_response;
+            try {
+                call.run_async (callback);
+            } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+            }
+        }
+
+        protected void get_older_search_timeline_response (
+            Rest.ProxyCall call, Error? error, Object? obj) {
+            this.search_timeline.foreach ((tweet) => {
+                this.search_timeline.remove (tweet);
+            });
+
+            try {
+                var parser = new Json.Parser ();
+                parser.load_from_data ((string) call.get_payload (), -1);
+
+                var root = parser.get_root ();
+
+                var tweetobject = root.get_object ();
+                var statuses_member = tweetobject.get_array_member ("statuses");
+
+                foreach (var tweetnode in statuses_member.get_elements ()) {
+                    var tweet = this.get_tweet (tweetnode);
+                    search_timeline.append (tweet);
+                }
+
+                search_timeline.reverse ();
+            } catch (Error e) {
+                stderr.printf ("Unable to parse tweets.json\n");
+            }
+            api_mutex.unlock ();
+            this.birdie.update_older_search_ui ();
+        }
+
+        //
 
         public override void get_mentions_timeline () {
             // setup call
