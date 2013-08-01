@@ -248,6 +248,7 @@ namespace Birdie {
                 left_sep.set_expand (true);
                 this.m_window.add_bar (left_sep);
                 this.home = new Gtk.ToggleToolButton ();
+
                 this.home.set_icon_widget (new Gtk.Image.from_icon_name ("twitter-home", Gtk.IconSize.LARGE_TOOLBAR));
 
                 home.set_tooltip_text (_("Home"));
