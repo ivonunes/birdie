@@ -420,6 +420,8 @@ namespace Birdie {
 
                 this.m_window.add_bar (appmenu);
 
+                /*==========  tweets lists  ==========*/
+
                 this.home_list = new Widgets.TweetList ();
                 this.mentions_list = new Widgets.TweetList ();
                 this.dm_list = new Widgets.TweetList ();
@@ -429,8 +431,13 @@ namespace Birdie {
                 this.favorites = new Widgets.TweetList ();
                 this.search_list = new Widgets.TweetList ();
 
+                /*==========  older statuses  ==========*/
+
                 this.home_list.more_button.button.clicked.connect (get_older_tweets);
+                this.mentions_list.more_button.button.clicked.connect (get_older_mentions);
                 this.search_list.more_button.button.clicked.connect (get_older_search);
+
+                /*==========  scrolled widgets  ==========*/
 
                 this.scrolled_home = new Gtk.ScrolledWindow (null, null);
                 this.scrolled_home.add_with_viewport (home_list);
@@ -1255,7 +1262,38 @@ namespace Birdie {
                     get_avatar (this.home_list);
                 }
                 return false;
-            });  
+            });
+        }
+
+        private void get_older_mentions ()  {
+            if (this.check_internet_connection ()) {
+                this.api.get_older_mentions_timeline ();
+            } else {
+                this.switch_timeline ("error");
+            }
+        }
+
+        public void update_older_mentions_ui () {
+            Idle.add (() => {
+                this.home_tmp.foreach ((tweet) => {
+                    this.mentions_list.remove (tweet);
+                });
+
+                this.api.mentions_timeline.foreach ((tweet) => {
+                    this.mentions_list.prepend (tweet, this);
+                    this.db.add_user (tweet.user_screen_name,
+                        tweet.user_name, this.default_account_id);
+                });
+
+                if (!this.ready) {
+                    get_all_avatars ();
+                    this.ready = true;
+                    this.set_widgets_sensitive (true);
+                } else {
+                    get_avatar (this.mentions_list);
+                }
+                return false;
+            });
         }
 
         private void get_older_search ()  {

@@ -77,6 +77,7 @@ namespace Birdie {
         public abstract void get_favorites ();
 
         public abstract void get_older_home_timeline ();
+        public abstract void get_older_mentions_timeline ();
         public abstract void get_older_search_timeline (string search_term);
 
         public abstract Array<string> get_friendship (string source_user, string target_user);
