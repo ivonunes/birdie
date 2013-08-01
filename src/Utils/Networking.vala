@@ -17,12 +17,12 @@
 namespace Birdie.Utils {
 
     bool check_internet_connection () {
-        var host = "www.twitter.com";
+        var host = "http://www.twitter.com";
 
         try {
             // Resolve hostname to IP address
-            var resolver = Resolver.get_default ();
-            resolver.lookup_by_name (host, null);
+            var resolver = ProxyResolver.get_default ();
+            resolver.lookup (host, null);
         } catch (Error e) {
             debug ("%s\n", e.message);
             return false;
