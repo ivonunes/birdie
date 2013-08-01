@@ -309,8 +309,6 @@ namespace Birdie.Widgets {
             Gtk.TextIter start;
             Gtk.TextIter end;
 
-
-
             if (this.has_media)
                 this.count_remaining = 120;
             else

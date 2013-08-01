@@ -1367,7 +1367,10 @@ namespace Birdie {
 
             if (this.check_internet_connection ()) {
                 if (dm)
-                    code = this.api.send_direct_message (user_screen_name, text);
+                    if (media_uri == "")
+                        code = this.api.send_direct_message (user_screen_name, text);
+                    else
+                        code = this.api.send_direct_message_with_media (user_screen_name, text, media_uri, out media_out);
                 else
                     if (media_uri == "")
                         code = this.api.update (text, id);

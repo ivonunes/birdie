@@ -255,6 +255,54 @@ namespace Birdie {
             return 0;
         }
 
+        public override int64 send_direct_message_with_media (string recipient, string status,
+            string media_uri, out string media_out) {
+
+            string? link;
+            var imgur = new Imgur ();
+
+            try {
+                link = imgur.upload (media_uri);
+            } catch (Error e) {
+                error ("Error uploading image to imgur: %s", e.message);
+            }
+
+            media_out = link;
+
+            if (link == "")
+                return 1;
+
+            // setup call
+            api_mutex.lock ();
+            Rest.ProxyCall call = proxy.new_call ();
+            call.set_function ("1.1/direct_messages/new.json");
+            call.set_method ("POST");
+            call.add_param ("screen_name", recipient);
+            call.add_param ("text", status + " " + link);
+            try { call.sync (); } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+                api_mutex.unlock ();
+                return 1;
+            }
+
+            try {
+                var parser = new Json.Parser ();
+                parser.load_from_data ((string) call.get_payload (), -1);
+
+                var root = parser.get_root ();
+                var userobject = root.get_object ();
+
+                var user_id = userobject.get_int_member ("id");
+                api_mutex.unlock ();
+                return user_id;
+            } catch (Error e) {
+                stderr.printf ("Unable to parse update.json\n");
+            }
+
+            api_mutex.unlock ();
+            return 0;
+        }
+
         public override int get_account () {
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/account/verify_credentials.json");
@@ -754,6 +802,10 @@ namespace Birdie {
         protected void get_dm_response (
             Rest.ProxyCall call, Error? error, Object? obj) {
 
+            string media_url = "";
+            string youtube_video = "";
+            //string expanded = "";
+
             try {
                 var parser = new Json.Parser ();
                 parser.load_from_data ((string) call.get_payload (), -1);
@@ -777,10 +829,44 @@ namespace Birdie {
                     var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
                     var profile_image_file = "";
 
+                    /*var entitiesobject = tweetobject.get_object_member ("entities");
+
+                    if (entitiesobject.has_member("media")) {
+                        foreach (var media in entitiesobject.get_array_member ("media").get_elements ()) {
+                            media_url = media.get_object ().get_string_member ("media_url");
+                            media_url = this.get_media (media_url);
+                        }
+                    } else {
+                        media_url = "";
+                    }
+
+                   if (entitiesobject.has_member("urls")) {
+                        debug ("tem!");
+                        foreach (var url in entitiesobject.get_array_member ("urls").get_elements ()) {
+                            expanded = url.get_object ().get_string_member ("expanded_url");
+
+                            // intercept youtube links
+                            if (expanded.contains ("youtube.com") || expanded.contains ("youtu.be")) {
+                                if (expanded.contains ("youtu.be"))
+                                    expanded = expanded.replace("youtu.be/", "youtube.com/watch?v=");
+                                youtube_video = get_youtube_video (expanded);
+                            }
+
+                            // intercept imgur media links
+                            if (expanded.contains ("imgur.com/")) {
+                                media_url = get_imgur_media (expanded);
+                            }
+
+                            // replace short urls by expanded ones in tweet text
+                            text = text.replace (url.get_object ().get_string_member ("url"),
+                                url.get_object ().get_string_member ("expanded_url"));
+                        }
+                    }*/
+
                     var tweet = new Tweet (id, id, user_name,
                         user_screen_name, text, created_at,
                         profile_image_url, profile_image_file,
-                        false, false, true);
+                        false, false, true, "", "", "", media_url, youtube_video);
 
                     dm_timeline.append (tweet);
                     this.db.add_tweet (tweet, "dm_inbox", this.account_id);
