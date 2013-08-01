@@ -850,6 +850,9 @@ namespace Birdie {
             appmenu_icon.show ();
             this.appmenu.set_icon_widget (appmenu_icon);
 
+            this.search_list.clear ();
+            this.search_entry.text = "";
+
             this.db.set_default_account (account);
             this.default_account = account;
             this.default_account_id = this.db.get_account_id ();
