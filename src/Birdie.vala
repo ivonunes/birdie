@@ -718,37 +718,38 @@ namespace Birdie {
                 this.dm_list.clear ();
                 this.dm_sent_list.clear ();
                 this.own_list.clear ();
+                this.user_list.clear ();
                 this.favorites.clear ();
 
                 // load the cached tweets
                 db.get_tweets ("tweets", this.default_account_id).foreach ((tweet) => {
-                    this.home_list.append(tweet, this);
+                    this.home_list.append (tweet, this);
                 });
                 get_avatar (this.home_list);
 
                 // load the cached mentions
                 db.get_tweets ("mentions", this.default_account_id).foreach ((tweet) => {
-                    this.mentions_list.append(tweet, this);
+                    this.mentions_list.append (tweet, this);
                 });
                 get_avatar (this.mentions_list);
 
                 // load the cached dms
                 db.get_tweets ("dm_inbox", this.default_account_id).foreach ((tweet) => {
-                    this.dm_list.append(tweet, this);
+                    this.dm_list.append (tweet, this);
                 });
                 get_avatar (this.dm_list);
                 db.get_tweets ("dm_outbox", this.default_account_id).foreach ((tweet) => {
-                    this.dm_sent_list.append(tweet, this);
+                    this.dm_sent_list.append (tweet, this);
                 });
                 get_avatar (this.dm_sent_list);
 
                 // load the cached user
                 db.get_tweets ("own", this.default_account_id).foreach ((tweet) => {
-                    this.own_list.append(tweet, this);
+                    this.own_list.append (tweet, this);
                 });
                 get_avatar (this.own_list);
                 db.get_tweets ("favorites", this.default_account_id).foreach ((tweet) => {
-                    this.favorites.append(tweet, this);
+                    this.favorites.append (tweet, this);
                 });
                 get_avatar (this.favorites);
 
