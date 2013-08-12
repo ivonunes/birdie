@@ -613,10 +613,13 @@ namespace Birdie.Widgets {
                 this.birdie.home_list.remove (this.tweet);
                 this.birdie.mentions_list.remove (this.tweet);
                 this.birdie.own_list.remove (this.tweet);
-
+                this.birdie.db.remove_status (this.tweet.actual_id, this.birdie.default_account_id, "own");
+                this.birdie.db.remove_status (this.tweet.actual_id, this.birdie.default_account_id, "tweets");
+                this.birdie.db.remove_status (this.tweet.actual_id, this.birdie.default_account_id, "mentions");
                 return false;
             });
-            code = this.birdie.api.destroy (this.tweet.id);
+
+            code = this.birdie.api.destroy (this.tweet.actual_id);
             return null;
         }
 

@@ -544,6 +544,24 @@ namespace Birdie {
                 debug ("user removed: " + account.screen_name);
         }
 
+        public void remove_status (string id, int account_id, string table) {
+            Sqlite.Statement stmt;
+
+            int res = db.prepare_v2 ("DELETE FROM " + table + " WHERE account_id = ? AND actual_id = ?", -1, out stmt);
+            assert(res == Sqlite.OK);
+
+            res = stmt.bind_int (1, account_id);
+            assert(res == Sqlite.OK);
+
+            res = stmt.bind_text (2, id);
+            assert(res == Sqlite.OK);
+
+            res = stmt.step ();
+
+            if (res == Sqlite.DONE)
+                debug ("status removed: " + id);
+        }
+
         public void purge_tweets (string table) {
             Sqlite.Statement stmt;
             int res;
