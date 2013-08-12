@@ -40,11 +40,13 @@ namespace Birdie.Widgets {
         private Gtk.Button retweet_button;
         private Gtk.Button reply_button;
         private Gtk.Button delete_button;
+        private Gtk.Button dm_delete_button;
         private Gtk.Image thread_icon;
         private Gtk.Image favorite_icon;
         private Gtk.Image retweet_icon;
         private Gtk.Image reply_icon;
         private Gtk.Image delete_icon;
+        private Gtk.Image dm_delete_icon;
         private Gtk.Image avatar_img;
         private Gtk.Image status_img;
         private Gtk.EventBox media_box;
@@ -377,6 +379,28 @@ namespace Birdie.Widgets {
 
                     this.buttons_box.pack_start (this.reply_button, false, true, 0);
                 }
+                if (this.tweet.dm) {
+                    // dm delete button
+                    this.dm_delete_button = new Gtk.Button ();
+                    this.dm_delete_button.set_halign (Gtk.Align.END);
+                    this.dm_delete_button.set_relief (Gtk.ReliefStyle.NONE);
+                    this.dm_delete_icon = new Gtk.Image.from_icon_name ("twitter-delete", Gtk.IconSize.SMALL_TOOLBAR);
+                    this.dm_delete_button.child = this.dm_delete_icon;
+                    this.dm_delete_button.set_tooltip_text (_("Delete"));
+
+                    this.dm_delete_button.clicked.connect (() => {
+                        // confirm deletion
+                        Widgets.AlertDialog confirm = new Widgets.AlertDialog (this.birdie.m_window,
+                            Gtk.MessageType.QUESTION, _("Delete this direct message?"),
+                            _("Delete"), _("Cancel"));
+                        Gtk.ResponseType response = confirm.run ();
+                        if (response == Gtk.ResponseType.OK) {
+                            this.dm_delete_button.set_sensitive (false);
+                            new Thread<void*> (null, this.delete_dm_thread);
+                        }
+                    });
+                    this.buttons_box.pack_start (this.dm_delete_button, false, true, 0);
+                }
             } else {
                 // delete button
                 this.delete_button = new Gtk.Button ();
@@ -649,6 +673,20 @@ namespace Birdie.Widgets {
             });
 
             code = this.birdie.api.destroy (this.tweet.actual_id);
+            return null;
+        }
+
+        private void* delete_dm_thread () {
+            int code;
+
+            Idle.add( () => {
+                this.birdie.dm_list.remove (this.tweet);
+                this.birdie.dm_sent_list.remove (this.tweet);
+                this.birdie.db.remove_status (this.tweet.actual_id, this.birdie.default_account_id, "dm_inbox");
+                this.birdie.db.remove_status (this.tweet.actual_id, this.birdie.default_account_id, "dm_outbox");
+                return false;
+            });
+            code = this.birdie.api.destroy_dm (this.tweet.actual_id);
             return null;
         }
 

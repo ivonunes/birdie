@@ -1160,6 +1160,21 @@ namespace Birdie {
             return 0;
         }
 
+        public override int destroy_dm (string id) {
+            api_mutex.lock ();
+            Rest.ProxyCall call = proxy.new_call ();
+            call.set_function ("1.1/direct_messages/destroy.json");
+            call.set_method ("POST");
+            call.add_param ("id", id);
+            try { call.sync (); } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+                api_mutex.unlock ();
+                return 1;
+            }
+            api_mutex.unlock ();
+            return 0;
+        }
+
         public override void get_user_timeline (string screen_name) {
             api_mutex.lock ();
             Rest.ProxyCall call = proxy.new_call ();
