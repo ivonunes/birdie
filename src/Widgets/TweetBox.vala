@@ -542,14 +542,24 @@ namespace Birdie.Widgets {
                     }
 
                     this.tweet.favorited = false;
-                    this.birdie.home_list.update_display (this.tweet);
-                    this.birdie.mentions_list.update_display (this.tweet);
-                    this.birdie.own_list.update_display (this.tweet);
                     this.birdie.favorites.remove (this.tweet);
+
+                    this.birdie.db.remove_status (this.tweet.actual_id, this.birdie.default_account_id, "favorites");
+                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 0, "tweets");
+                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 0, "own");
+                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 0, "mentions");
 
                     return false;
                 });
-                code = this.birdie.api.favorite_destroy (this.tweet.id);
+                code = this.birdie.api.favorite_destroy (this.tweet.actual_id);
+
+                if (code == 1) {
+                    this.tweet.favorited = true;
+                    this.birdie.db.add_tweet (this.tweet, "favorites", this.birdie.default_account_id);
+                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 1, "tweets");
+                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 1, "own");
+                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 1, "mentions");
+                }
             } else {
                 Idle.add( () => {
                     if (this.tweet.retweeted) {
@@ -563,19 +573,38 @@ namespace Birdie.Widgets {
                     }
 
                     this.tweet.favorited = true;
-                    this.birdie.home_list.update_display (this.tweet);
-                    this.birdie.mentions_list.update_display (this.tweet);
-                    this.birdie.own_list.update_display (this.tweet);
+
                     this.birdie.favorites.append (this.tweet, this.birdie);
+
+                    this.birdie.db.add_tweet (this.tweet, "favorites", this.birdie.default_account_id);
+                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 1, "tweets");
+                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 1, "own");
+                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 1, "mentions");
                     get_avatar (this.birdie.favorites);
 
                     return false;
                 });
-                code = this.birdie.api.favorite_create (this.tweet.id);
+                code = this.birdie.api.favorite_create (this.tweet.actual_id);
+
+                if (code == 1) {
+                    this.birdie.favorites.remove (this.tweet);
+                    this.tweet.favorited = false;
+                    this.birdie.db.remove_status (this.tweet.actual_id, this.birdie.default_account_id, "favorites");
+                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 0, "tweets");
+                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 0, "own");
+                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 0, "mentions");
+                }
             }
 
             Idle.add( () => {
                 this.favorite_button.set_sensitive (true);
+                // update this timeline ui
+                this.birdie.home_list.update_display (this.tweet);
+                this.birdie.mentions_list.update_display (this.tweet);
+                this.birdie.own_list.update_display (this.tweet);
+                
+                //TODO: update other timelines boxes ui to reflect favorite status changes on the current one
+
                 return false;
             });
 

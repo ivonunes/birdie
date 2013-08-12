@@ -252,7 +252,7 @@ namespace Birdie {
                 res = stmt.step ();
 
                 if (res == Sqlite.DONE)
-                    debug ("tweet added to cache: " + tweet.id);
+                    debug ("tweet added to cache: " + tweet.actual_id);
 
                 return null;
             });
@@ -330,6 +330,25 @@ namespace Birdie {
             assert (res == Sqlite.OK);
 
             res = stmt.step ();
+        }
+
+        public void set_favorite (string id, int account_id, int state, string table) {
+            Sqlite.Statement stmt;
+            int res = db.prepare_v2 ("UPDATE " + table + " SET favorited = ? " +
+                "WHERE account_id = ? AND actual_id = ?", -1, out stmt);
+            assert (res == Sqlite.OK);
+
+            res = stmt.bind_int (1, state);
+            assert (res == Sqlite.OK);
+            res = stmt.bind_int (2, account_id);
+            assert (res == Sqlite.OK);
+            res = stmt.bind_text (3, id);
+            assert (res == Sqlite.OK);
+
+            res = stmt.step ();
+            if (res != Sqlite.DONE) {
+                debug ("error setting favorite flag");
+            }
         }
 
         // get
