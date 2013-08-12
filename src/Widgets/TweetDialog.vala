@@ -144,6 +144,8 @@ namespace Birdie.Widgets {
 
                 dm_box.add (this.entry);
                 dm_box.add (this.view);
+            } else if (dm && user_screen_name != "") {
+                this.set_title (_("New Message in reply to @") + user_screen_name);
             }
 
             if (!dm) {
