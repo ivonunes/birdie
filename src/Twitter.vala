@@ -314,6 +314,7 @@ namespace Birdie {
             string screen_name = "";
             string profile_image_url = "";
             string profile_image_file = "";
+            string website = "";
             string desc = "";
             string location = "";
 
@@ -344,6 +345,11 @@ namespace Birdie {
                      location = userobject.get_string_member ("location");
                 }
 
+                if (userobject.has_member ("url") &&
+                    userobject.get_string_member ("url") != null) {
+                     website = userobject.get_object_member ("entities").get_object_member ("url").
+                                get_array_member ("urls").get_object_element (0).get_string_member ("display_url");
+                }
 
                 if (userobject.has_member ("description") &&
                     userobject.get_string_member ("description") != null) {
@@ -356,7 +362,7 @@ namespace Birdie {
                 verified = userobject.get_boolean_member ("verified");
 
                 account = new User (id, name, screen_name,
-                    profile_image_url, profile_image_file, location, desc,
+                    profile_image_url, profile_image_file, location, website, desc,
                     friends_count, followers_count, statuses_count, verified,
                     this.token, this.token_secret
                 );
@@ -375,6 +381,7 @@ namespace Birdie {
             string profile_image_url = "";
             string profile_image_file = "";
             string location = "";
+            string website = "";
             string description = "";
 
             int64 friends_count = 0;
@@ -394,6 +401,12 @@ namespace Birdie {
                 location = Utils.escape_markup (tweetobject.get_object_member ("user").get_string_member ("location"));
             }
 
+            if (tweetobject.get_object_member ("user").has_member("url") &&
+                 tweetobject.get_object_member ("user").get_string_member ("url") != null) {
+                website = tweetobject.get_object_member ("user").get_object_member ("entities").get_object_member ("url").
+                           get_array_member ("urls").get_object_element (0).get_string_member ("display_url");
+            }
+
             if (tweetobject.get_object_member ("user").has_member("description") &&
                  tweetobject.get_object_member ("user").get_string_member ("description") != null) {
                 description = Utils.escape_markup (tweetobject.get_object_member ("user").get_string_member ("description"));
@@ -405,7 +418,7 @@ namespace Birdie {
             verified =  tweetobject.get_object_member ("user").get_boolean_member ("verified");
 
             this.user = new User (id, name, screen_name,
-                profile_image_url, profile_image_file, location, description,
+                profile_image_url, profile_image_file, location, website, description,
                 friends_count, followers_count, statuses_count, verified
             );
         }

@@ -71,6 +71,9 @@ namespace Birdie.Widgets {
             if (user.location != "")
                 txt = txt +  " | <span size='small'>" + user.location + "</span>";
 
+            if (user.website != "")
+                txt = txt +  " | <span size='small'><a href='http://" + user.website + "'>" + user.website + "</a></span>";
+
             if (description_txt != "")
                 txt = txt +  "\n\n<span size='small'>" + description_txt + "</span>";
 
@@ -207,6 +210,9 @@ namespace Birdie.Widgets {
 
             if (user.location != "")
                 txt = txt +  " | <span size='small'>" + Utils.unescape_html (user.location) + "</span>";
+
+            if (user.website != "")
+                txt = txt +  " | <span size='small'><a href='http://" + user.website + "'>" + user.website + "</a></span>";
 
             if (description_txt != "")
                 txt = txt +  "\n\n<span size='small'>" + Utils.unescape_html (description_txt) + "</span>";
