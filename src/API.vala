@@ -58,7 +58,7 @@ namespace Birdie {
         public abstract int auth ();
         public abstract int64 update (string status, string id = "");
         public abstract int64 update_with_media (string status,
-            string id = "", string media_uri, out string media_out);
+            string id, string media_uri, out string media_out);
         public abstract int destroy (string id);
         public abstract int destroy_dm (string id);
         public abstract int retweet (string id);

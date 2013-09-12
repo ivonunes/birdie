@@ -233,8 +233,8 @@ namespace Birdie.Widgets {
         private void on_add_photo_clicked () {
             this.file_chooser = new Gtk.FileChooserDialog (_("Select a Picture"), this,
             Gtk.FileChooserAction.OPEN,
-            Gtk.Stock.CANCEL, Gtk.ResponseType.CANCEL,
-            Gtk.Stock.OPEN, Gtk.ResponseType.ACCEPT);
+            new Gtk.Button.with_label (_("Cancel")), Gtk.ResponseType.CANCEL,
+            new Gtk.Button.with_label (_("Open")), Gtk.ResponseType.ACCEPT);
 
             // filter to jpg, png and gif:
             Gtk.FileFilter filter = new Gtk.FileFilter ();

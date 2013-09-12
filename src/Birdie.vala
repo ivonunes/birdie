@@ -144,7 +144,7 @@ namespace Birdie {
         }
 #else
         private Gtk.Entry search_entry;
-        private Gtk.MenuToolButton appmenu;
+        private Gtk.MenuButton appmenu;
 #endif
 
         public Birdie () {
@@ -193,10 +193,7 @@ namespace Birdie {
                 this.update_interval = settings.get_int ("update-interval");
                 this.limit_notifications = settings.get_int ("limit-notifications");
 
-                if (this.legacy_window)
-                    this.m_window = new Widgets.UnifiedWindow ("Birdie", true);
-                else
-                    this.m_window = new Widgets.UnifiedWindow ();
+                this.m_window = new Widgets.UnifiedWindow ();
 
                 this.m_window.set_default_size (355, 500);
                 this.m_window.set_size_request (355, 50);
@@ -224,9 +221,6 @@ namespace Birdie {
                 this.unread_mentions = 0;
                 this.unread_dm = 0;
 
-                if (this.tweet_notification || this.mention_notification || this.dm_notification)
-                    this.m_window.hide_on_delete ();
-
                 this.new_tweet = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("mail-message-new", Gtk.IconSize.LARGE_TOOLBAR), _("New Tweet"));
                 new_tweet.set_tooltip_text (_("New Tweet"));
 
@@ -241,38 +235,31 @@ namespace Birdie {
                 });
 
                 new_tweet.set_sensitive (false);
-                this.m_window.add_bar (new_tweet);
-
-                var left_sep = new Gtk.SeparatorToolItem ();
-                left_sep.draw = false;
-                left_sep.set_expand (true);
-                this.m_window.add_bar (left_sep);
+                this.m_window.header.pack_start (new_tweet);
+                
+                Gtk.Box centered_toolbar = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+                
                 this.home = new Gtk.ToggleToolButton ();
-
                 this.home.set_icon_widget (new Gtk.Image.from_icon_name ("twitter-home", Gtk.IconSize.LARGE_TOOLBAR));
-
                 home.set_tooltip_text (_("Home"));
                 home.set_label (_("Home"));
-
                 home.toggled.connect (() => {
                     if (!this.changing_tab)
                         this.switch_timeline ("home");
                 });
                 this.home.set_sensitive (false);
-                this.m_window.add_bar (home);
+                centered_toolbar.add (home);
 
                 this.mentions = new Gtk.ToggleToolButton ();
                 this.mentions.set_icon_widget (new Gtk.Image.from_icon_name ("twitter-mentions", Gtk.IconSize.LARGE_TOOLBAR));
                 mentions.set_tooltip_text (_("Mentions"));
                 mentions.set_label (_("Mentions"));
-
                 mentions.toggled.connect (() => {
                     if (!this.changing_tab)
                         this.switch_timeline ("mentions");
                 });
-
                 this.mentions.set_sensitive (false);
-                this.m_window.add_bar (mentions);
+                centered_toolbar.add (mentions);
 
                 this.dm = new Gtk.ToggleToolButton ();
                 this.dm.set_icon_widget (new Gtk.Image.from_icon_name ("twitter-dm", Gtk.IconSize.LARGE_TOOLBAR));
@@ -283,7 +270,7 @@ namespace Birdie {
                         this.switch_timeline ("dm");
                 });
                 this.dm.set_sensitive (false);
-                this.m_window.add_bar (dm);
+                centered_toolbar.add (dm);
 
                 this.profile = new Gtk.ToggleToolButton ();
                 this.profile.set_icon_widget (new Gtk.Image.from_icon_name ("twitter-profile", Gtk.IconSize.LARGE_TOOLBAR));
@@ -295,7 +282,7 @@ namespace Birdie {
                         this.switch_timeline ("own");
                 });
                 this.profile.set_sensitive (false);
-                this.m_window.add_bar (profile);
+                centered_toolbar.add (profile);
 
                 this.search = new Gtk.ToggleToolButton ();
                 this.search.set_icon_widget (new Gtk.Image.from_icon_name ("twitter-search", Gtk.IconSize.LARGE_TOOLBAR));
@@ -307,12 +294,9 @@ namespace Birdie {
                         this.switch_timeline ("search");
                 });
                 this.search.set_sensitive (false);
-                this.m_window.add_bar (search);
-
-                var right_sep = new Gtk.SeparatorToolItem ();
-                right_sep.draw = false;
-                right_sep.set_expand (true);
-                this.m_window.add_bar (right_sep);
+                centered_toolbar.add (search);
+                
+                this.m_window.header.set_custom_title (centered_toolbar);
 
                 menu = new Widgets.MenuPopOver ();
                 this.account_appmenu = new Gtk.MenuItem.with_label (_("Add Account"));
@@ -331,7 +315,7 @@ namespace Birdie {
                     if (response == Gtk.ResponseType.OK) {
                         var appmenu_icon = new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU);
                         appmenu_icon.show ();
-                        this.appmenu.set_icon_widget (appmenu_icon);
+                        this.appmenu.child = appmenu_icon;
                         this.set_widgets_sensitive (false);
                         this.db.remove_account (this.default_account);
                         User account = this.db.get_default_account ();
@@ -415,11 +399,12 @@ namespace Birdie {
                 this.appmenu = new Granite.Widgets.ToolButtonWithMenu (new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU), _("Menu"), menu);
                 menu.move_to_widget (appmenu);
                 #else
-                this.appmenu = new Gtk.MenuToolButton (new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU), _("Menu"));
-                this.appmenu.set_menu (menu);
+                this.appmenu = new Gtk.MenuButton ();
+                this.appmenu.set_relief (Gtk.ReliefStyle.NONE);
+                this.appmenu.set_popup (menu);
                 #endif
 
-                this.m_window.add_bar (appmenu);
+                this.m_window.header.pack_end (appmenu);
 
                 /*==========  tweets lists  ==========*/
 
@@ -654,7 +639,7 @@ namespace Birdie {
                                 Idle.add (() => {
                                     var appmenu_icon = new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU);
                                     appmenu_icon.show ();
-                                    this.appmenu.set_icon_widget (appmenu_icon);
+                                    this.appmenu.child = appmenu_icon;
                                     this.set_widgets_sensitive (false);
                                     return false;
                                 });
@@ -821,7 +806,7 @@ namespace Birdie {
 
                 Gtk.Image avatar_image = new Gtk.Image.from_pixbuf (avatar_pixbuf);
                 avatar_image.show ();
-                this.appmenu.set_icon_widget (avatar_image);
+                this.appmenu.child = avatar_image;
 
                 Gtk.Image avatar_image_menu = new Gtk.Image.from_file (Environment.get_home_dir () +
                     "/.local/share/birdie/avatars/" + account.profile_image_file);
@@ -850,7 +835,7 @@ namespace Birdie {
         private void switch_account (User account) {
             var appmenu_icon = new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU);
             appmenu_icon.show ();
-            this.appmenu.set_icon_widget (appmenu_icon);
+            this.appmenu.child = appmenu_icon;
 
             this.search_list.clear ();
             this.search_entry.text = "";
@@ -1360,7 +1345,7 @@ namespace Birdie {
 
         */
 
-        public void tweet_callback (string text, string id = "",
+        public void tweet_callback (string text, string id,
             string user_screen_name, bool dm, string media_uri) {
 
             int64 code;

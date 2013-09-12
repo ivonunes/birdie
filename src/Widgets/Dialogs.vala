@@ -47,14 +47,14 @@ namespace Birdie.Widgets
         public ConfirmationDialog (Gtk.Window? parent,
                 string primary, string? ok_button) {
             base (parent, Gtk.MessageType.WARNING, primary,
-                ok_button, Gtk.Stock.CANCEL);
+                ok_button, _("Cancel"));
         }
     }
 
     class ErrorDialog : AlertDialog {
         public ErrorDialog (Gtk.Window? parent,
                 string primary, string? secondary) {
-            base (parent, Gtk.MessageType.ERROR, primary, Gtk.Stock.OK, null);
+            base (parent, Gtk.MessageType.ERROR, primary, _("OK"), null);
         }
     }
 

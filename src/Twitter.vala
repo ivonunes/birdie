@@ -124,7 +124,7 @@ namespace Birdie {
         }
 
         public override int64 update_with_media (string status,
-            string id = "", string media_uri, out string media_out) {
+            string id, string media_uri, out string media_out) {
 
             string? link;
             var imgur = new Imgur ();
