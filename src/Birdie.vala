@@ -195,8 +195,8 @@ namespace Birdie {
 
                 this.m_window = new Widgets.UnifiedWindow ();
 
-                this.m_window.set_default_size (355, 500);
-                this.m_window.set_size_request (355, 50);
+                this.m_window.set_default_size (425, 500);
+                this.m_window.set_size_request (425, 50);
                 this.m_window.set_application (this);
 
                 // restore main window size and position
