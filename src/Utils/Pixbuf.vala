@@ -60,9 +60,9 @@ namespace Birdie.Utils {
         int width = 50, int height = 50, int roundness = 7,
         double line_width = 0, double border_color_r = 0.5,
         double border_color_g = 0.5, double border_color_b = 0.5) {
-        Idle.add (() => {
-            Gdk.Pixbuf pixbuf;
+        Gdk.Pixbuf pixbuf;
 
+        try {
             // generate rounded avatar
             var surface = new Cairo.ImageSurface (Cairo.Format.ARGB32, width, height);
             var ctx = new Cairo.Context (surface);
@@ -72,12 +72,7 @@ namespace Birdie.Utils {
             ctx.set_source_rgb (border_color_r, border_color_g, border_color_b);
             ctx.stroke_preserve ();
 
-            try {
-                pixbuf = new Gdk.Pixbuf.from_file (avatar_path);
-            } catch (Error e) {
-                warning ("Pixbuf error creating avatar: %s", e.message);
-                return false;
-            }
+            pixbuf = new Gdk.Pixbuf.from_file (avatar_path);
 
             if (pixbuf != null) {
                 Gdk.cairo_set_source_pixbuf(ctx, pixbuf, 1, 1);
@@ -86,8 +81,8 @@ namespace Birdie.Utils {
 
             ctx.paint ();
             surface.write_to_png (avatar_path);
-            
-            return false;
-        });
+        } catch (Error e) {
+            debug ("Skipped creating avatar: %s", e.message);
+        }
     }
 }

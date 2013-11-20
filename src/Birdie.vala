@@ -1058,8 +1058,7 @@ namespace Birdie {
 
         public void get_all_avatars () {
             new Thread<void*> (null, () => {
-                get_avatar_unthreaded (this.home_list);
-
+                get_avatar (this.home_list);
                 get_avatar (this.mentions_list);
                 get_avatar (this.dm_list);
                 get_avatar (this.dm_sent_list);
