@@ -8,6 +8,9 @@ Please consult the `INSTALL` and `COPYING` files for more information.
 * **Website**  
 Projects's oficial website at http://birdieapp.github.io
 
+* **IRC**  
+You can find us in #birdie (freenode).
+
 * **Bugs**  
 To report bugs, please use our Git repository at http://github.com/ivonunes/birdie.
 
