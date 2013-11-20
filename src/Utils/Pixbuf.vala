@@ -83,6 +83,8 @@ namespace Birdie.Utils {
             surface.write_to_png (avatar_path);
         } catch (Error e) {
             debug ("Skipped creating avatar: %s", e.message);
+
+            try { File.new_for_path (avatar_path).delete (); } catch {}
         }
     }
 }
