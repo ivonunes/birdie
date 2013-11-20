@@ -15,9 +15,8 @@
  */
 
 namespace Birdie.Widgets {
-    public class TweetList : Gtk.Box {
+    public class TweetList : Gtk.ListBox {
         public GLib.List<TweetBox> boxes;
-        public GLib.List<Gtk.Separator> separators;
 
         public MoreButton more_button;
 
@@ -25,36 +24,31 @@ namespace Birdie.Widgets {
         int count;
 
         public TweetList () {
-            GLib.Object (orientation: Gtk.Orientation.VERTICAL, valign: Gtk.Align.START);
+            GLib.Object (valign: Gtk.Align.START);
             this.first = true;
             this.count = 0;
 
+            this.set_selection_mode (Gtk.SelectionMode.NONE);
+
             this.more_button = new MoreButton ();
             this.more_button.set_no_show_all (true);
-            this.pack_end (this.more_button, false, false, 0);
+            base.prepend (this.more_button);
         }
 
         public void append (Tweet tweet, Birdie birdie) {
             TweetBox box = new TweetBox(tweet, birdie);
-            Gtk.Separator separator = new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
 
             if (this.count > 100) {
                 var box_old = this.boxes.nth_data (0);
-                var separator_old = this.separators.nth_data (0);
 
-                this.separators.remove (separator_old);
                 this.boxes.remove (box_old);
                 box_old.destroy();
-                separator_old.destroy();
             }
 
             boxes.append (box);
-            separators.append (separator);
 
             Idle.add( () => {
-                if (!this.first)
-                    this.pack_end (separator, false, false, 0);
-                this.pack_end (box, false, false, 0);
+                base.prepend (box);
 
                 if (this.first)
                     this.first = false;
@@ -69,21 +63,16 @@ namespace Birdie.Widgets {
             });
         }
 
-        public void prepend (Tweet tweet, Birdie birdie) {
+        public new void prepend (Tweet tweet, Birdie birdie) {
             if (this.boxes.nth_data (0).tweet.actual_id != tweet.actual_id) {
                 TweetBox box = new TweetBox(tweet, birdie);
-                Gtk.Separator separator = new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
 
                 boxes.prepend (box);
-                separators.prepend (separator);
 
                 Idle.add( () => {
-                    if (!this.first)
-                        this.pack_end (separator, false, false, 0);
-                    this.pack_end (box, false, false, 0);
+                    base.prepend (box);
 
-                    this.reorder_child (box, 1);
-                    this.reorder_child (separator, 2);
+                    //this.reorder_child (box, 1);
 
                     if (this.first)
                         this.first = false;
@@ -101,12 +90,8 @@ namespace Birdie.Widgets {
             this.boxes.foreach ((box) => {
                 if (box.tweet == tweet) {
                     Idle.add( () => {
-                        int separator_index = boxes.index (box);
-                        var separator = this.separators.nth_data ((uint) separator_index);
-                        this.separators.remove (separator);
                         this.boxes.remove (box);
                         box.destroy();
-                        separator.destroy();
                         this.count--;
                         return false;
                     });

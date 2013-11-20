@@ -117,7 +117,7 @@ namespace Birdie.Widgets {
             this.content_alignment.add (this.content_box);
 
             // set info header
-            this.set_header ();
+            this.set_info_header ();
 
             // avatar image
             this.avatar_img = new Gtk.Image ();
@@ -445,7 +445,6 @@ namespace Birdie.Widgets {
                 }
                 return false;
             });
-
         }
 
         private void show_media (string media_file) {
@@ -736,7 +735,7 @@ namespace Birdie.Widgets {
             }
         }
 
-        private void set_header () {
+        private void set_info_header () {
             var retweeted_by_label = "";
 
             retweeted_by_label = ("<span color='#999'>" +
