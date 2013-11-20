@@ -16,7 +16,7 @@
 
 namespace Birdie.Utils {
     private static Canberra.Context? sound_context = null;
-    private unowned List<string> caps;
+    private List<string> caps;
     private Notify.Notification notification;
     private string switch_timeline;
     private Birdie birdie_app;
