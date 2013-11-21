@@ -20,6 +20,7 @@ namespace Birdie {
 #else
     public class Birdie : Gtk.Application {
 #endif
+		private Gtk.Box m_box;
         public Widgets.UnifiedWindow m_window;
         public Widgets.TweetList home_list;
         public Widgets.TweetList mentions_list;
@@ -143,7 +144,7 @@ namespace Birdie {
             about_license_type  = Gtk.License.GPL_3_0;
         }
 #else
-        private Gtk.Entry search_entry;
+        private Gtk.SearchEntry search_entry;
         private Gtk.MenuButton appmenu;
 #endif
 
@@ -221,6 +222,8 @@ namespace Birdie {
                 this.unread_mentions = 0;
                 this.unread_dm = 0;
 
+                this.m_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+
                 this.new_tweet = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("mail-message-new", Gtk.IconSize.LARGE_TOOLBAR), _("New Tweet"));
                 new_tweet.set_tooltip_text (_("New Tweet"));
 
@@ -284,15 +287,34 @@ namespace Birdie {
                 this.profile.set_sensitive (false);
                 centered_toolbar.add (profile);
 
+                // create the searchentry
+#if HAVE_GRANITE
+                search_entry = new Granite.Widgets.SearchBar (_("Search"));
+#else
+                search_entry = new Gtk.SearchEntry ();
+#endif
+
+                search_entry.activate.connect (() => {
+                    this.search_term = ((Gtk.Entry)search_entry).get_text ();
+                    new Thread<void*> (null, this.show_search);
+                });
+
+                // create the searchbar
+                Gtk.SearchBar search_bar = new Gtk.SearchBar ();
+                search_bar.add (search_entry);
+                this.m_box.pack_start (search_bar, false, false, 0);
+
                 this.search = new Gtk.ToggleToolButton ();
                 this.search.set_icon_widget (new Gtk.Image.from_icon_name ("twitter-search", Gtk.IconSize.LARGE_TOOLBAR));
                 search.set_tooltip_text (_("Search"));
                 search.set_label (_("Search"));
 
-                search.toggled.connect (() => {
-                    if (!this.changing_tab)
-                        this.switch_timeline ("search");
-                });
+                this.search.bind_property("active", search_bar, "search-mode-enabled", GLib.BindingFlags.BIDIRECTIONAL);
+
+                //search.toggled.connect (() => {
+                //    if (!this.changing_tab)
+                //        this.switch_timeline ("search");
+                //});
                 this.search.set_sensitive (false);
                 centered_toolbar.add (search);
                 
@@ -492,21 +514,6 @@ namespace Birdie {
 
                 this.user_box.pack_start (this.notebook_user, true, true, 0);
 
-                var search_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-
-#if HAVE_GRANITE
-                search_entry = new Granite.Widgets.SearchBar (_("Search"));
-#else
-                search_entry = new Gtk.Entry ();
-#endif
-
-                search_entry.activate.connect (() => {
-                    this.search_term = ((Gtk.Entry)search_entry).get_text ();
-                    new Thread<void*> (null, this.show_search);
-                });
-                search_box.pack_start (search_entry, false, false, 0);
-                search_box.pack_start (this.scrolled_search, true, true, 0);
-
                 this.notebook.append_page (spinner_box, new Gtk.Label (_("Loading")));
                 this.notebook.append_page (this.welcome, new Gtk.Label (_("Welcome")));
                 this.notebook.append_page (this.scrolled_home, new Gtk.Label (_("Home")));
@@ -514,10 +521,11 @@ namespace Birdie {
                 this.notebook.append_page (this.notebook_dm, new Gtk.Label (_("Direct Messages")));
                 this.notebook.append_page (this.own_box, new Gtk.Label (_("Profile")));
                 this.notebook.append_page (this.user_box, new Gtk.Label (_("User")));
-                this.notebook.append_page (search_box, new Gtk.Label (_("Search")));
+                this.notebook.append_page (this.scrolled_search, new Gtk.Label (_("Search")));
                 this.notebook.append_page (this.error_page, new Gtk.Label (_("Error")));
 
-                this.m_window.add (this.notebook);
+                this.m_box.pack_start (this.notebook, true, true, 0);
+                this.m_window.add(this.m_box);
 
                 this.m_window.focus_in_event.connect ((w, e) => {
                     #if HAVE_LIBUNITY
