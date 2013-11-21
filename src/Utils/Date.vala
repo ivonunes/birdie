@@ -79,6 +79,27 @@ namespace Birdie.Utils {
         }
     
         return _("now");
+    }
+
+    public bool timeout_is_dead (int timeout_period, DateTime last_timeout) {
+        var now = new DateTime.now_utc ();
+
+        var diff = now.difference (last_timeout);
         
+        var time = new DateTime.local (1, 1, 1, 0, 0, 0);
+        time = time.add (diff);
+        
+        int diff_year = time.get_year () - 1;
+        int diff_month = time.get_month () - 1;
+        int diff_day = time.get_day_of_month () - 1;
+        int diff_hour = time.get_hour ();
+        int diff_minute = time.get_minute ();   
+        
+        if (diff_year > 0 || diff_month > 0 || diff_day > 0 ||
+        	diff_hour > 0 || diff_minute > (timeout_period + 1)) {
+            return true;
+        }
+    
+        return false;
     }
 }

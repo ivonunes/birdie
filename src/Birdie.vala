@@ -111,6 +111,8 @@ namespace Birdie {
 
         private uint timerID_online;
         private uint timerID_offline;
+        private DateTime timer_date_online;
+        private DateTime timer_date_offline;
 
         private int limit_notifications;
 
@@ -589,6 +591,8 @@ namespace Birdie {
                         clean_dm_indicator ();
                         break;
                 }
+
+                check_timeout_health ();
             }
         }
 
@@ -965,7 +969,23 @@ namespace Birdie {
 
         */
 
+        private void check_timeout_health () {
+        	if (Utils.timeout_is_dead (this.update_interval, this.timer_date_offline)) {
+        		debug ("Offline timeout died.");
+        		GLib.Source.remove (this.timerID_offline);
+        		add_timeout_offline ();
+        	}
+
+        	if (Utils.timeout_is_dead (this.update_interval, this.timer_date_online)) {
+        		debug ("Online timeout died.");
+        		GLib.Source.remove (this.timerID_online);
+        		add_timeout_online ();
+        	}
+        }
+
         public void add_timeout_offline () {
+        	this.timer_date_offline = new DateTime.now_utc ();
+
             this.timerID_offline = GLib.Timeout.add_seconds (60, () => {
                 new Thread<void*> (null, this.update_dates);
                 return true;
@@ -973,6 +993,8 @@ namespace Birdie {
         }
 
         public void add_timeout_online () {
+        	this.timer_date_online = new DateTime.now_utc ();
+
             this.timerID_online = GLib.Timeout.add_seconds (this.update_interval * 60, () => {
                 new Thread<void*> (null, this.update_timelines);
                 return true;
