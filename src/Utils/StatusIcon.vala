@@ -47,7 +47,7 @@ namespace Birdie.Utils {
 			traymenu.append (menu_sep1);
 
 			/* Quit */
-			var menu_quit = new Gtk.ImageMenuItem.with_label (_("Quit"));
+			var menu_quit = new Gtk.MenuItem.with_label (_("Quit"));
 			menu_quit.activate.connect (exit);
 			traymenu.append (menu_quit);
 
