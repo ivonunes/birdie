@@ -48,7 +48,6 @@ namespace Birdie.Utils {
         
         notification_txt = Utils.remove_html_tags (message);
         notification_txt = Utils.escape_markup (notification_txt);
-        notification_txt = Utils.highlight_urls_no_span (notification_txt);
         notification.set ("body", notification_txt);
 
         try {

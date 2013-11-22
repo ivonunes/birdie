@@ -70,25 +70,6 @@ namespace Birdie.Utils {
         return text;
     }
 
-    string highlight_urls_no_span (owned string text) {
-        text = Purple.markup_linkify (text);
-        text = text.replace ("<A HREF", "<a href");
-        text = text.replace ("</A>", "</a>");
-
-        var text_split = text.split ("<a href=\"");
-
-        if (text_split.length > 1) {
-            foreach (var part in text_split) {
-                var partofpart = part.split("\">");
-                if (partofpart.length > 1) {
-                    text = text.replace (partofpart[0], partofpart[0].replace ("&", "&amp;"));
-                }
-            }
-        }
-
-        return text;
-    }
-
     string remove_html_tags (string input) {
         var without_html_tags = Purple.markup_strip_html (input);
 
