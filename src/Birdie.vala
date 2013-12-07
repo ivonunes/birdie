@@ -444,9 +444,12 @@ namespace Birdie {
                 /*==========  older statuses  ==========*/
 
                 this.home_list.more_button.button.clicked.connect (get_older_tweets);
+                this.home_list.load_more = true;
                 this.mentions_list.more_button.button.clicked.connect (get_older_mentions);
+                this.mentions_list.load_more = true;
                 this.search_list.more_button.button.clicked.connect (get_older_search);
-
+                this.search_list.load_more = true;
+                
                 /*==========  scrolled widgets  ==========*/
 
                 this.scrolled_home = new Gtk.ScrolledWindow (null, null);
@@ -545,6 +548,7 @@ namespace Birdie {
                             clean_dm_indicator ();
                             break;
                     }
+
                     return true;
                 });
 

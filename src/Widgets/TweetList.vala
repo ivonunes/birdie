@@ -21,18 +21,19 @@ namespace Birdie.Widgets {
 
         public MoreButton more_button;
 
-        bool first;
-        int count;
+        private bool first;
+        public bool load_more;
+        private int count;
 
         public TweetList () {
             GLib.Object (valign: Gtk.Align.START);
             this.first = true;
             this.count = 0;
+            this.load_more = false;
 
             this.set_selection_mode (Gtk.SelectionMode.NONE);
 
             this.more_button = new MoreButton ();
-            base.prepend (this.more_button.button);
             this.show_all ();
         }
 
@@ -62,6 +63,8 @@ namespace Birdie.Widgets {
             Idle.add( () => {
                 if (!this.first)
                     base.prepend (separator);
+                else if (this.load_more)
+                    base.prepend (this.more_button.button);
 
                 base.prepend (box);
 
@@ -85,10 +88,15 @@ namespace Birdie.Widgets {
                 separators.prepend (separator);
 
                 Idle.add( () => {
-                    if (!this.first)
+                    if (!this.first && this.load_more)
+                        base.insert (separator, (int) base.get_children ().length () - 1);
+                    else if (!this.first)
                         base.insert (separator, (int) base.get_children ().length ());
 
-                    base.insert (box, (int) base.get_children ().length ());
+                    if (this.load_more)
+                        base.insert (box, (int) base.get_children ().length () - 1);
+                    else
+                        base.insert (box, (int) base.get_children ().length ());
 
                     if (this.first)
                         this.first = false;
