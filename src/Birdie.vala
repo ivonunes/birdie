@@ -122,8 +122,9 @@ namespace Birdie {
             { null }
         };
 
+        private Gtk.MenuButton appmenu;
+
 #if HAVE_GRANITE
-        private Granite.Widgets.ToolButtonWithMenu appmenu;
         private Granite.Widgets.SearchBar search_entry;
 
         construct {
@@ -147,7 +148,6 @@ namespace Birdie {
         }
 #else
         private Gtk.SearchEntry search_entry;
-        private Gtk.MenuButton appmenu;
 #endif
 
         public Birdie () {
@@ -419,14 +419,9 @@ namespace Birdie {
                 menu.add (donate_appmenu);
                 menu.add (quit_appmenu);
 
-                #if HAVE_GRANITE
-                this.appmenu = new Granite.Widgets.ToolButtonWithMenu (new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU), _("Menu"), menu);
-                menu.move_to_widget (appmenu);
-                #else
                 this.appmenu = new Gtk.MenuButton ();
                 this.appmenu.set_relief (Gtk.ReliefStyle.NONE);
                 this.appmenu.set_popup (menu);
-                #endif
 
                 this.m_window.header.pack_end (appmenu);
 
