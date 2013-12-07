@@ -23,6 +23,6 @@ public class MoreButton : Gtk.Box {
 		button = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("go-down", Gtk.IconSize.LARGE_TOOLBAR), _("Get older entries"));
 		button.set_tooltip_text (_("Get older entries"));
 		button.set_size_request (40, 40);
-		this.pack_start(button, true, true, 0);
+		//this.pack_start(button, true, true, 0);
 	}
 }

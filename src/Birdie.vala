@@ -397,7 +397,6 @@ namespace Birdie {
                     try {
                         GLib.Process.spawn_command_line_async ("x-www-browser http://www.ivonunes.net/birdie/donate.html");
                     } catch (Error e) {
-
                     }
                 });
                 var quit_appmenu = new Gtk.MenuItem.with_label (_("Quit"));

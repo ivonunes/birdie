@@ -17,6 +17,7 @@
 namespace Birdie.Widgets {
     public class TweetList : Gtk.ListBox {
         public GLib.List<TweetBox> boxes;
+        public GLib.List<Gtk.Separator> separators;
 
         public MoreButton more_button;
 
@@ -31,31 +32,43 @@ namespace Birdie.Widgets {
             this.set_selection_mode (Gtk.SelectionMode.NONE);
 
             this.more_button = new MoreButton ();
-            this.more_button.set_no_show_all (true);
-            base.prepend (this.more_button);
+            base.prepend (this.more_button.button);
+            this.show_all ();
         }
 
         public void append (Tweet tweet, Birdie birdie) {
             TweetBox box = new TweetBox(tweet, birdie);
+            Gtk.Separator separator = new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
 
             if (this.count > 100) {
                 var box_old = this.boxes.nth_data (0);
+                var separator_old = this.separators.nth_data (0);
+                var row_box_old = this.get_row_for_widget (box_old);
+                var row_separator_old = this.get_row_for_widget (separator_old);
 
+                this.separators.remove (separator_old);
                 this.boxes.remove (box_old);
                 box_old.destroy();
+                separator_old.destroy();
+                base.remove (row_box_old);
+                base.remove (row_separator_old);
+
+                count--;
             }
 
             boxes.append (box);
+            separators.append (separator);
 
             Idle.add( () => {
+                if (!this.first)
+                    base.prepend (separator);
+
                 base.prepend (box);
 
                 if (this.first)
                     this.first = false;
 
-                this.more_button.set_no_show_all (false);
                 this.show_all ();
-                this.more_button.set_no_show_all (true);
 
                 this.count++;
 
@@ -66,20 +79,21 @@ namespace Birdie.Widgets {
         public new void prepend (Tweet tweet, Birdie birdie) {
             if (this.boxes.nth_data (0).tweet.actual_id != tweet.actual_id) {
                 TweetBox box = new TweetBox(tweet, birdie);
+                Gtk.Separator separator = new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
 
                 boxes.prepend (box);
+                separators.prepend (separator);
 
                 Idle.add( () => {
-                    base.prepend (box);
+                    if (!this.first)
+                        base.insert (separator, (int) base.get_children ().length ());
 
-                    //this.reorder_child (box, 1);
+                    base.insert (box, (int) base.get_children ().length ());
 
                     if (this.first)
                         this.first = false;
 
-                    this.more_button.set_no_show_all (false);
                     this.show_all ();
-                    this.more_button.set_no_show_all (true);
 
                     return false;
                 });
@@ -90,8 +104,16 @@ namespace Birdie.Widgets {
             this.boxes.foreach ((box) => {
                 if (box.tweet == tweet) {
                     Idle.add( () => {
+                        int separator_index = boxes.index (box);
+                        var separator = this.separators.nth_data ((uint) separator_index);
+                        var box_row = this.get_row_for_widget (box);
+                        var separator_row = this.get_row_for_widget (separator);
+                        this.separators.remove (separator);
                         this.boxes.remove (box);
                         box.destroy();
+                        separator.destroy();
+                        base.remove (box_row);
+                        base.remove (separator_row);
                         this.count--;
                         return false;
                     });
@@ -137,11 +159,16 @@ namespace Birdie.Widgets {
                     });
                 }
             }
+        }
 
-            Idle.add (() => {
-                this.more_button.hide ();
-                return false;
-            });
+        public Gtk.ListBoxRow? get_row_for_widget (Gtk.Widget find) {
+            foreach (Gtk.Widget w in this.get_children()) {
+                if (((Gtk.ListBoxRow) w).get_child () == find) {
+                    return (Gtk.ListBoxRow) w;
+                }
+            }
+
+            return null;
         }
 
         public string get_oldest () {
