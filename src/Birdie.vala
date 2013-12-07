@@ -339,7 +339,8 @@ namespace Birdie {
                     if (response == Gtk.ResponseType.OK) {
                         var appmenu_icon = new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU);
                         appmenu_icon.show ();
-                        this.appmenu.child = appmenu_icon;
+                        this.appmenu.remove(appmenu.get_child());
+                        this.appmenu.add(appmenu_icon);
                         this.set_widgets_sensitive (false);
                         this.db.remove_account (this.default_account);
                         User account = this.db.get_default_account ();
@@ -651,7 +652,8 @@ namespace Birdie {
                                 Idle.add (() => {
                                     var appmenu_icon = new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU);
                                     appmenu_icon.show ();
-                                    this.appmenu.child = appmenu_icon;
+                                    this.appmenu.remove(appmenu.get_child());
+                                    this.appmenu.add(appmenu_icon);
                                     this.set_widgets_sensitive (false);
                                     return false;
                                 });
@@ -770,9 +772,13 @@ namespace Birdie {
                     }
 
                     get_userbox_avatar (this.own_box_info, true);
-                    // update account db
                     this.db.update_account (this.api.account);
-                    this.set_user_menu ();
+
+                    if (!this.initialized) {
+                        this.set_user_menu ();
+                        this.set_account_avatar (this.api.account);
+                    }
+                    
                     this.initialized = true;
 
                     return false;
@@ -807,19 +813,6 @@ namespace Birdie {
             }
 
             foreach (var account in all_accounts) {
-                Gdk.Pixbuf avatar_pixbuf = null;
-
-                try {
-                    avatar_pixbuf = new Gdk.Pixbuf.from_file_at_scale (Environment.get_home_dir () +
-                        "/.local/share/birdie/avatars/" + account.profile_image_file, 24, 24, true);
-                } catch (Error e) {
-                    debug ("Error creating pixbuf: " + e.message);
-                }
-
-                Gtk.Image avatar_image = new Gtk.Image.from_pixbuf (avatar_pixbuf);
-                avatar_image.show ();
-                this.appmenu.child = avatar_image;
-
                 Gtk.Image avatar_image_menu = new Gtk.Image.from_file (Environment.get_home_dir () +
                     "/.local/share/birdie/avatars/" + account.profile_image_file);
                 Gtk.ImageMenuItem account_menu_item = new Gtk.ImageMenuItem.with_label (account.name +
@@ -834,6 +827,7 @@ namespace Birdie {
                         ((Gtk.Label)child).set_markup ("<b>" + account.name +
                             "</b>\n@" + account.screen_name);
                 }
+                
                 account_menu_item.set_image (avatar_image_menu);
                 account_menu_item.set_always_show_image (true);
 
@@ -844,10 +838,25 @@ namespace Birdie {
             this.menu.show_all ();
         }
 
+        private void set_account_avatar (User account) {
+            Gtk.Image avatar_image = null;
+
+            try {
+                Gdk.Pixbuf avatar_pixbuf = new Gdk.Pixbuf.from_file_at_scale (Environment.get_home_dir () +
+                    "/.local/share/birdie/avatars/" + account.profile_image_file, 24, 24, true);
+                avatar_image = new Gtk.Image.from_pixbuf (avatar_pixbuf);
+            } catch (Error e) {
+                avatar_image = new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU);
+                debug ("Error creating pixbuf: " + e.message);
+            }
+            
+            avatar_image.show ();
+            this.appmenu.remove(appmenu.get_child());
+            this.appmenu.add(avatar_image);        
+        }
+
         private void switch_account (User account) {
-            var appmenu_icon = new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU);
-            appmenu_icon.show ();
-            this.appmenu.child = appmenu_icon;
+            this.set_account_avatar (account);
 
             this.search_list.clear ();
             this.search_entry.text = "";
