@@ -94,7 +94,6 @@ pkg_check_modules(DEPS REQUIRED
 	json-glib-1.0
 	libnotify
 	libcanberra
-	libwnck-3.0
 	gdk-x11-3.0
 	webkitgtk-3.0
 	sqlite3
@@ -124,7 +123,7 @@ endif ()
 
 set(BIRDIE_PACKAGES
     gtk+-3.0 gee-1.0 rest-0.7 json-glib-1.0 libnotify>=0.7.5 libcanberra>=0.28
- Dbusmenu-0.4 libwnck-3.0 gdk-x11-3.0 webkitgtk-3.0 sqlite3 xtst purple posix ${EXTRA_PACKAGES}
+ Dbusmenu-0.4 gdk-x11-3.0 webkitgtk-3.0 sqlite3 xtst purple posix ${EXTRA_PACKAGES}
 )
 
 set(VALAC_OPTIONS
@@ -186,7 +185,7 @@ OPTIONS
 add_executable(birdie
     ${VALA_C} )
 
-add_definitions (${DEPS_CFLAGS} -DWNCK_I_KNOW_THIS_IS_UNSTABLE)
+add_definitions (${DEPS_CFLAGS})
 
 #We need to link the libraries with our Executable.
 target_link_libraries(birdie ${DEPS_LIBRARIES} -lX11)

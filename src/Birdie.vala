@@ -572,12 +572,6 @@ namespace Birdie {
                 while (Gtk.events_pending ())
                     Gtk.main_iteration ();
 
-                var xid = Gdk.X11Window.get_xid (this.m_window.get_window ());
-                var w = Wnck.Window.get (xid);
-                Wnck.Screen.get_default().force_update ();
-                if (w != null) {
-                    w.activate (Gdk.x11_get_server_time (this.m_window.get_window ()));
-                }
                 switch (this.current_timeline) {
                     case "home":
                         clean_tweets_indicator ();
