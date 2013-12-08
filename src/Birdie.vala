@@ -919,35 +919,21 @@ namespace Birdie {
                     case "welcome":
                         break;
                     case "home":
-                        this.home_list.set_selectable (false);
-                        this.home_list.set_selectable (true);
                         this.scrolled_home.get_vadjustment().set_value(0);
                         break;
                     case "mentions":
-                        this.mentions_list.set_selectable (false);
-                        this.mentions_list.set_selectable (true);
                         this.scrolled_mentions.get_vadjustment().set_value(0);
                         break;
                     case "dm":
-                        this.dm_list.set_selectable (false);
-                        this.dm_sent_list.set_selectable (false);
-                        this.dm_list.set_selectable (true);
-                        this.dm_sent_list.set_selectable (true);
                         this.scrolled_dm.get_vadjustment().set_value(0);
                         break;
                     case "own":
-                        this.own_list.set_selectable (false);
-                        this.own_list.set_selectable (true);
                         this.scrolled_own.get_vadjustment().set_value(0);
                         break;
                     case "user":
-                        this.user_list.set_selectable (false);
-                        this.user_list.set_selectable (true);
                         break;
                     case "search":
-                        this.changing_tab = true;
                         this.search.set_active (true);
-                        this.changing_tab = false;
                         break;
                     case "error":
                         this.set_widgets_sensitive (false);
@@ -955,7 +941,6 @@ namespace Birdie {
                 }
 
                 this.notebook.set_visible_child_name (new_timeline);
-
                 this.current_timeline = new_timeline;
 
                 return false;

@@ -146,18 +146,6 @@ namespace Birdie.Widgets {
             });
         }
 
-        public void set_selectable (bool select) {
-            if (this.boxes.length () > 0) {
-                Idle.add( () => {
-                    var box = this.boxes.nth_data (this.boxes.length () - 1);
-
-                    box.set_selectable (select);
-
-                    return false;
-                });
-            }
-        }
-
         public void clear () {
             foreach (Gtk.Widget w in this.get_children()) {
                 if (w != this.more_button) {
