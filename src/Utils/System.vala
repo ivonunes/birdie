@@ -58,26 +58,4 @@ namespace Birdie.Utils {
 	        return true;
         }
     }
-
-    public bool is_elementary () {
-        bool elementary = false;
-
-        var lsb = File.new_for_path ("/etc/lsb-release");
-
-        if (lsb.query_exists ()) {
-            try {
-                var dis = new DataInputStream (lsb.read ());
-                string line;
-                while ((line = dis.read_line (null)) != null) {
-                    if ("elementary" in line) {
-                        elementary = true;
-                    }
-                }
-            } catch (Error e) {
-                error ("%s", e.message);
-            }
-        }
-
-        return elementary;
-    }
 }

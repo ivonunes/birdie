@@ -37,11 +37,15 @@ namespace Birdie.Widgets {
             
             header = new Gtk.HeaderBar ();
 
-            if (Utils.is_elementary() || Utils.is_gnome() || Utils.is_cinnamon()) {
+#if HAVE_GRANITE
+            header.set_show_close_button (true);
+#else
+            if (Utils.is_gnome() || Utils.is_cinnamon()) {
                 header.set_show_close_button (true);
             } else {
                 header.set_show_close_button (false);
             }
+#endif
 
             this.set_titlebar (header);
             this.set_title ("Birdie");
