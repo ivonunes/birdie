@@ -61,7 +61,7 @@ namespace Birdie {
         private Widgets.Welcome welcome;
         private Widgets.ErrorPage error_page;
 
-        private Widgets.Notebook notebook;
+        private Gtk.Stack notebook;
         private Widgets.Notebook notebook_dm;
         private Widgets.Notebook notebook_own;
         private Widgets.Notebook notebook_user;
@@ -475,9 +475,8 @@ namespace Birdie {
                 this.notebook_dm.append_page (this.scrolled_dm, new Gtk.Label (_("Received")));
                 this.notebook_dm.append_page (this.scrolled_dm_sent, new Gtk.Label (_("Sent")));
 
-                this.notebook = new Widgets.Notebook ();
-                this.notebook.set_tabs (false);
-                this.notebook.set_border (false);
+                this.notebook = new Gtk.Stack ();
+                this.notebook.set_transition_type (Gtk.StackTransitionType.SLIDE_LEFT_RIGHT);
 
                 this.spinner = new Gtk.Spinner ();
                 this.spinner.set_size_request (32, 32);
@@ -514,15 +513,15 @@ namespace Birdie {
 
                 this.user_box.pack_start (this.notebook_user, true, true, 0);
 
-                this.notebook.append_page (spinner_box, new Gtk.Label (_("Loading")));
-                this.notebook.append_page (this.welcome, new Gtk.Label (_("Welcome")));
-                this.notebook.append_page (this.scrolled_home, new Gtk.Label (_("Home")));
-                this.notebook.append_page (this.scrolled_mentions, new Gtk.Label (_("Mentions")));
-                this.notebook.append_page (this.notebook_dm, new Gtk.Label (_("Direct Messages")));
-                this.notebook.append_page (this.own_box, new Gtk.Label (_("Profile")));
-                this.notebook.append_page (this.user_box, new Gtk.Label (_("User")));
-                this.notebook.append_page (this.scrolled_search, new Gtk.Label (_("Search")));
-                this.notebook.append_page (this.error_page, new Gtk.Label (_("Error")));
+                this.notebook.add_named (spinner_box, "loading");
+                this.notebook.add_named (this.welcome, "welcome");
+                this.notebook.add_named (this.scrolled_home, "home");
+                this.notebook.add_named (this.scrolled_mentions, "mentions");
+                this.notebook.add_named (this.notebook_dm, "dm");
+                this.notebook.add_named (this.own_box, "own");
+                this.notebook.add_named (this.user_box, "user");
+                this.notebook.add_named (this.scrolled_search, "search");
+                this.notebook.add_named (this.error_page, "error");
 
                 this.m_box.pack_start (this.notebook, true, true, 0);
                 this.m_window.add(this.m_box);
@@ -916,53 +915,46 @@ namespace Birdie {
                 switch (new_timeline) {
                     case "loading":
                         this.spinner.start ();
-                        this.notebook.page = 0;
                         break;
                     case "welcome":
-                        this.notebook.page = 1;
                         break;
                     case "home":
                         this.home_list.set_selectable (false);
-                        this.notebook.page = 2;
                         this.home_list.set_selectable (true);
                         this.scrolled_home.get_vadjustment().set_value(0);
                         break;
                     case "mentions":
                         this.mentions_list.set_selectable (false);
-                        this.notebook.page = 3;
                         this.mentions_list.set_selectable (true);
                         this.scrolled_mentions.get_vadjustment().set_value(0);
                         break;
                     case "dm":
                         this.dm_list.set_selectable (false);
                         this.dm_sent_list.set_selectable (false);
-                        this.notebook.page = 4;
                         this.dm_list.set_selectable (true);
                         this.dm_sent_list.set_selectable (true);
                         this.scrolled_dm.get_vadjustment().set_value(0);
                         break;
                     case "own":
                         this.own_list.set_selectable (false);
-                        this.notebook.page = 5;
                         this.own_list.set_selectable (true);
                         this.scrolled_own.get_vadjustment().set_value(0);
                         break;
                     case "user":
                         this.user_list.set_selectable (false);
-                        this.notebook.page = 6;
                         this.user_list.set_selectable (true);
                         break;
                     case "search":
                         this.changing_tab = true;
                         this.search.set_active (true);
                         this.changing_tab = false;
-                        this.notebook.page = 7;
                         break;
                     case "error":
                         this.set_widgets_sensitive (false);
-                        this.notebook.page = 8;
                         break;
                 }
+
+                this.notebook.set_visible_child_name (new_timeline);
 
                 this.current_timeline = new_timeline;
 
