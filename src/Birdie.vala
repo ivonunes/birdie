@@ -196,6 +196,7 @@ namespace Birdie {
                 this.update_interval = settings.get_int ("update-interval");
                 this.limit_notifications = settings.get_int ("limit-notifications");
 
+                Gtk.Window.set_default_icon_name ("birdie");
                 this.m_window = new Widgets.UnifiedWindow ();
 
                 this.m_window.set_default_size (425, 500);
