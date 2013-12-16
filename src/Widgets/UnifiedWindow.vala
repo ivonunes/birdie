@@ -39,15 +39,16 @@ namespace Birdie.Widgets {
 
 #if HAVE_GRANITE
             header.set_show_close_button (true);
+            this.set_titlebar (header);
 #else
             if (Utils.is_gnome() || Utils.is_cinnamon()) {
                 header.set_show_close_button (true);
+                this.set_titlebar (header);
             } else {
                 header.set_show_close_button (false);
             }
 #endif
 
-            this.set_titlebar (header);
             this.set_title ("Birdie");
         }
 
