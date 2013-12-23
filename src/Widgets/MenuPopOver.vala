@@ -41,8 +41,8 @@ namespace Birdie.Widgets
             .menu {
                 background-color:@transparent;
                 border-color:@transparent;
-                -unico-inner-stroke-width: 0;
                 background-image:none;
+                border-width: 0;
              }
              .popover_bg {
                background-color:#fff;
@@ -50,9 +50,17 @@ namespace Birdie.Widgets
          """;
 
         public MenuPopOver () {
-            get_style_context ().add_class (COMPOSITED_INDICATOR);
             show ();
+
             setup_drawing ();
+
+            this.get_children ().foreach (setup_margin);
+            this.insert.connect (setup_margin);
+        }
+
+        private void setup_margin (Gtk.Widget widget) {
+            widget.margin_left = 10;
+            widget.margin_right = 9;
         }
 
         private void setup_drawing () {
@@ -78,16 +86,7 @@ namespace Birdie.Widgets
             menu_parent.app_paintable = true;
             menu_parent.set_visual (Gdk.Screen.get_default ().get_rgba_visual ());
 
-            menu_parent.size_allocate.connect (entry_menu_parent_size_allocate);
             menu_parent.draw.connect (entry_menu_parent_draw_callback);
-        }
-
-        private void entry_menu_parent_size_allocate (Gtk.Allocation alloc) {
-            this.get_children ().foreach ((c) => {
-                // make sure it is always right
-                c.margin_left = 10;
-                c.margin_right = 9;
-            });
         }
 
         private bool entry_menu_parent_draw_callback (Cairo.Context ctx) {
