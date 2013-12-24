@@ -54,6 +54,7 @@ namespace Birdie.Widgets
 
             setup_drawing ();
 
+            this.halign = Gtk.Align.CENTER;
             this.get_children ().foreach (setup_margin);
             this.insert.connect (setup_margin);
         }
