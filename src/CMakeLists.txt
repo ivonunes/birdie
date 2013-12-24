@@ -5,26 +5,6 @@ ensure_vala_version("0.17.4" MINIMUM)
 include(ValaPrecompile)
 
 # Packages
-if (LIBINDICATE_FOUND)
-    message(STATUS "Indicator support: ON")
-    set(EXTRA_PKG_CONFIG
-        ${EXTRA_PKG_CONFIG}
-        indicate-0.7
-    )
-
-    set(EXTRA_PACKAGES
-        ${EXTRA_PACKAGES}
-        Indicate-0.7
-    )
-
-    set(EXTRA_VALA_OPTIONS
-        ${EXTRA_VALA_OPTIONS}
-        -D HAVE_LIBINDICATE
-    )
-else ()
-    message(STATUS "Indicator support: OFF")
-endif ()
-
 if (LIBUNITY_FOUND)
     message(STATUS "Unity support: ON")
     set(EXTRA_PKG_CONFIG
