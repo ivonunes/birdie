@@ -1331,6 +1331,9 @@ namespace Birdie {
             this.indicator.clean_tweets_indicator();
             #endif
             this.unread_tweets = 0;
+            #if HAVE_LIBUNITY
+            this.launcher.set_count (get_total_unread ());
+            #endif
         }
 
         private void clean_mentions_indicator () {
@@ -1338,6 +1341,9 @@ namespace Birdie {
             this.indicator.clean_mentions_indicator();
             #endif
             this.unread_mentions = 0;
+            #if HAVE_LIBUNITY
+            this.launcher.set_count (get_total_unread ());
+            #endif
         }
 
         private void clean_dm_indicator () {
@@ -1345,6 +1351,9 @@ namespace Birdie {
             this.indicator.clean_dm_indicator();
             #endif
             this.unread_dm = 0;
+            #if HAVE_LIBUNITY
+            this.launcher.set_count (get_total_unread ());
+            #endif
         }
 
         /*
