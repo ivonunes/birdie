@@ -890,15 +890,12 @@ namespace Birdie {
                 switch (current_timeline) {
                     case "home":
                         this.home.set_active (active);
-                        this.clean_tweets_indicator ();
                         break;
                     case "mentions":
                         this.mentions.set_active (active);
-                        this.clean_mentions_indicator ();
                         break;
                     case "dm":
                         this.dm.set_active (active);
-                        this.clean_dm_indicator ();
                         break;
                     case "own":
                         this.profile.set_active (active);
@@ -917,16 +914,19 @@ namespace Birdie {
                     case "welcome":
                         break;
                     case "home":
-                        this.scrolled_home.get_vadjustment().set_value(0);
+                        if (current_timeline == "home") this.scrolled_home.get_vadjustment().set_value(0);
+                        this.clean_tweets_indicator ();
                         break;
                     case "mentions":
-                        this.scrolled_mentions.get_vadjustment().set_value(0);
+                        if (current_timeline == "mentions") this.scrolled_mentions.get_vadjustment().set_value(0);
+                        this.clean_mentions_indicator ();
                         break;
                     case "dm":
-                        this.scrolled_dm.get_vadjustment().set_value(0);
+                        if (current_timeline == "dm") this.scrolled_dm.get_vadjustment().set_value(0);
+                        this.clean_dm_indicator ();
                         break;
                     case "own":
-                        this.scrolled_own.get_vadjustment().set_value(0);
+                        if (current_timeline == "own") this.scrolled_own.get_vadjustment().set_value(0);
                         break;
                     case "user":
                         break;
