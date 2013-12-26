@@ -24,6 +24,46 @@ namespace Birdie.Widgets {
         
         public Gtk.HeaderBar header;
         public Gtk.Box box;
+        
+#if HAVE_GRANITE
+        private const string ELEMENTARY_STYLESHEET = """
+            .header-bar {
+                padding: 0 6px;
+
+                /*background-image: linear-gradient(to bottom,
+                                  #98c7ec,
+                                  #328ec6
+                                  );
+                                  
+                border-color: #328ec6;
+                
+                box-shadow: inset 0 0 0 1px alpha (#328ec6, 0.20),
+                inset 0 1px 0 0 alpha (#328ec6, 0.60);*/
+            }
+            
+            .header-bar:backdrop {
+                /*background-image: linear-gradient(to bottom,
+                                  #98c7ec,
+                                  #328ec6
+                                  );
+                                  
+                border-color: #328ec6;
+                
+                box-shadow: inset 0 0 0 1px alpha (#328ec6, 0.20),
+                inset 0 1px 0 0 alpha (#328ec6, 0.60);*/
+            }
+            
+            .header-bar .button {
+                border-radius: 0;
+                padding: 11px 6px;
+                border-width: 0 1px 0 1px;
+            }
+            
+            .header-bar .button.image-button {
+                border-radius: 3px;
+            }
+         """;
+#endif
 
         public UnifiedWindow () {
             this.opening_x = -1;
@@ -41,6 +81,9 @@ namespace Birdie.Widgets {
 #if HAVE_GRANITE
             header.set_show_close_button (true);
             this.set_titlebar (header);
+            
+            Granite.Widgets.Utils.set_theming_for_screen (this.get_screen (), ELEMENTARY_STYLESHEET,
+                                               Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 #else
             if (Utils.is_gnome() || Utils.is_cinnamon()) {
                 header.set_show_close_button (true);
