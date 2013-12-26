@@ -1382,7 +1382,7 @@ namespace Birdie {
                         code = this.api.update_with_media (text, id, media_uri, out media_out);
 
                 if (code != 1) {
-                    text_url = Utils.highlight_urls (text);
+                    text_url = Utils.highlight_all (text);
 
                     if (media_out != "") {
                         text_url = text_url + " <a href='" + media_out + "'>" + media_out + "</a>";

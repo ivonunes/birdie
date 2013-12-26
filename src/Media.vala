@@ -66,23 +66,20 @@ namespace Birdie {
             profile_image_file = profile_image_file + ".png";
         }
 
-        Utils.Downloader download_handler =
+        if (!File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/" + profile_image_file).query_exists ()) {
             new Utils.Downloader (profile_image_url,
-            Environment.get_home_dir () +
-            "/.cache/birdie/" + profile_image_file);
-
-        if (download_handler.download_complete && !download_handler.download_skip) {
+                Environment.get_home_dir () +
+                "/.cache/birdie/" + profile_image_file);
+            
             Utils.generate_rounded_avatar (Environment.get_home_dir () +
                 "/.cache/birdie/" + profile_image_file);
         }
-
-        if (download_handler.download_complete) {
-            Idle.add (() => {
-                tweetbox.set_avatar (Environment.get_home_dir () +
-                    "/.cache/birdie/" + profile_image_file);
-                return false;
-            });
-        }
+        
+        Idle.add (() => {
+            tweetbox.set_avatar (Environment.get_home_dir () +
+                "/.cache/birdie/" + profile_image_file);
+            return false;
+        });
 
         if (!ignore_mutex)
             avatar_mutex.unlock ();
@@ -104,20 +101,17 @@ namespace Birdie {
                 profile_image_file = profile_image_file + ".png";
             }
 
-            Utils.Downloader download_handler =
+            if (!File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/" + profile_image_file).query_exists ()) {
                 new Utils.Downloader (profile_image_url,
-                Environment.get_home_dir () +
-                "/.cache/birdie/" + profile_image_file);
-
-            if (download_handler.download_complete && !download_handler.download_skip) {
+                    Environment.get_home_dir () +
+                    "/.cache/birdie/" + profile_image_file);
+            
                 Utils.generate_rounded_avatar (Environment.get_home_dir () +
                     "/.cache/birdie/" + profile_image_file);
             }
 
-            if (download_handler.download_complete) {
-                userbox.set_avatar (Environment.get_home_dir () +
-                    "/.cache/birdie/" + profile_image_file);
-            }
+            userbox.set_avatar (Environment.get_home_dir () +
+                "/.cache/birdie/" + profile_image_file);
 
             if (own) {
                 userbox.user.profile_image_file = profile_image_file;
@@ -151,14 +145,19 @@ namespace Birdie {
             if ("?" in youtube_id)
                 youtube_id = youtube_id.split ("?")[0];
 
-            Utils.Downloader downloader = new Utils.Downloader ("http://i3.ytimg.com/vi/" +
-                youtube_id + "/mqdefault.jpg", Environment.get_home_dir () +
-                "/.cache/birdie/media/youtube_" + youtube_id + ".jpg");
+            if (!File.new_for_path (Environment.get_home_dir () +
+                "/.cache/birdie/media/youtube_" + youtube_id + ".jpg").query_exists ()) {
+                new Utils.Downloader ("http://i3.ytimg.com/vi/" +
+                    youtube_id + "/mqdefault.jpg", Environment.get_home_dir () +
+                    "/.cache/birdie/media/youtube_" + youtube_id + ".jpg");
+            }
 
-            if (downloader.download_complete)
+            if (File.new_for_path (Environment.get_home_dir () +
+                "/.cache/birdie/media/youtube_" + youtube_id + ".jpg").query_exists ()) {
                 return youtube_id;
-            else
+            } else {
                 return "";
+            }
         } else {
             return "";
         }
@@ -171,13 +170,16 @@ namespace Birdie {
             if (".com/" in url)
                 imgur_id = url.split (".com/")[1];
 
-            Utils.Downloader downloader = new Utils.Downloader ("http://i.imgur.com/" + imgur_id + ".jpg",
-                Environment.get_home_dir () + "/.cache/birdie/media/" + imgur_id);
+            if (!File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/media/" + imgur_id).query_exists ()) {
+                new Utils.Downloader ("http://i.imgur.com/" + imgur_id + ".jpg",
+                    Environment.get_home_dir () + "/.cache/birdie/media/" + imgur_id);
+            }
 
-            if (downloader.download_complete)
+            if (File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/media/" + imgur_id).query_exists ()) {
                 return imgur_id;
-            else
+            } else {
                 return "";
+            }
         } else {
             return "";
         }
