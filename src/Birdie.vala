@@ -1405,20 +1405,19 @@ namespace Birdie {
                         this.switch_timeline ("dm");
                         Idle.add (() => {
                             this.notebook_dm.page = 1;
+                            get_avatar (this.dm_sent_list);
                             return false;
                         });
-
-                        get_avatar (this.dm_sent_list);
                     } else {
                         Idle.add (() => {
                             this.home_tmp.append (tweet_tmp);
                             this.home_list.append (tweet_tmp, this);
                             this.own_list.append (tweet_tmp, this);
+                            
+                            get_avatar (this.home_list);
+                            get_avatar (this.own_list);
                             return false;
                         });
-
-                        get_avatar (this.home_list);
-                        get_avatar (this.own_list);
 
                         this.switch_timeline ("home");
                     }
