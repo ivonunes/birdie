@@ -112,7 +112,7 @@ namespace Birdie.Widgets {
             this.boxes.foreach ((box) => {
                 if (box.tweet == tweet) {
                     Idle.add( () => {
-                        int separator_index = boxes.index (box);
+                        int separator_index = boxes.index (box) - 1;
                         var separator = this.separators.nth_data ((uint) separator_index);
                         var box_row = this.get_row_for_widget (box);
                         var separator_row = this.get_row_for_widget (separator);
