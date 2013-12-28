@@ -25,45 +25,77 @@ namespace Birdie.Widgets {
         public Gtk.HeaderBar header;
         public Gtk.Box box;
         
-#if HAVE_GRANITE
         private const string ELEMENTARY_STYLESHEET = """
             .header-bar {
                 padding: 0 6px;
 
                 /*background-image: linear-gradient(to bottom,
-                                  #98c7ec,
-                                  #328ec6
+                                  #9ecef3,
+                                  #298dc8
                                   );
                                   
-                border-color: #328ec6;
+                border-color: #1a5579;
                 
-                box-shadow: inset 0 0 0 1px alpha (#328ec6, 0.20),
-                inset 0 1px 0 0 alpha (#328ec6, 0.60);*/
+                color: #1a5579;
+                
+                box-shadow: inset 0 0 0 1px alpha (#fff, 0.20),
+                inset 0 1px 0 0 alpha (#fff, 0.30);*/
+                
             }
             
-            .header-bar:backdrop {
-                /*background-image: linear-gradient(to bottom,
-                                  #98c7ec,
-                                  #328ec6
+            /*.header-bar:backdrop {
+                background-image: linear-gradient(to bottom,
+                                  #9ecef3,
+                                  #61b0df
                                   );
                                   
-                border-color: #328ec6;
-                
-                box-shadow: inset 0 0 0 1px alpha (#328ec6, 0.20),
-                inset 0 1px 0 0 alpha (#328ec6, 0.60);*/
-            }
+                border-color: #457c9d;
+            }*/
             
             .header-bar .button {
                 border-radius: 0;
-                padding: 11px 6px;
+                padding: 11px 10px;
                 border-width: 0 1px 0 1px;
             }
             
             .header-bar .button.image-button {
                 border-radius: 3px;
+                padding: 0;
             }
+            
+            /*.header-bar .button:active {
+                border-color: #4182aa;
+                background-image: linear-gradient(to bottom,
+                                  #83bee3,
+                                  #3292cb
+                                  );
+                box-shadow: inset 0 0 0 1px alpha (#000, 0.05),
+                            inset 0 1px 0 0 alpha (#fff, 0.30);
+            }*/
+            
+            /*.header-bar .button:active:backdrop {
+                border-color: #4182aa;
+                background-image: none;
+                background-color: alpha (#000, 0.01);
+                border-color: alpha (#000, 0.15);
+                box-shadow: inset 0 0 0 1px alpha (#000, 0.05);
+            }*/
+            
+            .titlebar .titlebutton {
+                background: none;
+                padding: 3px;
+
+                border-radius: 3px;
+                border-width: 1px;
+                border-color: transparent;
+                border-style: solid;
+                border-image: none;
+            }
+            
+             /*.titlebar .titlebutton:active {
+                box-shadow: inset 0 0 0 1px alpha (#000, 0.05);             
+             }*/
          """;
-#endif
 
         public UnifiedWindow () {
             this.opening_x = -1;
