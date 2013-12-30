@@ -1272,5 +1272,38 @@ namespace Birdie {
             this.birdie.update_search_ui ();
         }
 
+        public override void get_lists () {
+            api_mutex.lock ();
+            Rest.ProxyCall call = proxy.new_call ();
+            call.set_function ("1.1/lists/list.json");
+            call.set_method ("GET");
+            Rest.ProxyCallAsyncCallback callback = get_lists_response;
+            try {
+                call.run_async (callback);
+            } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+            }
+        }
+
+        protected void get_lists_response (
+            Rest.ProxyCall call, Error? error, Object? obj) {
+
+            try {
+                var parser = new Json.Parser ();
+                parser.load_from_data ((string) call.get_payload (), -1);
+
+                var root = parser.get_root ();
+
+                foreach (var listnode in root.get_array ().get_elements ()) {
+                    debug ("got a list");
+                }
+            } catch (Error e) {
+                stderr.printf ("Unable to parse list.json\n");
+            }
+
+            api_mutex.unlock ();
+            this.birdie.update_lists_ui ();
+        }
+
     }
 }

@@ -141,6 +141,7 @@ vala_precompile(VALA_C
     Widgets/Welcome.vala
     Widgets/Notebook.vala
     Widgets/MoreButton.vala
+    Widgets/ListsView.vala
     Utils/Cairo.vala
     Utils/Date.vala
     Utils/Notifications.vala

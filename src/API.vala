@@ -78,6 +78,7 @@ namespace Birdie {
         public abstract void get_user_timeline (string user_id);
         public abstract void get_search_timeline (string search_term);
         public abstract void get_favorites ();
+        public abstract void get_lists ();
 
         public abstract void get_older_home_timeline ();
         public abstract void get_older_mentions_timeline ();

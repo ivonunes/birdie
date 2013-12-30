@@ -30,6 +30,7 @@ namespace Birdie {
         public Widgets.TweetList favorites;
         public Widgets.TweetList user_list;
         public Widgets.TweetList search_list;
+        public Widgets.ListsView lists;
 
         private Gtk.MenuItem account_appmenu;
         private Gtk.MenuItem remove_appmenu;
@@ -435,6 +436,7 @@ namespace Birdie {
                 this.own_list = new Widgets.TweetList ();
                 this.user_list = new Widgets.TweetList ();
                 this.favorites = new Widgets.TweetList ();
+                this.lists = new Widgets.ListsView();
                 this.search_list = new Widgets.TweetList ();
 
                 /*==========  older statuses  ==========*/
@@ -499,6 +501,7 @@ namespace Birdie {
                 this.notebook_own = new Widgets.Notebook ();
                 this.notebook_own.append_page (this.scrolled_own, new Gtk.Label (_("Timeline")));
                 this.notebook_own.append_page (this.scrolled_favorites, new Gtk.Label (_("Favorites")));
+                this.notebook_own.append_page (this.lists, new Gtk.Label (_("Lists")));
                 this.own_box.pack_start (this.notebook_own, true, true, 0);
 
                 this.user_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
@@ -711,6 +714,7 @@ namespace Birdie {
                 this.own_list.clear ();
                 this.user_list.clear ();
                 this.favorites.clear ();
+                this.lists.clear ();
 
                 // load the cached tweets
                 db.get_tweets ("tweets", this.default_account_id).foreach ((tweet) => {
@@ -752,6 +756,7 @@ namespace Birdie {
                 this.api.get_direct_messages_sent ();
                 this.api.get_own_timeline ();
                 this.api.get_favorites ();
+                this.api.get_lists ();
 
                 Idle.add (() => {
                     if (this.initialized) {
@@ -1118,6 +1123,13 @@ namespace Birdie {
                 if (this.ready)
                     get_avatar (this.favorites);
 
+                return false;
+            });
+        }
+
+        public void update_lists_ui () {
+            Idle.add (() => {
+                this.lists.update_ui ();
                 return false;
             });
         }
