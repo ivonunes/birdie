@@ -36,9 +36,6 @@ namespace Birdie.Widgets {
             this.show_all ();
         }
 
-        public void update_ui () {
-        }
-
         public void clear () {
             first = true;
         }

@@ -1328,8 +1328,45 @@ namespace Birdie {
             }
 
             api_mutex.unlock ();
-            this.birdie.update_lists_ui ();
         }
 
+        public override void get_list_timeline (string id) {
+            api_mutex.lock ();
+            Rest.ProxyCall call = proxy.new_call ();
+            call.set_function ("1.1/lists/statuses.json");
+            call.set_method ("GET");
+            call.add_param ("list_id", id);
+            Rest.ProxyCallAsyncCallback callback = get_list_timeline_response;
+            try {
+                call.run_async (callback);
+            } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+            }
+        }
+
+        protected void get_list_timeline_response (
+            Rest.ProxyCall call, Error? error, Object? obj) {
+            this.list_timeline.foreach ((tweet) => {
+                this.list_timeline.remove (tweet);
+            });
+
+            try {
+                var parser = new Json.Parser ();
+                parser.load_from_data ((string) call.get_payload (), -1);
+
+                var root = parser.get_root ();
+
+                foreach (var tweetnode in root.get_array ().get_elements ()) {
+                    var tweet = this.get_tweet (tweetnode);
+                    list_timeline.append (tweet);
+                }
+
+                list_timeline.reverse ();
+            } catch (Error e) {
+                stderr.printf ("Unable to parse statuses.json\n");
+            }
+            api_mutex.unlock ();
+            this.birdie.update_list_ui ();
+        }
     }
 }

@@ -44,6 +44,7 @@ namespace Birdie {
         public GLib.List<Tweet> dm_sent_timeline;
         public GLib.List<Tweet> own_timeline;
         public GLib.List<Tweet> user_timeline;
+        public GLib.List<Tweet> list_timeline;
         public GLib.List<Tweet> search_timeline;
         public GLib.List<Tweet> favorites;
 
@@ -79,6 +80,7 @@ namespace Birdie {
         public abstract void get_search_timeline (string search_term);
         public abstract void get_favorites ();
         public abstract void get_lists ();
+        public abstract void get_list_timeline (string id);
 
         public abstract void get_older_home_timeline ();
         public abstract void get_older_mentions_timeline ();

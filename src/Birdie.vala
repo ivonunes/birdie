@@ -31,6 +31,7 @@ namespace Birdie {
         public Widgets.TweetList user_list;
         public Widgets.TweetList search_list;
         public Widgets.ListsView lists;
+        public Widgets.TweetList list_list;
 
         private Gtk.MenuItem account_appmenu;
         private Gtk.MenuItem remove_appmenu;
@@ -59,6 +60,7 @@ namespace Birdie {
         private Gtk.ScrolledWindow scrolled_user;
         private Gtk.ScrolledWindow scrolled_lists;
         private Gtk.ScrolledWindow scrolled_search;
+        private Gtk.ScrolledWindow scrolled_list;
 
         private Widgets.Welcome welcome;
         private Widgets.ErrorPage error_page;
@@ -101,6 +103,7 @@ namespace Birdie {
 
         public string user;
         private string search_term;
+        private string list_id;
 
         public bool initialized;
         private bool ready;
@@ -438,6 +441,7 @@ namespace Birdie {
                 this.user_list = new Widgets.TweetList ();
                 this.favorites = new Widgets.TweetList ();
                 this.lists = new Widgets.ListsView();
+                this.list_list = new Widgets.TweetList ();
                 this.search_list = new Widgets.TweetList ();
 
                 /*==========  older statuses  ==========*/
@@ -470,6 +474,9 @@ namespace Birdie {
 
                 this.scrolled_user = new Gtk.ScrolledWindow (null, null);
                 this.scrolled_user.add_with_viewport (user_list);
+
+                this.scrolled_list = new Gtk.ScrolledWindow (null, null);
+                this.scrolled_list.add_with_viewport (list_list);
 
                 this.scrolled_search = new Gtk.ScrolledWindow (null, null);
                 this.scrolled_search.add_with_viewport (search_list);
@@ -527,6 +534,7 @@ namespace Birdie {
                 this.notebook.add_named (this.notebook_dm, "dm");
                 this.notebook.add_named (this.own_box, "own");
                 this.notebook.add_named (this.user_box, "user");
+                this.notebook.add_named (this.scrolled_list, "list");
                 this.notebook.add_named (this.scrolled_search, "search");
                 this.notebook.add_named (this.error_page, "error");
 
@@ -612,6 +620,11 @@ namespace Birdie {
                     if ("/" in search_term)
                        search_term = search_term.replace ("/", "");
                     new Thread<void*> (null, show_search);
+                } else if ("birdie://list/" in url) {
+                    list_id = url.replace ("birdie://list/", "");
+                    if ("/" in list_id)
+                       list_id = search_term.replace ("/", "");
+                    new Thread<void*> (null, show_list);
                 }
             }
             activate ();
@@ -938,6 +951,8 @@ namespace Birdie {
                         break;
                     case "user":
                         break;
+                    case "list":
+                        break;
                     case "search":
                         this.search.set_active (true);
                         break;
@@ -1126,13 +1141,6 @@ namespace Birdie {
                 if (this.ready)
                     get_avatar (this.favorites);
 
-                return false;
-            });
-        }
-
-        public void update_lists_ui () {
-            Idle.add (() => {
-                this.lists.update_ui ();
                 return false;
             });
         }
@@ -1506,6 +1514,39 @@ namespace Birdie {
                 });
 
                 this.api.get_search_timeline (search_term);
+            } else {
+                this.switch_timeline ("error");
+            }
+
+            return null;
+        }
+
+        public void update_list_ui () {
+            Idle.add (() => {
+                this.switch_timeline ("list");
+                this.spinner.stop ();
+
+                this.api.list_timeline.foreach ((tweet) => {
+                    this.list_list.append (tweet, this);
+                });
+
+                if (this.ready)
+                    get_avatar (this.list_list);
+
+                return false;
+            });
+        }
+
+        private void* show_list () {
+            if (this.check_internet_connection ()) {
+                this.list_list.clear ();
+
+                Idle.add (() => {
+                    this.switch_timeline ("loading");
+                    return false;
+                });
+
+                this.api.get_list_timeline (list_id);
             } else {
                 this.switch_timeline ("error");
             }
