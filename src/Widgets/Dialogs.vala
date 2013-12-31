@@ -79,6 +79,7 @@ namespace Birdie.Widgets
 
         public LightWindow (bool drag = true) {
             set_title (_("Preview"));
+            set_resizable (false);
 
             this.box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             base.add (this.box);
