@@ -523,6 +523,22 @@ namespace Birdie {
                 retweeted_by, retweeted_by_name, media_url, youtube_video, verified, in_reply_to_status_id);
         }
 
+        public TwitterList get_list (Json.Node listnode) {
+            string id = "";
+            string full_name = "";
+            string description = "";
+            string created_at = "";
+
+            var listobject = listnode.get_object();
+
+            id = listobject.get_string_member ("id_str");
+            full_name = listobject.get_string_member ("full_name");
+            description = listobject.get_string_member ("description");
+            created_at = listobject.get_string_member ("created_at");
+
+            return new TwitterList (id, full_name, description, created_at);
+        }
+
         public override Tweet get_single_tweet (string tweet_id) {
             api_mutex.lock ();
             Tweet tweet = new Tweet ();
@@ -1277,6 +1293,7 @@ namespace Birdie {
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/lists/list.json");
             call.set_method ("GET");
+            call.add_param ("reverse", "true");
             Rest.ProxyCallAsyncCallback callback = get_lists_response;
             try {
                 call.run_async (callback);
@@ -1288,6 +1305,11 @@ namespace Birdie {
         protected void get_lists_response (
             Rest.ProxyCall call, Error? error, Object? obj) {
 
+            Idle.add (() => {
+                this.birdie.lists.clear ();
+                return false;
+            });
+
             try {
                 var parser = new Json.Parser ();
                 parser.load_from_data ((string) call.get_payload (), -1);
@@ -1295,7 +1317,11 @@ namespace Birdie {
                 var root = parser.get_root ();
 
                 foreach (var listnode in root.get_array ().get_elements ()) {
-                    debug ("got a list");
+                    var list = get_list (listnode);
+                    Idle.add (() => {
+                        this.birdie.lists.append (list, this.birdie);
+                        return false;
+                    });
                 }
             } catch (Error e) {
                 stderr.printf ("Unable to parse list.json\n");

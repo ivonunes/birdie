@@ -131,6 +131,7 @@ vala_precompile(VALA_C
     Imgur.vala
     Media.vala
     Database.vala
+    TwitterList.vala
     Widgets/TweetBox.vala
     Widgets/TweetList.vala
     Widgets/UnifiedWindow.vala
@@ -142,6 +143,7 @@ vala_precompile(VALA_C
     Widgets/Notebook.vala
     Widgets/MoreButton.vala
     Widgets/ListsView.vala
+    Widgets/ListBox.vala
     Utils/Cairo.vala
     Utils/Date.vala
     Utils/Notifications.vala

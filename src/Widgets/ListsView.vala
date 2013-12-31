@@ -15,14 +15,32 @@
  */
 
 namespace Birdie.Widgets {
-    public class ListsView : Gtk.Stack {
+    public class ListsView : Gtk.ListBox {
+        private bool first;
+
         public ListsView () {
+            GLib.Object (valign: Gtk.Align.START);
+            this.set_selection_mode (Gtk.SelectionMode.NONE);
+
+            first = true;
+        }
+
+        public void append (TwitterList list, Birdie birdie) {
+            if (first) {
+                first = false;
+            } else {
+                this.prepend (new Gtk.Separator (Gtk.Orientation.HORIZONTAL));
+            }
+
+            this.prepend (new ListBox (list, birdie));
+            this.show_all ();
         }
 
         public void update_ui () {
         }
 
         public void clear () {
+            first = true;
         }
     }
 }

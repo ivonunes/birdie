@@ -57,6 +57,7 @@ namespace Birdie {
         private Gtk.ScrolledWindow scrolled_own;
         private Gtk.ScrolledWindow scrolled_favorites;
         private Gtk.ScrolledWindow scrolled_user;
+        private Gtk.ScrolledWindow scrolled_lists;
         private Gtk.ScrolledWindow scrolled_search;
 
         private Widgets.Welcome welcome;
@@ -464,6 +465,8 @@ namespace Birdie {
                 this.scrolled_own = new Gtk.ScrolledWindow (null, null);
 
                 this.scrolled_favorites = new Gtk.ScrolledWindow (null, null);
+                this.scrolled_lists = new Gtk.ScrolledWindow (null, null);
+                this.scrolled_lists.add_with_viewport (this.lists);
 
                 this.scrolled_user = new Gtk.ScrolledWindow (null, null);
                 this.scrolled_user.add_with_viewport (user_list);
@@ -501,7 +504,7 @@ namespace Birdie {
                 this.notebook_own = new Widgets.Notebook ();
                 this.notebook_own.append_page (this.scrolled_own, new Gtk.Label (_("Timeline")));
                 this.notebook_own.append_page (this.scrolled_favorites, new Gtk.Label (_("Favorites")));
-                this.notebook_own.append_page (this.lists, new Gtk.Label (_("Lists")));
+                this.notebook_own.append_page (this.scrolled_lists, new Gtk.Label (_("Lists")));
                 this.own_box.pack_start (this.notebook_own, true, true, 0);
 
                 this.user_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
