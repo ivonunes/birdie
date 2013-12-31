@@ -247,9 +247,9 @@ namespace Birdie {
 
                 new_tweet.set_sensitive (false);
                 this.m_window.header.pack_start (new_tweet);
-                
+
                 Gtk.Box centered_toolbar = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-                
+
                 this.home = new Gtk.ToggleToolButton ();
                 this.home.set_icon_widget (new Gtk.Image.from_icon_name ("twitter-home", Gtk.IconSize.LARGE_TOOLBAR));
                 home.set_tooltip_text (_("Home"));
@@ -325,7 +325,7 @@ namespace Birdie {
                 //});
                 this.search.set_sensitive (false);
                 centered_toolbar.add (search);
-                
+
                 this.m_window.header.set_custom_title (centered_toolbar);
 
                 menu = new Widgets.MenuPopOver ();
@@ -452,7 +452,7 @@ namespace Birdie {
                 this.mentions_list.load_more = true;
                 this.search_list.more_button.button.clicked.connect (get_older_search);
                 this.search_list.load_more = true;
-                
+
                 /*==========  scrolled widgets  ==========*/
 
                 this.scrolled_home = new Gtk.ScrolledWindow (null, null);
@@ -791,7 +791,7 @@ namespace Birdie {
                         this.set_user_menu ();
                         this.set_account_avatar (this.api.account);
                     }
-                    
+
                     this.initialized = true;
 
                     return false;
@@ -840,7 +840,7 @@ namespace Birdie {
                         ((Gtk.Label)child).set_markup ("<b>" + account.name +
                             "</b>\n@" + account.screen_name);
                 }
-                
+
                 account_menu_item.set_image (avatar_image_menu);
                 account_menu_item.set_always_show_image (true);
 
@@ -862,10 +862,10 @@ namespace Birdie {
                 avatar_image = new Gtk.Image.from_icon_name ("application-menu", Gtk.IconSize.MENU);
                 debug ("Error creating pixbuf: " + e.message);
             }
-            
+
             avatar_image.show ();
             this.appmenu.remove(appmenu.get_child());
-            this.appmenu.add(avatar_image);        
+            this.appmenu.add(avatar_image);
         }
 
         private void switch_account (User account) {
@@ -1436,7 +1436,7 @@ namespace Birdie {
                             this.home_tmp.append (tweet_tmp);
                             this.home_list.append (tweet_tmp, this);
                             this.own_list.append (tweet_tmp, this);
-                            
+
                             get_avatar (this.home_list);
                             get_avatar (this.own_list);
                             return false;
@@ -1504,6 +1504,12 @@ namespace Birdie {
         }
 
         private void* show_search () {
+            if (search_term != "" && search_term[0] == '@' && !(" " in search_term) && !("%20" in search_term)) {
+                user = search_term.replace ("@", "");
+                show_user ();
+                return null;
+            }
+            
             if (this.check_internet_connection ()) {
                 this.search_list.clear ();
 
