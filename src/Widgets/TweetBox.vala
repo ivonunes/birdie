@@ -26,6 +26,7 @@ namespace Birdie.Widgets {
         private Gtk.Alignment buttons_alignment;
         private Gtk.Alignment media_alignment;
         private Gtk.Box content_box;
+        private Gtk.EventBox username_event;
         private Gtk.Label username_label;
         private Gtk.Label tweet_label;
         private Gtk.Label info_label;
@@ -159,16 +160,30 @@ namespace Birdie.Widgets {
             this.username_label = new Gtk.Label ("");
             this.username_label.set_halign (Gtk.Align.START);
             this.username_label.set_valign (Gtk.Align.START);
-            this.username_label.set_selectable (true);
+            this.username_label.set_selectable (false);
             this.username_label.set_markup (
-                "<span underline='none' color='#222' font_weight='bold' size='large'><a href='birdie://user/" +
-                tweet.user_screen_name + "'>" + tweet.user_name.chomp () +
-                "</a></span> <span font_weight='light' color='#999'>@" +
+                "<span underline='none' font_weight='bold' size='large'>" +
+                tweet.user_name.chomp () +
+                "</span> <span font_weight='light' color='#999'>@" +
                 tweet.user_screen_name + "</span>"
                 );
 
+            this.username_event = new Gtk.EventBox ();
+            this.username_event.add (this.username_label);
+
+            this.username_event.button_release_event.connect ((event) => {
+                this.birdie.user = tweet.user_screen_name;
+                new Thread<void*> (null, this.birdie.show_user);
+                return false;
+            });
+
+            this.username_event.enter_notify_event.connect ((event) => {
+                on_mouse_enter (this, event);
+                return false;
+            });
+
             //FIXME: Set ellipsis mode
-            this.header_box.pack_start (this.username_label, false, true, 0);
+            this.header_box.pack_start (this.username_event, false, true, 0);
 
             // time label
             this.time_label = new Gtk.Label ("");
