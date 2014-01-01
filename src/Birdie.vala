@@ -950,6 +950,7 @@ namespace Birdie {
                         if (current_timeline == "own") this.scrolled_own.get_vadjustment().set_value(0);
                         break;
                     case "user":
+                        this.scrolled_user.get_vadjustment().set_value(0);
                         break;
                     case "list":
                         break;
@@ -1457,9 +1458,7 @@ namespace Birdie {
                     return false;
                 });
 
-                this.api.user_timeline.foreach ((tweet) => {
-                    this.user_list.remove (tweet);
-                });
+                this.user_list.clear ();
                 this.api.get_user_timeline (user);
             } else {
                 this.switch_timeline ("error");

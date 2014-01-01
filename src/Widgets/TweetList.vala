@@ -17,7 +17,6 @@
 namespace Birdie.Widgets {
     public class TweetList : Gtk.ListBox {
         public GLib.List<TweetBox> boxes;
-        public GLib.List<Gtk.Separator> separators;
 
         public MoreButton more_button;
 
@@ -42,23 +41,13 @@ namespace Birdie.Widgets {
             Gtk.Separator separator = new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
 
             if (this.count > 100) {
-                var box_old = this.boxes.nth_data (0);
-                var separator_old = this.separators.nth_data (0);
-                var row_box_old = this.get_row_for_widget (box_old);
-                var row_separator_old = this.get_row_for_widget (separator_old);
-
-                this.separators.remove (separator_old);
-                this.boxes.remove (box_old);
-                box_old.destroy();
-                separator_old.destroy();
-                base.remove (row_box_old);
-                base.remove (row_separator_old);
-
+                this.boxes.remove ((TweetBox) this.get_row_at_index ((int) this.get_children ().length () - 1).get_child ());
+                base.remove (this.get_row_at_index ((int) this.get_children ().length () - 1));
+                base.remove (this.get_row_at_index ((int) this.get_children ().length () - 1));
                 count--;
             }
 
             boxes.append (box);
-            separators.append (separator);
 
             Idle.add( () => {
                 if (!this.first)
@@ -85,7 +74,6 @@ namespace Birdie.Widgets {
                 Gtk.Separator separator = new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
 
                 boxes.prepend (box);
-                separators.prepend (separator);
 
                 Idle.add( () => {
                     if (!this.first && this.load_more)
@@ -109,48 +97,64 @@ namespace Birdie.Widgets {
         }
 
         public new void remove (Tweet tweet) {
-            this.boxes.foreach ((box) => {
-                if (box.tweet == tweet) {
-                    Idle.add( () => {
-                        int separator_index = boxes.index (box) - 1;
-                        var separator = this.separators.nth_data ((uint) separator_index);
-                        var box_row = this.get_row_for_widget (box);
-                        var separator_row = this.get_row_for_widget (separator);
-                        this.separators.remove (separator);
-                        this.boxes.remove (box);
-                        box.destroy();
-                        separator.destroy();
-                        base.remove (box_row);
-                        base.remove (separator_row);
-                        this.count--;
-                        return false;
-                    });
+            bool separator_next = false;
+
+            this.get_children ().foreach ((row) => {
+                if (row is Gtk.ListBoxRow) {
+                    var box = ((Gtk.ListBoxRow) row).get_child ();
+                    
+                    if ((box is TweetBox)) {
+                        if (((TweetBox) box).tweet == tweet) {
+                            separator_next = true;
+
+                            Idle.add( () => {
+                                base.remove (row);
+                                this.count--;
+                                return false;
+                            });
+                        }
+                    } else if (separator_next) {
+                        base.remove (row);
+                        separator_next = false;
+                    }
                 }
             });
         }
 
         public void update_date () {
-            this.boxes.foreach ((box) => {
-                box.update_date ();
+            this.get_children ().foreach ((row) => {
+                if (row is Gtk.ListBoxRow) {
+                    var box = ((Gtk.ListBoxRow) row).get_child ();
+                    
+                    if ((box is TweetBox)) {
+                        ((TweetBox) box).update_date ();
+                    }
+                }
             });
         }
 
         public void update_display (Tweet tweet) {
-            this.boxes.foreach ((box) => {
-                if (box.tweet == tweet) {
-                    Idle.add( () => {
-                        box.update_display ();
-                        return false;
-                    });
+            this.get_children ().foreach ((row) => {
+                if (row is Gtk.ListBoxRow) {
+                    var box = ((Gtk.ListBoxRow) row).get_child ();
+                    
+                    if ((box is TweetBox)) {
+                        if (((TweetBox) box).tweet == tweet) {
+                            Idle.add( () => {
+                                ((TweetBox) box).update_display ();
+                                return false;
+                            });
+                        }
+                    }
                 }
             });
         }
 
         public void clear () {
             foreach (Gtk.Widget w in this.get_children()) {
-                if (w != this.more_button) {
+                if (w != this.more_button && (w is Gtk.ListBoxRow)) {
                     Idle.add (() => {
-                        w.destroy ();
+                        base.remove (w);
                         return false;
                     });
                 }
