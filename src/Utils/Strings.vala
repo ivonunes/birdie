@@ -29,7 +29,12 @@ namespace Birdie.Utils {
         Regex hashtags;
 
         try {
-            hashtags = new Regex("\\B([#][[:alpha:]0-9_.-\\p{Latin}\\p{Greek}]+)");
+            try { 
+                hashtags = new Regex("\\B([#][[:alpha:]0-9_.-\\p{Latin}\\p{Greek}]+)");
+            } catch (RegexError e) {
+                hashtags = new Regex("\\B([#][[:alpha:]0-9_]+)");
+            }
+
             text = hashtags.replace(text, -1, 0,
                 "<span underline='none'><a href='birdie://search/\\0'>\\0</a></span>");
         } catch (RegexError e) {
