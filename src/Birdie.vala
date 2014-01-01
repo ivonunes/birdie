@@ -1469,6 +1469,11 @@ namespace Birdie {
 
         public void update_user_timeline_ui () {
             Idle.add (() => {
+                if (this.api.user_timeline.length () == 0) {
+                    this.switch_timeline ("search");
+                    return false;
+                }
+
                 this.user_box_info.update (this.api.user);
                 get_userbox_avatar (this.user_box_info);
 
