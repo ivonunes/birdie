@@ -22,3 +22,5 @@ If you want to support the project, please consider to donate a small ammount us
 
 * **Further documentation**  
 Please, visit our GitHub wiki at http://github.com/ivonunes/birdie/wiki.
+
+[![Analytics](https://ga-beacon.appspot.com/UA-46805950-1/birdie/readme)](https://github.com/igrigorik/ga-beacon)
