@@ -4,7 +4,7 @@
 # BUILDING
 # -----------------------------------------------------------------------------
 
-git clone https://github.com/ivonunes/birdie.git
+git clone https://github.com/birdieapp/birdie.git
 cd birdie
 mkdir build
 cd build
