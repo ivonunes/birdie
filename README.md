@@ -12,7 +12,7 @@ Projects's oficial website at http://birdieapp.github.io
 You can find us in #birdie (freenode).
 
 * **Bugs**  
-To report bugs, please use our Git repository at http://github.com/ivonunes/birdie.
+To report bugs, please use our Git repository at http://github.com/birdieapp/birdie.
 
 * **Translations**  
 To contribute for translations, please use our Transifex repository at http://www.transifex.com/projects/p/birdie/.
@@ -21,6 +21,6 @@ To contribute for translations, please use our Transifex repository at http://ww
 If you want to support the project, please consider to donate a small ammount using our donations page at http://birdieapp.github.io/donate.html.
 
 * **Further documentation**  
-Please, visit our GitHub wiki at http://github.com/ivonunes/birdie/wiki.
+Please, visit our GitHub wiki at http://github.com/birdieapp/birdie/wiki.
 
 [![Analytics](https://ga-beacon.appspot.com/UA-46805950-1/birdie/readme)](https://github.com/igrigorik/ga-beacon)
