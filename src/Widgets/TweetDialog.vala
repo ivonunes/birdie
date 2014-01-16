@@ -203,7 +203,7 @@ namespace Birdie.Widgets {
                 new Thread<void*> (null, this.tweet_thread);
             });
 
-            this.tweet.get_style_context().add_class ("affirmative");
+            this.tweet.get_style_context().add_class ("suggested-action");
 
             this.file_chooser_btn = new Gtk.Button();
             this.file_chooser_btn.set_tooltip_text (_("Add a picture"));
@@ -233,8 +233,8 @@ namespace Birdie.Widgets {
         private void on_add_photo_clicked () {
             this.file_chooser = new Gtk.FileChooserDialog (_("Select a Picture"), this,
             Gtk.FileChooserAction.OPEN,
-            new Gtk.Button.with_label (_("Cancel")), Gtk.ResponseType.CANCEL,
-            new Gtk.Button.with_label (_("Open")), Gtk.ResponseType.ACCEPT);
+            _("Cancel"), Gtk.ResponseType.CANCEL,
+            _("Open"), Gtk.ResponseType.ACCEPT);
 
             // filter to jpg, png and gif:
             Gtk.FileFilter filter = new Gtk.FileFilter ();

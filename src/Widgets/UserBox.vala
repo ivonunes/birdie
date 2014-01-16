@@ -99,7 +99,7 @@ namespace Birdie.Widgets {
             this.user_box.margin_right = 12;
 
             // buttons box
-            this.buttons_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+            this.buttons_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
             this.buttons_box.set_valign (Gtk.Align.CENTER);
             this.buttons_box.set_halign (Gtk.Align.CENTER);
             this.buttons_box.margin_top = 6;
@@ -146,10 +146,9 @@ namespace Birdie.Widgets {
                 new Thread<void*> (null, this.unblock_thread);
             });
 
-            follow_button.get_style_context().add_class ("affirmative");
-            block_button.get_style_context().add_class ("noundo");
-            unfollow_button.get_style_context().add_class ("noundo");
-            unblock_button.get_style_context().add_class ("affirmative");
+            follow_button.get_style_context().add_class ("suggested-action");
+            block_button.get_style_context().add_class ("destructive-action");
+            unblock_button.get_style_context().add_class ("suggested-action");
 
             this.unfollow_button.set_no_show_all (true);
             this.unblock_button.set_no_show_all (true);
