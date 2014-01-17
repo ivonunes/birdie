@@ -1368,5 +1368,89 @@ namespace Birdie {
             api_mutex.unlock ();
             this.birdie.update_list_ui ();
         }
+
+        public override int unsubscribe_list (string id) {
+            api_mutex.lock ();
+            Rest.ProxyCall call = proxy.new_call ();
+            call.set_function ("1.1/lists/subscribers/destroy.json");
+            call.set_method ("POST");
+            call.add_param ("list_id", id);
+            try { call.sync (); } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+                api_mutex.unlock ();
+                return 1;
+            }
+            api_mutex.unlock ();
+            return 0;
+        }
+        
+        public override int destroy_list (string id) {
+            api_mutex.lock ();
+            Rest.ProxyCall call = proxy.new_call ();
+            call.set_function ("1.1/lists/destroy.json");
+            call.set_method ("POST");
+            call.add_param ("list_id", id);
+            try { call.sync (); } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+                api_mutex.unlock ();
+                return 1;
+            }
+            api_mutex.unlock ();
+            return 0;
+        }
+        
+        public override void create_list (string name, string description) {
+            api_mutex.lock ();
+            Rest.ProxyCall call = proxy.new_call ();
+            call.set_function ("1.1/lists/create.json");
+            call.set_method ("POST");
+            call.add_param ("name", name);
+            call.add_param ("description", description);
+            call.add_param ("mode", "private");
+            Rest.ProxyCallAsyncCallback callback = create_list_response;
+            try {
+                call.run_async (callback);
+            } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+            }
+        }
+
+        protected void create_list_response (
+            Rest.ProxyCall call, Error? error, Object? obj) {
+            api_mutex.unlock ();
+            this.get_lists ();
+        }
+        
+        public override int add_to_list (string list_id, string screen_name) {
+            api_mutex.lock ();
+            Rest.ProxyCall call = proxy.new_call ();
+            call.set_function ("1.1/lists/members/create.json");
+            call.set_method ("POST");
+            call.add_param ("list_id", list_id);
+            call.add_param ("screen_name", screen_name);
+            try { call.sync (); } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+                api_mutex.unlock ();
+                return 1;
+            }
+            api_mutex.unlock ();
+            return 0;
+        }
+        
+        public override int remove_from_list (string list_id, string screen_name) {
+            api_mutex.lock ();
+            Rest.ProxyCall call = proxy.new_call ();
+            call.set_function ("1.1/lists/members/destroy.json");
+            call.set_method ("POST");
+            call.add_param ("list_id", list_id);
+            call.add_param ("screen_name", screen_name);
+            try { call.sync (); } catch (Error e) {
+                stderr.printf ("Cannot make call: %s\n", e.message);
+                api_mutex.unlock ();
+                return 1;
+            }
+            api_mutex.unlock ();
+            return 0;
+        }
     }
 }

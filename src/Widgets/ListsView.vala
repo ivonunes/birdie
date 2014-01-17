@@ -17,16 +17,27 @@
 namespace Birdie.Widgets {
     public class ListsView : Gtk.ListBox {
         private bool first;
+        
+        public AddButton add_button;
 
-        public ListsView () {
+        public ListsView (Birdie birdie) {
             GLib.Object (valign: Gtk.Align.START);
             this.set_selection_mode (Gtk.SelectionMode.NONE);
 
             first = true;
+            
+            this.add_button = new AddButton ();
+            this.add_button.button.clicked.connect (() => {
+                NewListDialog dialog = new NewListDialog (birdie);
+		        dialog.destroy.connect (Gtk.main_quit);
+		        dialog.show_all ();
+            });
         }
 
         public void append (TwitterList list, Birdie birdie) {
             if (first) {
+                base.prepend (this.add_button.button);
+                this.prepend (new Gtk.Separator (Gtk.Orientation.HORIZONTAL));
                 first = false;
             } else {
                 this.prepend (new Gtk.Separator (Gtk.Orientation.HORIZONTAL));
@@ -37,7 +48,38 @@ namespace Birdie.Widgets {
         }
 
         public void clear () {
-            first = true;
+            foreach (Gtk.Widget w in this.get_children()) {
+                if (((Gtk.ListBoxRow) w).get_child () != this.add_button.button && (w is Gtk.ListBoxRow)) {
+                    Idle.add (() => {
+                        base.remove (w);
+                        return false;
+                    });
+                }
+            }
+        }
+        
+        public new void remove (TwitterList list) {
+            bool separator_next = false;
+
+            this.get_children ().foreach ((row) => {
+                if (row is Gtk.ListBoxRow) {
+                    var box = ((Gtk.ListBoxRow) row).get_child ();
+                    
+                    if ((box is ListBox)) {
+                        if (((ListBox) box).list == list) {
+                            separator_next = true;
+
+                            Idle.add( () => {
+                                base.remove (row);
+                                return false;
+                            });
+                        }
+                    } else if (separator_next) {
+                        base.remove (row);
+                        separator_next = false;
+                    }
+                }
+            });
         }
     }
 }

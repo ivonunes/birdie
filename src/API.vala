@@ -92,5 +92,11 @@ namespace Birdie {
         public abstract int create_block (string screen_name);
         public abstract int destroy_block (string screen_name);
         public abstract Array<string> get_followers (string screen_name);
+
+        public abstract int unsubscribe_list (string id);
+        public abstract int destroy_list (string id);
+        public abstract void create_list (string name, string description);
+        public abstract int add_to_list (string list_id, string screen_name);
+        public abstract int remove_from_list (string list_id, string screen_name);
     }
 }

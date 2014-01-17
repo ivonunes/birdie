@@ -85,8 +85,7 @@ namespace Birdie.Widgets {
             this.name_label.set_valign (Gtk.Align.START);
             this.name_label.set_selectable (true);
             this.name_label.set_markup (
-                "<span underline='none' color='#222' font_weight='bold' size='large'><a href='birdie://list/" +
-                list.id + "'>" + list.name +
+                "<span underline='none' color='#222' font_weight='bold' size='large'><a href='birdie://list/" + list.owner + "/" + list.id + "'>" + list.name +
                 "</a></span> <span font_weight='light' color='#999'>" +
                 list.owner + "</span>"
                 );
@@ -193,6 +192,21 @@ namespace Birdie.Widgets {
         }
 
         public void* delete_thread () {
+            if (this.list.owner.replace("@", "") == birdie.api.account.screen_name) {
+                this.birdie.api.destroy_list (this.list.id);
+                
+                Idle.add (() => {
+                    this.birdie.lists.remove (this.list);
+                    return false;
+                });
+            } else {
+                this.birdie.api.unsubscribe_list (this.list.id);
+                
+                Idle.add (() => {
+                    this.birdie.lists.remove (this.list);
+                    return false;
+                });
+            }  
             return null;
         }
 

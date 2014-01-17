@@ -23,12 +23,17 @@ namespace Birdie.Widgets {
         private bool first;
         public bool load_more;
         private int count;
+        public string list_id;
+        public string list_owner;
 
         public TweetList () {
             GLib.Object (valign: Gtk.Align.START);
             this.first = true;
             this.count = 0;
             this.load_more = false;
+            
+            this.list_id = "";
+            this.list_owner = "";
 
             this.set_selection_mode (Gtk.SelectionMode.NONE);
 
@@ -37,8 +42,14 @@ namespace Birdie.Widgets {
         }
 
         public void append (Tweet tweet, Birdie birdie) {
-            TweetBox box = new TweetBox(tweet, birdie);
+            TweetBox box;
             Gtk.Separator separator = new Gtk.Separator (Gtk.Orientation.HORIZONTAL);
+
+            if (this.list_id != "") {
+                box = new TweetBox(tweet, birdie, false, this.list_id, this.list_owner);
+            } else {
+                box = new TweetBox(tweet, birdie);
+            }
 
             if (this.count > 100) {
                 this.boxes.remove ((TweetBox) this.get_row_at_index ((int) this.get_children ().length () - 1).get_child ());
@@ -120,6 +131,31 @@ namespace Birdie.Widgets {
                 }
             });
         }
+        
+        public void remove_by_user (string screen_name) {
+            bool separator_next = false;
+
+            this.get_children ().foreach ((row) => {
+                if (row is Gtk.ListBoxRow) {
+                    var box = ((Gtk.ListBoxRow) row).get_child ();
+                    
+                    if ((box is TweetBox)) {
+                        if (((TweetBox) box).tweet.user_screen_name == screen_name) {
+                            separator_next = true;
+
+                            Idle.add( () => {
+                                base.remove (row);
+                                this.count--;
+                                return false;
+                            });
+                        }
+                    } else if (separator_next) {
+                        base.remove (row);
+                        separator_next = false;
+                    }
+                }
+            });
+        }
 
         public void update_date () {
             this.get_children ().foreach ((row) => {
@@ -139,7 +175,9 @@ namespace Birdie.Widgets {
                     var box = ((Gtk.ListBoxRow) row).get_child ();
                     
                     if ((box is TweetBox)) {
-                        if (((TweetBox) box).tweet == tweet) {
+                        if (((TweetBox) box).tweet.actual_id == tweet.actual_id) {
+                            ((TweetBox) box).tweet = tweet;
+                        
                             Idle.add( () => {
                                 ((TweetBox) box).update_display ();
                                 return false;
@@ -152,7 +190,7 @@ namespace Birdie.Widgets {
 
         public void clear () {
             foreach (Gtk.Widget w in this.get_children()) {
-                if (w != this.more_button && (w is Gtk.ListBoxRow)) {
+                if (((Gtk.ListBoxRow) w).get_child () != this.more_button.button && (w is Gtk.ListBoxRow)) {
                     Idle.add (() => {
                         base.remove (w);
                         return false;

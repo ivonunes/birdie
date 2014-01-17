@@ -94,4 +94,74 @@ namespace Birdie.Widgets
         }
     }
 #endif
+
+    public class NewListDialog : Gtk.Dialog {
+	    private Gtk.Entry name_entry;
+	    private Gtk.Entry description_entry;
+	    private Gtk.Widget create_button;
+	    private Birdie birdie;
+
+	    public NewListDialog (Birdie birdie) {
+	        this.birdie = birdie;
+		    this.title = "New List";
+		    this.border_width = 5;
+		    set_default_size (350, 100);
+		    create_widgets ();
+		    connect_signals ();
+	    }
+
+	    private void create_widgets () {
+		    this.name_entry = new Gtk.Entry ();
+		    Gtk.Label name_label = new Gtk.Label.with_mnemonic (_("Name:"));
+		    name_label.mnemonic_widget = this.name_entry;
+
+		    this.description_entry = new Gtk.Entry ();
+		    Gtk.Label description_label = new Gtk.Label.with_mnemonic (_("Description:"));
+		    description_label.mnemonic_widget = this.description_entry; 
+
+		    Gtk.Box hbox = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 20);
+		    hbox.pack_start (name_label, false, true, 0);
+		    hbox.pack_start (this.name_entry, true, true, 0);
+		    
+		    Gtk.Box hbox2 = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 20);
+		    hbox2.pack_start (description_label, false, true, 0);
+		    hbox2.pack_start (this.description_entry, true, true, 0);
+
+		    Gtk.Box content = get_content_area () as Gtk.Box;
+		    content.pack_start (hbox, false, true, 0);
+		    content.pack_start (hbox2, false, true, 0);
+		    content.spacing = 10;
+
+		    add_button (_("Cancel"), Gtk.ResponseType.CLOSE);
+		    this.create_button = add_button (_("Create"), Gtk.ResponseType.APPLY);
+		    this.create_button.sensitive = false;
+	    }
+
+	    private void connect_signals () {
+		    this.name_entry.changed.connect (() => {
+			    this.create_button.sensitive = (this.name_entry.text != "");
+		    });
+		    this.response.connect (on_response);
+	    }
+
+	    private void on_response (Gtk.Dialog source, int response_id) {
+		    switch (response_id) {
+		    case Gtk.ResponseType.APPLY:
+			    on_create_clicked ();
+			    break;
+		    case Gtk.ResponseType.CLOSE:
+			    destroy ();
+			    break;
+		    }
+	    }
+
+	    private void on_create_clicked () {
+	        this.hide ();
+		    string name = this.name_entry.text;
+		    string description = this.description_entry.text;
+
+		    birdie.api.create_list (name, description);
+		    destroy ();
+	    }
+    }
 }

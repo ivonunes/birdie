@@ -65,14 +65,15 @@ namespace Birdie {
         private Widgets.Welcome welcome;
         private Widgets.ErrorPage error_page;
 
-        private Gtk.Stack notebook;
+        public Gtk.Stack notebook;
         private Widgets.Notebook notebook_dm;
-        private Widgets.Notebook notebook_own;
+        public Widgets.Notebook notebook_own;
         private Widgets.Notebook notebook_user;
 
         private Gtk.Spinner spinner;
 
         private GLib.List<Tweet> home_tmp;
+        public GLib.List<string> list_members;
 
         public API api;
         public API new_api;
@@ -104,6 +105,8 @@ namespace Birdie {
         public string user;
         private string search_term;
         private string list_id;
+        private string list_owner;
+        public bool adding_to_list;
 
         public bool initialized;
         private bool ready;
@@ -163,6 +166,7 @@ namespace Birdie {
             this.initialized = false;
             this.ready = false;
             this.changing_tab = false;
+            this.adding_to_list = false;
 
             // create cache and db dirs if needed
             Utils.create_dir_with_parents ("/.cache/birdie/media");
@@ -440,7 +444,7 @@ namespace Birdie {
                 this.own_list = new Widgets.TweetList ();
                 this.user_list = new Widgets.TweetList ();
                 this.favorites = new Widgets.TweetList ();
-                this.lists = new Widgets.ListsView();
+                this.lists = new Widgets.ListsView(this);
                 this.list_list = new Widgets.TweetList ();
                 this.search_list = new Widgets.TweetList ();
 
@@ -622,9 +626,28 @@ namespace Birdie {
                     new Thread<void*> (null, show_search);
                 } else if ("birdie://list/" in url) {
                     list_id = url.replace ("birdie://list/", "");
+                       
+                    list_owner = list_id.split("/")[0];
+                    list_owner = list_owner.replace("@", "");
+                    list_id = list_id.split("/")[1];
+                    
                     if ("/" in list_id)
                        list_id = search_term.replace ("/", "");
-                    new Thread<void*> (null, show_list);
+                    
+                    if (this.adding_to_list) {
+                        if (list_owner == this.api.account.screen_name) {
+                            this.api.add_to_list (list_id, user);
+                            this.switch_timeline ("user");
+                        } else {
+                            Gtk.MessageDialog msg = new Gtk.MessageDialog (this.m_window, Gtk.DialogFlags.MODAL, Gtk.MessageType.WARNING, Gtk.ButtonsType.OK, _("You must select a list you own."));
+			                msg.response.connect (() => {
+			                    msg.destroy();
+		                    });
+		                    msg.show ();
+                        }
+                    } else {
+                        new Thread<void*> (null, show_list);
+                    }
                 }
             }
             activate ();
@@ -904,6 +927,12 @@ namespace Birdie {
                 this.changing_tab = true;
 
                 bool active = false;
+                
+                if (this.adding_to_list) {
+                    this.notebook_own.set_show_tabs (true);
+                    this.notebook_own.page = 0;
+                    this.adding_to_list = false;
+                }
 
                 if (this.current_timeline == new_timeline)
                     active = true;
@@ -1550,6 +1579,8 @@ namespace Birdie {
         private void* show_list () {
             if (this.check_internet_connection ()) {
                 this.list_list.clear ();
+                this.list_list.list_id = list_id;
+                this.list_list.list_owner = list_owner;
 
                 Idle.add (() => {
                     this.switch_timeline ("loading");

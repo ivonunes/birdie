@@ -30,6 +30,7 @@ namespace Birdie.Widgets {
         private Gtk.Button unfollow_button;
         private Gtk.Button block_button;
         private Gtk.Button unblock_button;
+        private Gtk.Button lists_button;
 
         private string description_txt = "";
 
@@ -125,6 +126,20 @@ namespace Birdie.Widgets {
             this.unfollow_button.clicked.connect (() => {
                 new Thread<void*> (null, this.unfollow_thread);
             });
+            
+            // lists button
+            this.lists_button = new Gtk.Button.with_label (_("Add"));
+            this.lists_button.set_halign (Gtk.Align.CENTER);
+            this.lists_button.set_tooltip_text (_("Add user to list"));
+            this.buttons_box.pack_start (this.lists_button, false, true, 0);
+
+            this.lists_button.clicked.connect (() => {
+                this.birdie.current_timeline = "own";
+                this.birdie.notebook.set_visible_child_name ("own");
+                this.birdie.notebook_own.page = 2;
+                this.birdie.notebook_own.set_show_tabs (false);
+                this.birdie.adding_to_list = true;
+            });
 
             // block button
             this.block_button = new Gtk.Button.with_label (_("Block"));
@@ -152,6 +167,7 @@ namespace Birdie.Widgets {
 
             this.unfollow_button.set_no_show_all (true);
             this.unblock_button.set_no_show_all (true);
+            this.lists_button.set_no_show_all (true);
             this.follow_button.set_no_show_all (true);
             this.block_button.set_no_show_all (true);
 
@@ -177,6 +193,8 @@ namespace Birdie.Widgets {
                 } else {
                     this.follow_button.show ();
                 }
+                
+                this.lists_button.show ();
 
                 if (friendship.index (1) == "true") {
                     this.unblock_button.show ();

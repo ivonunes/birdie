@@ -66,11 +66,15 @@ namespace Birdie.Widgets {
         private int second;
 
         private string date;
+        public string list_id;
+        public string list_owner;
 
-        public TweetBox (Tweet tweet, Birdie birdie, bool inside_thread = false) {
+        public TweetBox (Tweet tweet, Birdie birdie, bool inside_thread = false, string list_id = "", string list_owner = "") {
 
             this.birdie = birdie;
             this.tweet = tweet;
+            this.list_id = list_id;
+            this.list_owner = list_owner;
 
             this.hour = 0;
             this.minute = 0;
@@ -416,7 +420,10 @@ namespace Birdie.Widgets {
                     });
                     this.buttons_box.pack_start (this.dm_delete_button, false, true, 0);
                 }
-            } else {
+            }
+            
+            if (this.tweet.user_screen_name == this.birdie.api.account.screen_name ||
+                (this.list_id != "" && this.birdie.api.account.screen_name == this.list_owner)) {
                 // delete button
                 this.delete_button = new Gtk.Button ();
                 this.delete_button.set_halign (Gtk.Align.END);
@@ -427,9 +434,18 @@ namespace Birdie.Widgets {
 
                 this.delete_button.clicked.connect (() => {
                     // confirm deletion
-                    Widgets.AlertDialog confirm = new Widgets.AlertDialog (this.birdie.m_window,
+                    Widgets.AlertDialog confirm;
+                    
+                    if (this.list_id != "") {
+                        confirm = new Widgets.AlertDialog (this.birdie.m_window,
+                        Gtk.MessageType.QUESTION, _("Remove user from list?"),
+                        _("Remove"), _("Cancel"));
+                    } else {
+                        confirm = new Widgets.AlertDialog (this.birdie.m_window,
                         Gtk.MessageType.QUESTION, _("Delete this tweet?"),
                         _("Delete"), _("Cancel"));
+                    }
+                    
                     Gtk.ResponseType response = confirm.run ();
                     if (response == Gtk.ResponseType.OK) {
                         this.delete_button.set_sensitive (false);
@@ -674,19 +690,29 @@ namespace Birdie.Widgets {
         }
 
         private void* delete_thread () {
-            int code;
+            if (this.list_id != "") {
+                this.birdie.api.remove_from_list (this.list_id, this.tweet.user_screen_name);
+                
+                Idle.add( () => {
+                    this.birdie.list_list.remove_by_user (this.tweet.user_screen_name);
+                    return false;
+                });
+            } else {
+                int code;
 
-            Idle.add( () => {
-                this.birdie.home_list.remove (this.tweet);
-                this.birdie.mentions_list.remove (this.tweet);
-                this.birdie.own_list.remove (this.tweet);
-                this.birdie.db.remove_status (this.tweet.actual_id, this.birdie.default_account_id, "own");
-                this.birdie.db.remove_status (this.tweet.actual_id, this.birdie.default_account_id, "tweets");
-                this.birdie.db.remove_status (this.tweet.actual_id, this.birdie.default_account_id, "mentions");
-                return false;
-            });
+                Idle.add( () => {
+                    this.birdie.home_list.remove (this.tweet);
+                    this.birdie.mentions_list.remove (this.tweet);
+                    this.birdie.own_list.remove (this.tweet);
+                    this.birdie.db.remove_status (this.tweet.actual_id, this.birdie.default_account_id, "own");
+                    this.birdie.db.remove_status (this.tweet.actual_id, this.birdie.default_account_id, "tweets");
+                    this.birdie.db.remove_status (this.tweet.actual_id, this.birdie.default_account_id, "mentions");
+                    return false;
+                });
 
-            code = this.birdie.api.destroy (this.tweet.actual_id);
+                code = this.birdie.api.destroy (this.tweet.actual_id);
+            }
+            
             return null;
         }
 
