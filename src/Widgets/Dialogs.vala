@@ -103,7 +103,7 @@ namespace Birdie.Widgets
 
 	    public NewListDialog (Birdie birdie) {
 	        this.birdie = birdie;
-		    this.title = "New List";
+		    this.title = _("New List");
 		    this.border_width = 5;
 		    set_default_size (350, 100);
 		    create_widgets ();
