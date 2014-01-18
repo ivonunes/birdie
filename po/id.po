@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013
-# Mohamad Hasan Al Banna, 2013
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013-2014
+# Mohamad Hasan Al Banna, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Birdie\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-27 11:27+0100\n"
-"PO-Revision-Date: 2013-07-31 21:27+0000\n"
+"POT-Creation-Date: 2013-2014-07-27 11:27+0100\n"
+"PO-Revision-Date: 2013-2014-07-31 21:27+0000\n"
 "Last-Translator: Mohamad Hasan Al Banna\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/birdie/language/id/)\n"
 "MIME-Version: 1.0\n"

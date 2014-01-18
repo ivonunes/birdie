@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013
-# Ivan Petruk <ivan.petruk.ua@gmail.com>, 2013
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013-2014
+# Ivan Petruk <ivan.petruk.ua@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Birdie\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-27 11:27+0100\n"
-"PO-Revision-Date: 2013-08-04 19:04+0000\n"
+"POT-Creation-Date: 2013-2014-07-27 11:27+0100\n"
+"PO-Revision-Date: 2013-2014-08-04 19:04+0000\n"
 "Last-Translator: Ivan Petruk <ivan.petruk.ua@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/birdie/language/uk/)\n"
 "MIME-Version: 1.0\n"

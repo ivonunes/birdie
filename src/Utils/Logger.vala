@@ -1,5 +1,5 @@
 /***
-    Copyright (C) 2011-2013 Robert Dyer
+    Copyright (C) 2011-2013-2014 Robert Dyer
 
     This program or library is free software; you can redistribute it
     and/or modify it under the terms of the GNU Lesser General Public

@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# ppanhh <ppanhh@gmail.com>, 2013
+# ppanhh <ppanhh@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Birdie\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-27 11:27+0100\n"
-"PO-Revision-Date: 2013-07-27 11:41+0000\n"
+"POT-Creation-Date: 2013-2014-07-27 11:27+0100\n"
+"PO-Revision-Date: 2013-2014-07-27 11:41+0000\n"
 "Last-Translator: ppanhh <ppanhh@gmail.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/birdie/language/vi/)\n"
 "MIME-Version: 1.0\n"

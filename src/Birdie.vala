@@ -1,6 +1,6 @@
 // -*- Mode: vala; indent-tabs-mode: nil; tab-width: 4 -*-
 /*-
- * Copyright (c) 2013 Birdie Developers (http://launchpad.net/birdie)
+ * Copyright (c) 2013-2014 Birdie Developers (http://launchpad.net/birdie)
  *
  * This software is licensed under the GNU General Public License
  * (version 3 or later). See the COPYING file in this distribution.
@@ -139,7 +139,7 @@ namespace Birdie {
             program_name        = "Birdie";
             exec_name           = "birdie";
             build_version       = Constants.VERSION;
-            app_years           = "2013";
+            app_years           = "2013-2014";
             app_icon            = "birdie";
             app_launcher        = "birdie.desktop";
             application_id      = "org.pantheon.birdie";
@@ -384,7 +384,7 @@ namespace Birdie {
                     dialog.logo_icon_name = "birdie";
                     dialog.program_name = "Birdie";
                     dialog.comments = Constants.COMMENT;
-                    dialog.copyright = "Copyright © 2013 Ivo Nunes / Vasco Nunes";
+                    dialog.copyright = "Copyright © 2013-2014 Ivo Nunes / Vasco Nunes";
                     dialog.version = Constants.VERSION;
 
                     dialog.license_type = Gtk.License.GPL_3_0;
