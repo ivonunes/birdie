@@ -15,7 +15,7 @@
  */
 
 namespace Birdie.Widgets {
-    public class UnifiedWindow : Gtk.Window
+    public class UnifiedWindow : Gtk.ApplicationWindow
     {
         public int opening_x;
         public int opening_y;

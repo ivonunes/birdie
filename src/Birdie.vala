@@ -424,15 +424,38 @@ namespace Birdie {
                 });
                 menu.add (account_appmenu);
                 menu.add (remove_appmenu);
-                menu.add (new Gtk.SeparatorMenuItem ());
-                menu.add (about_appmenu);
-                menu.add (donate_appmenu);
-                menu.add (quit_appmenu);
+                
+                if (!Utils.is_gnome ()) {
+                    menu.add (new Gtk.SeparatorMenuItem ());
+                    menu.add (about_appmenu);
+                    menu.add (donate_appmenu);
+                    menu.add (quit_appmenu);
+                }
 
                 this.appmenu = new Gtk.MenuButton ();
                 this.appmenu.set_relief (Gtk.ReliefStyle.NONE);
                 this.appmenu.set_popup (menu);
+                
+                if (Utils.is_gnome ()) {
+                    var action = new GLib.SimpleAction ("about", null);
+                    action.activate.connect (() => { about_appmenu.activate (); });
+                    add_action (action);
+                    action = new GLib.SimpleAction ("donate", null);
+                    action.activate.connect (() => { donate_appmenu.activate (); });
+                    add_action (action);
+                    action = new GLib.SimpleAction ("quit", null);
+                    action.activate.connect (() => { quit_appmenu.activate (); });
+                    add_action (action);
 
+                    var menu = new GLib.Menu ();
+
+                    menu.append (_("About"), "app.about");
+                    menu.append (_("Donate"), "app.donate");
+                    menu.append (_("Quit"), "app.quit");
+
+                    set_app_menu (menu);
+                }
+                
                 this.m_window.header.pack_end (appmenu);
 
                 /*==========  tweets lists  ==========*/
