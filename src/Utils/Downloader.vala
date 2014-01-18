@@ -1,6 +1,6 @@
 // -*- Mode: vala; indent-tabs-mode: nil; tab-width: 4 -*-
 /*-
- * Copyright (c) 2013-2014 Birdie Developers (http://launchpad.net/birdie)
+ * Copyright (c) 2013-2014 Birdie Developers (http://birdieapp.github.io)
  *
  * This software is licensed under the GNU General Public License
  * (version 3 or later). See the COPYING file in this distribution.
