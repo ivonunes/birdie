@@ -505,7 +505,6 @@ namespace Birdie {
                 } else {
                     tweet.verified = false;
                 }
-                tweet.id = stmt.column_text (18);
 
                 all.append (tweet);
             }

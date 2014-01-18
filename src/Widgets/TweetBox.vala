@@ -263,6 +263,29 @@ namespace Birdie.Widgets {
                     });
                 }
             }
+            
+            // rightclick menu
+            var rightclick_menu = new Gtk.Menu ();
+            
+            var browser_menu_item = new Gtk.MenuItem.with_label (_("Open in browser"));
+            rightclick_menu.append (browser_menu_item);
+            browser_menu_item.show ();
+            
+            var link_menu_item = new Gtk.MenuItem.with_label (_("Copy link"));
+            rightclick_menu.append (link_menu_item);
+            link_menu_item.show ();
+
+            browser_menu_item.activate.connect (() => {
+                try {
+                    GLib.Process.spawn_command_line_async ("xdg-open http://www.twitter.com/" + tweet.user_screen_name + "/status/" + tweet.id);
+                } catch (Error e) {
+                }
+            });
+
+            link_menu_item.activate.connect (() => {
+                var clipboard = Gtk.Clipboard.get_for_display (this.birdie.m_window.get_display (), Gdk.SELECTION_CLIPBOARD);
+                clipboard.set_text ("http://www.twitter.com/" + tweet.user_screen_name + "/status/" + tweet.id, -1);
+            });
 
             // status image
             this.status_img = new Gtk.Image ();
@@ -351,30 +374,14 @@ namespace Birdie.Widgets {
                     });
 
                     // show more options when right clicking the button
-                    var retweet_menu = new Gtk.Menu ();
-                    var retweet_menu_item = new Gtk.MenuItem.with_label (_("Retweet"));
                     var retweet_quote_menu_item = new Gtk.MenuItem.with_label (_("Retweet with quote"));
-                    retweet_menu.append (retweet_menu_item);
-                    retweet_menu.append (retweet_quote_menu_item);
-                    retweet_menu_item.show ();
+                    rightclick_menu.append (retweet_quote_menu_item);
                     retweet_quote_menu_item.show ();
-
-                    retweet_menu_item.activate.connect (() => {
-                        this.retweet_button.set_sensitive (false);
-                        new Thread<void*> (null, this.retweet_thread);
-                    });
 
                     retweet_quote_menu_item.activate.connect (() => {
                         Widgets.TweetDialog dialog = new TweetDialog (this.birdie, this.tweet.id,
                             "RT @" + this.tweet.user_screen_name + ": \"" + Utils.remove_html_tags (this.tweet.text) + "\"", this.tweet.dm);
                         dialog.show_all ();
-                    });
-
-                    this.retweet_button.button_press_event.connect ((e) => {
-                        if (e.button == Gdk.BUTTON_SECONDARY)
-                            retweet_menu.popup (null, null, null, e.button, e.time);
-
-                        return false;
                     });
                 }
 
@@ -460,6 +467,13 @@ namespace Birdie.Widgets {
             set_events(Gdk.EventMask.BUTTON_RELEASE_MASK);
             set_events(Gdk.EventMask.ENTER_NOTIFY_MASK);
             set_events(Gdk.EventMask.LEAVE_NOTIFY_MASK);
+
+            this.button_press_event.connect ((e) => {
+                if (e.button == Gdk.BUTTON_SECONDARY)
+                    rightclick_menu.popup (null, null, null, e.button, e.time);
+
+                return false;
+            });
 
             this.enter_notify_event.connect ((event) => {
                 this.show_buttons ();
