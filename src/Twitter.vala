@@ -37,7 +37,7 @@ namespace Birdie {
 
             this.proxy = new Rest.OAuthProxy (CONSUMER_KEY, CONSUMER_SECRET, URL_FORMAT, false);
 
-            this.settings = new Settings ("org.pantheon.birdie");
+            this.settings = new Settings ("org.birdieapp.birdie");
 
             this.token = "";
             this.token_secret = "";

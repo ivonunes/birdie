@@ -142,7 +142,7 @@ namespace Birdie {
             app_years           = "2013-2014";
             app_icon            = "birdie";
             app_launcher        = "birdie.desktop";
-            application_id      = "org.pantheon.birdie";
+            application_id      = "org.birdieapp.birdie";
             main_url            = "http://www.ivonunes.net/birdie/";
             bug_url             = "https://github.com/ivonunes/birdie/issues";
             help_url            = "https://github.com/ivonunes/birdie/wiki";
@@ -196,7 +196,7 @@ namespace Birdie {
                     Utils.Logger.DisplayLevel = Utils.LogLevel.WARN;
 
                 // settings
-                this.settings = new Settings ("org.pantheon.birdie");
+                this.settings = new Settings ("org.birdieapp.birdie");
                 this.tweet_notification = settings.get_boolean ("tweet-notification");
                 this.mention_notification = settings.get_boolean ("mention-notification");
                 this.dm_notification = settings.get_boolean ("dm-notification");

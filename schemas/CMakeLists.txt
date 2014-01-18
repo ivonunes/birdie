@@ -1,2 +1,2 @@
 include(GSettings)
-add_schema("org.pantheon.birdie.gschema.xml")
+add_schema("org.birdieapp.birdie.gschema.xml")

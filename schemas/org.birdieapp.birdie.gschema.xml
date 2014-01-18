@@ -1,5 +1,5 @@
 <schemalist>
-  <schema id="org.pantheon.birdie" path="/org/pantheon/birdie/" gettext-domain="birdie">
+  <schema id="org.birdieapp.birdie" path="/org/birdieapp/birdie/" gettext-domain="birdie">
 
     <key name="update-interval" type="i">
       <default>2</default>
@@ -87,6 +87,12 @@
       <description>
         Show a status icon in system tray, if supported
       </description>
+    </key>
+    
+    <key name="tweet-shortcut" type="s">
+      <default><![CDATA["<Mod4>T"]]></default>
+      <summary>Tweet shortcut</summary>
+      <description>Global keyboard shortcut to initiate a new tweet.</description>
     </key>
 
   </schema>
