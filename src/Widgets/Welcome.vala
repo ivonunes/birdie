@@ -31,7 +31,7 @@ namespace Birdie.Widgets
                         break;
                     case 1:
                         try {
-                            GLib.Process.spawn_command_line_async ("x-www-browser \"http://www.twitter.com/signup/\"");
+                            GLib.Process.spawn_command_line_async ("xdg-open \"http://www.twitter.com/signup/\"");
                         } catch (Error e) {
                             debug ("Could not open twitter.com/signup: " + e.message);
                         }

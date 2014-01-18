@@ -405,7 +405,7 @@ namespace Birdie {
                 var donate_appmenu = new Gtk.MenuItem.with_label (_("Donate"));
                 donate_appmenu.activate.connect (() => {
                     try {
-                        GLib.Process.spawn_command_line_async ("x-www-browser http://www.ivonunes.net/birdie/donate.html");
+                        GLib.Process.spawn_command_line_async ("xdg-open http://www.ivonunes.net/birdie/donate.html");
                     } catch (Error e) {
                     }
                 });
