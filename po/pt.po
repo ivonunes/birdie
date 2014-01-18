@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Birdie\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-18 13:29+0000\n"
-"PO-Revision-Date: 2014-01-18 13:37+0000\n"
+"POT-Creation-Date: 2014-01-18 13:40+0000\n"
+"PO-Revision-Date: 2014-01-18 13:41+0000\n"
 "Last-Translator: Ivo Nunes <ivoavnunes@gmail.com>\n"
 "Language-Team: Portuguese (http://www.transifex.com/projects/p/birdie/language/pt/)\n"
 "MIME-Version: 1.0\n"
@@ -272,6 +272,10 @@ msgstr "OK"
 #: /home/ivo/code/birdie/po/../src/Widgets/Dialogs.vala:81
 msgid "Preview"
 msgstr "Pré-visualização"
+
+#: /home/ivo/code/birdie/po/../src/Widgets/Dialogs.vala:106
+msgid "New List"
+msgstr "Nova Lista"
 
 #: /home/ivo/code/birdie/po/../src/Widgets/Dialogs.vala:115
 msgid "Name:"
