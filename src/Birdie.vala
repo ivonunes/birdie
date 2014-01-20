@@ -952,7 +952,7 @@ namespace Birdie {
                 bool active = false;
                 
                 if (this.adding_to_list) {
-                    this.notebook_own.set_show_tabs (true);
+                    this.notebook_own.set_tabs (true);
                     this.notebook_own.page = 0;
                     this.adding_to_list = false;
                 }

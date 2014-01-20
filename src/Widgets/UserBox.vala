@@ -137,7 +137,7 @@ namespace Birdie.Widgets {
                 this.birdie.current_timeline = "own";
                 this.birdie.notebook.set_visible_child_name ("own");
                 this.birdie.notebook_own.page = 2;
-                this.birdie.notebook_own.set_show_tabs (false);
+                this.birdie.notebook_own.set_tabs (false);
                 this.birdie.adding_to_list = true;
             });
 
