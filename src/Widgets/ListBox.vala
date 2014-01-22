@@ -25,6 +25,7 @@ namespace Birdie.Widgets {
         private Gtk.Box content_box;
         private Gtk.Box header_box;
         private Gtk.Label name_label;
+        private Gtk.EventBox name_label_event;
         private Gtk.Label description_label;
         private Gtk.Label time_label;
         private Gtk.Box buttons_box;
@@ -83,14 +84,32 @@ namespace Birdie.Widgets {
             this.name_label = new Gtk.Label ("");
             this.name_label.set_halign (Gtk.Align.START);
             this.name_label.set_valign (Gtk.Align.START);
-            this.name_label.set_selectable (true);
+            this.name_label.set_selectable (false);
             this.name_label.set_markup (
-                "<span underline='none' color='#222' font_weight='bold' size='large'><a href='birdie://list/" + list.owner + "/" + list.id + "'>" + list.name +
-                "</a></span> <span font_weight='light' color='#999'>" +
+                "<span underline='none' font_weight='bold' size='large'>" + list.name + 
+                "</span> <span font_weight='light' color='#999'>" +
                 list.owner + "</span>"
                 );
 
-            this.header_box.pack_start (this.name_label, false, true, 0);
+            this.name_label_event = new Gtk.EventBox ();
+            this.name_label_event.add (this.name_label); 
+
+            this.name_label_event.enter_notify_event.connect ((event) => {
+                event.window.set_cursor (
+                    new Gdk.Cursor.from_name (Gdk.Display.get_default(), "hand2")
+                );
+                return false;
+            });
+
+            this.name_label_event.button_release_event.connect ((event) => {
+                try {
+                    GLib.Process.spawn_command_line_async ("xdg-open birdie://list/" + list.owner + "/" + list.id);
+                } catch (Error e) {
+                }
+                return false;
+            });
+
+            this.header_box.pack_start (this.name_label_event, false, true, 0);
 
             // time label
             this.time_label = new Gtk.Label ("");

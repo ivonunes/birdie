@@ -66,7 +66,7 @@ namespace Birdie.Widgets {
 
             description_txt = description_txt.chomp ();
 
-            string txt = "<span underline='none' color='#000000' font_weight='bold' size='x-large'>" +
+            string txt = "<span underline='none' font_weight='bold' size='x-large'>" +
                 user.name.chomp () + "</span> <span font_weight='light' color='#444444' size='small'>\n@" + user.screen_name + "</span>";
 
             if (user.location != "")
