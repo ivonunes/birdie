@@ -135,6 +135,13 @@ namespace Birdie {
 
             debug ("Table users created");
 
+            // hashtags completion table
+            rc = this.db.exec ("CREATE TABLE IF NOT EXISTS hashtags (id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                 "hashtag VARCHAR," +
+                 "account_id INTEGER)", null, null);
+
+            debug ("Table hashtags created");
+
             return rc;
         }
 
@@ -198,6 +205,31 @@ namespace Birdie {
 
                     if (res == Sqlite.DONE)
                         debug ("user added: " + screen_name);
+                }
+
+                return null;
+            });
+        }
+
+        public void add_hashtag (string hashtag, int account_id) {
+            new Thread<void*> (null, () => {
+                Sqlite.Statement stmt;
+
+                if (!hashtag_exists ("#" + hashtag, account_id)) {
+
+                    int res = db.prepare_v2 ("INSERT INTO hashtags (hashtag, account_id) " +
+                        "VALUES (?, ?)", -1, out stmt);
+                    assert(res == Sqlite.OK);
+
+                    res = stmt.bind_text (1, "#" + hashtag);
+                    assert(res == Sqlite.OK);
+                    res = stmt.bind_int (2, account_id);
+                    assert(res == Sqlite.OK);
+
+                    res = stmt.step ();
+
+                    if (res == Sqlite.DONE)
+                        debug ("hashtag added: " + hashtag);
                 }
 
                 return null;
@@ -270,6 +302,25 @@ namespace Birdie {
             assert(res == Sqlite.OK);
 
             res = stmt.bind_text (1, screen_name);
+            assert(res == Sqlite.OK);
+            res = stmt.bind_int (2, account_id);
+            assert(res == Sqlite.OK);
+
+            if (stmt.step() == Sqlite.ROW) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public bool hashtag_exists (string hashtag, int account_id) {
+            Sqlite.Statement stmt;
+
+            int res = db.prepare_v2 ("SELECT id FROM hashtags " +
+                "WHERE hashtag LIKE ? AND account_id = ?", -1, out stmt);
+            assert(res == Sqlite.OK);
+
+            res = stmt.bind_text (1, hashtag);
             assert(res == Sqlite.OK);
             res = stmt.bind_int (2, account_id);
             assert(res == Sqlite.OK);
@@ -448,6 +499,24 @@ namespace Birdie {
 
             int res = db.prepare_v2 ("SELECT screen_name FROM users WHERE account_id = ?" +
                 " ORDER BY screen_name", -1, out stmt);
+            assert (res == Sqlite.OK);
+
+            res = stmt.bind_int (1, account_id);
+            assert (res == Sqlite.OK);
+
+            List<string?> all = new List<string?> ();
+
+            while ((res = stmt.step()) == Sqlite.ROW) {
+                all.append (stmt.column_text(0));
+            }
+            return all;
+        }
+
+        public List<string?> get_hashtags (int account_id) {
+            Sqlite.Statement stmt;
+
+            int res = db.prepare_v2 ("SELECT hashtag FROM hashtags WHERE account_id = ?" +
+                " ORDER BY hashtag", -1, out stmt);
             assert (res == Sqlite.OK);
 
             res = stmt.bind_int (1, account_id);
