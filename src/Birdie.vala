@@ -755,6 +755,11 @@ namespace Birdie {
         }
 
         public void* init () {
+            Idle.add (() => {
+                this.appmenu.set_sensitive (false);
+                return false;
+            });
+
             this.switch_timeline ("loading");
 
             if (this.check_internet_connection ()) {
@@ -833,12 +838,11 @@ namespace Birdie {
                     get_userbox_avatar (this.own_box_info, true);
                     this.db.update_account (this.api.account);
 
-                    if (!this.initialized) {
-                        this.set_user_menu ();
-                        this.set_account_avatar (this.api.account);
-                    }
+                    this.set_user_menu ();
+                    this.set_account_avatar (this.api.account);
 
                     this.initialized = true;
+                    this.appmenu.set_sensitive (true);
 
                     return false;
                 });
