@@ -1099,6 +1099,12 @@ namespace Birdie {
                     this.home_list.append (tweet, this);
                     this.db.add_user (tweet.user_screen_name,
                         tweet.user_name, this.default_account_id);
+
+                    foreach (string hashtag in Utils.get_hashtags_list(tweet.text)) {
+                        if (hashtag.has_prefix("#"))
+                            this.db.add_hashtag (hashtag.replace ("#", ""), this.default_account_id);
+                    }
+
                     if (this.tweet_notification) {
                         if ((this.api.account.screen_name != tweet.user_screen_name) &&
                                 this.api.home_timeline.length () <= this.limit_notifications) {

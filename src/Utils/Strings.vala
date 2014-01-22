@@ -43,6 +43,22 @@ namespace Birdie.Utils {
         return text;
     }
 
+    string[] get_hashtags_list (string text) {
+        Regex? hashtags = null;
+
+        try {
+            try { 
+                hashtags = new Regex("\\B([#][[:alpha:]0-9_.-\\p{Latin}\\p{Greek}]+)");
+            } catch (RegexError e) {
+                hashtags = new Regex("\\B([#][[:alpha:]0-9_]+)");
+            }
+        } catch (RegexError e) {
+            warning ("regex error: %s", e.message);
+        }
+
+        return hashtags.split (text);
+    }
+
     string highlight_users (owned string text) {
         Regex users;
 

@@ -142,7 +142,7 @@ namespace Birdie.Widgets {
 
             var comp_provider = new CompletionProvider (this.view, this.birdie.default_account_id);
             comp_provider.priority = 1;
-            comp_provider.name = _("Users");
+            comp_provider.name = _("Suggestions");
 
             try {
                 this.view.completion.add_provider (comp_provider);

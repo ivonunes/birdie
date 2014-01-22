@@ -86,6 +86,8 @@ namespace Birdie.Widgets {
             
             if ("@@" in current_buffer.text)
                 current_buffer.text = current_buffer.text.replace ("@@", "@");
+            if ("##" in current_buffer.text)
+                current_buffer.text = current_buffer.text.replace ("##", "#");
 
             return true;
         }
@@ -145,9 +147,19 @@ namespace Birdie.Widgets {
             var db = new SqliteDatabase (true);
 
             foreach (var screen_name in db.get_users (this.default_account_id)) {
-                if (screen_name.has_prefix (to_find)) {
+                if (screen_name.down ().has_prefix (to_find.down ())) {
                     var item = new Gtk.SourceCompletionItem (screen_name,
                                                             screen_name,
+                                                            null,
+                                                            null);
+                    props.append (item);
+                }
+            }
+
+            foreach (var hashtag in db.get_hashtags (this.default_account_id)) {
+                if (hashtag.down ().has_prefix (to_find.down ())) {
+                    var item = new Gtk.SourceCompletionItem (hashtag,
+                                                            hashtag,
                                                             null,
                                                             null);
                     props.append (item);
