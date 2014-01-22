@@ -858,6 +858,9 @@ namespace Birdie {
         protected void get_dm_sent_response (
             Rest.ProxyCall call, Error? error, Object? obj) {
 
+            string media_url = "";
+            string youtube_video = "";
+
             try {
                 var parser = new Json.Parser ();
                 parser.load_from_data ((string) call.get_payload (), -1);
@@ -875,10 +878,13 @@ namespace Birdie {
                     var created_at = tweetobject.get_string_member ("created_at");
                     var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
                     var profile_image_file = "";
+                    Json.Object entitiesobject = tweetobject.get_object_member ("entities");
+                    parse_media_url (ref entitiesobject, ref text, ref media_url, ref youtube_video);
+
                     var tweet = new Tweet (id, id, user_name,
                         user_screen_name, text, created_at,
                         profile_image_url, profile_image_file,
-                        false, false, true);
+                        false, false, true, "", "", "", media_url, youtube_video);
 
                     dm_sent_timeline.append (tweet);
                     this.db.add_tweet (tweet, "dm_outbox", this.account_id);
