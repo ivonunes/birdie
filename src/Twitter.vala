@@ -425,6 +425,7 @@ namespace Birdie {
 
         private string get_media (string image_url) {
             var image_file = image_url;
+            debug(image_url);
 
             if ("/" in image_file)
                 image_file = image_file.split ("/")[4] + "_" + image_file.split ("/")[5];
@@ -833,7 +834,7 @@ namespace Birdie {
 
             string media_url = "";
             string youtube_video = "";
-            //string expanded = "";
+            string expanded = "";
 
             try {
                 var parser = new Json.Parser ();
@@ -858,19 +859,18 @@ namespace Birdie {
                     var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
                     var profile_image_file = "";
 
-                    /*var entitiesobject = tweetobject.get_object_member ("entities");
+                    var entitiesobject = tweetobject.get_object_member ("entities");
 
-                    if (entitiesobject.has_member("media")) {
+                    /*if (entitiesobject.has_member("media")) {
                         foreach (var media in entitiesobject.get_array_member ("media").get_elements ()) {
                             media_url = media.get_object ().get_string_member ("media_url");
                             media_url = this.get_media (media_url);
                         }
                     } else {
                         media_url = "";
-                    }
+                    }*/
 
                    if (entitiesobject.has_member("urls")) {
-                        debug ("tem!");
                         foreach (var url in entitiesobject.get_array_member ("urls").get_elements ()) {
                             expanded = url.get_object ().get_string_member ("expanded_url");
 
@@ -890,7 +890,7 @@ namespace Birdie {
                             text = text.replace (url.get_object ().get_string_member ("url"),
                                 url.get_object ().get_string_member ("expanded_url"));
                         }
-                    }*/
+                    }
 
                     var tweet = new Tweet (id, id, user_name,
                         user_screen_name, text, created_at,
