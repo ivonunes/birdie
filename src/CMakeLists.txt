@@ -65,6 +65,13 @@ else ()
     message(STATUS "Granite support: OFF")
 endif ()
 
+if (LIBUNITY_FOUND OR LIBMESSAGINGMENU_FOUND OR GRANITE_FOUND)
+    set(EXTRA_PACKAGES
+        ${EXTRA_PACKAGES}
+        Dbusmenu-0.4
+    )
+endif ()
+
 set(TARGET_GLIB 2.32)
 
 pkg_check_modules(DEPS REQUIRED
@@ -103,8 +110,7 @@ if (NOT DEBUG)
 endif ()
 
 set(BIRDIE_PACKAGES
-    gtk+-3.0 gtksourceview-3.0 gee-1.0 rest-0.7 json-glib-1.0 libnotify>=0.7.5 libcanberra>=0.28
- Dbusmenu-0.4 gdk-x11-3.0 webkitgtk-3.0 sqlite3 xtst purple posix ${EXTRA_PACKAGES}
+    gtk+-3.0 gtksourceview-3.0 gee-1.0 rest-0.7 json-glib-1.0 libnotify>=0.7.5 libcanberra>=0.28  gdk-x11-3.0 webkitgtk-3.0 sqlite3 xtst purple posix ${EXTRA_PACKAGES}
 )
 
 set(VALAC_OPTIONS
