@@ -97,9 +97,8 @@ namespace Birdie.Widgets {
                    Gtk.SourceCompletionActivation.USER_REQUESTED;
         }
 
-        Gtk.Box box_info_frame = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
         public unowned Gtk.Widget? get_info_widget (Gtk.SourceCompletionProposal proposal) {
-            return box_info_frame;
+            return null;
         }
 
         public int get_interactive_dela () {

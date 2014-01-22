@@ -140,6 +140,8 @@ namespace Birdie.Widgets {
                 }
             });
 
+            view.completion.accelerators = 0;
+
             var comp_provider = new CompletionProvider (this.view, this.birdie.default_account_id);
             comp_provider.priority = 1;
             comp_provider.name = _("Suggestions");
