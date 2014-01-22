@@ -163,6 +163,59 @@ namespace Birdie {
         }
     }
 
+    public void parse_media_url (ref Json.Object entitiesobject,
+                                 ref string text,
+                                 ref string media_url,
+                                 ref string youtube_video) {
+
+        string expanded;
+
+        if (entitiesobject.has_member("media")) {
+            foreach (var media in entitiesobject.get_array_member ("media").get_elements ()) {
+                media_url = media.get_object ().get_string_member ("media_url");
+                media_url = get_media (media_url);
+            }
+        } else {
+            media_url = "";
+        }
+
+       if (entitiesobject.has_member ("urls")) {
+            foreach (var url in entitiesobject.get_array_member ("urls").get_elements ()) {
+                expanded = url.get_object ().get_string_member ("expanded_url");
+
+                // intercept youtube links
+                if (expanded.contains ("youtube.com") || expanded.contains ("youtu.be")) {
+                    if (expanded.contains ("youtu.be"))
+                        expanded = expanded.replace ("youtu.be/", "youtube.com/watch?v=");
+                    youtube_video = get_youtube_video (expanded);
+                }
+
+                // intercept imgur media links
+                if (expanded.contains ("imgur.com/")) {
+                    media_url = get_imgur_media (expanded);
+                }
+
+                // replace short urls by expanded ones in tweet text
+                text.replace (url.get_object ().get_string_member ("url"),
+                    url.get_object ().get_string_member ("expanded_url"));
+            }
+        }
+    }
+
+    private string get_media (string image_url) {
+        var image_file = image_url;
+        debug(image_url);
+
+        if ("/" in image_file)
+            image_file = image_file.split ("/")[4] + "_" + image_file.split ("/")[5];
+
+        new Utils.Downloader (image_url + ":medium",
+            Environment.get_home_dir () +
+            "/.cache/birdie/media/" + image_file);
+
+        return image_file;
+    }
+
     public string get_imgur_media (string url) {
         if (Utils.check_internet_connection ()) {
             string imgur_id = "";

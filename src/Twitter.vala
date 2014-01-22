@@ -423,20 +423,6 @@ namespace Birdie {
             );
         }
 
-        private string get_media (string image_url) {
-            var image_file = image_url;
-            debug(image_url);
-
-            if ("/" in image_file)
-                image_file = image_file.split ("/")[4] + "_" + image_file.split ("/")[5];
-
-            new Utils.Downloader (image_url + ":medium",
-                Environment.get_home_dir () +
-                "/.cache/birdie/media/" + image_file);
-
-            return image_file;
-        }
-
         public override Tweet get_tweet (Json.Node tweetnode) {
 
             string id = "";
@@ -451,7 +437,6 @@ namespace Birdie {
             string media_url = "";
             string youtube_video = "";
             string? in_reply_to_screen_name = "";
-            string expanded = "";
             string? in_reply_to_status_id = "";
 
             bool retweeted = false;
@@ -485,38 +470,8 @@ namespace Birdie {
             if (in_reply_to_status_id == null)
                 in_reply_to_status_id = "";
 
-            var entitiesobject = tweetobject.get_object_member ("entities");
-
-            if (entitiesobject.has_member("media")) {
-                foreach (var media in entitiesobject.get_array_member ("media").get_elements ()) {
-                    media_url = media.get_object ().get_string_member ("media_url");
-                    media_url = this.get_media (media_url);
-                }
-            } else {
-                media_url = "";
-            }
-
-           if (entitiesobject.has_member("urls")) {
-                foreach (var url in entitiesobject.get_array_member ("urls").get_elements ()) {
-                    expanded = url.get_object ().get_string_member ("expanded_url");
-
-                    // intercept youtube links
-                    if (expanded.contains ("youtube.com") || expanded.contains ("youtu.be")) {
-                        if (expanded.contains ("youtu.be"))
-                            expanded = expanded.replace("youtu.be/", "youtube.com/watch?v=");
-                        youtube_video = get_youtube_video (expanded);
-                    }
-
-                    // intercept imgur media links
-                    if (expanded.contains ("imgur.com/")) {
-                        media_url = get_imgur_media (expanded);
-                    }
-
-                    // replace short urls by expanded ones in tweet text
-                    text = text.replace (url.get_object ().get_string_member ("url"),
-                        url.get_object ().get_string_member ("expanded_url"));
-                }
-            }
+            Json.Object entitiesobject = tweetobject.get_object_member ("entities");
+            parse_media_url (ref entitiesobject, ref text, ref media_url, ref youtube_video);
 
             return new Tweet (id, actual_id, user_name, user_screen_name,
                 Utils.highlight_all (text), created_at, profile_image_url, profile_image_file,
@@ -828,13 +783,11 @@ namespace Birdie {
             }
         }
 
-
         protected void get_dm_response (
             Rest.ProxyCall call, Error? error, Object? obj) {
 
             string media_url = "";
             string youtube_video = "";
-            string expanded = "";
 
             try {
                 var parser = new Json.Parser ();
@@ -859,38 +812,8 @@ namespace Birdie {
                     var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
                     var profile_image_file = "";
 
-                    var entitiesobject = tweetobject.get_object_member ("entities");
-
-                    /*if (entitiesobject.has_member("media")) {
-                        foreach (var media in entitiesobject.get_array_member ("media").get_elements ()) {
-                            media_url = media.get_object ().get_string_member ("media_url");
-                            media_url = this.get_media (media_url);
-                        }
-                    } else {
-                        media_url = "";
-                    }*/
-
-                   if (entitiesobject.has_member("urls")) {
-                        foreach (var url in entitiesobject.get_array_member ("urls").get_elements ()) {
-                            expanded = url.get_object ().get_string_member ("expanded_url");
-
-                            // intercept youtube links
-                            if (expanded.contains ("youtube.com") || expanded.contains ("youtu.be")) {
-                                if (expanded.contains ("youtu.be"))
-                                    expanded = expanded.replace("youtu.be/", "youtube.com/watch?v=");
-                                youtube_video = get_youtube_video (expanded);
-                            }
-
-                            // intercept imgur media links
-                            if (expanded.contains ("imgur.com/")) {
-                                media_url = get_imgur_media (expanded);
-                            }
-
-                            // replace short urls by expanded ones in tweet text
-                            text = text.replace (url.get_object ().get_string_member ("url"),
-                                url.get_object ().get_string_member ("expanded_url"));
-                        }
-                    }
+                    Json.Object entitiesobject = tweetobject.get_object_member ("entities");
+                    parse_media_url (ref entitiesobject, ref text, ref media_url, ref youtube_video);
 
                     var tweet = new Tweet (id, id, user_name,
                         user_screen_name, text, created_at,
