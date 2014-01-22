@@ -143,9 +143,9 @@ namespace Birdie {
             app_icon            = "birdie";
             app_launcher        = "birdie.desktop";
             application_id      = "org.birdieapp.birdie";
-            main_url            = "http://www.ivonunes.net/birdie/";
-            bug_url             = "https://github.com/ivonunes/birdie/issues";
-            help_url            = "https://github.com/ivonunes/birdie/wiki";
+            main_url            = "http://birdieapp.github.io/";
+            bug_url             = "https://github.com/birdieapp/birdie/issues";
+            help_url            = "https://github.com/birdieapp/birdie/wiki";
             translate_url       = "http://www.transifex.com/projects/p/birdie/";
             about_authors       = {"Ivo Nunes <ivo@elementaryos.org>", "Vasco Nunes <vascomfnunes@gmail.com>"};
             about_artists       = {"Daniel Foré <daniel@elementaryos.org>", "Mustapha Asbbar"};
@@ -390,7 +390,7 @@ namespace Birdie {
                     dialog.license_type = Gtk.License.GPL_3_0;
                     dialog.wrap_license = true;
 
-                    dialog.website = "http://www.ivonunes.net/birdie";
+                    dialog.website = "http://birdieapp.github.io/";
                     dialog.website_label = "Birdie Website";
 
                     dialog.response.connect ((response_id) => {
