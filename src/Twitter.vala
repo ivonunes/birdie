@@ -460,7 +460,7 @@ namespace Birdie {
             user_screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
             text = tweetobject.get_string_member ("text");
             created_at = tweetobject.get_string_member ("created_at");
-             profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
+            profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
             verified = tweetobject.get_object_member ("user").get_boolean_member ("verified");
             in_reply_to_screen_name = tweetobject.get_string_member ("in_reply_to_screen_name");
             in_reply_to_status_id = tweetobject.get_string_member ("in_reply_to_status_id_str");
