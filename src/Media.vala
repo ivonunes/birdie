@@ -169,6 +169,8 @@ namespace Birdie {
                                  ref string youtube_video) {
 
         string expanded;
+        media_url = "";
+        youtube_video = "";
 
         if (entitiesobject.has_member("media")) {
             foreach (var media in entitiesobject.get_array_member ("media").get_elements ()) {
