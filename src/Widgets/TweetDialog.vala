@@ -21,7 +21,7 @@ namespace Birdie.Widgets {
     public class TweetDialog : Gtk.Dialog {
 #endif
         Gtk.Image avatar;
-        Gtk.TextView view;
+        Gtk.SourceView view;
         Gtk.Entry entry;
         Gtk.EntryCompletion entry_completion;
         Gtk.Label count_label;
@@ -107,7 +107,7 @@ namespace Birdie.Widgets {
             this.avatar.set_from_file (Environment.get_home_dir () +
                 "/.cache/birdie/" + this.birdie.api.account.profile_image_file);
 
-            this.view = new Gtk.TextView ();
+            this.view = new Gtk.SourceView ();
             this.view.set_wrap_mode (Gtk.WrapMode.WORD_CHAR);
             this.view.set_size_request(300, 80);
             this.view.set_accepts_tab (false);
@@ -131,6 +131,25 @@ namespace Birdie.Widgets {
                 list_store.append (out iter);
                 list_store.set (iter, 0, user);
             }
+
+            view.completion.get_providers ().foreach ((p) => { 
+                try {
+                    view.completion.remove_provider (p); 
+                } catch (Error e) {
+                    warning (e.message);
+                }
+            });
+
+            var comp_provider = new CompletionProvider (this.view, this.birdie.default_account_id);
+            comp_provider.priority = 1;
+            comp_provider.name = _("Users");
+
+            try {
+                this.view.completion.add_provider (comp_provider);
+            } catch (Error e) {
+                warning (e.message);
+            }
+
 
             if (dm && user_screen_name == "") {
                 this.entry.set_text ("@");

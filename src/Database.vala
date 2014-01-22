@@ -21,14 +21,18 @@ namespace Birdie {
         private Sqlite.Database db;
         private string db_path;
 
-        construct {
-            int rc;
+        public SqliteDatabase (bool skip_tables = false) {
+            int rc = 0;
+
             this.db_path = Environment.get_home_dir () + "/.local/share/birdie/birdie.db";
 
-            if (create_tables () != Sqlite.OK) {
-                stderr.printf ("Error creating db table: %d, %s\n", rc, this.db.errmsg ());
-                Gtk.main_quit ();
+            if (!skip_tables) {
+                if (create_tables () != Sqlite.OK) {
+                    stderr.printf ("Error creating db table: %d, %s\n", rc, this.db.errmsg ());
+                    Gtk.main_quit ();
+                }
             }
+
             rc = Sqlite.Database.open (this.db_path, out this.db);
 
             if (rc != Sqlite.OK) {

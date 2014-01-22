@@ -69,6 +69,7 @@ set(TARGET_GLIB 2.32)
 
 pkg_check_modules(DEPS REQUIRED
 	gtk+-3.0
+    gtksourceview-3.0
     gee-1.0
 	rest-0.7
 	json-glib-1.0
@@ -102,7 +103,7 @@ if (NOT DEBUG)
 endif ()
 
 set(BIRDIE_PACKAGES
-    gtk+-3.0 gee-1.0 rest-0.7 json-glib-1.0 libnotify>=0.7.5 libcanberra>=0.28
+    gtk+-3.0 gtksourceview-3.0 gee-1.0 rest-0.7 json-glib-1.0 libnotify>=0.7.5 libcanberra>=0.28
  Dbusmenu-0.4 gdk-x11-3.0 webkitgtk-3.0 sqlite3 xtst purple posix ${EXTRA_PACKAGES}
 )
 
@@ -110,8 +111,6 @@ set(VALAC_OPTIONS
     --vapidir=${CMAKE_SOURCE_DIR}/vapi
     --target-glib=${TARGET_GLIB}
     --thread
-    --enable-checking
-    --debug
     --fatal-warnings
     ${EXTRA_VALA_OPTIONS}
 )
@@ -144,6 +143,7 @@ vala_precompile(VALA_C
     Widgets/MoreButton.vala
     Widgets/ListsView.vala
     Widgets/ListBox.vala
+    Widgets/CompletionProvider.vala
     Utils/Cairo.vala
     Utils/Date.vala
     Utils/Notifications.vala
