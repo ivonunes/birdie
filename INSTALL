@@ -10,7 +10,7 @@
 # There's an official package on the AUR: https://aur.archlinux.org/packages/birdie-git/
 
 # UBUNTU
-# sudo apt-get install cmake valac libgtk-3-dev librest-dev libjson-glib-dev libnotify-dev libcanberra-dev libx11-dev libwebkitgtk-3.0-dev libsqlite3-dev libxtst-dev libpurple-dev libgee-dev libdbusmenu-gtk-dev
+# sudo apt-get install cmake valac libgtk-3-dev librest-dev libjson-glib-dev libnotify-dev libcanberra-dev libx11-dev libwebkitgtk-3.0-dev libsqlite3-dev libxtst-dev libpurple-dev libgee-dev libdbusmenu-gtk-dev libgtksourceview-3.0-dev
 
 # FEDORA
 # yum install gcc gcc-c++ cmake vala libgee06-devel rest-devel libcanberra-devel libsqlite3x-devel libXtst-devel libpurple-devel libdbusmenu-devel json-glib-devel libnotify-devel webkitgtk3-devel libwnck3-devel
