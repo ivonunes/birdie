@@ -424,7 +424,7 @@ namespace Birdie {
                 });
                 menu.add (account_appmenu);
                 menu.add (remove_appmenu);
-                
+
                 if (!Utils.is_gnome ()) {
                     menu.add (new Gtk.SeparatorMenuItem ());
                     menu.add (about_appmenu);
@@ -435,7 +435,7 @@ namespace Birdie {
                 this.appmenu = new Gtk.MenuButton ();
                 this.appmenu.set_relief (Gtk.ReliefStyle.NONE);
                 this.appmenu.set_popup (menu);
-                
+
                 if (Utils.is_gnome ()) {
                     var action = new GLib.SimpleAction ("about", null);
                     action.activate.connect (() => { about_appmenu.activate (); });
@@ -455,7 +455,7 @@ namespace Birdie {
 
                     set_app_menu (menu);
                 }
-                
+
                 this.m_window.header.pack_end (appmenu);
 
                 /*==========  tweets lists  ==========*/
@@ -649,14 +649,14 @@ namespace Birdie {
                     new Thread<void*> (null, show_search);
                 } else if ("birdie://list/" in url) {
                     list_id = url.replace ("birdie://list/", "");
-                       
+
                     list_owner = list_id.split("/")[0];
                     list_owner = list_owner.replace("@", "");
                     list_id = list_id.split("/")[1];
-                    
+
                     if ("/" in list_id)
                        list_id = search_term.replace ("/", "");
-                    
+
                     if (this.adding_to_list) {
                         if (list_owner == this.api.account.screen_name) {
                             this.api.add_to_list (list_id, user);
@@ -954,7 +954,7 @@ namespace Birdie {
                 this.changing_tab = true;
 
                 bool active = false;
-                
+
                 if (this.adding_to_list) {
                     this.notebook_own.set_tabs (true);
                     this.notebook_own.page = 0;
@@ -1088,6 +1088,7 @@ namespace Birdie {
         public void update_home_ui () {
             string notify_header = "";
             string notify_text = "";
+            string avatar = "";
 
             Idle.add (() => {
                 this.home_tmp.foreach ((tweet) => {
@@ -1110,29 +1111,11 @@ namespace Birdie {
                                 this.api.home_timeline.length () <= this.limit_notifications) {
                             notify_header = _("New tweet from") + " " + tweet.user_screen_name;
                             notify_text = tweet.text;
+                            avatar = tweet.profile_image_file;
                         }
                         this.unread_tweets++;
                     }
                 });
-
-                if (this.tweet_notification && this.api.home_timeline.length () <=
-                    this.limit_notifications  &&
-                    this.api.home_timeline.length () > 0) {
-                        Utils.notify (notify_header, notify_text, "home", this);
-                }
-
-                if (this.tweet_notification && this.api.home_timeline.length () > this.limit_notifications) {
-                    Utils.notify (this.unread_tweets.to_string () + " " + _("new tweets"), "", "home", this);
-                }
-
-                if (this.tweet_notification && get_total_unread () > 0) {
-                    #if HAVE_LIBMESSAGINGMENU
-                    this.indicator.update_tweets_indicator (this.unread_tweets);
-                    #endif
-                    #if HAVE_LIBUNITY
-                    this.launcher.set_count (get_total_unread ());
-                    #endif
-                }
 
                 if (!this.ready) {
                     get_all_avatars ();
@@ -1150,6 +1133,26 @@ namespace Birdie {
                 } else {
                     get_avatar (this.home_list);
                 }
+
+                if (this.tweet_notification && this.api.home_timeline.length () <=
+                    this.limit_notifications  &&
+                    this.api.home_timeline.length () > 0) {
+                        Utils.notify (notify_header, avatar, notify_text, "home", this);
+                }
+
+                if (this.tweet_notification && this.api.home_timeline.length () > this.limit_notifications) {
+                    Utils.notify (this.unread_tweets.to_string () + " " + _("new tweets"), "", "", "home", this);
+                }
+
+                if (this.tweet_notification && get_total_unread () > 0) {
+                    #if HAVE_LIBMESSAGINGMENU
+                    this.indicator.update_tweets_indicator (this.unread_tweets);
+                    #endif
+                    #if HAVE_LIBUNITY
+                    this.launcher.set_count (get_total_unread ());
+                    #endif
+                }
+
                 return false;
             });
         }
@@ -1212,6 +1215,7 @@ namespace Birdie {
             bool new_mentions = false;
             string notify_header = "";
             string notify_text = "";
+            string avatar = "";
 
             Idle.add (() => {
                 this.api.mentions_timeline.foreach ((tweet) => {
@@ -1223,20 +1227,24 @@ namespace Birdie {
                                     this.api.mentions_timeline.length () <= this.limit_notifications) {
                                 notify_header = _("New mention from") + " " + tweet.user_screen_name;
                                 notify_text = tweet.text;
+                                avatar = tweet.profile_image_file;
                             }
                         this.unread_mentions++;
                         new_mentions = true;
                     }
                 });
 
+                if (this.ready)
+                    get_avatar (this.mentions_list);
+
                 if (this.tweet_notification && this.api.mentions_timeline.length () <=
                     this.limit_notifications &&
                     this.api.mentions_timeline.length () > 0) {
-                        Utils.notify (notify_header, notify_text, "mentions", this);
+                        Utils.notify (notify_header, avatar, notify_text, "mentions", this);
                 }
 
                 if (this.mention_notification && this.api.mentions_timeline.length () > this.limit_notifications) {
-                    Utils.notify (this.unread_mentions.to_string () + " " + _("new mentions"), "", "mentions", this);
+                    Utils.notify (this.unread_mentions.to_string () + " " + _("new mentions"), "", "", "mentions", this);
                 }
 
                 if (this.mention_notification && new_mentions) {
@@ -1248,9 +1256,6 @@ namespace Birdie {
                     #endif
                 }
 
-                if (this.ready)
-                    get_avatar (this.mentions_list);
-
                 return false;
             });
         }
@@ -1259,6 +1264,7 @@ namespace Birdie {
             bool new_dms = false;
             string notify_header = "";
             string notify_text = "";
+            string avatar = "";
 
             Idle.add (() => {
                 this.api.dm_timeline.foreach ((tweet) => {
@@ -1272,20 +1278,25 @@ namespace Birdie {
                                     this.limit_notifications) {
                             notify_header = _("New direct message from") + " " + tweet.user_screen_name;
                             notify_text = tweet.text;
+                            avatar = tweet.profile_image_file;
                         }
                         this.unread_dm++;
                         new_dms = true;
                     }
                 });
 
+
+                if (this.ready)
+                    get_avatar (this.dm_list);
+
                 if (this.tweet_notification && this.api.dm_timeline.length () <=
                     this.limit_notifications  &&
                     this.api.dm_timeline.length () > 0) {
-                        Utils.notify (notify_header, notify_text, "dm", this);
+                        Utils.notify (notify_header, avatar, notify_text, "dm", this, true);
                 }
 
                 if (this.dm_notification && this.api.dm_timeline.length () > this.limit_notifications) {
-                    Utils.notify (this.unread_dm.to_string () + " " + _("new direct messages"), "", "dm", this);
+                    Utils.notify (this.unread_dm.to_string () + " " + _("new direct messages"), "", "dm", "", this, true);
                 }
 
                 if (this.dm_notification && new_dms) {
@@ -1296,9 +1307,6 @@ namespace Birdie {
                     this.launcher.set_count (get_total_unread ());
                     #endif
                 }
-
-                if (this.ready)
-                    get_avatar (this.dm_list);
 
                 return false;
             });
@@ -1575,7 +1583,7 @@ namespace Birdie {
                 show_user ();
                 return null;
             }
-            
+
             if (this.check_internet_connection ()) {
                 this.search_list.clear ();
 

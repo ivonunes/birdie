@@ -52,8 +52,30 @@ namespace Birdie {
         if (!ignore_mutex)
             avatar_mutex.lock ();
 
-        var profile_image_url = tweetbox.tweet.profile_image_url;
-        var profile_image_file = profile_image_url;
+        string profile_image_url = tweetbox.tweet.profile_image_url;
+        string profile_image_file = parse_profile_image_file (profile_image_url);
+
+        if (!File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/" + profile_image_file).query_exists ()) {
+            new Utils.Downloader (profile_image_url,
+                Environment.get_home_dir () +
+                "/.cache/birdie/" + profile_image_file);
+
+            Utils.generate_rounded_avatar (Environment.get_home_dir () +
+                "/.cache/birdie/" + profile_image_file);
+        }
+
+        Idle.add (() => {
+            tweetbox.set_avatar (Environment.get_home_dir () +
+                "/.cache/birdie/" + profile_image_file);
+            return false;
+        });
+
+        if (!ignore_mutex)
+            avatar_mutex.unlock ();
+    }
+
+    public string parse_profile_image_file (string profile_image_url) {
+        string profile_image_file = profile_image_url;
 
         if ("/" in profile_image_file)
             profile_image_file = profile_image_file.split ("/")[4] + "_" + profile_image_file.split ("/")[5];
@@ -65,47 +87,19 @@ namespace Birdie {
             }
             profile_image_file = profile_image_file + ".png";
         }
-
-        if (!File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/" + profile_image_file).query_exists ()) {
-            new Utils.Downloader (profile_image_url,
-                Environment.get_home_dir () +
-                "/.cache/birdie/" + profile_image_file);
-            
-            Utils.generate_rounded_avatar (Environment.get_home_dir () +
-                "/.cache/birdie/" + profile_image_file);
-        }
-        
-        Idle.add (() => {
-            tweetbox.set_avatar (Environment.get_home_dir () +
-                "/.cache/birdie/" + profile_image_file);
-            return false;
-        });
-
-        if (!ignore_mutex)
-            avatar_mutex.unlock ();
+        return profile_image_file;
     }
 
     public void get_userbox_avatar (Widgets.UserBox userbox, bool own = false) {
         if (Utils.check_internet_connection ()) {
             var profile_image_url = userbox.user.profile_image_url;
-            var profile_image_file = profile_image_url;
-
-            if ("/" in profile_image_file)
-                profile_image_file = profile_image_file.split ("/")[4] + "_" + profile_image_file.split ("/")[5];
-
-            if (".png" in profile_image_url) {
-            } else {
-                if ("." in profile_image_file) {
-                    profile_image_file = profile_image_file.split (".")[0];
-                }
-                profile_image_file = profile_image_file + ".png";
-            }
+            var profile_image_file = parse_profile_image_file (profile_image_url);
 
             if (!File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/" + profile_image_file).query_exists ()) {
                 new Utils.Downloader (profile_image_url,
                     Environment.get_home_dir () +
                     "/.cache/birdie/" + profile_image_file);
-            
+
                 Utils.generate_rounded_avatar (Environment.get_home_dir () +
                     "/.cache/birdie/" + profile_image_file);
             }
@@ -206,7 +200,6 @@ namespace Birdie {
 
     private string get_media (string image_url) {
         var image_file = image_url;
-        debug(image_url);
 
         if ("/" in image_file)
             image_file = image_file.split ("/")[4] + "_" + image_file.split ("/")[5];
