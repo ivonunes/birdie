@@ -525,8 +525,8 @@ namespace Birdie.Widgets {
         private void show_youtube_video (string youtube_video_id) {
             var light_window = new LightWindow ();
             this.web_view = new WebKit.WebView ();
-            this.web_view.load_html_string ("<iframe width='640' height='385' style='margin-left: -10px;' src='http://www.youtube.com/embed/" +
-                youtube_video_id + "?version=3&autohide=1&showinfo=0&showsearch=0&vq=hd720&autoplay=1' frameborder='0' allowfullscreen</iframe>", "http://www.youtube.com/embed/");
+            this.web_view.load_html_string ("<iframe width='640' height='390' style='margin-left: -10px; margin-top: -10px; margin-bottom: -10px;' src='http://www.youtube.com/embed/" +
+                youtube_video_id + "?version=3&autohide=1&controls=2&modestbranding=1&showinfo=0&showsearch=0&vq=hd720&autoplay=1' frameborder='0'</iframe>", "http://www.youtube.com/embed/");
             light_window.add (this.web_view);
             light_window.set_position (Gtk.WindowPosition.CENTER);
             light_window.show_all ();
