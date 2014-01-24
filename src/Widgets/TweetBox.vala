@@ -223,15 +223,27 @@ namespace Birdie.Widgets {
                             60, 60, true
                             );
                     } catch (Error e) {
-                        media_pixbuf = null;
-                        debug ("Error creating pixbuf: " + e.message);
+                        debug ("Error creating pixbuf: " + e.message + " - using fallback thumbnail.");
+                        try {
+                            media_pixbuf = new Gdk.Pixbuf.from_file_at_scale (
+                                Constants.PKGDATADIR + "/media.png",
+                                60, 60, true);
+                            } catch (Error e) {
+                                debug ("fallback thumbnail not readable. giving up...");
+                        }
                     }
                 else if (tweet.media_url != "")
                     try {
                         media_pixbuf = new Gdk.Pixbuf.from_file_at_scale (Environment.get_home_dir () + "/.cache/birdie/media/" + tweet.media_url, 40, 40, true);
                     } catch (Error e) {
-                        media_pixbuf = null;
-                        debug ("Error creating pixbuf: " + e.message);
+                        debug ("Error creating pixbuf: " + e.message + " - using fallback thumbnail.");
+                        try {
+                            media_pixbuf = new Gdk.Pixbuf.from_file_at_scale (
+                                Constants.PKGDATADIR + "/media.png",
+                                60, 60, true);
+                            } catch (Error e) {
+                                debug ("fallback thumbnail not readable. giving up...");
+                        }
                     }
 
                 if (media_pixbuf != null) {
