@@ -1110,7 +1110,9 @@ namespace Birdie {
                             notify_text = tweet.text;
                             avatar = tweet.profile_image_file;
                         }
-                        this.unread_tweets++;
+
+                        if (this.api.account.screen_name != tweet.user_screen_name)
+                            this.unread_tweets++;
 
                         if (this.tweet_notification && this.api.home_timeline.length () <=
                             this.limit_notifications  &&
@@ -1120,7 +1122,7 @@ namespace Birdie {
                     }
                 });
 
-                if (this.tweet_notification && this.api.home_timeline.length () > this.limit_notifications) {
+                if (this.tweet_notification && this.api.home_timeline.length () > this.limit_notifications && this.unread_tweets > 0) {
                     Utils.notify (this.unread_tweets.to_string () + " " + _("new tweets"), "", "", "home", this);
                 }
 
