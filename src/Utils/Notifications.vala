@@ -63,7 +63,7 @@ namespace Birdie.Utils {
 
 
             if (caps.find_custom ("actions", GLib.strcmp) != null)
-                notification.add_action ("view", _("View"), (notification, action) => {
+                notification.add_action ("default", _("View"), (notification, action) => {
                     birdie_app.switch_timeline (switch_timeline);
                     birdie_app.activate ();
                 });

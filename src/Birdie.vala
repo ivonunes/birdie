@@ -1114,8 +1114,27 @@ namespace Birdie {
                             avatar = tweet.profile_image_file;
                         }
                         this.unread_tweets++;
+
+                        if (this.tweet_notification && this.api.home_timeline.length () <=
+                            this.limit_notifications  &&
+                            this.api.home_timeline.length () > 0) {
+                                Utils.notify (notify_header, avatar, notify_text, "home", this);
+                        }
                     }
                 });
+
+                if (this.tweet_notification && this.api.home_timeline.length () > this.limit_notifications) {
+                    Utils.notify (this.unread_tweets.to_string () + " " + _("new tweets"), "", "", "home", this);
+                }
+
+                if (this.tweet_notification && get_total_unread () > 0) {
+                    #if HAVE_LIBMESSAGINGMENU
+                    this.indicator.update_tweets_indicator (this.unread_tweets);
+                    #endif
+                    #if HAVE_LIBUNITY
+                    this.launcher.set_count (get_total_unread ());
+                    #endif
+                }
 
                 if (!this.ready) {
                     get_all_avatars ();
@@ -1134,24 +1153,7 @@ namespace Birdie {
                     get_avatar (this.home_list);
                 }
 
-                if (this.tweet_notification && this.api.home_timeline.length () <=
-                    this.limit_notifications  &&
-                    this.api.home_timeline.length () > 0) {
-                        Utils.notify (notify_header, avatar, notify_text, "home", this);
-                }
 
-                if (this.tweet_notification && this.api.home_timeline.length () > this.limit_notifications) {
-                    Utils.notify (this.unread_tweets.to_string () + " " + _("new tweets"), "", "", "home", this);
-                }
-
-                if (this.tweet_notification && get_total_unread () > 0) {
-                    #if HAVE_LIBMESSAGINGMENU
-                    this.indicator.update_tweets_indicator (this.unread_tweets);
-                    #endif
-                    #if HAVE_LIBUNITY
-                    this.launcher.set_count (get_total_unread ());
-                    #endif
-                }
 
                 return false;
             });
@@ -1231,17 +1233,14 @@ namespace Birdie {
                             }
                         this.unread_mentions++;
                         new_mentions = true;
+
+                        if (this.tweet_notification && this.api.mentions_timeline.length () <=
+                            this.limit_notifications &&
+                            this.api.mentions_timeline.length () > 0) {
+                                Utils.notify (notify_header, avatar, notify_text, "mentions", this);
+                        }
                     }
                 });
-
-                if (this.ready)
-                    get_avatar (this.mentions_list);
-
-                if (this.tweet_notification && this.api.mentions_timeline.length () <=
-                    this.limit_notifications &&
-                    this.api.mentions_timeline.length () > 0) {
-                        Utils.notify (notify_header, avatar, notify_text, "mentions", this);
-                }
 
                 if (this.mention_notification && this.api.mentions_timeline.length () > this.limit_notifications) {
                     Utils.notify (this.unread_mentions.to_string () + " " + _("new mentions"), "", "", "mentions", this);
@@ -1255,6 +1254,9 @@ namespace Birdie {
                     this.launcher.set_count (get_total_unread ());
                     #endif
                 }
+
+                if (this.ready)
+                    get_avatar (this.mentions_list);
 
                 return false;
             });
@@ -1282,18 +1284,18 @@ namespace Birdie {
                         }
                         this.unread_dm++;
                         new_dms = true;
+
+                        if (this.tweet_notification && this.api.dm_timeline.length () <=
+                            this.limit_notifications  &&
+                            this.api.dm_timeline.length () > 0) {
+                                Utils.notify (notify_header, avatar, notify_text, "dm", this, true);
+                        }
                     }
                 });
 
 
                 if (this.ready)
                     get_avatar (this.dm_list);
-
-                if (this.tweet_notification && this.api.dm_timeline.length () <=
-                    this.limit_notifications  &&
-                    this.api.dm_timeline.length () > 0) {
-                        Utils.notify (notify_header, avatar, notify_text, "dm", this, true);
-                }
 
                 if (this.dm_notification && this.api.dm_timeline.length () > this.limit_notifications) {
                     Utils.notify (this.unread_dm.to_string () + " " + _("new direct messages"), "", "dm", "", this, true);
