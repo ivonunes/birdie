@@ -31,12 +31,12 @@ if (LIBMESSAGINGMENU_FOUND)
         ${EXTRA_PKG_CONFIG}
         messaging-menu
     )
-    
+
     set(EXTRA_PACKAGES
         ${EXTRA_PACKAGES}
         MessagingMenu-1.0
     )
-    
+
     set(EXTRA_VALA_OPTIONS
         ${EXTRA_VALA_OPTIONS}
         -D HAVE_LIBMESSAGINGMENU
@@ -87,6 +87,7 @@ pkg_check_modules(DEPS REQUIRED
 	sqlite3
 	xtst
     purple
+    gthread-2.0
 	${EXTRA_PKG_CONFIG}
 )
 
@@ -110,13 +111,14 @@ if (NOT DEBUG)
 endif ()
 
 set(BIRDIE_PACKAGES
-    gtk+-3.0 gtksourceview-3.0 gee-1.0 rest-0.7 json-glib-1.0 libnotify>=0.7.5 libcanberra>=0.28  gdk-x11-3.0 webkitgtk-3.0 sqlite3 xtst purple posix ${EXTRA_PACKAGES}
+    gtk+-3.0 gtksourceview-3.0 libsoup-2.4 gee-1.0 rest-0.7 json-glib-1.0 libnotify>=0.7.5 libcanberra>=0.28  gdk-x11-3.0 webkitgtk-3.0 sqlite3 xtst purple posix ${EXTRA_PACKAGES}
 )
 
 set(VALAC_OPTIONS
     --vapidir=${CMAKE_SOURCE_DIR}/vapi
     --target-glib=${TARGET_GLIB}
     --thread
+    --enable-deprecated
     --fatal-warnings
     ${EXTRA_VALA_OPTIONS}
 )
@@ -177,6 +179,6 @@ add_executable(birdie
 add_definitions (${DEPS_CFLAGS})
 
 #We need to link the libraries with our Executable.
-target_link_libraries(birdie ${DEPS_LIBRARIES} -lX11)
+target_link_libraries(birdie ${DEPS_LIBRARIES} -lX11 gthread-2.0)
 
 install (TARGETS birdie RUNTIME DESTINATION bin)
