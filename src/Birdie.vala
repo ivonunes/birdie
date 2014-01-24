@@ -1486,7 +1486,7 @@ namespace Birdie {
                     if ("@" in user_screen_name)
                         user = user.replace ("@", "");
 
-                    if (user == "")
+                    if (user == "" || !dm)
                         user = this.api.account.screen_name;
 
                     Tweet tweet_tmp = new Tweet (code.to_string (), code.to_string (),
