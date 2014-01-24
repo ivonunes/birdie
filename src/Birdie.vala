@@ -97,7 +97,6 @@ namespace Birdie {
         private bool tweet_notification;
         private bool mention_notification;
         private bool dm_notification;
-        private bool legacy_window;
         private int update_interval;
 
         public Settings settings;
@@ -200,8 +199,6 @@ namespace Birdie {
                 this.tweet_notification = settings.get_boolean ("tweet-notification");
                 this.mention_notification = settings.get_boolean ("mention-notification");
                 this.dm_notification = settings.get_boolean ("dm-notification");
-                //this.legacy_window = settings.get_boolean ("legacy-window");
-                this.legacy_window = true;
                 this.update_interval = settings.get_int ("update-interval");
                 this.limit_notifications = settings.get_int ("limit-notifications");
 

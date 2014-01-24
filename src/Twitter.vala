@@ -882,7 +882,7 @@ namespace Birdie {
                     var tweet = new Tweet (id, id, user_name,
                         user_screen_name, text, created_at,
                         profile_image_url, profile_image_file,
-                        false, false);
+                        false, false, true);
 
                     dm_sent_timeline.append (tweet);
                     this.db.add_tweet (tweet, "dm_outbox", this.account_id);
