@@ -126,13 +126,13 @@ namespace Birdie {
         public override int64 update_with_media (string status,
             string id, string media_uri, out string media_out) {
 
-            string? link;
+            string link = "";
             var imgur = new Imgur ();
 
             try {
                 link = imgur.upload (media_uri);
             } catch (Error e) {
-                error ("Error uploading image to imgur: %s", e.message);
+                warning ("Error uploading image to imgur: %s", e.message);
             }
 
             media_out = link;
@@ -258,13 +258,13 @@ namespace Birdie {
         public override int64 send_direct_message_with_media (string recipient, string status,
             string media_uri, out string media_out) {
 
-            string? link;
+            string link = "";
             var imgur = new Imgur ();
 
             try {
                 link = imgur.upload (media_uri);
             } catch (Error e) {
-                error ("Error uploading image to imgur: %s", e.message);
+                warning ("Error uploading image to imgur: %s", e.message);
             }
 
             media_out = link;

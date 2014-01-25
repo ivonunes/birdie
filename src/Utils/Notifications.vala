@@ -70,7 +70,7 @@ namespace Birdie.Utils {
 
             notification.show ();
         } catch (Error e) {
-            error ("Failed to show notification: %s", e.message);
+            warning ("Failed to show notification: %s", e.message);
         }
 
         // play sound
