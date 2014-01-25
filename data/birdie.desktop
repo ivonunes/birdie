@@ -2,7 +2,7 @@
 Name=Birdie
 GenericName=Twitter Client
 Comment=Twitter client for Linux
-Categories=GTK;Network;X-SuSE-Core-Internet
+Categories=GTK;Network;X-SuSE-Core-Internet;
 Exec=birdie %U
 Icon=birdie
 Terminal=false
