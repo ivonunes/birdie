@@ -348,12 +348,12 @@ namespace Birdie.Widgets {
             virtual_text = this.view.buffer.get_text (start, end, false);
 
             try {
-                urls = new Regex("((http|https|ftp)://([\\S]+))");
+                urls = new Regex("((https?://|ftp://|www.)([\\S]+))");
             } catch (RegexError e) {
                 warning ("regex error: %s", e.message);
             }
 
-            // replace urls with filler to fill them with 20 chars each
+            // replace urls with filler to fill them with 22 chars each
             try {
                 virtual_text = urls.replace (virtual_text, -1, 0, filler);
             }
