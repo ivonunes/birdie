@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Birdie\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-27 11:27+0100\n"
-"PO-Revision-Date: 2013-08-11 23:42+0000\n"
-"Last-Translator: Allu2 <aleksi.ajp@gmail.com>\n"
+"POT-Creation-Date: 2014-01-24 18:46+0000\n"
+"PO-Revision-Date: 2014-01-24 18:49+0000\n"
+"Last-Translator: vascomfnunes <vascomfnunes@gmail.com>\n"
 "Language-Team: Finnish (http://www.transifex.com/projects/p/birdie/language/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,346 +18,438 @@ msgstr ""
 "Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../../src/Birdie.vala:229 ../../src/Birdie.vala:230
-#: ../../src/Widgets/TweetDialog.vala:71 ../../src/Utils/Indicator.vala:140
-#: ../../src/Utils/Indicator.vala:188 ../../src/Utils/Launcher.vala:40
-#: ../../src/Utils/StatusIcon.vala:41
-msgid "New Tweet"
-msgstr "Uusi Tweetti"
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:57
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:212
+msgid "TWEETS"
+msgstr "Tweetit"
 
-#: ../../src/Birdie.vala:252 ../../src/Birdie.vala:253
-#: ../../src/Birdie.vala:515
-msgid "Home"
-msgstr "Koti"
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:62
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:217
+msgid "FOLLOWING"
+msgstr "Seurataan"
 
-#: ../../src/Birdie.vala:264 ../../src/Birdie.vala:265
-#: ../../src/Birdie.vala:516 ../../src/Utils/Indicator.vala:106
-#: ../../src/Utils/Indicator.vala:186 ../../src/Utils/Launcher.vala:52
-msgid "Mentions"
-msgstr "Maininnat"
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:64
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:219
+msgid "FOLLOWERS"
+msgstr "Seuraajat"
 
-#: ../../src/Birdie.vala:277 ../../src/Birdie.vala:278
-#: ../../src/Birdie.vala:517 ../../src/Utils/Indicator.vala:124
-#: ../../src/Utils/Indicator.vala:187
-msgid "Direct Messages"
-msgstr "Yksityisviestit"
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:111
+msgid "Follow"
+msgstr "Seuraa"
 
-#: ../../src/Birdie.vala:288 ../../src/Birdie.vala:289
-#: ../../src/Birdie.vala:518 ../../src/Utils/Launcher.vala:64
-msgid "Profile"
-msgstr "Profiili"
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:113
+msgid "Follow user"
+msgstr "Seuraa käyttäjää"
 
-#: ../../src/Birdie.vala:300 ../../src/Birdie.vala:301
-#: ../../src/Birdie.vala:501 ../../src/Birdie.vala:520
-msgid "Search"
-msgstr "Hae"
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:121
+msgid "Unfollow"
+msgstr "Älä seuraaminen"
 
-#: ../../src/Birdie.vala:316
-msgid "Add Account"
-msgstr "Lisää Tili"
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:123
+msgid "Unfollow user"
+msgstr "Älä seuraa käyttäjää"
 
-#: ../../src/Birdie.vala:322
-msgid "Remove Account"
-msgstr "Poista Tili"
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:131
+msgid "Add"
+msgstr ""
 
-#: ../../src/Birdie.vala:326
-msgid "Remove this account?"
-msgstr "Poistetaanko tämä tili?"
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:133
+msgid "Add user to list"
+msgstr ""
 
-#: ../../src/Birdie.vala:327
-msgid "Remove"
-msgstr "Poista"
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:145
+msgid "Block"
+msgstr "Estä"
 
-#: ../../src/Birdie.vala:327 ../../src/Widgets/TweetBox.vala:393
-#: ../../src/Widgets/TweetDialog.vala:185
-msgid "Cancel"
-msgstr "Peruuta"
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:147
+msgid "Block user"
+msgstr "Estä käyttäjä"
 
-#: ../../src/Birdie.vala:348
-msgid "About"
-msgstr "Tietoa"
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:155
+msgid "Unblock"
+msgstr "Lopeta estäminen"
 
-#: ../../src/Birdie.vala:384
-msgid "Donate"
-msgstr "Lahjoita"
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:157
+msgid "Unblock user"
+msgstr "Lopeta käyttäjän estäminen"
 
-#: ../../src/Birdie.vala:392
-msgid "Quit"
-msgstr "Lopeta"
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:206
+msgid "Following you."
+msgstr "Seuraa sinua."
 
-#: ../../src/Birdie.vala:413 ../../src/Birdie.vala:416
-msgid "Menu"
-msgstr "Valikko"
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:208
+msgid "Not following you."
+msgstr "Ei seuraa sinua."
 
-#: ../../src/Birdie.vala:456
-msgid "Received"
-msgstr "Vastaanotettu"
-
-#: ../../src/Birdie.vala:457
-msgid "Sent"
-msgstr "Lähetetty"
-
-#: ../../src/Birdie.vala:481 ../../src/Birdie.vala:489
-msgid "Timeline"
-msgstr "Aikajana"
-
-#: ../../src/Birdie.vala:482
-msgid "Favorites"
-msgstr "Suosikit"
-
-#: ../../src/Birdie.vala:513
-msgid "Loading"
-msgstr "Ladataan"
-
-#: ../../src/Birdie.vala:514
-msgid "Welcome"
-msgstr "Tervetuloa"
-
-#: ../../src/Birdie.vala:519
-msgid "User"
-msgstr "Käyttäjä"
-
-#: ../../src/Birdie.vala:521
-msgid "Error"
-msgstr "Virhe"
-
-#: ../../src/Birdie.vala:666
-msgid "Sign in"
-msgstr "Kirjaudu sisään"
-
-#: ../../src/Birdie.vala:1010
-msgid "New tweet from"
-msgstr "Uusi tweetti käyttäjältä"
-
-#: ../../src/Birdie.vala:1024
-msgid "new tweets"
-msgstr "Uusia twiittejä"
-
-#: ../../src/Birdie.vala:1124
-msgid "New mention from"
-msgstr "Uusi maininta käyttäjältä"
-
-#: ../../src/Birdie.vala:1139
-msgid "new mentions"
-msgstr "Uusia mainintoja"
-
-#: ../../src/Birdie.vala:1173
-msgid "New direct message from"
-msgstr "Uusia yksityisviestejä käyttäjältä"
-
-#: ../../src/Birdie.vala:1188
-msgid "new direct messages"
-msgstr "Uusi yksityisviesti"
-
-#: ../../src/config.vala:24 ../../src/Widgets/Welcome.vala:22
-msgid "Twitter Client"
-msgstr "Twitter-ohjelma"
-
-#: ../../src/config.vala:25
-msgid "Twitter client for Linux"
-msgstr "Twitter ohjelma Linuxille"
-
-#: ../../src/Widgets/Dialogs.vala:81
-msgid "Preview"
-msgstr "Esikatsele"
-
-#: ../../src/Widgets/TweetBox.vala:279
-msgid "Thread"
-msgstr "Ketju"
-
-#: ../../src/Widgets/TweetBox.vala:296 ../../src/Widgets/TweetBox.vala:665
-msgid "Favorite"
-msgstr "Suosikki"
-
-#: ../../src/Widgets/TweetBox.vala:318 ../../src/Widgets/TweetBox.vala:334
-msgid "Retweet"
-msgstr "Uudelleen tweettaa"
-
-#: ../../src/Widgets/TweetBox.vala:335
-msgid "Retweet with quote"
-msgstr "Udelleen Twiittaa lainauksena"
-
-#: ../../src/Widgets/TweetBox.vala:371
-msgid "Reply"
-msgstr "Vastaa"
-
-#: ../../src/Widgets/TweetBox.vala:387 ../../src/Widgets/TweetBox.vala:393
+#: /home/vasco/Code/birdie/po/../src/Widgets/ListBox.vala:157
+#: /home/vasco/Code/birdie/po/../src/Widgets/ListBox.vala:163
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:427
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:433
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:452
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:465
 msgid "Delete"
 msgstr "Poista"
 
-#: ../../src/Widgets/TweetBox.vala:392
+#: /home/vasco/Code/birdie/po/../src/Widgets/ListBox.vala:162
+msgid "Delete this list?"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/ListBox.vala:163
+#: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:50
+#: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:135
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:208
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:257
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:433
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:461
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:465
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:347
+msgid "Cancel"
+msgstr "Peruuta"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:22
+#: /home/vasco/Code/birdie/po/../src/Utils/StatusIcon.vala:31
+msgid "Birdie"
+msgstr "Birdie"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:22
+#: /home/vasco/Code/birdie/po/../src/config.vala:24
+msgid "Twitter Client"
+msgstr "Twitter-ohjelma"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:24
+msgid "Sign In"
+msgstr "Kirjaudu sisään"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:24
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:67
+msgid "Add an existing Twitter account."
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:25
+msgid "Sign Up"
+msgstr "Kirjaudu Sisään"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:25
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:73
+msgid "Create a new Twitter account."
+msgstr "Luo uusi Twitter tili"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:49
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:108
+msgid "Unable to connect"
+msgstr "Yhteyttä ei voitu muodostaa"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:49
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:110
+msgid "Please check your Internet Connection"
+msgstr "Tarkista Internet yhteytesi"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:51
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:99
+msgid "Retry"
+msgstr "Yritä uudelleen"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:51
+msgid "Try to connect again"
+msgstr "Yhdistä uudelleen"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:86
+msgid "Welcome to Birdie"
+msgstr "Tervetuloa Birdieen"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/MoreButton.vala:23
+#: /home/vasco/Code/birdie/po/../src/Widgets/MoreButton.vala:24
+msgid "Get older entries"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/MoreButton.vala:36
+#: /home/vasco/Code/birdie/po/../src/Widgets/MoreButton.vala:37
+msgid "Create a new list"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:57
+msgid "OK"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:81
+msgid "Preview"
+msgstr "Esikatsele"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:106
+msgid "New List"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:115
+msgid "Name:"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:119
+msgid "Description:"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:136
+msgid "Create"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:71
+#: /home/vasco/Code/birdie/po/../src/Utils/StatusIcon.vala:41
+#: /home/vasco/Code/birdie/po/../src/Utils/Indicator.vala:115
+#: /home/vasco/Code/birdie/po/../src/Utils/Launcher.vala:40
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:239
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:240
+msgid "New Tweet"
+msgstr "Uusi Tweetti"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:73
+msgid "New Message"
+msgstr "Uusi viesti"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:147
+msgid "Suggestions"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:169
+msgid "New Message in reply to @"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:216
+msgid "Send"
+msgstr "Lähetä"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:218
+msgid "Tweet"
+msgstr "Twiittaa"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:230
+msgid "Add a picture"
+msgstr "Lisää kuva"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:255
+msgid "Select a Picture"
+msgstr "Valitse kuva"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:258
+msgid "Open"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:282
+msgid "Open in browser"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:286
+msgid "Copy link"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:335
+msgid "Thread"
+msgstr "Ketju"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:352
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:801
+msgid "Favorite"
+msgstr "Suosikki"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:374
+msgid "Retweet"
+msgstr "Uudelleen tweettaa"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:389
+msgid "Retweet with quote"
+msgstr "Udelleen Twiittaa lainauksena"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:411
+msgid "Reply"
+msgstr "Vastaa"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:432
+msgid "Delete this direct message?"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:460
+msgid "Remove user from list?"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:461
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:347
+msgid "Remove"
+msgstr "Poista"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:464
 msgid "Delete this tweet?"
 msgstr "Poistetaanko tämä tweetti?"
 
-#: ../../src/Widgets/TweetBox.vala:662
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:798
 msgid "Unfavorite"
 msgstr "Poista suosikeista"
 
-#: ../../src/Widgets/TweetBox.vala:673
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:809
 #, c-format
 msgid "retweeted by %s"
 msgstr "Uudelleen tweettasi käyttäjä %s"
 
-#: ../../src/Widgets/TweetBox.vala:698
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:834
 #, c-format
 msgid "in reply to @%s"
 msgstr "Vastauksena käyttäjälle @%s"
 
-#: ../../src/Widgets/TweetDialog.vala:73
-msgid "New Message"
-msgstr "Uusi viesti"
+#: /home/vasco/Code/birdie/po/../src/Utils/StatusIcon.vala:50
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:412
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:454
+msgid "Quit"
+msgstr "Lopeta"
 
-#: ../../src/Widgets/TweetDialog.vala:193
-msgid "Send"
-msgstr "Lähetä"
+#: /home/vasco/Code/birdie/po/../src/Utils/Notifications.vala:66
+msgid "View"
+msgstr "Katsele"
 
-#: ../../src/Widgets/TweetDialog.vala:195
-msgid "Tweet"
-msgstr "Twiittaa"
+#: /home/vasco/Code/birdie/po/../src/Utils/Indicator.vala:78
+#: /home/vasco/Code/birdie/po/../src/Utils/Launcher.vala:46
+msgid "Tweets"
+msgstr "Twiitit"
 
-#: ../../src/Widgets/TweetDialog.vala:207
-msgid "Add a picture"
-msgstr "Lisää kuva"
+#: /home/vasco/Code/birdie/po/../src/Utils/Indicator.vala:91
+#: /home/vasco/Code/birdie/po/../src/Utils/Launcher.vala:52
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:270
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:271
+msgid "Mentions"
+msgstr "Maininnat"
 
-#: ../../src/Widgets/TweetDialog.vala:232
-msgid "Select a Picture"
-msgstr "Valitse kuva"
+#: /home/vasco/Code/birdie/po/../src/Utils/Indicator.vala:104
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:281
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:282
+msgid "Direct Messages"
+msgstr "Yksityisviestit"
 
-#: ../../src/Widgets/UserBox.vala:56 ../../src/Widgets/UserBox.vala:192
-msgid "TWEETS"
-msgstr "Tweetit"
+#: /home/vasco/Code/birdie/po/../src/Utils/Launcher.vala:58
+msgid "Messages"
+msgstr "Viestit"
 
-#: ../../src/Widgets/UserBox.vala:61 ../../src/Widgets/UserBox.vala:197
-msgid "FOLLOWING"
-msgstr "Seurataan"
+#: /home/vasco/Code/birdie/po/../src/Utils/Launcher.vala:64
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:292
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:293
+msgid "Profile"
+msgstr "Profiili"
 
-#: ../../src/Widgets/UserBox.vala:63 ../../src/Widgets/UserBox.vala:199
-msgid "FOLLOWERS"
-msgstr "Seuraajat"
-
-#: ../../src/Widgets/UserBox.vala:107
-msgid "Follow"
-msgstr "Seuraa"
-
-#: ../../src/Widgets/UserBox.vala:109
-msgid "Follow user"
-msgstr "Seuraa käyttäjää"
-
-#: ../../src/Widgets/UserBox.vala:117
-msgid "Unfollow"
-msgstr "Älä seuraaminen"
-
-#: ../../src/Widgets/UserBox.vala:119
-msgid "Unfollow user"
-msgstr "Älä seuraa käyttäjää"
-
-#: ../../src/Widgets/UserBox.vala:127
-msgid "Block"
-msgstr "Estä"
-
-#: ../../src/Widgets/UserBox.vala:129
-msgid "Block user"
-msgstr "Estä käyttäjä"
-
-#: ../../src/Widgets/UserBox.vala:137
-msgid "Unblock"
-msgstr "Lopeta estäminen"
-
-#: ../../src/Widgets/UserBox.vala:139
-msgid "Unblock user"
-msgstr "Lopeta käyttäjän estäminen"
-
-#: ../../src/Widgets/UserBox.vala:186
-msgid "Following you."
-msgstr "Seuraa sinua."
-
-#: ../../src/Widgets/UserBox.vala:188
-msgid "Not following you."
-msgstr "Ei seuraa sinua."
-
-#: ../../src/Widgets/Welcome.vala:22 ../../src/Utils/StatusIcon.vala:31
-msgid "Birdie"
-msgstr "Birdie"
-
-#: ../../src/Widgets/Welcome.vala:24
-msgid "Sign In"
-msgstr "Kirjaudu sisään"
-
-#: ../../src/Widgets/Welcome.vala:24 ../../src/Widgets/Welcome.vala:67
-msgid "Add an existing Twitter account."
-msgstr ""
-
-#: ../../src/Widgets/Welcome.vala:25
-msgid "Sign Up"
-msgstr "Kirjaudu Sisään"
-
-#: ../../src/Widgets/Welcome.vala:25 ../../src/Widgets/Welcome.vala:73
-msgid "Create a new Twitter account."
-msgstr "Luo uusi Twitter tili"
-
-#: ../../src/Widgets/Welcome.vala:49 ../../src/Widgets/Welcome.vala:108
-msgid "Unable to connect"
-msgstr "Yhteyttä ei voitu muodostaa"
-
-#: ../../src/Widgets/Welcome.vala:49 ../../src/Widgets/Welcome.vala:110
-msgid "Please check your Internet Connection"
-msgstr "Tarkista Internet yhteytesi"
-
-#: ../../src/Widgets/Welcome.vala:51 ../../src/Widgets/Welcome.vala:99
-msgid "Retry"
-msgstr "Yritä uudelleen"
-
-#: ../../src/Widgets/Welcome.vala:51
-msgid "Try to connect again"
-msgstr "Yhdistä uudelleen"
-
-#: ../../src/Widgets/Welcome.vala:86
-msgid "Welcome to Birdie"
-msgstr "Tervetuloa Birdieen"
-
-#: ../../src/Utils/Date.vala:65
+#: /home/vasco/Code/birdie/po/../src/Utils/Date.vala:65
 #, c-format
 msgid "%d y"
 msgstr ""
 
-#: ../../src/Utils/Date.vala:68
+#: /home/vasco/Code/birdie/po/../src/Utils/Date.vala:68
 #, c-format
 msgid "%d mo"
 msgstr ""
 
-#: ../../src/Utils/Date.vala:71
+#: /home/vasco/Code/birdie/po/../src/Utils/Date.vala:71
 #, c-format
 msgid "%d w"
 msgstr ""
 
-#: ../../src/Utils/Date.vala:74
+#: /home/vasco/Code/birdie/po/../src/Utils/Date.vala:74
 #, c-format
 msgid "%d d"
 msgstr ""
 
-#: ../../src/Utils/Date.vala:76
+#: /home/vasco/Code/birdie/po/../src/Utils/Date.vala:76
 #, c-format
 msgid "%d h"
 msgstr ""
 
-#: ../../src/Utils/Date.vala:78
+#: /home/vasco/Code/birdie/po/../src/Utils/Date.vala:78
 #, c-format
 msgid "%d m"
 msgstr ""
 
-#: ../../src/Utils/Date.vala:81
+#: /home/vasco/Code/birdie/po/../src/Utils/Date.vala:81
 msgid "now"
 msgstr "nyt"
 
-#: ../../src/Utils/Indicator.vala:88 ../../src/Utils/Indicator.vala:185
-#: ../../src/Utils/Launcher.vala:46
-msgid "Tweets"
-msgstr "Twiitit"
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:259
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:260
+msgid "Home"
+msgstr "Koti"
 
-#: ../../src/Utils/Launcher.vala:58
-msgid "Messages"
-msgstr "Viestit"
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:304
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:321
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:322
+msgid "Search"
+msgstr "Hae"
 
-#: ../../src/Utils/Notifications.vala:47
-msgid "View"
-msgstr "Katsele"
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:336
+msgid "Add Account"
+msgstr "Lisää Tili"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:342
+msgid "Remove Account"
+msgstr "Poista Tili"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:346
+msgid "Remove this account?"
+msgstr "Poistetaanko tämä tili?"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:369
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:452
+msgid "About"
+msgstr "Tietoa"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:405
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:453
+msgid "Donate"
+msgstr "Lahjoita"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:515
+msgid "Received"
+msgstr "Vastaanotettu"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:516
+msgid "Sent"
+msgstr "Lähetetty"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:539
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:548
+msgid "Timeline"
+msgstr "Aikajana"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:540
+msgid "Favorites"
+msgstr "Suosikit"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:541
+msgid "Lists"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:665
+msgid "You must select a list you own."
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:734
+msgid "Sign in"
+msgstr "Kirjaudu sisään"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:1112
+msgid "New tweet from"
+msgstr "Uusi tweetti käyttäjältä"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:1127
+msgid "new tweets"
+msgstr "Uusia twiittejä"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:1230
+msgid "New mention from"
+msgstr "Uusi maininta käyttäjältä"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:1246
+msgid "new mentions"
+msgstr "Uusia mainintoja"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:1281
+msgid "New direct message from"
+msgstr "Uusia yksityisviestejä käyttäjältä"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:1301
+msgid "new direct messages"
+msgstr "Uusi yksityisviesti"
+
+#: /home/vasco/Code/birdie/po/../src/config.vala:25
+msgid "Twitter client for Linux"
+msgstr "Twitter ohjelma Linuxille"

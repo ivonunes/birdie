@@ -4,12 +4,13 @@
 # 
 # Translators:
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013
+# 19deimon90 <riccardo.dellemonache@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Birdie\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-27 11:27+0100\n"
-"PO-Revision-Date: 2013-07-27 10:36+0000\n"
+"POT-Creation-Date: 2014-01-24 18:46+0000\n"
+"PO-Revision-Date: 2014-01-24 18:49+0000\n"
 "Last-Translator: vascomfnunes <vascomfnunes@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/birdie/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -18,346 +19,438 @@ msgstr ""
 "Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../../src/Birdie.vala:229 ../../src/Birdie.vala:230
-#: ../../src/Widgets/TweetDialog.vala:71 ../../src/Utils/Indicator.vala:140
-#: ../../src/Utils/Indicator.vala:188 ../../src/Utils/Launcher.vala:40
-#: ../../src/Utils/StatusIcon.vala:41
-msgid "New Tweet"
-msgstr "Nuovo Tweet"
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:57
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:212
+msgid "TWEETS"
+msgstr "I tuoi Tweet"
 
-#: ../../src/Birdie.vala:252 ../../src/Birdie.vala:253
-#: ../../src/Birdie.vala:515
-msgid "Home"
-msgstr "Home"
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:62
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:217
+msgid "FOLLOWING"
+msgstr "Chi Segui"
 
-#: ../../src/Birdie.vala:264 ../../src/Birdie.vala:265
-#: ../../src/Birdie.vala:516 ../../src/Utils/Indicator.vala:106
-#: ../../src/Utils/Indicator.vala:186 ../../src/Utils/Launcher.vala:52
-msgid "Mentions"
-msgstr "Citazioni"
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:64
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:219
+msgid "FOLLOWERS"
+msgstr "Chi ti Segue"
 
-#: ../../src/Birdie.vala:277 ../../src/Birdie.vala:278
-#: ../../src/Birdie.vala:517 ../../src/Utils/Indicator.vala:124
-#: ../../src/Utils/Indicator.vala:187
-msgid "Direct Messages"
-msgstr "Messaggi Diretti"
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:111
+msgid "Follow"
+msgstr "Segui"
 
-#: ../../src/Birdie.vala:288 ../../src/Birdie.vala:289
-#: ../../src/Birdie.vala:518 ../../src/Utils/Launcher.vala:64
-msgid "Profile"
-msgstr "Profilo"
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:113
+msgid "Follow user"
+msgstr "Segui utente"
 
-#: ../../src/Birdie.vala:300 ../../src/Birdie.vala:301
-#: ../../src/Birdie.vala:501 ../../src/Birdie.vala:520
-msgid "Search"
-msgstr "Cerca"
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:121
+msgid "Unfollow"
+msgstr "Non seguire più"
 
-#: ../../src/Birdie.vala:316
-msgid "Add Account"
-msgstr "Aggiungi Account"
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:123
+msgid "Unfollow user"
+msgstr "Non seguire più l'utente"
 
-#: ../../src/Birdie.vala:322
-msgid "Remove Account"
-msgstr "Rimuovi Account"
-
-#: ../../src/Birdie.vala:326
-msgid "Remove this account?"
-msgstr "Rimuovere questo account?"
-
-#: ../../src/Birdie.vala:327
-msgid "Remove"
-msgstr "Rimuovere"
-
-#: ../../src/Birdie.vala:327 ../../src/Widgets/TweetBox.vala:393
-#: ../../src/Widgets/TweetDialog.vala:185
-msgid "Cancel"
-msgstr "Annulla"
-
-#: ../../src/Birdie.vala:348
-msgid "About"
-msgstr "Info"
-
-#: ../../src/Birdie.vala:384
-msgid "Donate"
-msgstr "Fai una donazione"
-
-#: ../../src/Birdie.vala:392
-msgid "Quit"
-msgstr "Esci"
-
-#: ../../src/Birdie.vala:413 ../../src/Birdie.vala:416
-msgid "Menu"
-msgstr "Menù"
-
-#: ../../src/Birdie.vala:456
-msgid "Received"
-msgstr "Ricevuti"
-
-#: ../../src/Birdie.vala:457
-msgid "Sent"
-msgstr "Inviati"
-
-#: ../../src/Birdie.vala:481 ../../src/Birdie.vala:489
-msgid "Timeline"
-msgstr "Cronologia"
-
-#: ../../src/Birdie.vala:482
-msgid "Favorites"
-msgstr "Preferiti"
-
-#: ../../src/Birdie.vala:513
-msgid "Loading"
-msgstr "Caricamento"
-
-#: ../../src/Birdie.vala:514
-msgid "Welcome"
-msgstr "Benvenuti"
-
-#: ../../src/Birdie.vala:519
-msgid "User"
-msgstr "Utente"
-
-#: ../../src/Birdie.vala:521
-msgid "Error"
-msgstr "Errore"
-
-#: ../../src/Birdie.vala:666
-msgid "Sign in"
-msgstr "Accedi"
-
-#: ../../src/Birdie.vala:1010
-msgid "New tweet from"
-msgstr "Nuovo tweet da"
-
-#: ../../src/Birdie.vala:1024
-msgid "new tweets"
-msgstr "Nuovo tweet"
-
-#: ../../src/Birdie.vala:1124
-msgid "New mention from"
-msgstr "Nuova menzione da"
-
-#: ../../src/Birdie.vala:1139
-msgid "new mentions"
-msgstr "Nuove menzioni"
-
-#: ../../src/Birdie.vala:1173
-msgid "New direct message from"
-msgstr "Nuovo messaggio diretto da"
-
-#: ../../src/Birdie.vala:1188
-msgid "new direct messages"
-msgstr "Nuovi messaggi diretti"
-
-#: ../../src/config.vala:24 ../../src/Widgets/Welcome.vala:22
-msgid "Twitter Client"
-msgstr "Client Twitter"
-
-#: ../../src/config.vala:25
-msgid "Twitter client for Linux"
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:131
+msgid "Add"
 msgstr ""
 
-#: ../../src/Widgets/Dialogs.vala:81
-msgid "Preview"
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:133
+msgid "Add user to list"
 msgstr ""
 
-#: ../../src/Widgets/TweetBox.vala:279
-msgid "Thread"
-msgstr ""
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:145
+msgid "Block"
+msgstr "Blocca"
 
-#: ../../src/Widgets/TweetBox.vala:296 ../../src/Widgets/TweetBox.vala:665
-msgid "Favorite"
-msgstr "Preferiti"
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:147
+msgid "Block user"
+msgstr "Blocca utente"
 
-#: ../../src/Widgets/TweetBox.vala:318 ../../src/Widgets/TweetBox.vala:334
-msgid "Retweet"
-msgstr "Retweet"
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:155
+msgid "Unblock"
+msgstr "Sblocca"
 
-#: ../../src/Widgets/TweetBox.vala:335
-msgid "Retweet with quote"
-msgstr ""
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:157
+msgid "Unblock user"
+msgstr "Sblocca utente"
 
-#: ../../src/Widgets/TweetBox.vala:371
-msgid "Reply"
-msgstr "Rispondi"
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:206
+msgid "Following you."
+msgstr "Ti Segue"
 
-#: ../../src/Widgets/TweetBox.vala:387 ../../src/Widgets/TweetBox.vala:393
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:208
+msgid "Not following you."
+msgstr "Non ti Segue"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/ListBox.vala:157
+#: /home/vasco/Code/birdie/po/../src/Widgets/ListBox.vala:163
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:427
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:433
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:452
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:465
 msgid "Delete"
 msgstr "Elimina"
 
-#: ../../src/Widgets/TweetBox.vala:392
+#: /home/vasco/Code/birdie/po/../src/Widgets/ListBox.vala:162
+msgid "Delete this list?"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/ListBox.vala:163
+#: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:50
+#: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:135
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:208
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:257
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:433
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:461
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:465
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:347
+msgid "Cancel"
+msgstr "Annulla"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:22
+#: /home/vasco/Code/birdie/po/../src/Utils/StatusIcon.vala:31
+msgid "Birdie"
+msgstr "Birdie"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:22
+#: /home/vasco/Code/birdie/po/../src/config.vala:24
+msgid "Twitter Client"
+msgstr "Client Twitter"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:24
+msgid "Sign In"
+msgstr "Accedi"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:24
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:67
+msgid "Add an existing Twitter account."
+msgstr "Aggiungi un account Twitter esistente"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:25
+msgid "Sign Up"
+msgstr "Registrati"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:25
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:73
+msgid "Create a new Twitter account."
+msgstr "Crea un nuovo account Twitter"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:49
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:108
+msgid "Unable to connect"
+msgstr "Impossibile connettersi"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:49
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:110
+msgid "Please check your Internet Connection"
+msgstr "Per piacere controlla la tua connessione Internet"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:51
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:99
+msgid "Retry"
+msgstr "Riprova"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:51
+msgid "Try to connect again"
+msgstr "Prova a connetterti di nuovo"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:86
+msgid "Welcome to Birdie"
+msgstr "Benvenuto in Birdie"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/MoreButton.vala:23
+#: /home/vasco/Code/birdie/po/../src/Widgets/MoreButton.vala:24
+msgid "Get older entries"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/MoreButton.vala:36
+#: /home/vasco/Code/birdie/po/../src/Widgets/MoreButton.vala:37
+msgid "Create a new list"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:57
+msgid "OK"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:81
+msgid "Preview"
+msgstr "Anteprima"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:106
+msgid "New List"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:115
+msgid "Name:"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:119
+msgid "Description:"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:136
+msgid "Create"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:71
+#: /home/vasco/Code/birdie/po/../src/Utils/StatusIcon.vala:41
+#: /home/vasco/Code/birdie/po/../src/Utils/Indicator.vala:115
+#: /home/vasco/Code/birdie/po/../src/Utils/Launcher.vala:40
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:239
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:240
+msgid "New Tweet"
+msgstr "Nuovo Tweet"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:73
+msgid "New Message"
+msgstr "Nuovo Messaggio"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:147
+msgid "Suggestions"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:169
+msgid "New Message in reply to @"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:216
+msgid "Send"
+msgstr "Invia"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:218
+msgid "Tweet"
+msgstr "Tweet"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:230
+msgid "Add a picture"
+msgstr "Aggiungi una foto"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:255
+msgid "Select a Picture"
+msgstr "Seleziona una foto"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:258
+msgid "Open"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:282
+msgid "Open in browser"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:286
+msgid "Copy link"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:335
+msgid "Thread"
+msgstr "Thread"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:352
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:801
+msgid "Favorite"
+msgstr "Preferiti"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:374
+msgid "Retweet"
+msgstr "Retweet"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:389
+msgid "Retweet with quote"
+msgstr "Retwitta citando"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:411
+msgid "Reply"
+msgstr "Rispondi"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:432
+msgid "Delete this direct message?"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:460
+msgid "Remove user from list?"
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:461
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:347
+msgid "Remove"
+msgstr "Rimuovere"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:464
 msgid "Delete this tweet?"
 msgstr "Cancellare questo tweet?"
 
-#: ../../src/Widgets/TweetBox.vala:662
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:798
 msgid "Unfavorite"
 msgstr "Rimuovi dai Preferiti"
 
-#: ../../src/Widgets/TweetBox.vala:673
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:809
 #, c-format
 msgid "retweeted by %s"
 msgstr "retweettato da %s"
 
-#: ../../src/Widgets/TweetBox.vala:698
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:834
 #, c-format
 msgid "in reply to @%s"
 msgstr "in risposta a @% s"
 
-#: ../../src/Widgets/TweetDialog.vala:73
-msgid "New Message"
-msgstr "Nuovo Messaggio"
+#: /home/vasco/Code/birdie/po/../src/Utils/StatusIcon.vala:50
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:412
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:454
+msgid "Quit"
+msgstr "Esci"
 
-#: ../../src/Widgets/TweetDialog.vala:193
-msgid "Send"
-msgstr "Invia"
+#: /home/vasco/Code/birdie/po/../src/Utils/Notifications.vala:66
+msgid "View"
+msgstr "Vista"
 
-#: ../../src/Widgets/TweetDialog.vala:195
-msgid "Tweet"
+#: /home/vasco/Code/birdie/po/../src/Utils/Indicator.vala:78
+#: /home/vasco/Code/birdie/po/../src/Utils/Launcher.vala:46
+msgid "Tweets"
 msgstr "Tweet"
 
-#: ../../src/Widgets/TweetDialog.vala:207
-msgid "Add a picture"
-msgstr "Aggiungi una foto"
+#: /home/vasco/Code/birdie/po/../src/Utils/Indicator.vala:91
+#: /home/vasco/Code/birdie/po/../src/Utils/Launcher.vala:52
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:270
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:271
+msgid "Mentions"
+msgstr "Citazioni"
 
-#: ../../src/Widgets/TweetDialog.vala:232
-msgid "Select a Picture"
-msgstr "Seleziona una foto"
+#: /home/vasco/Code/birdie/po/../src/Utils/Indicator.vala:104
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:281
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:282
+msgid "Direct Messages"
+msgstr "Messaggi Diretti"
 
-#: ../../src/Widgets/UserBox.vala:56 ../../src/Widgets/UserBox.vala:192
-msgid "TWEETS"
-msgstr "I tuoi Tweet"
+#: /home/vasco/Code/birdie/po/../src/Utils/Launcher.vala:58
+msgid "Messages"
+msgstr "Messaggi"
 
-#: ../../src/Widgets/UserBox.vala:61 ../../src/Widgets/UserBox.vala:197
-msgid "FOLLOWING"
-msgstr "Chi Segui"
+#: /home/vasco/Code/birdie/po/../src/Utils/Launcher.vala:64
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:292
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:293
+msgid "Profile"
+msgstr "Profilo"
 
-#: ../../src/Widgets/UserBox.vala:63 ../../src/Widgets/UserBox.vala:199
-msgid "FOLLOWERS"
-msgstr "Chi ti Segue"
-
-#: ../../src/Widgets/UserBox.vala:107
-msgid "Follow"
-msgstr "Segui"
-
-#: ../../src/Widgets/UserBox.vala:109
-msgid "Follow user"
-msgstr "Segui utente"
-
-#: ../../src/Widgets/UserBox.vala:117
-msgid "Unfollow"
-msgstr "Non seguire più"
-
-#: ../../src/Widgets/UserBox.vala:119
-msgid "Unfollow user"
-msgstr "Non seguire più l'utente"
-
-#: ../../src/Widgets/UserBox.vala:127
-msgid "Block"
-msgstr "Blocca"
-
-#: ../../src/Widgets/UserBox.vala:129
-msgid "Block user"
-msgstr "Blocca utente"
-
-#: ../../src/Widgets/UserBox.vala:137
-msgid "Unblock"
-msgstr "Sblocca"
-
-#: ../../src/Widgets/UserBox.vala:139
-msgid "Unblock user"
-msgstr "Sblocca utente"
-
-#: ../../src/Widgets/UserBox.vala:186
-msgid "Following you."
-msgstr "Ti Segue"
-
-#: ../../src/Widgets/UserBox.vala:188
-msgid "Not following you."
-msgstr "Non ti Segue"
-
-#: ../../src/Widgets/Welcome.vala:22 ../../src/Utils/StatusIcon.vala:31
-msgid "Birdie"
-msgstr "Birdie"
-
-#: ../../src/Widgets/Welcome.vala:24
-msgid "Sign In"
-msgstr ""
-
-#: ../../src/Widgets/Welcome.vala:24 ../../src/Widgets/Welcome.vala:67
-msgid "Add an existing Twitter account."
-msgstr "Aggiungi un account Twitter esistente"
-
-#: ../../src/Widgets/Welcome.vala:25
-msgid "Sign Up"
-msgstr ""
-
-#: ../../src/Widgets/Welcome.vala:25 ../../src/Widgets/Welcome.vala:73
-msgid "Create a new Twitter account."
-msgstr "Crea un nuovo account Twitter"
-
-#: ../../src/Widgets/Welcome.vala:49 ../../src/Widgets/Welcome.vala:108
-msgid "Unable to connect"
-msgstr "Impossibile connettersi"
-
-#: ../../src/Widgets/Welcome.vala:49 ../../src/Widgets/Welcome.vala:110
-msgid "Please check your Internet Connection"
-msgstr "Per piacere controlla la tua connessione Internet"
-
-#: ../../src/Widgets/Welcome.vala:51 ../../src/Widgets/Welcome.vala:99
-msgid "Retry"
-msgstr "Riprova"
-
-#: ../../src/Widgets/Welcome.vala:51
-msgid "Try to connect again"
-msgstr "Prova a connetterti di nuovo"
-
-#: ../../src/Widgets/Welcome.vala:86
-msgid "Welcome to Birdie"
-msgstr ""
-
-#: ../../src/Utils/Date.vala:65
+#: /home/vasco/Code/birdie/po/../src/Utils/Date.vala:65
 #, c-format
 msgid "%d y"
 msgstr "%d y"
 
-#: ../../src/Utils/Date.vala:68
+#: /home/vasco/Code/birdie/po/../src/Utils/Date.vala:68
 #, c-format
 msgid "%d mo"
 msgstr "%d mo"
 
-#: ../../src/Utils/Date.vala:71
+#: /home/vasco/Code/birdie/po/../src/Utils/Date.vala:71
 #, c-format
 msgid "%d w"
 msgstr "%d w"
 
-#: ../../src/Utils/Date.vala:74
+#: /home/vasco/Code/birdie/po/../src/Utils/Date.vala:74
 #, c-format
 msgid "%d d"
 msgstr "%d d"
 
-#: ../../src/Utils/Date.vala:76
+#: /home/vasco/Code/birdie/po/../src/Utils/Date.vala:76
 #, c-format
 msgid "%d h"
 msgstr "%d h"
 
-#: ../../src/Utils/Date.vala:78
+#: /home/vasco/Code/birdie/po/../src/Utils/Date.vala:78
 #, c-format
 msgid "%d m"
 msgstr "%d m"
 
-#: ../../src/Utils/Date.vala:81
+#: /home/vasco/Code/birdie/po/../src/Utils/Date.vala:81
 msgid "now"
 msgstr "ora"
 
-#: ../../src/Utils/Indicator.vala:88 ../../src/Utils/Indicator.vala:185
-#: ../../src/Utils/Launcher.vala:46
-msgid "Tweets"
-msgstr "Tweet"
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:259
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:260
+msgid "Home"
+msgstr "Home"
 
-#: ../../src/Utils/Launcher.vala:58
-msgid "Messages"
-msgstr "Messaggi"
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:304
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:321
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:322
+msgid "Search"
+msgstr "Cerca"
 
-#: ../../src/Utils/Notifications.vala:47
-msgid "View"
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:336
+msgid "Add Account"
+msgstr "Aggiungi Account"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:342
+msgid "Remove Account"
+msgstr "Rimuovi Account"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:346
+msgid "Remove this account?"
+msgstr "Rimuovere questo account?"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:369
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:452
+msgid "About"
+msgstr "Info"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:405
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:453
+msgid "Donate"
+msgstr "Fai una donazione"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:515
+msgid "Received"
+msgstr "Ricevuti"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:516
+msgid "Sent"
+msgstr "Inviati"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:539
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:548
+msgid "Timeline"
+msgstr "Cronologia"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:540
+msgid "Favorites"
+msgstr "Preferiti"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:541
+msgid "Lists"
 msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:665
+msgid "You must select a list you own."
+msgstr ""
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:734
+msgid "Sign in"
+msgstr "Accedi"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:1112
+msgid "New tweet from"
+msgstr "Nuovo tweet da"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:1127
+msgid "new tweets"
+msgstr "Nuovo tweet"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:1230
+msgid "New mention from"
+msgstr "Nuova menzione da"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:1246
+msgid "new mentions"
+msgstr "Nuove menzioni"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:1281
+msgid "New direct message from"
+msgstr "Nuovo messaggio diretto da"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:1301
+msgid "new direct messages"
+msgstr "Nuovi messaggi diretti"
+
+#: /home/vasco/Code/birdie/po/../src/config.vala:25
+msgid "Twitter client for Linux"
+msgstr "Client Twitter per Linux"
