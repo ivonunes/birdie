@@ -78,6 +78,8 @@ namespace Birdie {
         public API api;
         public API new_api;
 
+        public Utils.Notification notification;
+
         public string current_timeline;
 
         #if HAVE_LIBMESSAGINGMENU
@@ -417,6 +419,9 @@ namespace Birdie {
                     this.settings.set_int ("window-width", w);
                     this.settings.set_int ("window-height", h);
 
+                    // destroy notifications
+                    this.notification.uninit ();
+
                     m_window.destroy ();
                 });
                 menu.add (account_appmenu);
@@ -525,6 +530,10 @@ namespace Birdie {
                 spinner_box.pack_start (new Gtk.Label (""), true, true, 0);
 
                 this.init_api ();
+
+                // initialize notifications
+                this.notification = new Utils.Notification ();
+                this.notification.init ();
 
                 this.own_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
                 this.own_box_info = new Widgets.UserBox ();
@@ -1117,13 +1126,18 @@ namespace Birdie {
                         if (this.tweet_notification && this.api.home_timeline.length () <=
                             this.limit_notifications  &&
                             this.api.home_timeline.length () > 0) {
-                                Utils.notify (notify_header, avatar, notify_text, "home", this);
+                                this.notification.notify (this,
+                                                          notify_header,
+                                                          notify_text,
+                                                          "home",
+                                                          false,
+                                                          Environment.get_home_dir () + "/.cache/birdie/" + avatar);
                         }
                     }
                 });
 
                 if (this.tweet_notification && this.api.home_timeline.length () > this.limit_notifications && this.unread_tweets > 0) {
-                    Utils.notify (this.unread_tweets.to_string () + " " + _("new tweets"), "", "", "home", this);
+                    this.notification.notify (this, this.unread_tweets.to_string () + " " + _("new tweets"));
                 }
 
                 if (this.tweet_notification && get_total_unread () > 0) {
@@ -1236,13 +1250,13 @@ namespace Birdie {
                         if (this.tweet_notification && this.api.mentions_timeline.length () <=
                             this.limit_notifications &&
                             this.api.mentions_timeline.length () > 0) {
-                                Utils.notify (notify_header, avatar, notify_text, "mentions", this);
+                                this.notification.notify (this, notify_header, notify_text, "mentions", false, Environment.get_home_dir () + "/.cache/birdie/" + avatar);
                         }
                     }
                 });
 
                 if (this.mention_notification && this.api.mentions_timeline.length () > this.limit_notifications) {
-                    Utils.notify (this.unread_mentions.to_string () + " " + _("new mentions"), "", "", "mentions", this);
+                    this.notification.notify (this, this.unread_mentions.to_string () + " " + _("new mentions"), "", "mentions");
                 }
 
                 if (this.mention_notification && new_mentions) {
@@ -1287,7 +1301,7 @@ namespace Birdie {
                         if (this.tweet_notification && this.api.dm_timeline.length () <=
                             this.limit_notifications  &&
                             this.api.dm_timeline.length () > 0) {
-                                Utils.notify (notify_header, avatar, notify_text, "dm", this, true);
+                                this.notification.notify (this, notify_header, notify_text, "dm", true, Environment.get_home_dir () + "/.cache/birdie/" + avatar);
                         }
                     }
                 });
@@ -1297,7 +1311,7 @@ namespace Birdie {
                     get_avatar (this.dm_list);
 
                 if (this.dm_notification && this.api.dm_timeline.length () > this.limit_notifications) {
-                    Utils.notify (this.unread_dm.to_string () + " " + _("new direct messages"), "", "dm", "", this, true);
+                    this.notification.notify (this, this.unread_dm.to_string () + " " + _("new direct messages"), "", "dm", true);
                 }
 
                 if (this.dm_notification && new_dms) {

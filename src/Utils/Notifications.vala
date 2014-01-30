@@ -15,72 +15,63 @@
  */
 
 namespace Birdie.Utils {
-    private static Canberra.Context? sound_context = null;
-    private List<string> caps;
-    private Notify.Notification notification;
-    private string switch_timeline;
-    private Birdie birdie_app;
 
-    public int notify (string username, string avatar, string message, string timeline, Birdie birdie, bool dm = false) {
+    public class Notification {
 
-        switch_timeline = timeline;
-        birdie_app = birdie;
-        string notification_txt;
-        string avatar_img;
-        string avatar_path;
+        private Canberra.Context sound_context;
+        private List<string> caps;
+        private Notify.Notification notification;
+        private string switch_timeline;
+        private Birdie birdie_app;
 
-        Notify.init ("Birdie");
-
-        if (!Notify.is_initted()) {
-            if (!Notify.init(GLib.Environment.get_application_name()))
-                critical("Failed to initialize libnotify.");
+        public void init () {
+            Notify.init ("Birdie");
+            Canberra.Context.create (out this.sound_context);
         }
 
-        caps = Notify.get_server_caps();
+        public void notify (Birdie birdie,
+                            string header,
+                            string? message = "",
+                            string? timeline = "home",
+                            bool? dm = false,
+                            string? avatar = null) {
 
-        notification_txt = Utils.remove_html_tags (message);
-        notification_txt = Utils.escape_markup (notification_txt);
+            this.switch_timeline = timeline;
+            this.birdie_app = birdie;
+            string notification_txt;
 
-        avatar_path = Environment.get_home_dir () + "/.cache/birdie/" + avatar;
+            this.caps = Notify.get_server_caps ();
 
-        var file = File.new_for_path (avatar_path);
+            notification_txt = Utils.remove_html_tags (message);
+            notification_txt = Utils.escape_markup (notification_txt);
 
-        if (avatar == "" || avatar == null || !file.query_exists ())
-            avatar_img = "birdie";
-        else
-            avatar_img = avatar_path;
+            this.notification = new Notify.Notification (header, notification_txt, avatar ?? "birdie");
+            this.notification.set_hint_string ("desktop-entry", "birdie");
+            this.notification.set_urgency (Notify.Urgency.NORMAL);
 
-        try {
-            notification = new Notify.Notification (username, notification_txt, avatar_img);
-            notification.set_hint_string ("desktop-entry", "birdie");
-
-            if (!dm) {
-                notification.set_timeout (8000);
-            } else {
-                notification.set_timeout (0);
-                notification.set_urgency (Notify.Urgency.CRITICAL);
+            if (dm) {
+                this.notification.set_timeout (0);
+                this.notification.set_urgency (Notify.Urgency.CRITICAL);
             }
 
-
-            if (caps.find_custom ("actions", GLib.strcmp) != null)
-                notification.add_action ("default", _("View"), (notification, action) => {
-                    birdie_app.switch_timeline (switch_timeline);
-                    birdie_app.activate ();
+            if (this.caps.find_custom ("actions", GLib.strcmp) != null)
+                this.notification.add_action ("default", _("View"), (notification, action) => {
+                    this.birdie_app.switch_timeline (this.switch_timeline);
+                    this.birdie_app.activate ();
                 });
 
-            notification.show ();
-        } catch (Error e) {
-            warning ("Failed to show notification: %s", e.message);
+            try {
+                notification.show ();
+            } catch (GLib.Error e) {
+                warning ("Failed to show notification: %s", e.message);
+            }
+
+            // play sound
+            this.sound_context.play (0, Canberra.PROP_EVENT_ID, "message");
         }
 
-        // play sound
-        init_sound ();
-        sound_context.play (0, Canberra.PROP_EVENT_ID, "message");
-        return 0;
-    }
-
-    private static void init_sound () {
-        if (sound_context == null)
-            Canberra.Context.create (out sound_context);
+        public void uninit() {
+            Notify.uninit();
+        }
     }
 }
