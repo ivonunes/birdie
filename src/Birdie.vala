@@ -229,6 +229,10 @@ namespace Birdie {
                 if (settings.get_boolean ("status-icon"))
                     this.statusIcon = new Utils.StatusIcon (this);
 
+                // initialize notifications
+                this.notification = new Utils.Notification ();
+                this.notification.init ();
+
                 this.unread_tweets = 0;
                 this.unread_mentions = 0;
                 this.unread_dm = 0;
@@ -530,10 +534,6 @@ namespace Birdie {
                 spinner_box.pack_start (new Gtk.Label (""), true, true, 0);
 
                 this.init_api ();
-
-                // initialize notifications
-                this.notification = new Utils.Notification ();
-                this.notification.init ();
 
                 this.own_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
                 this.own_box_info = new Widgets.UserBox ();

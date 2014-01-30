@@ -20,7 +20,7 @@ namespace Birdie.Utils {
 	    private Settings settings;
 	    private Gtk.Window m_window;
 		private Birdie birdie;
-	    
+
 	    public StatusIcon (Birdie birdie) {
 	    	this.birdie = birdie;
 	    	this.settings = birdie.settings;
@@ -33,7 +33,7 @@ namespace Birdie.Utils {
 	        activate.connect (this.toggle_window_visibility);
 	        this.popup_menu.connect ((button, time) => {traymenu.popup (null, null, null, button, time); });
 	    }
-	    
+
 	    private void construct_traymenu() {
 	        traymenu = new Gtk.Menu();
 
@@ -41,6 +41,11 @@ namespace Birdie.Utils {
 			var menu_tweet = new Gtk.MenuItem.with_label (_("New Tweet"));
 			menu_tweet.activate.connect (new_tweet);
 			traymenu.append (menu_tweet);
+
+	        /* New dm */
+			var menu_dm = new Gtk.MenuItem.with_label (_("New Direct Message"));
+			menu_dm.activate.connect (new_dm);
+			traymenu.append (menu_dm);
 
 	        /* Separator */
 			var menu_sep1 = new Gtk.SeparatorMenuItem ();
@@ -56,6 +61,11 @@ namespace Birdie.Utils {
 
 	    private void new_tweet () {
 	    	Widgets.TweetDialog dialog = new Widgets.TweetDialog (birdie);
+            dialog.show_all ();
+	    }
+
+	    private void new_dm () {
+	    	Widgets.TweetDialog dialog = new Widgets.TweetDialog (birdie, "", "", true);
             dialog.show_all ();
 	    }
 
