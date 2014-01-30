@@ -15,65 +15,39 @@
  */
 
 namespace Birdie {
-    Mutex avatar_mutex;
 
     public void get_avatar (Widgets.TweetList timeline) {
-        if (Utils.check_internet_connection ()) {
-            new Thread<void*> (null, () => {
-                avatar_mutex.lock ();
-                timeline.boxes.reverse ();
-
-                timeline.boxes.foreach ((tweetbox) => {
-                    get_single_avatar (tweetbox, true);
-                });
-
-                timeline.boxes.reverse ();
-                avatar_mutex.unlock ();
-                return null;
-            });
-        }
-    }
-
-    public void get_avatar_unthreaded (Widgets.TweetList timeline) {
-        if (Utils.check_internet_connection ()) {
-            avatar_mutex.lock ();
+        new Thread<void*> (null, () => {
             timeline.boxes.reverse ();
 
             timeline.boxes.foreach ((tweetbox) => {
-                get_single_avatar (tweetbox, true);
+                get_single_avatar (tweetbox, timeline);
             });
 
             timeline.boxes.reverse ();
-            avatar_mutex.unlock ();
-        }
+            return null;
+        });
     }
 
-    public void get_single_avatar (Widgets.TweetBox tweetbox, bool ignore_mutex = false) {
-        if (!ignore_mutex)
-            avatar_mutex.lock ();
+    public void get_avatar_unthreaded (Widgets.TweetList timeline) {
+        timeline.boxes.reverse ();
+
+        timeline.boxes.foreach ((tweetbox) => {
+            get_single_avatar (tweetbox, timeline);
+        });
+
+        timeline.boxes.reverse ();
+    }
+
+    public void get_single_avatar (Widgets.TweetBox tweetbox, Widgets.TweetList? tweetlist = null) {
 
         string profile_image_url = tweetbox.tweet.profile_image_url;
         string profile_image_file = parse_profile_image_file (profile_image_url);
 
-        if (!File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/" + profile_image_file).query_exists ()) {
-            if (Utils.check_internet_connection ()) {
-                new Utils.Downloader (profile_image_url,
-                    Environment.get_home_dir () +
-                    "/.cache/birdie/" + profile_image_file);
-
-                Utils.generate_rounded_avatar (Environment.get_home_dir () +
-                    "/.cache/birdie/" + profile_image_file);
-            }
-        }
-
-        Idle.add (() => {
-            tweetbox.set_avatar (Environment.get_home_dir () +
-                "/.cache/birdie/" + profile_image_file);
-            return false;
-        });
-
-        if (!ignore_mutex)
-            avatar_mutex.unlock ();
+        var d = new Utils.Downloader ();
+        d.download.begin (File.new_for_uri (profile_image_url),
+            Environment.get_home_dir () +
+            "/.cache/birdie/" + profile_image_file, true, tweetbox, tweetlist, tweetbox.tweet);
     }
 
     public string parse_profile_image_file (string profile_image_url) {
@@ -93,80 +67,67 @@ namespace Birdie {
     }
 
     public void get_userbox_avatar (Widgets.UserBox userbox, bool own = false) {
-        if (Utils.check_internet_connection ()) {
-            var profile_image_url = userbox.user.profile_image_url;
-            var profile_image_file = parse_profile_image_file (profile_image_url);
+        var profile_image_url = userbox.user.profile_image_url;
+        var profile_image_file = parse_profile_image_file (profile_image_url);
 
-            if (!File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/" + profile_image_file).query_exists ()) {
-                if (Utils.check_internet_connection ()) {
-                    new Utils.Downloader (profile_image_url,
-                        Environment.get_home_dir () +
-                        "/.cache/birdie/" + profile_image_file);
+        if (!File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/" + profile_image_file).query_exists ()) {
+            var d = new Utils.Downloader ();
+            d.download.begin (File.new_for_uri (profile_image_url),
+                Environment.get_home_dir () +
+                "/.cache/birdie/" + profile_image_file, true, null, null, null, userbox);
+        }
 
-                    Utils.generate_rounded_avatar (Environment.get_home_dir () +
-                        "/.cache/birdie/" + profile_image_file);
-                }
-            }
+        userbox.set_avatar (Environment.get_home_dir () +
+            "/.cache/birdie/" + profile_image_file);
 
-            userbox.set_avatar (Environment.get_home_dir () +
+        if (own) {
+            userbox.user.profile_image_file = profile_image_file;
+
+            var src = File.new_for_path (Environment.get_home_dir () +
                 "/.cache/birdie/" + profile_image_file);
-
-            if (own) {
-                userbox.user.profile_image_file = profile_image_file;
-
-                var src = File.new_for_path (Environment.get_home_dir () +
-                    "/.cache/birdie/" + profile_image_file);
-                var dst = File.new_for_path (Environment.get_home_dir () +
-                    "/.local/share/birdie/avatars/" + profile_image_file);
-                if (!dst.query_exists ()) {
-                    try {
-                        src.copy (dst, FileCopyFlags.NONE, null, null);
-                    } catch (Error e) {
-                        stderr.printf ("%s\n", e.message);
-                    }
+            var dst = File.new_for_path (Environment.get_home_dir () +
+                "/.local/share/birdie/avatars/" + profile_image_file);
+            if (!dst.query_exists ()) {
+                try {
+                    src.copy (dst, FileCopyFlags.NONE, null, null);
+                } catch (Error e) {
+                    stderr.printf ("%s\n", e.message);
                 }
             }
         }
     }
 
-    public string get_youtube_video (string youtube_video_url) {
-        if (Utils.check_internet_connection ()) {
-            string youtube_id = "";
-            youtube_id = youtube_video_url.split ("v=")[1];
+    public string get_youtube_video (string youtube_video_url,
+                              Widgets.TweetBox? tweetbox = null,
+                              Widgets.TweetList? tweetlist = null,
+                              Tweet? tweet = null) {
+        string youtube_id = "";
+        youtube_id = youtube_video_url.split ("v=")[1];
 
-            if ("&" in youtube_id)
-                youtube_id = youtube_id.split ("&")[0];
+        if ("&" in youtube_id)
+            youtube_id = youtube_id.split ("&")[0];
 
-            if ("#" in youtube_id)
-                youtube_id = youtube_id.split ("#")[0];
+        if ("#" in youtube_id)
+            youtube_id = youtube_id.split ("#")[0];
 
-            if ("?" in youtube_id)
-                youtube_id = youtube_id.split ("?")[0];
+        if ("?" in youtube_id)
+            youtube_id = youtube_id.split ("?")[0];
 
-            if (!File.new_for_path (Environment.get_home_dir () +
-                "/.cache/birdie/media/youtube_" + youtube_id + ".jpg").query_exists ()) {
-                if (Utils.check_internet_connection ()) {
-                    new Utils.Downloader ("http://i3.ytimg.com/vi/" +
-                        youtube_id + "/mqdefault.jpg", Environment.get_home_dir () +
-                        "/.cache/birdie/media/youtube_" + youtube_id + ".jpg");
-                }
-            }
+        var d = new Utils.Downloader ();
+        d.download.begin (File.new_for_uri ("http://i3.ytimg.com/vi/" +
+            youtube_id + "/mqdefault.jpg"), Environment.get_home_dir () +
+            "/.cache/birdie/media/youtube_" + youtube_id + ".jpg", false, null, tweetlist, tweet);
 
-            if (File.new_for_path (Environment.get_home_dir () +
-                "/.cache/birdie/media/youtube_" + youtube_id + ".jpg").query_exists ()) {
-                return youtube_id;
-            } else {
-                return "";
-            }
-        } else {
-            return "";
-        }
+        return  youtube_id;
     }
 
     public void parse_media_url (ref Json.Object entitiesobject,
                                  ref string text,
                                  ref string media_url,
-                                 ref string youtube_video) {
+                                 ref string youtube_video,
+                                 Widgets.TweetList tweetlist,
+                                 Tweet tweet
+                                 ) {
 
         string expanded;
         media_url = "";
@@ -175,7 +136,7 @@ namespace Birdie {
         if (entitiesobject.has_member("media")) {
             foreach (var media in entitiesobject.get_array_member ("media").get_elements ()) {
                 media_url = media.get_object ().get_string_member ("media_url");
-                media_url = get_media (media_url);
+                media_url = get_media (media_url, null, tweetlist, tweet);
             }
         } else {
             media_url = "";
@@ -189,12 +150,12 @@ namespace Birdie {
                 if (expanded.contains ("youtube.com") || expanded.contains ("youtu.be")) {
                     if (expanded.contains ("youtu.be"))
                         expanded = expanded.replace ("youtu.be/", "youtube.com/watch?v=");
-                    youtube_video = get_youtube_video (expanded);
+                    youtube_video = get_youtube_video (expanded, null, tweetlist, tweet);
                 }
 
                 // intercept imgur media links
                 if (expanded.contains ("imgur.com/")) {
-                    media_url = get_imgur_media (expanded);
+                    media_url = get_imgur_media (expanded, null, tweetlist, tweet);
                 }
 
                 // replace short urls by expanded ones in tweet text
@@ -204,43 +165,33 @@ namespace Birdie {
         }
     }
 
-    private string get_media (string image_url) {
+    private string get_media (string image_url,
+                              Widgets.TweetBox? tweetbox = null,
+                              Widgets.TweetList? tweetlist = null,
+                              Tweet? tweet = null) {
         var image_file = image_url;
 
         if ("/" in image_file)
             image_file = image_file.split ("/")[4] + "_" + image_file.split ("/")[5];
-        if (Utils.check_internet_connection ()) {
-            new Utils.Downloader (image_url + ":medium",
-                Environment.get_home_dir () +
-                "/.cache/birdie/media/" + image_file);
-        } else  {
-            image_file = null;
-        }
-
+        var d = new Utils.Downloader ();
+        d.download.begin (File.new_for_uri (image_url + ":medium"),
+            Environment.get_home_dir () +
+            "/.cache/birdie/media/" + image_file, false, null, tweetlist, tweet);
         return image_file;
     }
 
-    public string get_imgur_media (string url) {
-        if (Utils.check_internet_connection ()) {
-            string imgur_id = "";
+    public string get_imgur_media (string url,
+                                   Widgets.TweetBox? tweetbox = null,
+                                   Widgets.TweetList? tweetlist = null,
+                                   Tweet? tweet = null) {
+        string imgur_id = "";
 
-            if (".com/" in url)
-                imgur_id = url.split (".com/")[1];
+        if (".com/" in url)
+            imgur_id = url.split (".com/")[1];
 
-            if (!File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/media/" + imgur_id).query_exists ()) {
-                if (Utils.check_internet_connection ()) {
-                    new Utils.Downloader ("http://i.imgur.com/" + imgur_id + ".jpg",
-                        Environment.get_home_dir () + "/.cache/birdie/media/" + imgur_id);
-                }
-            }
-
-            if (File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/media/" + imgur_id).query_exists ()) {
-                return imgur_id;
-            } else {
-                return "";
-            }
-        } else {
-            return "";
-        }
+        var d = new Utils.Downloader ();
+        d.download.begin (File.new_for_uri ("http://i.imgur.com/" + imgur_id + ".jpg"),
+                Environment.get_home_dir () + "/.cache/birdie/media/" + imgur_id, false, null, tweetlist);
+        return imgur_id;
     }
 }

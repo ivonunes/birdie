@@ -83,6 +83,8 @@ namespace Birdie.Widgets {
             this.month = 0;
             this.year = 0;
 
+            set_events (Gdk.EventMask.BUTTON_RELEASE_MASK);
+
             // thread box
             this.thread_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             this.add (this.thread_box);
@@ -212,6 +214,8 @@ namespace Birdie.Widgets {
             ctx.add_class("tweet");
 
             // media
+            bool cached = false;
+
             if (tweet.media_url != "" || tweet.youtube_video != "") {
                 if (tweet.youtube_video != "")
                     try {
@@ -222,6 +226,7 @@ namespace Birdie.Widgets {
                             tweet.youtube_video + ".jpg",
                             60, 60, true
                             );
+                            cached = true;
                     } catch (Error e) {
                         debug ("Error creating pixbuf: " + e.message + " - using fallback thumbnail.");
                         try {
@@ -235,6 +240,7 @@ namespace Birdie.Widgets {
                 else if (tweet.media_url != "")
                     try {
                         media_pixbuf = new Gdk.Pixbuf.from_file_at_scale (Environment.get_home_dir () + "/.cache/birdie/media/" + tweet.media_url, 40, 40, true);
+                        cached = true;
                     } catch (Error e) {
                         debug ("Error creating pixbuf: " + e.message + " - using fallback thumbnail.");
                         try {
@@ -258,31 +264,26 @@ namespace Birdie.Widgets {
                     this.media_box.add (this.media);
                     this.media_alignment.add (this.media_box);
                     this.content_box.pack_start (this.media_alignment, false, false, 0);
-
-                    set_events (Gdk.EventMask.BUTTON_RELEASE_MASK);
-
-                    this.media_box.enter_notify_event.connect ((event) => {
-                        on_mouse_enter (this, event);
-                        return false;
-                    });
-
-                    this.media_box.button_release_event.connect ((event) => {
-                        if (tweet.youtube_video != "")
-                            this.show_youtube_video (tweet.youtube_video);
-                        else
-                            this.show_media (tweet.media_url);
-                        return false;
-                    });
                 }
+
+                if (cached) set_media_events ();
+
+                this.media_box.button_release_event.connect ((event) => {
+                    if (tweet.youtube_video != "")
+                        this.show_youtube_video (tweet.youtube_video);
+                    else
+                        this.show_media (tweet.media_url);
+                    return false;
+                });
             }
-            
+
             // rightclick menu
             var rightclick_menu = new Gtk.Menu ();
-            
+
             var browser_menu_item = new Gtk.MenuItem.with_label (_("Open in browser"));
             rightclick_menu.append (browser_menu_item);
             browser_menu_item.show ();
-            
+
             var link_menu_item = new Gtk.MenuItem.with_label (_("Copy link"));
             rightclick_menu.append (link_menu_item);
             link_menu_item.show ();
@@ -440,7 +441,7 @@ namespace Birdie.Widgets {
                     this.buttons_box.pack_start (this.dm_delete_button, false, true, 0);
                 }
             }
-            
+
             if (this.tweet.user_screen_name == this.birdie.api.account.screen_name ||
                 (this.list_id != "" && this.birdie.api.account.screen_name == this.list_owner)) {
                 // delete button
@@ -454,7 +455,7 @@ namespace Birdie.Widgets {
                 this.delete_button.clicked.connect (() => {
                     // confirm deletion
                     Widgets.AlertDialog confirm;
-                    
+
                     if (this.list_id != "") {
                         confirm = new Widgets.AlertDialog (this.birdie.m_window,
                         Gtk.MessageType.QUESTION, _("Remove user from list?"),
@@ -464,7 +465,7 @@ namespace Birdie.Widgets {
                         Gtk.MessageType.QUESTION, _("Delete this tweet?"),
                         _("Delete"), _("Cancel"));
                     }
-                    
+
                     Gtk.ResponseType response = confirm.run ();
                     if (response == Gtk.ResponseType.OK) {
                         this.delete_button.set_sensitive (false);
@@ -682,7 +683,7 @@ namespace Birdie.Widgets {
                 this.birdie.home_list.update_display (this.tweet);
                 this.birdie.mentions_list.update_display (this.tweet);
                 this.birdie.own_list.update_display (this.tweet);
-                
+
                 //TODO: update other timelines boxes ui to reflect favorite status changes on the current one
 
                 return false;
@@ -718,7 +719,7 @@ namespace Birdie.Widgets {
         private void* delete_thread () {
             if (this.list_id != "") {
                 this.birdie.api.remove_from_list (this.list_id, this.tweet.user_screen_name);
-                
+
                 Idle.add( () => {
                     this.birdie.list_list.remove_by_user (this.tweet.user_screen_name);
                     return false;
@@ -738,7 +739,7 @@ namespace Birdie.Widgets {
 
                 code = this.birdie.api.destroy (this.tweet.actual_id);
             }
-            
+
             return null;
         }
 
@@ -800,6 +801,48 @@ namespace Birdie.Widgets {
                 this.favorite_icon.set_from_icon_name ("twitter-fav", Gtk.IconSize.SMALL_TOOLBAR);
                 this.favorite_button.set_tooltip_text (_("Favorite"));
             }
+
+            if (this.tweet.youtube_video != "") {
+                var file = File.new_for_path (Environment.get_home_dir () +
+                                "/.cache/birdie/media/youtube_" +
+                                this.tweet.youtube_video + ".jpg");
+
+                if (file.query_exists ()) {
+                        try {
+                            this.media.set_from_pixbuf (new Gdk.Pixbuf.from_file_at_scale (
+                                    Environment.get_home_dir () +
+                                    "/.cache/birdie/media/youtube_" +
+                                    this.tweet.youtube_video + ".jpg",
+                                    60, 60, true
+                                    ));
+                        } catch {}
+
+                    set_media_events ();
+                }
+            }
+            if (this.tweet.media_url != "") {
+                var file = File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/media/" + this.tweet.media_url);
+
+                if (file.query_exists ()) {
+                        try {
+                            this.media.set_from_pixbuf (new Gdk.Pixbuf.from_file_at_scale (
+                                    Environment.get_home_dir () + "/.cache/birdie/media/" + this.tweet.media_url,
+                                    60, 60, true
+                                    ));
+                        } catch {}
+
+                    set_media_events ();
+                }
+            }
+            this.avatar_img.set_from_file (Environment.get_home_dir () + "/.cache/birdie/" + this.tweet.profile_image_file);
+        }
+
+        private void set_media_events () {
+
+            this.media_box.enter_notify_event.connect ((event) => {
+                on_mouse_enter (this, event);
+                return false;
+            });
         }
 
         private void set_info_header () {

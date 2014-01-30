@@ -53,7 +53,7 @@ namespace Birdie {
         public string token_secret;
         public string retrieve_count;
 
-        public abstract Tweet get_tweet (Json.Node tweetnode);
+        public abstract Tweet get_tweet (Json.Node tweetnode, Widgets.TweetList? tweetlist = null);
         public abstract string get_request ();
         public abstract int get_tokens (string pin);
         public abstract int auth ();

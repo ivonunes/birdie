@@ -424,7 +424,7 @@ namespace Birdie {
             );
         }
 
-        public override Tweet get_tweet (Json.Node tweetnode) {
+        public override Tweet get_tweet (Json.Node tweetnode, Widgets.TweetList? tweetlist = null) {
 
             string id = "";
             string user_name = "";
@@ -472,14 +472,20 @@ namespace Birdie {
                 in_reply_to_status_id = "";
 
             Json.Object entitiesobject = tweetobject.get_object_member ("entities");
-            parse_media_url (ref entitiesobject, ref text, ref media_url, ref youtube_video);
 
             profile_image_file = parse_profile_image_file (profile_image_url);
 
-            return new Tweet (id, actual_id, user_name, user_screen_name,
+            var tweet =  new Tweet (id, actual_id, user_name, user_screen_name,
                 Utils.highlight_all (text), created_at, profile_image_url, profile_image_file,
                 retweeted, favorited, false, in_reply_to_screen_name,
                 retweeted_by, retweeted_by_name, media_url, youtube_video, verified, in_reply_to_status_id);
+
+            parse_media_url (ref entitiesobject, ref text, ref media_url, ref youtube_video, tweetlist, tweet);
+
+            tweet.youtube_video = youtube_video;
+            tweet.media_url = media_url;
+            tweet.text = text;
+            return tweet;
         }
 
         public TwitterList get_list (Json.Node listnode) {
@@ -559,7 +565,7 @@ namespace Birdie {
                 });
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
-                    var tweet = this.get_tweet (tweetnode);
+                    var tweet = this.get_tweet (tweetnode, this.birdie.home_list);
                     home_timeline.append (tweet);
                     this.db.add_tweet (tweet, "tweets", this.account_id);
                 }
@@ -610,7 +616,7 @@ namespace Birdie {
                 });
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
-                    var tweet = this.get_tweet (tweetnode);
+                    var tweet = this.get_tweet (tweetnode, this.birdie.home_list);
                     home_timeline.append (tweet);
                 }
 
@@ -655,7 +661,7 @@ namespace Birdie {
                 });
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
-                    var tweet = this.get_tweet (tweetnode);
+                    var tweet = this.get_tweet (tweetnode, this.birdie.mentions_list);
                     mentions_timeline.append (tweet);
                 }
 
@@ -702,7 +708,7 @@ namespace Birdie {
                 var statuses_member = tweetobject.get_array_member ("statuses");
 
                 foreach (var tweetnode in statuses_member.get_elements ()) {
-                    var tweet = this.get_tweet (tweetnode);
+                    var tweet = this.get_tweet (tweetnode, this.birdie.search_list);
                     search_timeline.append (tweet);
                 }
 
@@ -749,7 +755,7 @@ namespace Birdie {
                 });
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
-                    var tweet = this.get_tweet (tweetnode);
+                    var tweet = this.get_tweet (tweetnode, this.birdie.mentions_list);
                     mentions_timeline.append (tweet);
                     this.db.add_tweet (tweet, "mentions", this.account_id);
                 }
@@ -816,12 +822,17 @@ namespace Birdie {
                     var profile_image_file = parse_profile_image_file (profile_image_url);
 
                     Json.Object entitiesobject = tweetobject.get_object_member ("entities");
-                    parse_media_url (ref entitiesobject, ref text, ref media_url, ref youtube_video);
 
                     var tweet = new Tweet (id, id, user_name,
                         user_screen_name, text, created_at,
                         profile_image_url, profile_image_file,
                         false, false, true, "", "", "", media_url, youtube_video);
+
+                    parse_media_url (ref entitiesobject, ref text, ref media_url, ref youtube_video, this.birdie.dm_list, tweet);
+
+                    tweet.youtube_video = youtube_video;
+                    tweet.media_url = media_url;
+                    tweet.text = text;
 
                     dm_timeline.append (tweet);
                     this.db.add_tweet (tweet, "dm_inbox", this.account_id);
@@ -925,7 +936,7 @@ namespace Birdie {
                 var root = parser.get_root ();
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
-                    var tweet = this.get_tweet (tweetnode);
+                    var tweet = this.get_tweet (tweetnode, this.birdie.own_list);
 
                     if (tweet.retweeted_by != "") {
                         tweet.retweeted = true;
@@ -969,7 +980,7 @@ namespace Birdie {
                 var root = parser.get_root ();
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
-                    var tweet = this.get_tweet (tweetnode);
+                    var tweet = this.get_tweet (tweetnode, this.birdie.favorites);
 
                     if (tweet.retweeted_by != "") {
                         tweet.retweeted = true;
@@ -1159,7 +1170,7 @@ namespace Birdie {
                 var root = parser.get_root ();
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
-                    var tweet = this.get_tweet (tweetnode);
+                    var tweet = this.get_tweet (tweetnode, this.birdie.user_list);
                     user_timeline.append (tweet);
                     this.get_user (tweetnode);
                 }
@@ -1203,7 +1214,7 @@ namespace Birdie {
                 var statuses_member = tweetobject.get_array_member ("statuses");
 
                 foreach (var tweetnode in statuses_member.get_elements ()) {
-                    var tweet = this.get_tweet (tweetnode);
+                    var tweet = this.get_tweet (tweetnode, this.birdie.search_list);
                     search_timeline.append (tweet);
                 }
 
@@ -1284,7 +1295,7 @@ namespace Birdie {
                 var root = parser.get_root ();
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
-                    var tweet = this.get_tweet (tweetnode);
+                    var tweet = this.get_tweet (tweetnode, this.birdie.list_list);
                     list_timeline.append (tweet);
                 }
 
@@ -1310,7 +1321,7 @@ namespace Birdie {
             api_mutex.unlock ();
             return 0;
         }
-        
+
         public override int destroy_list (string id) {
             api_mutex.lock ();
             Rest.ProxyCall call = proxy.new_call ();
@@ -1325,7 +1336,7 @@ namespace Birdie {
             api_mutex.unlock ();
             return 0;
         }
-        
+
         public override void create_list (string name, string description) {
             api_mutex.lock ();
             Rest.ProxyCall call = proxy.new_call ();
@@ -1347,7 +1358,7 @@ namespace Birdie {
             api_mutex.unlock ();
             this.get_lists ();
         }
-        
+
         public override int add_to_list (string list_id, string screen_name) {
             api_mutex.lock ();
             Rest.ProxyCall call = proxy.new_call ();
@@ -1363,7 +1374,7 @@ namespace Birdie {
             api_mutex.unlock ();
             return 0;
         }
-        
+
         public override int remove_from_list (string list_id, string screen_name) {
             api_mutex.lock ();
             Rest.ProxyCall call = proxy.new_call ();
