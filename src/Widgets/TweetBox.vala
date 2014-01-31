@@ -808,6 +808,7 @@ namespace Birdie.Widgets {
                                 this.tweet.youtube_video + ".jpg");
 
                 if (file.query_exists ()) {
+                    Idle.add (() => {
                         try {
                             this.media.set_from_pixbuf (new Gdk.Pixbuf.from_file_at_scale (
                                     Environment.get_home_dir () +
@@ -816,6 +817,8 @@ namespace Birdie.Widgets {
                                     60, 60, true
                                     ));
                         } catch {}
+                    return false;
+                    });
 
                     set_media_events ();
                 }
@@ -824,12 +827,15 @@ namespace Birdie.Widgets {
                 var file = File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/media/" + this.tweet.media_url);
 
                 if (file.query_exists ()) {
-                        try {
-                            this.media.set_from_pixbuf (new Gdk.Pixbuf.from_file_at_scale (
-                                    Environment.get_home_dir () + "/.cache/birdie/media/" + this.tweet.media_url,
-                                    60, 60, true
-                                    ));
-                        } catch {}
+                        Idle.add (() => {
+                            try {
+                                this.media.set_from_pixbuf (new Gdk.Pixbuf.from_file_at_scale (
+                                        Environment.get_home_dir () + "/.cache/birdie/media/" + this.tweet.media_url,
+                                        60, 60, true
+                                        ));
+                            } catch {}
+                        return false;
+                        });
 
                     set_media_events ();
                 }

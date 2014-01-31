@@ -57,12 +57,11 @@ namespace Birdie.Utils {
                                     Widgets.UserBox? userbox = null) throws GLib.Error {
 
             var cached_file = File.new_for_path (cached_path);
-            if (cached_file.query_exists ()) {
+            if (cached_file.query_exists () && tweetlist != null && tweet != null) {
                 debug ("already available locally at '%s'. Not downloading.", cached_path);
                 set_media (tweetlist, tweet);
                 return cached_file;
             }
-
 
             var uri = remote_file.get_uri ();
             var download = downloads.get (uri);
@@ -81,8 +80,6 @@ namespace Birdie.Utils {
                     yield copy_file (remote_file, cached_file);
             } catch (GLib.Error error) {
                 download_failed (download, error);
-
-                throw error;
             } finally {
                 downloads.remove (uri);
             }
@@ -90,7 +87,7 @@ namespace Birdie.Utils {
             debug ("Downloaded '%s' and its now locally available at '%s'.", uri, cached_path);
             downloaded (download);
 
-            if (avatar) {
+            if (avatar && tweetlist != null && tweet != null) {
                 Utils.generate_rounded_avatar (cached_path);
                 set_media (tweetlist, tweet);
             } else {

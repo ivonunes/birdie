@@ -484,7 +484,7 @@ namespace Birdie {
 
             tweet.youtube_video = youtube_video;
             tweet.media_url = media_url;
-            tweet.text = text;
+            tweet.text = Utils.highlight_all (text);
             return tweet;
         }
 
@@ -832,7 +832,7 @@ namespace Birdie {
 
                     tweet.youtube_video = youtube_video;
                     tweet.media_url = media_url;
-                    tweet.text = text;
+                    tweet.text = Utils.highlight_all (text);
 
                     dm_timeline.append (tweet);
                     this.db.add_tweet (tweet, "dm_inbox", this.account_id);
