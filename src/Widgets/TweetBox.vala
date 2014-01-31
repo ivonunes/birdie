@@ -677,7 +677,7 @@ namespace Birdie.Widgets {
                 try {
                 media_pixbuf = new Gdk.Pixbuf.from_file_at_scale (
                     Constants.PKGDATADIR + "/media.png",
-                    60, 60, true);
+                    325, 325, true);
                 } catch (Error e) {}
 
                 this.media = new Gtk.Image.from_pixbuf (media_pixbuf);
@@ -761,7 +761,7 @@ namespace Birdie.Widgets {
                                     Environment.get_home_dir () +
                                     "/.cache/birdie/media/youtube_" +
                                     this.tweet.youtube_video + ".jpg",
-                                    60, 60, true
+                                    325, 325, true
                                     ));
                             this.media_box.set_no_show_all (false);
                             this.media_box.show_all ();
@@ -778,7 +778,7 @@ namespace Birdie.Widgets {
                         try {
                             this.media.set_from_pixbuf (new Gdk.Pixbuf.from_file_at_scale (
                                     Environment.get_home_dir () + "/.cache/birdie/media/" + this.tweet.media_url,
-                                    60, 60, true
+                                    325, 325, true
                                     ));
                             this.media_box.set_no_show_all (false);
                             this.media_box.show_all ();

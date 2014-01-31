@@ -87,10 +87,8 @@ namespace Birdie.Utils {
             debug ("Downloaded '%s' and its now locally available at '%s'.", uri, cached_path);
             downloaded (download);
 
-            if (avatar && tweetlist != null && tweet != null) {
-                yield Utils.generate_rounded_avatar (cached_path);
-                set_media (tweetlist, tweet);
-            } else {
+            if (tweetlist != null && tweet != null) {
+                //yield Utils.generate_rounded_avatar (cached_path);
                 set_media (tweetlist, tweet);
             }
 
