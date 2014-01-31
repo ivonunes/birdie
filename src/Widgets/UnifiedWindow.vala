@@ -21,10 +21,10 @@ namespace Birdie.Widgets {
         public int opening_y;
         public int window_width;
         public int window_height;
-        
+
         public Gtk.HeaderBar header;
         public Gtk.Box box;
-        
+
         private const string ELEMENTARY_STYLESHEET = """
             .header-bar {
                 padding: 0 6px;
@@ -33,36 +33,36 @@ namespace Birdie.Widgets {
                                   #9ecef3,
                                   #298dc8
                                   );
-                                  
+
                 border-color: #1a5579;
-                
+
                 color: #1a5579;
-                
+
                 box-shadow: inset 0 0 0 1px alpha (#fff, 0.20),
                 inset 0 1px 0 0 alpha (#fff, 0.30);*/
-                
+
             }
-            
+
             /*.header-bar:backdrop {
                 background-image: linear-gradient(to bottom,
                                   #9ecef3,
                                   #61b0df
                                   );
-                                  
+
                 border-color: #457c9d;
             }*/
-            
+
             .header-bar .button {
                 border-radius: 0;
                 padding: 11px 10px;
                 border-width: 0 1px 0 1px;
             }
-            
+
             .header-bar .button.image-button {
                 border-radius: 3px;
                 padding: 0;
             }
-            
+
             /*.header-bar .button:active {
                 border-color: #4182aa;
                 background-image: linear-gradient(to bottom,
@@ -72,7 +72,7 @@ namespace Birdie.Widgets {
                 box-shadow: inset 0 0 0 1px alpha (#000, 0.05),
                             inset 0 1px 0 0 alpha (#fff, 0.30);
             }*/
-            
+
             /*.header-bar .button:active:backdrop {
                 border-color: #4182aa;
                 background-image: none;
@@ -80,7 +80,7 @@ namespace Birdie.Widgets {
                 border-color: alpha (#000, 0.15);
                 box-shadow: inset 0 0 0 1px alpha (#000, 0.05);
             }*/
-            
+
             .titlebar .titlebutton {
                 background: none;
                 padding: 3px;
@@ -91,9 +91,9 @@ namespace Birdie.Widgets {
                 border-style: solid;
                 border-image: none;
             }
-            
+
              /*.titlebar .titlebutton:active {
-                box-shadow: inset 0 0 0 1px alpha (#000, 0.05);             
+                box-shadow: inset 0 0 0 1px alpha (#000, 0.05);
              }*/
          """;
 
@@ -107,13 +107,13 @@ namespace Birdie.Widgets {
             set_events(Gdk.EventMask.SMOOTH_SCROLL_MASK);
 
             this.delete_event.connect (on_delete_event);
-            
+
             header = new Gtk.HeaderBar ();
 
 #if HAVE_GRANITE
             header.set_show_close_button (true);
             this.set_titlebar (header);
-            
+
             Granite.Widgets.Utils.set_theming_for_screen (this.get_screen (), ELEMENTARY_STYLESHEET,
                                                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 #else
@@ -122,10 +122,10 @@ namespace Birdie.Widgets {
                 this.set_titlebar (header);
             } else {
                 header.set_show_close_button (false);
-                
+
                 box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
                 box.pack_start (header, false, false, 0);
-                
+
                 base.add (box);
             }
 #endif
@@ -150,7 +150,7 @@ namespace Birdie.Widgets {
                 this.set_default_size (this.window_width, this.window_height);
             }
         }
-        
+
         public override void add (Gtk.Widget w) {
 #if HAVE_GRANITE
             base.add (w);

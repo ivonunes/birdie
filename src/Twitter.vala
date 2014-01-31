@@ -395,7 +395,7 @@ namespace Birdie {
             name = tweetobject.get_object_member ("user").get_string_member ("name");
             screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
             profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
-            profile_image_file = parse_profile_image_file (profile_image_url);
+            profile_image_file = Media.parse_profile_image_file (profile_image_url);
 
             if (tweetobject.get_object_member ("user").has_member("location") &&
                  tweetobject.get_object_member ("user").get_string_member ("location") != null) {
@@ -473,14 +473,14 @@ namespace Birdie {
 
             Json.Object entitiesobject = tweetobject.get_object_member ("entities");
 
-            profile_image_file = parse_profile_image_file (profile_image_url);
+            profile_image_file = Media.parse_profile_image_file (profile_image_url);
 
             var tweet =  new Tweet (id, actual_id, user_name, user_screen_name,
                 Utils.highlight_all (text), created_at, profile_image_url, profile_image_file,
                 retweeted, favorited, false, in_reply_to_screen_name,
                 retweeted_by, retweeted_by_name, media_url, youtube_video, verified, in_reply_to_status_id);
 
-            parse_media_url (ref entitiesobject, ref text, ref media_url, ref youtube_video, tweetlist, tweet);
+            Media.parse_media_url (ref entitiesobject, ref text, ref media_url, ref youtube_video, tweetlist, tweet);
 
             tweet.youtube_video = youtube_video;
             tweet.media_url = media_url;
@@ -819,7 +819,7 @@ namespace Birdie {
                     text = Utils.highlight_all(text);
                     var created_at = tweetobject.get_string_member ("created_at");
                     var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
-                    var profile_image_file = parse_profile_image_file (profile_image_url);
+                    var profile_image_file = Media.parse_profile_image_file (profile_image_url);
 
                     Json.Object entitiesobject = tweetobject.get_object_member ("entities");
 
@@ -828,7 +828,7 @@ namespace Birdie {
                         profile_image_url, profile_image_file,
                         false, false, true, "", "", "", media_url, youtube_video);
 
-                    parse_media_url (ref entitiesobject, ref text, ref media_url, ref youtube_video, this.birdie.dm_list, tweet);
+                    Media.parse_media_url (ref entitiesobject, ref text, ref media_url, ref youtube_video, this.birdie.dm_list, tweet);
 
                     tweet.youtube_video = youtube_video;
                     tweet.media_url = media_url;
@@ -888,7 +888,7 @@ namespace Birdie {
                     text = Utils.highlight_all(text);
                     var created_at = tweetobject.get_string_member ("created_at");
                     var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
-                    var profile_image_file = parse_profile_image_file (profile_image_url);
+                    var profile_image_file = Media.parse_profile_image_file (profile_image_url);
 
                     var tweet = new Tweet (id, id, user_name,
                         user_screen_name, text, created_at,

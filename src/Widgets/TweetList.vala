@@ -169,7 +169,7 @@ namespace Birdie.Widgets {
             });
         }
 
-        public void update_display (Tweet tweet) {
+        public void update_display (Tweet tweet, bool? favorite = false) {
             this.get_children ().foreach ((row) => {
                 if (row is Gtk.ListBoxRow) {
                     var box = ((Gtk.ListBoxRow) row).get_child ();
@@ -179,7 +179,10 @@ namespace Birdie.Widgets {
                             ((TweetBox) box).tweet = tweet;
 
                             Idle.add( () => {
-                                ((TweetBox) box).update_display ();
+                                if (favorite)
+                                    ((TweetBox) box).update_favorites ();
+                                else
+                                    ((TweetBox) box).update_media ();
                                 return false;
                             });
                         }

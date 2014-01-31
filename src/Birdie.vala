@@ -788,33 +788,33 @@ namespace Birdie {
                 db.get_tweets ("tweets", this.default_account_id).foreach ((tweet) => {
                     this.home_list.append (tweet, this);
                 });
-                get_avatar (this.home_list);
+                Media.get_avatar (this.home_list);
 
                 // load the cached mentions
                 db.get_tweets ("mentions", this.default_account_id).foreach ((tweet) => {
                     this.mentions_list.append (tweet, this);
                 });
-                get_avatar (this.mentions_list);
+                Media.get_avatar (this.mentions_list);
 
                 // load the cached dms
                 db.get_tweets ("dm_inbox", this.default_account_id).foreach ((tweet) => {
                     this.dm_list.append (tweet, this);
                 });
-                get_avatar (this.dm_list);
+                Media.get_avatar (this.dm_list);
                 db.get_tweets ("dm_outbox", this.default_account_id).foreach ((tweet) => {
                     this.dm_sent_list.append (tweet, this);
                 });
-                get_avatar (this.dm_sent_list);
+                Media.get_avatar (this.dm_sent_list);
 
                 // load the cached user
                 db.get_tweets ("own", this.default_account_id).foreach ((tweet) => {
                     this.own_list.append (tweet, this);
                 });
-                get_avatar (this.own_list);
+                Media.get_avatar (this.own_list);
                 db.get_tweets ("favorites", this.default_account_id).foreach ((tweet) => {
                     this.favorites.append (tweet, this);
                 });
-                get_avatar (this.favorites);
+                Media.get_avatar (this.favorites);
 
                 this.update_home_ui ();
 
@@ -836,7 +836,7 @@ namespace Birdie {
                         this.user_box_info.init (this.api.account, this);
                     }
 
-                    get_userbox_avatar (this.own_box_info, true);
+                    Media.get_userbox_avatar (this.own_box_info, true);
                     this.db.update_account (this.api.account);
 
                     this.set_user_menu ();
@@ -1158,7 +1158,7 @@ namespace Birdie {
                     this.spinner.stop ();
                     this.set_widgets_sensitive (true);
                 } else {
-                    get_avatar (this.home_list);
+                    Media.get_avatar (this.home_list);
                 }
 
 
@@ -1169,12 +1169,12 @@ namespace Birdie {
 
         public void get_all_avatars () {
             new Thread<void*> (null, () => {
-                get_avatar (this.home_list);
-                get_avatar (this.mentions_list);
-                get_avatar (this.dm_list);
-                get_avatar (this.dm_sent_list);
-                get_avatar (this.own_list);
-                get_avatar (this.favorites);
+                Media.get_avatar (this.home_list);
+                Media.get_avatar (this.mentions_list);
+                Media.get_avatar (this.dm_list);
+                Media.get_avatar (this.dm_sent_list);
+                Media.get_avatar (this.own_list);
+                Media.get_avatar (this.favorites);
 
                 return null;
             });
@@ -1187,7 +1187,7 @@ namespace Birdie {
                 });
 
                 if (this.ready)
-                    get_avatar (this.dm_sent_list);
+                    Media.get_avatar (this.dm_sent_list);
 
                 return false;
             });
@@ -1200,7 +1200,7 @@ namespace Birdie {
                 });
 
                 if (this.ready)
-                    get_avatar (this.own_list);
+                    Media.get_avatar (this.own_list);
 
                 return false;
             });
@@ -1215,7 +1215,7 @@ namespace Birdie {
                 });
 
                 if (this.ready)
-                    get_avatar (this.favorites);
+                    Media.get_avatar (this.favorites);
 
                 return false;
             });
@@ -1264,7 +1264,7 @@ namespace Birdie {
                 }
 
                 if (this.ready)
-                    get_avatar (this.mentions_list);
+                    Media.get_avatar (this.mentions_list);
 
                 return false;
             });
@@ -1303,7 +1303,7 @@ namespace Birdie {
 
 
                 if (this.ready)
-                    get_avatar (this.dm_list);
+                    Media.get_avatar (this.dm_list);
 
                 if (this.dm_notification && this.api.dm_timeline.length () > this.limit_notifications) {
                     this.notification.notify (this, this.unread_dm.to_string () + " " + _("new direct messages"), "", "dm", true);
@@ -1364,7 +1364,7 @@ namespace Birdie {
                     this.ready = true;
                     this.set_widgets_sensitive (true);
                 } else {
-                    get_avatar (this.home_list);
+                    Media.get_avatar (this.home_list);
                 }
                 return false;
             });
@@ -1395,7 +1395,7 @@ namespace Birdie {
                     this.ready = true;
                     this.set_widgets_sensitive (true);
                 } else {
-                    get_avatar (this.mentions_list);
+                    Media.get_avatar (this.mentions_list);
                 }
                 return false;
             });
@@ -1418,7 +1418,7 @@ namespace Birdie {
                 });
 
                 if (this.ready)
-                    get_avatar (this.search_list);
+                    Media.get_avatar (this.search_list);
 
                 return false;
             });
@@ -1509,7 +1509,7 @@ namespace Birdie {
                         this.switch_timeline ("dm");
                         Idle.add (() => {
                             this.notebook_dm.page = 1;
-                            get_avatar (this.dm_sent_list);
+                            Media.get_avatar (this.dm_sent_list);
                             return false;
                         });
                     } else {
@@ -1518,8 +1518,8 @@ namespace Birdie {
                             this.home_list.append (tweet_tmp, this);
                             this.own_list.append (tweet_tmp, this);
 
-                            get_avatar (this.home_list);
-                            get_avatar (this.own_list);
+                            Media.get_avatar (this.home_list);
+                            Media.get_avatar (this.own_list);
                             return false;
                         });
 
@@ -1554,7 +1554,7 @@ namespace Birdie {
                 }
 
                 this.user_box_info.update (this.api.user);
-                get_userbox_avatar (this.user_box_info);
+                Media.get_userbox_avatar (this.user_box_info);
 
                 this.switch_timeline ("user");
                 this.spinner.stop ();
@@ -1564,7 +1564,7 @@ namespace Birdie {
                 });
 
                 if (this.ready)
-                    get_avatar (this.user_list);
+                    Media.get_avatar (this.user_list);
 
                 return false;
             });
@@ -1581,7 +1581,7 @@ namespace Birdie {
                 });
 
                 if (this.ready)
-                    get_avatar (this.search_list);
+                    Media.get_avatar (this.search_list);
 
                 return false;
             });
@@ -1621,7 +1621,7 @@ namespace Birdie {
                 });
 
                 if (this.ready)
-                    get_avatar (this.list_list);
+                    Media.get_avatar (this.list_list);
 
                 return false;
             });
