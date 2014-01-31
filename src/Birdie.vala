@@ -325,11 +325,6 @@ namespace Birdie {
                 search.set_label (_("Search"));
 
                 this.search.bind_property("active", search_bar, "search-mode-enabled", GLib.BindingFlags.BIDIRECTIONAL);
-
-                //search.toggled.connect (() => {
-                //    if (!this.changing_tab)
-                //        this.switch_timeline ("search");
-                //});
                 this.search.set_sensitive (false);
                 centered_toolbar.add (search);
 

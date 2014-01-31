@@ -88,7 +88,7 @@ namespace Birdie.Utils {
             downloaded (download);
 
             if (avatar && tweetlist != null && tweet != null) {
-                Utils.generate_rounded_avatar (cached_path);
+                yield Utils.generate_rounded_avatar (cached_path);
                 set_media (tweetlist, tweet);
             } else {
                 set_media (tweetlist, tweet);
@@ -113,18 +113,18 @@ namespace Birdie.Utils {
             if (!(yield network_monitor.can_reach_async (connectable)))
                 warning ("Failed to reach host '%s' on port '%d'", address.name, address.port);
 
-            int64 total_num_bytes = 0;
-            msg.got_headers.connect (() => {
-                total_num_bytes =  msg.response_headers.get_content_length ();
-            });
+            // int64 total_num_bytes = 0;
+            // msg.got_headers.connect (() => {
+            //     total_num_bytes =  msg.response_headers.get_content_length ();
+            // });
 
-            int64 current_num_bytes = 0;
-            msg.got_chunk.connect ((msg, chunk) => {
-                if (total_num_bytes <= 0)
-                    return;
+            // int64 current_num_bytes = 0;
+            // msg.got_chunk.connect ((msg, chunk) => {
+            //     if (total_num_bytes <= 0)
+            //         return;
 
-                current_num_bytes += chunk.length;
-            });
+            //     current_num_bytes += chunk.length;
+            // });
 
             session.queue_message (msg, (session, msg) => {
                 download_from_http.callback ();
@@ -139,6 +139,8 @@ namespace Birdie.Utils {
                                             string cached_path) throws GLib.Error {
             File downloaded_file = null;
             GLib.Error download_error = null;
+
+            File cached_file = File.new_for_path (cached_path);
 
             SourceFunc callback = await_download.callback;
             var downloaded_id = downloaded.connect ((downloader, downloaded) => {
@@ -162,15 +164,14 @@ namespace Birdie.Utils {
             disconnect (downloaded_id);
             disconnect (downloaded_failed_id);
 
-            if (download_error != null)
+            if (download_error != null) {
                 throw download_error;
-
-            File cached_file;
-            if (downloaded_file.get_path () != cached_path) {
-                cached_file = File.new_for_path (cached_path);
-                yield downloaded_file.copy_async (cached_file, FileCopyFlags.NONE);
-            } else
-                cached_file = downloaded_file;
+            } else {
+                if (downloaded_file.get_path () != cached_path)
+                    yield downloaded_file.copy_async (cached_file, FileCopyFlags.NONE);
+                else
+                    cached_file = downloaded_file;
+            }
 
             return cached_file;
         }

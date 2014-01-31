@@ -42,25 +42,25 @@ namespace Birdie.Utils {
             case "Dec":
                 return 12;
         }
-        
+
         return 0;
     }
-    
+
     public string pretty_date (int year, int month, int day, int hour, int minute, int second) {
         var now = new DateTime.now_utc ();
         var begin = new DateTime.utc (year, month, day, hour, minute, (double) second);
-        
+
         var diff = now.difference (begin);
-        
+
         var time = new DateTime.local (1, 1, 1, 0, 0, 0);
         time = time.add (diff);
-        
+
         int diff_year = time.get_year () - 1;
         int diff_month = time.get_month () - 1;
         int diff_day = time.get_day_of_month () - 1;
         int diff_hour = time.get_hour ();
-        int diff_minute = time.get_minute ();   
-        
+        int diff_minute = time.get_minute ();
+
         if (diff_year > 0) {
             return _("%d y").printf (diff_year);
         } else if (diff_month > 0) {
@@ -77,7 +77,7 @@ namespace Birdie.Utils {
         } else if (diff_minute > 0) {
             return _("%d m").printf (diff_minute);
         }
-    
+
         return _("now");
     }
 
@@ -85,21 +85,21 @@ namespace Birdie.Utils {
         var now = new DateTime.now_utc ();
 
         var diff = now.difference (last_timeout);
-        
+
         var time = new DateTime.local (1, 1, 1, 0, 0, 0);
         time = time.add (diff);
-        
+
         int diff_year = time.get_year () - 1;
         int diff_month = time.get_month () - 1;
         int diff_day = time.get_day_of_month () - 1;
         int diff_hour = time.get_hour ();
-        int diff_minute = time.get_minute ();   
-        
+        int diff_minute = time.get_minute ();
+
         if (diff_year > 0 || diff_month > 0 || diff_day > 0 ||
         	diff_hour > 0 || diff_minute > (timeout_period + 1)) {
             return true;
         }
-    
+
         return false;
     }
 }

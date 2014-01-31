@@ -45,7 +45,11 @@ namespace Birdie.Utils {
             notification_txt = Utils.remove_html_tags (message);
             notification_txt = Utils.escape_markup (notification_txt);
 
-            this.notification = new Notify.Notification (header, notification_txt, avatar ?? "birdie");
+            if (avatar == "" || avatar == null)
+                this.notification = new Notify.Notification (header, notification_txt, "birdie");
+            else
+                this.notification = new Notify.Notification (header, notification_txt, avatar);
+
             this.notification.set_hint_string ("desktop-entry", "birdie");
             this.notification.set_urgency (Notify.Urgency.NORMAL);
 
