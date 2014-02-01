@@ -325,7 +325,7 @@ namespace Birdie.Widgets {
 
                 if (code == 1) {
                     this.tweet.favorited = true;
-                    this.birdie.db.add_tweet (this.tweet, "favorites", this.birdie.default_account_id);
+                    this.birdie.db.add_tweet.begin (this.tweet, "favorites", this.birdie.default_account_id);
                     this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 1, "tweets");
                     this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 1, "own");
                     this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 1, "mentions");
@@ -346,7 +346,7 @@ namespace Birdie.Widgets {
 
                     this.birdie.favorites.append (this.tweet, this.birdie);
 
-                    this.birdie.db.add_tweet (this.tweet, "favorites", this.birdie.default_account_id);
+                    this.birdie.db.add_tweet.begin (this.tweet, "favorites", this.birdie.default_account_id);
                     this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 1, "tweets");
                     this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 1, "own");
                     this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 1, "mentions");

@@ -567,7 +567,7 @@ namespace Birdie {
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
                     var tweet = this.get_tweet (tweetnode, this.birdie.home_list);
                     home_timeline.append (tweet);
-                    this.db.add_tweet (tweet, "tweets", this.account_id);
+                    this.db.add_tweet.begin (tweet, "tweets", this.account_id);
                 }
 
                 this.home_timeline.reverse ();
@@ -757,7 +757,7 @@ namespace Birdie {
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
                     var tweet = this.get_tweet (tweetnode, this.birdie.mentions_list);
                     mentions_timeline.append (tweet);
-                    this.db.add_tweet (tweet, "mentions", this.account_id);
+                    this.db.add_tweet.begin (tweet, "mentions", this.account_id);
                 }
 
                 this.mentions_timeline.reverse ();
@@ -835,7 +835,7 @@ namespace Birdie {
                     tweet.text = Utils.highlight_all (text);
 
                     dm_timeline.append (tweet);
-                    this.db.add_tweet (tweet, "dm_inbox", this.account_id);
+                    this.db.add_tweet.begin (tweet, "dm_inbox", this.account_id);
                 }
 
                 this.dm_timeline.reverse ();
@@ -896,7 +896,7 @@ namespace Birdie {
                         false, false, true);
 
                     dm_sent_timeline.append (tweet);
-                    this.db.add_tweet (tweet, "dm_outbox", this.account_id);
+                    this.db.add_tweet.begin (tweet, "dm_outbox", this.account_id);
                 }
 
                 this.dm_sent_timeline.reverse ();
@@ -943,7 +943,7 @@ namespace Birdie {
                     }
 
                     own_timeline.append (tweet);
-                    this.db.add_tweet (tweet, "own", this.account_id);
+                    this.db.add_tweet.begin (tweet, "own", this.account_id);
                 }
                 own_timeline.reverse ();
                 this.db.purge_tweets ("own");
@@ -987,7 +987,7 @@ namespace Birdie {
                     }
 
                     favorites.append (tweet);
-                    this.db.add_tweet (tweet, "favorites", this.account_id);
+                    this.db.add_tweet.begin (tweet, "favorites", this.account_id);
                 }
                 this.db.purge_tweets ("favorites");
                 favorites.reverse ();

@@ -1099,12 +1099,12 @@ namespace Birdie {
 
                 this.api.home_timeline.foreach ((tweet) => {
                     this.home_list.append (tweet, this);
-                    this.db.add_user (tweet.user_screen_name,
+                    this.db.add_user.begin (tweet.user_screen_name,
                         tweet.user_name, this.default_account_id);
 
                     foreach (string hashtag in Utils.get_hashtags_list(tweet.text)) {
                         if (hashtag.has_prefix("#"))
-                            this.db.add_hashtag (hashtag.replace ("#", ""), this.default_account_id);
+                            this.db.add_hashtag.begin (hashtag.replace ("#", ""), this.default_account_id);
                     }
 
                     if (this.tweet_notification) {
@@ -1210,7 +1210,7 @@ namespace Birdie {
             Idle.add (() => {
                 this.api.favorites.foreach ((tweet) => {
                     this.favorites.append(tweet, this);
-                    this.db.add_user (tweet.user_screen_name,
+                    this.db.add_user.begin (tweet.user_screen_name,
                         tweet.user_name, this.default_account_id);
                 });
 
@@ -1230,7 +1230,7 @@ namespace Birdie {
             Idle.add (() => {
                 this.api.mentions_timeline.foreach ((tweet) => {
                     this.mentions_list.append (tweet, this);
-                    this.db.add_user (tweet.user_screen_name,
+                    this.db.add_user.begin (tweet.user_screen_name,
                             tweet.user_name, this.default_account_id);
                         if (this.mention_notification) {
                             if ((this.api.account.screen_name != tweet.user_screen_name) &&
@@ -1279,7 +1279,7 @@ namespace Birdie {
             Idle.add (() => {
                 this.api.dm_timeline.foreach ((tweet) => {
                     this.dm_list.append (tweet, this);
-                    this.db.add_user (tweet.user_screen_name,
+                    this.db.add_user.begin (tweet.user_screen_name,
                             tweet.user_name, this.default_account_id);
                     if (this.dm_notification) {
                         if ((this.api.account.screen_name !=
@@ -1355,7 +1355,7 @@ namespace Birdie {
 
                 this.api.home_timeline.foreach ((tweet) => {
                     this.home_list.prepend (tweet, this);
-                    this.db.add_user (tweet.user_screen_name,
+                    this.db.add_user.begin (tweet.user_screen_name,
                         tweet.user_name, this.default_account_id);
                 });
 
@@ -1386,7 +1386,7 @@ namespace Birdie {
 
                 this.api.mentions_timeline.foreach ((tweet) => {
                     this.mentions_list.prepend (tweet, this);
-                    this.db.add_user (tweet.user_screen_name,
+                    this.db.add_user.begin (tweet.user_screen_name,
                         tweet.user_name, this.default_account_id);
                 });
 

@@ -182,7 +182,7 @@ namespace Birdie {
                 debug ("account added: " + service);
         }
 
-        public void add_user (string screen_name, string name,
+        public async void add_user (string screen_name, string name,
                 int account_id) {
             new Thread<void*> (null, () => {
                 Sqlite.Statement stmt;
@@ -211,7 +211,7 @@ namespace Birdie {
             });
         }
 
-        public void add_hashtag (string hashtag, int account_id) {
+        public async void add_hashtag (string hashtag, int account_id) {
             new Thread<void*> (null, () => {
                 Sqlite.Statement stmt;
 
@@ -236,7 +236,7 @@ namespace Birdie {
             });
         }
 
-        public void add_tweet (Tweet tweet, string table, int account_id) {
+        public async void add_tweet (Tweet tweet, string table, int account_id) {
             new Thread<void*> (null, () => {
                 Sqlite.Statement stmt;
 
@@ -600,7 +600,7 @@ namespace Birdie {
 
             return stmt.column_text (0);
         }
-        
+
         public int get_row_count (string table) {
             Sqlite.Statement stmt;
 
