@@ -89,11 +89,11 @@ namespace Birdie.Utils {
             debug ("Downloaded '%s' and its now locally available at '%s'.", uri, cached_path);
             downloaded (download);
 
-            // if (tweetlist != null && tweet != null && !failed) {
-            //     if (avatar)
-            //         yield Utils.generate_rounded_avatar (cached_path);
-            //     set_media (tweetlist, tweet);
-            // }
+            if (tweetlist != null && tweet != null && !failed) {
+                if (avatar)
+                    yield Utils.generate_rounded_avatar (cached_path);
+                set_media (tweetlist, tweet);
+            }
 
             return cached_file;
         }

@@ -16,6 +16,40 @@
 
 namespace Birdie.Media {
 
+    public void get_avatar (Widgets.TweetList timeline) {
+        new Thread<void*> (null, () => {
+            timeline.boxes.reverse ();
+
+            timeline.boxes.foreach ((tweetbox) => {
+                get_single_avatar (tweetbox, timeline);
+            });
+
+            timeline.boxes.reverse ();
+            return null;
+        });
+    }
+
+    public void get_avatar_unthreaded (Widgets.TweetList timeline) {
+        timeline.boxes.reverse ();
+
+        timeline.boxes.foreach ((tweetbox) => {
+            get_single_avatar (tweetbox, timeline);
+        });
+
+        timeline.boxes.reverse ();
+    }
+
+    public void get_single_avatar (Widgets.TweetBox tweetbox, Widgets.TweetList? tweetlist = null) {
+
+        string profile_image_url = tweetbox.tweet.profile_image_url;
+        string profile_image_file = parse_profile_image_file (profile_image_url);
+
+        var d = new Utils.Downloader ();
+        d.download.begin (File.new_for_uri (profile_image_url),
+            Environment.get_home_dir () +
+            "/.cache/birdie/" + profile_image_file, true, tweetbox, tweetlist, tweetbox.tweet);
+    }
+
     public string parse_profile_image_file (string profile_image_url) {
         string profile_image_file = profile_image_url;
 
@@ -30,40 +64,6 @@ namespace Birdie.Media {
             profile_image_file = profile_image_file + ".png";
         }
         return profile_image_file;
-    }
-
-    public void get_avatar (Widgets.TweetList timeline) {
-        timeline.boxes.reverse ();
-
-        timeline.boxes.foreach ((tweetbox) => {
-            get_single_avatar.begin (tweetbox, timeline);
-        });
-
-        timeline.boxes.reverse ();
-    }
-
-    public void get_avatar_unthreaded (Widgets.TweetList timeline) {
-        timeline.boxes.reverse ();
-
-        timeline.boxes.foreach ((tweetbox) => {
-            get_single_avatar.begin (tweetbox, timeline);
-        });
-
-        timeline.boxes.reverse ();
-    }
-
-    public async void get_single_avatar (Widgets.TweetBox tweetbox, Widgets.TweetList? tweetlist = null) {
-
-        string profile_image_url = tweetbox.tweet.profile_image_url;
-        string profile_image_file = parse_profile_image_file (profile_image_url);
-        var file = File.new_for_uri (profile_image_url);
-        var downloader = Utils.Downloader.get_instance ();
-
-        try {
-            file = yield downloader.download (file,
-                Environment.get_home_dir () +
-                "/.cache/birdie/" + profile_image_file, true, tweetbox, tweetlist, tweetbox.tweet);
-        } catch {}
     }
 
     public void get_userbox_avatar (Widgets.UserBox userbox, bool own = false) {
