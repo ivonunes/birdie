@@ -88,7 +88,8 @@ namespace Birdie.Utils {
             downloaded (download);
 
             if (tweetlist != null && tweet != null) {
-                //yield Utils.generate_rounded_avatar (cached_path);
+                if (avatar)
+                    yield Utils.generate_rounded_avatar (cached_path);
                 set_media (tweetlist, tweet);
             }
 

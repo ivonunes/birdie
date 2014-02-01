@@ -31,6 +31,9 @@ namespace Birdie.Utils {
             pixbuf = new Gdk.Pixbuf.from_file (image_path);
         } catch (Error e) {
             warning ("Error resizing image: %s", e.message);
+            try {
+                pixbuf = new Gdk.Pixbuf.from_file (Constants.PKGDATADIR + "/media.png");
+            } catch {}
         }
 
         // get screen resolution height
