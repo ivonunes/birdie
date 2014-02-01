@@ -280,7 +280,7 @@ namespace Birdie.Widgets {
             tweets.reverse ();
             tweets.foreach ((tweet) => {
                 var tweet_box = new TweetBox (tweet, this.birdie, true);
-                Media.get_single_avatar (tweet_box);
+                Media.get_single_avatar.begin (tweet_box);
 
                 Idle.add ( () => {
                     this.thread_box.pack_start (tweet_box, false, false, 0);
