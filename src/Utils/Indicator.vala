@@ -33,18 +33,18 @@ namespace Birdie.Utils {
 
             debug("Registered messaging-menu");
         }
-        
+
         public static Indicator create(Birdie birdie) {
             Indicator? indicator = null;
-            
+
             if (indicator == null)
                 indicator = new Indicator (birdie);
-            
+
             assert(indicator != null);
-            
+
             return indicator;
         }
-        
+
         // Returns time as a uint32 (suitable for signals if event doesn't supply it)
         protected uint32 now() {
             return (uint32) TimeVal().tv_sec;
@@ -76,7 +76,7 @@ namespace Birdie.Utils {
             else
                 app.append_source_with_count("tweets", null,
                     _("Tweets"), count);
-            
+
             if (count > 0)
                 app.draw_attention("tweets");
             else
@@ -89,7 +89,7 @@ namespace Birdie.Utils {
             else
                 app.append_source_with_count("mentions", null,
                     _("Mentions"), count);
-            
+
             if (count > 0)
                 app.draw_attention("mentions");
             else
@@ -102,7 +102,7 @@ namespace Birdie.Utils {
             else
                 app.append_source_with_count("dm", null,
                     _("Direct Messages"), count);
-            
+
             if (count > 0)
                 app.draw_attention("dm");
             else

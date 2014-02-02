@@ -135,8 +135,6 @@ vala_precompile(VALA_C
     Twitter.vala
     Tweet.vala
     User.vala
-    Imgur.vala
-    Media.vala
     Database.vala
     TwitterList.vala
     Widgets/TweetBox.vala
@@ -152,13 +150,18 @@ vala_precompile(VALA_C
     Widgets/ListsView.vala
     Widgets/ListBox.vala
     Widgets/CompletionProvider.vala
-    Utils/Cairo.vala
+    Media/Avatar.vala
+    Media/GetMedia.vala
+    Media/Parsing.vala
+    Media/ShowMedia.vala
+    Media/Imgur.vala
+    Media/Cairo.vala
+    Media/Pixbuf.vala
     Utils/Date.vala
     Utils/Notifications.vala
     Utils/Indicator.vala
     Utils/Launcher.vala
     Utils/Networking.vala
-    Utils/Pixbuf.vala
     Utils/Downloader.vala
     Utils/Strings.vala
     Utils/Files.vala

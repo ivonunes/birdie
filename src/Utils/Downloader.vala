@@ -91,7 +91,7 @@ namespace Birdie.Utils {
 
             if (tweetlist != null && tweet != null && !failed) {
                 if (avatar)
-                    yield Utils.generate_rounded_avatar (cached_path);
+                    yield Media.generate_rounded_avatar (cached_path);
                 set_media (tweetlist, tweet);
             }
 

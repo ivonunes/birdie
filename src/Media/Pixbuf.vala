@@ -14,7 +14,7 @@
  *              Vasco Nunes <vascomfnunes@gmail.com>
  */
 
-namespace Birdie.Utils {
+namespace Birdie.Media {
 
     // returns a resized pixbuf to fit the current user's screen resolution
     public Gdk.Pixbuf fit_user_screen (string image_path, Gtk.Widget widget) {
@@ -71,7 +71,7 @@ namespace Birdie.Utils {
             var surface = new Cairo.ImageSurface (Cairo.Format.ARGB32, width, height);
             var ctx = new Cairo.Context (surface);
 
-            Utils.draw_rounded_path (ctx, 0, 0, width, height, roundness);
+            draw_rounded_path (ctx, 0, 0, width, height, roundness);
             ctx.set_line_width (line_width);
             ctx.set_source_rgb (border_color_r, border_color_g, border_color_b);
             ctx.stroke_preserve ();

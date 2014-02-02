@@ -127,7 +127,7 @@ namespace Birdie {
             string id, string media_uri, out string media_out) {
 
             string link = "";
-            var imgur = new Imgur ();
+            var imgur = new Media.Imgur ();
 
             try {
                 link = imgur.upload (media_uri);
@@ -259,7 +259,7 @@ namespace Birdie {
             string media_uri, out string media_out) {
 
             string link = "";
-            var imgur = new Imgur ();
+            var imgur = new Media.Imgur ();
 
             try {
                 link = imgur.upload (media_uri);

@@ -14,7 +14,7 @@
  *              Vasco Nunes <vascomfnunes@gmail.com>
  */
 
-namespace Birdie.Utils {
+namespace Birdie.Media {
     public void draw_rounded_path (Cairo.Context ctx, double x, double y, double width, double height, double radius) {
         double degrees = 3.14 / 180.0;
 
