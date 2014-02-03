@@ -82,7 +82,7 @@ namespace Birdie.Widgets {
 #else
             container = this.get_content_area ();
             set_resizable (false);
-#endif      
+#endif
 
             this.media_uri = "";
 
@@ -132,9 +132,9 @@ namespace Birdie.Widgets {
                 list_store.set (iter, 0, user);
             }
 
-            view.completion.get_providers ().foreach ((p) => { 
+            view.completion.get_providers ().foreach ((p) => {
                 try {
-                    view.completion.remove_provider (p); 
+                    view.completion.remove_provider (p);
                 } catch (Error e) {
                     warning (e.message);
                 }

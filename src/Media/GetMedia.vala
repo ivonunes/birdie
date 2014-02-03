@@ -16,6 +16,20 @@
 
 namespace Birdie.Media {
 
+    public void get_cached_media (Widgets.TweetList timeline) {
+      timeline.boxes.reverse ();
+      timeline.boxes.foreach ((tweetbox) => {
+        if (tweetbox.tweet.media_url != "" || tweetbox.tweet.youtube_video != "") {
+          Idle.add (() => {
+            timeline.update_display (tweetbox.tweet);
+            return false;
+          });
+        }
+      });
+
+      timeline.boxes.reverse ();
+    }
+
     private string get_media (string image_url,
                               Widgets.TweetBox? tweetbox = null,
                               Widgets.TweetList? tweetlist = null,
@@ -67,6 +81,6 @@ namespace Birdie.Media {
             youtube_id + "/mqdefault.jpg"), Environment.get_home_dir () +
             "/.cache/birdie/media/youtube_" + youtube_id + ".jpg", false, null, tweetlist, tweet);
 
-        return  youtube_id;
+        return youtube_id;
     }
 }

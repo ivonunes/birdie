@@ -20,36 +20,41 @@ namespace Birdie.Media {
         timeline.boxes.reverse ();
 
         timeline.boxes.foreach ((tweetbox) => {
-            get_single_avatar (tweetbox, timeline);
+            get_single_avatar.begin (tweetbox, timeline);
         });
 
         timeline.boxes.reverse ();
     }
 
-    public void get_single_avatar (Widgets.TweetBox tweetbox, Widgets.TweetList? tweetlist = null) {
+    public async void get_single_avatar (Widgets.TweetBox tweetbox, Widgets.TweetList? tweetlist = null) {
 
         string profile_image_url = tweetbox.tweet.profile_image_url;
         string profile_image_file = parse_profile_image_file (profile_image_url);
+        string cached = Environment.get_home_dir () + "/.cache/birdie/" + profile_image_file;
 
-        var d = new Utils.Downloader ();
-        d.download.begin (File.new_for_uri (profile_image_url),
-            Environment.get_home_dir () +
-            "/.cache/birdie/" + profile_image_file, true, tweetbox, tweetlist, tweetbox.tweet);
-    }
+        var file = File.new_for_path (cached);
 
-    public void get_userbox_avatar (Widgets.UserBox userbox, bool own = false) {
-        var profile_image_url = userbox.user.profile_image_url;
-        var profile_image_file = parse_profile_image_file (profile_image_url);
-
-        if (!File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/" + profile_image_file).query_exists ()) {
-            var d = new Utils.Downloader ();
-            d.download.begin (File.new_for_uri (profile_image_url),
-                Environment.get_home_dir () +
-                "/.cache/birdie/" + profile_image_file, true, null, null, null, userbox);
+        if (file.query_exists ()) {
+            tweetbox.set_avatar (cached);
+            return;
         }
 
-        userbox.set_avatar (Environment.get_home_dir () +
-            "/.cache/birdie/" + profile_image_file);
+        yield Utils.dl_avatar (profile_image_url, cached, tweetbox);
+    }
+
+    public async void get_userbox_avatar (Widgets.UserBox userbox, bool own = false) {
+        string profile_image_url = userbox.user.profile_image_url;
+        string profile_image_file = parse_profile_image_file (profile_image_url);
+        string cached = Environment.get_home_dir () + "/.cache/birdie/" + profile_image_file;
+
+        var file = File.new_for_path (cached);
+
+        if (file.query_exists ()) {
+            userbox.set_avatar (cached);
+            return;
+        }
+
+        yield Utils.dl_avatar (profile_image_url, cached, null, userbox);
 
         if (own) {
             userbox.user.profile_image_file = profile_image_file;
@@ -58,7 +63,7 @@ namespace Birdie.Media {
                 "/.cache/birdie/" + profile_image_file);
             var dst = File.new_for_path (Environment.get_home_dir () +
                 "/.local/share/birdie/avatars/" + profile_image_file);
-            if (!dst.query_exists ()) {
+            if (!file.query_exists ()) {
                 try {
                     src.copy (dst, FileCopyFlags.NONE, null, null);
                 } catch (Error e) {

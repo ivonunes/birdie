@@ -90,8 +90,6 @@ namespace Birdie.Utils {
             downloaded (download);
 
             if (tweetlist != null && tweet != null && !failed) {
-                if (avatar)
-                    yield Media.generate_rounded_avatar (cached_path);
                 set_media (tweetlist, tweet);
             }
 
@@ -113,19 +111,6 @@ namespace Birdie.Utils {
             var network_monitor = NetworkMonitor.get_default ();
             if (!(yield network_monitor.can_reach_async (connectable)))
                 warning ("Failed to reach host '%s' on port '%d'", address.name, address.port);
-
-            // int64 total_num_bytes = 0;
-            // msg.got_headers.connect (() => {
-            //     total_num_bytes =  msg.response_headers.get_content_length ();
-            // });
-
-            // int64 current_num_bytes = 0;
-            // msg.got_chunk.connect ((msg, chunk) => {
-            //     if (total_num_bytes <= 0)
-            //         return;
-
-            //     current_num_bytes += chunk.length;
-            // });
 
             session.queue_message (msg, (session, msg) => {
                 download_from_http.callback ();
@@ -183,6 +168,27 @@ namespace Birdie.Utils {
                 yield src_file.copy_async (dest_file, 0, Priority.DEFAULT, cancellable);
                 debug ("Copied '%s' to '%s'.", src_file.get_path (), dest_file.get_path ());
             } catch (IOError.EXISTS error) {}
+        }
+    }
+
+    public async void dl_avatar (string url, string cached, Widgets.TweetBox? tweetbox = null, Widgets.UserBox? userbox = null) {
+        var session = new Soup.Session ();
+        var msg = new Soup.Message ("GET", url);
+        session.send_message (msg);
+        var data_stream = new MemoryInputStream.from_data ((owned)msg.response_body.data, null);
+
+        Gdk.Pixbuf pixbuf;
+        try {
+            pixbuf = new Gdk.Pixbuf.from_stream (data_stream);
+            double scale_x = 48.0 / pixbuf.get_width ();
+            double scale_y = 48.0 / pixbuf.get_height ();
+            var scaled_pixbuf = new Gdk.Pixbuf (Gdk.Colorspace.RGB, pixbuf.has_alpha, 8, 48, 48);
+            pixbuf.scale (scaled_pixbuf, 0, 0, 48, 48, 0, 0, scale_x, scale_y, Gdk.InterpType.HYPER);
+            scaled_pixbuf.save (cached, "png");
+            yield Media.generate_rounded_avatar (cached);
+            tweetbox.set_avatar (cached);
+        } catch (GLib.Error e) {
+            critical (e.message);
         }
     }
 }

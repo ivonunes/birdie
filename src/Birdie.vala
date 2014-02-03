@@ -789,18 +789,22 @@ namespace Birdie {
                     this.home_list.append (tweet, this);
                 });
                 Media.get_avatar (this.home_list);
+                Media.get_cached_media (this.home_list);
 
                 // load the cached mentions
                 db.get_tweets ("mentions", this.default_account_id).foreach ((tweet) => {
                     this.mentions_list.append (tweet, this);
                 });
                 Media.get_avatar (this.mentions_list);
+                Media.get_cached_media (this.mentions_list);
 
                 // load the cached dms
                 db.get_tweets ("dm_inbox", this.default_account_id).foreach ((tweet) => {
                     this.dm_list.append (tweet, this);
                 });
                 Media.get_avatar (this.dm_list);
+                Media.get_cached_media (this.dm_list);
+
                 db.get_tweets ("dm_outbox", this.default_account_id).foreach ((tweet) => {
                     this.dm_sent_list.append (tweet, this);
                 });
@@ -811,10 +815,13 @@ namespace Birdie {
                     this.own_list.append (tweet, this);
                 });
                 Media.get_avatar (this.own_list);
+                Media.get_cached_media (this.own_list);
+
                 db.get_tweets ("favorites", this.default_account_id).foreach ((tweet) => {
                     this.favorites.append (tweet, this);
                 });
                 Media.get_avatar (this.favorites);
+                Media.get_cached_media (this.favorites);
 
                 this.update_home_ui ();
 
@@ -836,7 +843,7 @@ namespace Birdie {
                         this.user_box_info.init (this.api.account, this);
                     }
 
-                    Media.get_userbox_avatar (this.own_box_info, true);
+                    Media.get_userbox_avatar.begin (this.own_box_info, true);
                     this.db.update_account (this.api.account);
 
                     this.set_user_menu ();
@@ -1554,7 +1561,7 @@ namespace Birdie {
                 }
 
                 this.user_box_info.update (this.api.user);
-                Media.get_userbox_avatar (this.user_box_info);
+                Media.get_userbox_avatar.begin (this.user_box_info);
 
                 this.switch_timeline ("user");
                 this.spinner.stop ();
