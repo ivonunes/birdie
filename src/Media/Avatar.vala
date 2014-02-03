@@ -42,32 +42,30 @@ namespace Birdie.Media {
         yield Utils.dl_avatar (profile_image_url, cached, tweetbox);
     }
 
-    public async void get_userbox_avatar (Widgets.UserBox userbox, bool own = false) {
-        string profile_image_url = userbox.user.profile_image_url;
-        string profile_image_file = parse_profile_image_file (profile_image_url);
-        string cached = Environment.get_home_dir () + "/.cache/birdie/" + profile_image_file;
+    public void get_userbox_avatar (Widgets.UserBox userbox, bool own = false) {
+        if (Utils.check_internet_connection ()) {
+            var profile_image_url = userbox.user.profile_image_url;
+            var profile_image_file = parse_profile_image_file (profile_image_url);
 
-        var file = File.new_for_path (cached);
+            if (!File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/" + profile_image_file).query_exists ())
+                Utils.dl_avatar.begin (profile_image_url, Environment.get_home_dir () + "/.cache/birdie/" + profile_image_file);
 
-        if (file.query_exists ()) {
-            userbox.set_avatar (cached);
-            return;
-        }
-
-        yield Utils.dl_avatar (profile_image_url, cached, null, userbox);
-
-        if (own) {
-            userbox.user.profile_image_file = profile_image_file;
-
-            var src = File.new_for_path (Environment.get_home_dir () +
+            userbox.set_avatar (Environment.get_home_dir () +
                 "/.cache/birdie/" + profile_image_file);
-            var dst = File.new_for_path (Environment.get_home_dir () +
-                "/.local/share/birdie/avatars/" + profile_image_file);
-            if (!file.query_exists ()) {
-                try {
-                    src.copy (dst, FileCopyFlags.NONE, null, null);
-                } catch (Error e) {
-                    stderr.printf ("%s\n", e.message);
+
+            if (own) {
+                userbox.user.profile_image_file = profile_image_file;
+
+                var src = File.new_for_path (Environment.get_home_dir () +
+                    "/.cache/birdie/" + profile_image_file);
+                var dst = File.new_for_path (Environment.get_home_dir () +
+                    "/.local/share/birdie/avatars/" + profile_image_file);
+                if (!dst.query_exists ()) {
+                    try {
+                        src.copy (dst, FileCopyFlags.NONE, null, null);
+                    } catch (Error e) {
+                        stderr.printf ("%s\n", e.message);
+                    }
                 }
             }
         }

@@ -843,7 +843,7 @@ namespace Birdie {
                         this.user_box_info.init (this.api.account, this);
                     }
 
-                    Media.get_userbox_avatar.begin (this.own_box_info, true);
+                    Media.get_userbox_avatar (this.own_box_info, true);
                     this.db.update_account (this.api.account);
 
                     this.set_user_menu ();
@@ -1564,7 +1564,7 @@ namespace Birdie {
                 }
 
                 this.user_box_info.update (this.api.user);
-                Media.get_userbox_avatar.begin (this.user_box_info);
+                Media.get_userbox_avatar (this.user_box_info);
 
                 this.switch_timeline ("user");
                 this.spinner.stop ();

@@ -674,11 +674,32 @@ namespace Birdie.Widgets {
 
         private void set_media () {
             if (tweet.media_url != "" || tweet.youtube_video != "") {
-                try {
-                media_pixbuf = new Gdk.Pixbuf.from_file_at_scale (
-                    Constants.PKGDATADIR + "/media.png",
-                    325, 325, true);
-                } catch (Error e) {}
+                string filename;
+                bool placeholder = false;
+
+                if (tweet.media_url != "") {
+                    filename = this.tweet.media_url;
+                } else {
+                    filename = "youtube_" + this.tweet.youtube_video + ".jpg";
+                }
+
+                GLib.File file = File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/media/" + filename);
+
+                if (file.query_exists ()) {
+                    try {
+                        media_pixbuf = new Gdk.Pixbuf.from_file_at_scale (
+                            Environment.get_home_dir () + "/.cache/birdie/media/" + filename,
+                            325, 325, true);
+                    } catch (Error e) { placeholder = true; }
+                } else {
+                    placeholder = true;
+
+                    try {
+                    media_pixbuf = new Gdk.Pixbuf.from_file_at_scale (
+                        Constants.PKGDATADIR + "/media.png",
+                        325, 325, true);
+                    } catch (Error e) { }
+                }
 
                 this.media = new Gtk.Image.from_pixbuf (media_pixbuf);
                 this.media.set_halign (Gtk.Align.START);
@@ -692,7 +713,9 @@ namespace Birdie.Widgets {
                 this.media_alignment.add (this.media_box);
                 this.content_box.pack_start (this.media_alignment, false, false, 0);
                 this.set_media_events ();
-                this.media_box.set_no_show_all (true);
+
+                if (placeholder)
+                    this.media_box.set_no_show_all (true);
             }
         }
 
@@ -775,6 +798,7 @@ namespace Birdie.Widgets {
 
                 if (file.query_exists ()) {
                     Idle.add (() => {
+
                         try {
                             this.media.set_from_pixbuf (new Gdk.Pixbuf.from_file_at_scale (
                                     Environment.get_home_dir () + "/.cache/birdie/media/" + this.tweet.media_url,

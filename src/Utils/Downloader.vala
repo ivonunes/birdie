@@ -98,8 +98,7 @@ namespace Birdie.Utils {
 
         private void set_media (Widgets.TweetList tweetlist, Tweet tweet) {
             Idle.add (() => {
-                if (tweetlist != null && tweet != null)
-                    tweetlist.update_display (tweet);
+                tweetlist.update_display (tweet);
                 return false;
             });
         }
