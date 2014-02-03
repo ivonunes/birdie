@@ -1517,6 +1517,7 @@ namespace Birdie {
                         Idle.add (() => {
                             this.notebook_dm.page = 1;
                             Media.get_avatar (this.dm_sent_list);
+                            //Media.get_imgur_media (media_uri, null, this.dm_sent_list, tweet_tmp);
                             return false;
                         });
                     } else {
@@ -1527,6 +1528,8 @@ namespace Birdie {
 
                             Media.get_avatar (this.home_list);
                             Media.get_avatar (this.own_list);
+                            Media.get_imgur_media (media_uri, null, this.home_list, tweet_tmp);
+                            Media.get_imgur_media (media_uri, null, this.own_list, tweet_tmp);
                             return false;
                         });
 

@@ -101,7 +101,7 @@ namespace Birdie {
             if (id != "")
                 call.add_param ("in_reply_to_status_id", id);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
@@ -132,7 +132,7 @@ namespace Birdie {
             try {
                 link = imgur.upload (media_uri);
             } catch (Error e) {
-                warning ("Error uploading image to imgur: %s", e.message);
+                critical ("Error uploading image to imgur: %s", e.message);
             }
 
             media_out = link;
@@ -149,7 +149,7 @@ namespace Birdie {
             if (id != "")
                 call.add_param ("in_reply_to_status_id", id);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
@@ -179,7 +179,7 @@ namespace Birdie {
             call.set_method ("POST");
             call.add_param ("id", id);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
@@ -198,7 +198,7 @@ namespace Birdie {
                 api_mutex.unlock ();
                 if (e.message == "Forbidden")
                     return 0;
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 return 1;
             }
             api_mutex.unlock ();
@@ -213,7 +213,7 @@ namespace Birdie {
             call.set_method ("POST");
             call.add_param ("id", id);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
@@ -230,7 +230,7 @@ namespace Birdie {
             call.set_method ("POST");
             call.add_param ("id", id);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
@@ -247,7 +247,7 @@ namespace Birdie {
             call.add_param ("screen_name", recipient);
             call.add_param ("text", status);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
@@ -264,7 +264,7 @@ namespace Birdie {
             try {
                 link = imgur.upload (media_uri);
             } catch (Error e) {
-                warning ("Error uploading image to imgur: %s", e.message);
+                critical ("Error uploading image to imgur: %s", e.message);
             }
 
             media_out = link;
@@ -280,7 +280,7 @@ namespace Birdie {
             call.add_param ("screen_name", recipient);
             call.add_param ("text", status + " " + link);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
@@ -324,7 +324,7 @@ namespace Birdie {
             bool verified = false;
 
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 return 1;
             }
 
@@ -515,7 +515,7 @@ namespace Birdie {
             call.add_param ("id", tweet_id);
 
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return tweet;
             }
@@ -547,7 +547,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -599,7 +599,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -644,7 +644,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -688,7 +688,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -736,7 +736,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -788,7 +788,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -865,7 +865,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -923,7 +923,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -967,7 +967,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -1008,7 +1008,7 @@ namespace Birdie {
             call.add_param ("screen_name", screen_name);
 
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
 
             try {
@@ -1040,7 +1040,7 @@ namespace Birdie {
             call.add_param ("target_screen_name", target_user);
 
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
 
             try {
@@ -1074,7 +1074,7 @@ namespace Birdie {
             call.set_method ("POST");
             call.add_param ("screen_name", screen_name);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
@@ -1089,7 +1089,7 @@ namespace Birdie {
             call.set_method ("POST");
             call.add_param ("screen_name", screen_name);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
@@ -1104,7 +1104,7 @@ namespace Birdie {
             call.set_method ("POST");
             call.add_param ("screen_name", screen_name);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
@@ -1119,7 +1119,7 @@ namespace Birdie {
             call.set_method ("POST");
             call.add_param ("screen_name", screen_name);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
@@ -1134,7 +1134,7 @@ namespace Birdie {
             call.set_method ("POST");
             call.add_param ("id", id);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
@@ -1153,7 +1153,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -1194,7 +1194,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -1236,7 +1236,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -1278,7 +1278,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -1314,7 +1314,7 @@ namespace Birdie {
             call.set_method ("POST");
             call.add_param ("list_id", id);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
@@ -1329,7 +1329,7 @@ namespace Birdie {
             call.set_method ("POST");
             call.add_param ("list_id", id);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
@@ -1349,7 +1349,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -1367,7 +1367,7 @@ namespace Birdie {
             call.add_param ("list_id", list_id);
             call.add_param ("screen_name", screen_name);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
@@ -1383,7 +1383,7 @@ namespace Birdie {
             call.add_param ("list_id", list_id);
             call.add_param ("screen_name", screen_name);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }

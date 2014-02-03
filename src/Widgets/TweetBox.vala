@@ -691,9 +691,9 @@ namespace Birdie.Widgets {
                 this.media_box.add (this.media);
                 this.media_alignment.add (this.media_box);
                 this.content_box.pack_start (this.media_alignment, false, false, 0);
+                this.set_media_events ();
+                this.media_box.set_no_show_all (true);
             }
-            this.set_media_events ();
-            this.media_box.set_no_show_all (true);
         }
 
         public void update_date () {
