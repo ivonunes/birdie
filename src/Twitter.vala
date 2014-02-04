@@ -108,7 +108,13 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return 1;
+                }
 
                 var root = parser.get_root ();
                 var userobject = root.get_object ();
@@ -156,8 +162,13 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
 
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return 1;
+                }
                 var root = parser.get_root ();
                 var userobject = root.get_object ();
 
@@ -287,8 +298,13 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
 
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return 1;
+                }
                 var root = parser.get_root ();
                 var userobject = root.get_object ();
 
@@ -331,7 +347,11 @@ namespace Birdie {
             try {
                 var parser = new Json.Parser ();
 
-                parser.load_from_data ((string) call.get_payload (), -1);
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else
+                    return 1;
+
                 var root = parser.get_root ();
                 var userobject = root.get_object ();
 
@@ -522,7 +542,14 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return tweet;
+                }
+
                 var node = parser.get_root ();
                 tweet = this.get_tweet (node);
             } catch (Error e) {
@@ -556,7 +583,14 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return;
+                }
+
                 var root = parser.get_root ();
 
                 // clear since_id list
@@ -608,7 +642,14 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return;
+                }
+
                 var root = parser.get_root ();
 
                 this.home_timeline.foreach ((tweet) => {
@@ -653,7 +694,14 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return;
+                }
+
                 var root = parser.get_root ();
 
                 this.mentions_timeline.foreach ((tweet) => {
@@ -700,7 +748,13 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return;
+                }
 
                 var root = parser.get_root ();
 
@@ -745,7 +799,13 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return;
+                }
 
                 var root = parser.get_root ();
 
@@ -800,7 +860,13 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return;
+                }
 
                 var root = parser.get_root ();
 
@@ -874,7 +940,13 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return;
+                }
 
                 var root = parser.get_root ();
 
@@ -931,7 +1003,13 @@ namespace Birdie {
             Rest.ProxyCall call, Error? error, Object? obj) {
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return;
+                }
 
                 var root = parser.get_root ();
 
@@ -975,7 +1053,13 @@ namespace Birdie {
             Rest.ProxyCall call, Error? error, Object? obj) {
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return;
+                }
 
                 var root = parser.get_root ();
 
@@ -1013,7 +1097,14 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return new Array<string> ();
+                }
+
                 var root = parser.get_root ();
                 var userobject = root.get_object ();
                 var ids = userobject.get_object_member ("ids");
@@ -1045,7 +1136,14 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return new Array<string> ();
+                }
+
                 var root = parser.get_root ();
                 var userobject = root.get_object ();
                 var usermember = userobject.get_object_member ("relationship");
@@ -1165,7 +1263,13 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return;
+                }
 
                 var root = parser.get_root ();
 
@@ -1206,7 +1310,13 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return;
+                }
 
                 var root = parser.get_root ();
 
@@ -1250,7 +1360,13 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return;
+                }
 
                 var root = parser.get_root ();
 
@@ -1290,7 +1406,13 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return;
+                }
 
                 var root = parser.get_root ();
 

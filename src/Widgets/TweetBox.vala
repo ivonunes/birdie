@@ -875,7 +875,10 @@ namespace Birdie.Widgets {
 
         public void set_avatar (string avatar_file) {
             Idle.add (() => {
-                this.avatar_img.set_from_file (avatar_file);
+                var file = File.new_for_path (avatar_file);
+
+                if (file.query_exists ())
+                    this.avatar_img.set_from_file (avatar_file);
                 return false;
             });
         }

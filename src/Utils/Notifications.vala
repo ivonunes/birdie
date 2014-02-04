@@ -18,15 +18,11 @@ namespace Birdie.Utils {
 
     public class Notification {
 
-        private Canberra.Context sound_context;
-        private List<string> caps;
         private Notify.Notification notification;
-        private string switch_timeline;
         private Birdie birdie_app;
 
         public void init () {
             Notify.init ("Birdie");
-            Canberra.Context.create (out this.sound_context);
         }
 
         public void notify (Birdie birdie,
@@ -36,20 +32,26 @@ namespace Birdie.Utils {
                             bool? dm = false,
                             string? avatar = null) {
 
-            this.switch_timeline = timeline;
             this.birdie_app = birdie;
-            string notification_txt;
 
-            this.caps = Notify.get_server_caps ();
+            string notification_txt;
+            string avatar_path;
 
             notification_txt = Utils.remove_html_tags (message);
             notification_txt = Utils.escape_markup (notification_txt);
 
-            if (avatar == "" || avatar == null)
-                this.notification = new Notify.Notification (header, notification_txt, "birdie");
-            else
-                this.notification = new Notify.Notification (header, notification_txt, avatar);
+            if (avatar != "" && avatar != null) {
+                var file = File.new_for_path (avatar);
 
+                if (file.query_exists ())
+                    avatar_path = avatar;
+                else
+                    avatar_path = "birdie";
+            } else {
+                avatar_path = "birdie";
+            }
+
+            this.notification = new Notify.Notification (header, notification_txt, avatar_path);
             this.notification.set_hint_string ("desktop-entry", "birdie");
             this.notification.set_urgency (Notify.Urgency.NORMAL);
 
@@ -58,20 +60,16 @@ namespace Birdie.Utils {
                 this.notification.set_urgency (Notify.Urgency.CRITICAL);
             }
 
-            if (this.caps.find_custom ("actions", GLib.strcmp) != null)
-                this.notification.add_action ("default", _("View"), (notification, action) => {
-                    this.birdie_app.switch_timeline (this.switch_timeline);
-                    this.birdie_app.activate ();
-                });
+            this.notification.add_action ("view", _("View"), (notification, action) => {
+                this.birdie_app.switch_timeline (timeline);
+                this.birdie_app.activate ();
+            });
 
             try {
                 notification.show ();
             } catch (GLib.Error e) {
                 warning ("Failed to show notification: %s", e.message);
             }
-
-            // play sound
-            this.sound_context.play (0, Canberra.PROP_EVENT_ID, "message");
         }
 
         public void uninit() {

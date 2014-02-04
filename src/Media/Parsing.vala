@@ -36,8 +36,8 @@ namespace Birdie.Media {
                                  ref string text,
                                  ref string media_url,
                                  ref string youtube_video,
-                                 Widgets.TweetList tweetlist,
-                                 Tweet tweet
+                                 Widgets.TweetList? tweetlist = null,
+                                 Tweet? tweet = null
                                  ) {
 
         string expanded;
