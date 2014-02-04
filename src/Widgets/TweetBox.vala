@@ -137,7 +137,7 @@ namespace Birdie.Widgets {
 
             this.avatar_event.button_release_event.connect ((event) => {
                 this.birdie.user = tweet.user_screen_name;
-                new Thread<void*> (null, this.birdie.show_user);
+                this.birdie.show_user.begin ();
                 return false;
             });
 
@@ -662,7 +662,7 @@ namespace Birdie.Widgets {
 
             this.username_event.button_release_event.connect ((event) => {
                 this.birdie.user = tweet.user_screen_name;
-                new Thread<void*> (null, this.birdie.show_user);
+                this.birdie.show_user.begin ();
                 return false;
             });
 

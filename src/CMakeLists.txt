@@ -137,6 +137,7 @@ vala_precompile(VALA_C
     User.vala
     Database.vala
     TwitterList.vala
+    Cache.vala
     Widgets/TweetBox.vala
     Widgets/TweetList.vala
     Widgets/UnifiedWindow.vala

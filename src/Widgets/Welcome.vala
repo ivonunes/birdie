@@ -66,7 +66,7 @@ namespace Birdie.Widgets
             var signin = new Gtk.Button ();
             signin.set_label (_("Add an existing Twitter account."));
             signin.clicked.connect (() => {
-                new Thread<void*> (null, birdie.request);
+                birdie.request.begin ();
             });
 
             var signup = new Gtk.Button ();
@@ -123,7 +123,7 @@ namespace Birdie.Widgets
             new Thread<void*> (null, birdie.update_timelines);
         } else {
             birdie.switch_timeline ("loading");
-            new Thread<void*> (null, birdie.init);
+            birdie.init.begin ();
         }
     }
 }
