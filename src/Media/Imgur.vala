@@ -14,7 +14,7 @@
  *              Vasco Nunes <vascomfnunes@gmail.com>
  */
 
-namespace Birdie {
+namespace Birdie.Media {
     public class Imgur : Object {
         private static const string CLIENT_ID = "c04f7adadaa22017f95c7b002ad20240";
         private static const string URL_FORMAT = "http://api.imgur.com/2/";

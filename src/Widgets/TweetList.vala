@@ -31,7 +31,7 @@ namespace Birdie.Widgets {
             this.first = true;
             this.count = 0;
             this.load_more = false;
-            
+
             this.list_id = "";
             this.list_owner = "";
 
@@ -113,7 +113,7 @@ namespace Birdie.Widgets {
             this.get_children ().foreach ((row) => {
                 if (row is Gtk.ListBoxRow) {
                     var box = ((Gtk.ListBoxRow) row).get_child ();
-                    
+
                     if ((box is TweetBox)) {
                         if (((TweetBox) box).tweet == tweet) {
                             separator_next = true;
@@ -131,14 +131,14 @@ namespace Birdie.Widgets {
                 }
             });
         }
-        
+
         public void remove_by_user (string screen_name) {
             bool separator_next = false;
 
             this.get_children ().foreach ((row) => {
                 if (row is Gtk.ListBoxRow) {
                     var box = ((Gtk.ListBoxRow) row).get_child ();
-                    
+
                     if ((box is TweetBox)) {
                         if (((TweetBox) box).tweet.user_screen_name == screen_name) {
                             separator_next = true;
@@ -161,7 +161,7 @@ namespace Birdie.Widgets {
             this.get_children ().foreach ((row) => {
                 if (row is Gtk.ListBoxRow) {
                     var box = ((Gtk.ListBoxRow) row).get_child ();
-                    
+
                     if ((box is TweetBox)) {
                         ((TweetBox) box).update_date ();
                     }
@@ -169,22 +169,26 @@ namespace Birdie.Widgets {
             });
         }
 
-        public void update_display (Tweet tweet) {
-            this.get_children ().foreach ((row) => {
-                if (row is Gtk.ListBoxRow) {
-                    var box = ((Gtk.ListBoxRow) row).get_child ();
-                    
-                    if ((box is TweetBox)) {
-                        if (((TweetBox) box).tweet.actual_id == tweet.actual_id) {
-                            ((TweetBox) box).tweet = tweet;
-                        
-                            Idle.add( () => {
-                                ((TweetBox) box).update_display ();
-                                return false;
-                            });
+        public void update_display (Tweet tweet, bool? favorite = false) {
+            Idle.add( () => {
+                this.get_children ().foreach ((row) => {
+
+                    if (row is Gtk.ListBoxRow) {
+                        var box = ((Gtk.ListBoxRow) row).get_child ();
+
+                        if ((box is TweetBox)) {
+
+                            if (((TweetBox) box).tweet.actual_id == tweet.actual_id) {
+                                ((TweetBox) box).tweet = tweet;
+                                if (favorite)
+                                    ((TweetBox) box).update_favorites ();
+                                else
+                                    ((TweetBox) box).update_media ();
+                            }
                         }
                     }
-                }
+                });
+                return false;
             });
         }
 

@@ -15,6 +15,7 @@
  */
 
 namespace Birdie.Widgets {
+
     public class TweetBox : Gtk.EventBox {
         public Tweet tweet;
         public Birdie birdie;
@@ -53,10 +54,9 @@ namespace Birdie.Widgets {
         private Gtk.EventBox media_box;
         private Gtk.Image media;
         private Gdk.Pixbuf media_pixbuf;
-        private Gtk.Image full_image;
         private Gtk.Image verified_img;
 
-        private WebKit.WebView web_view;
+        private Gtk.Menu rightclick_menu;
 
         private int year;
         private int month;
@@ -82,6 +82,8 @@ namespace Birdie.Widgets {
             this.day = 0;
             this.month = 0;
             this.year = 0;
+
+            set_events (Gdk.EventMask.BUTTON_RELEASE_MASK);
 
             // thread box
             this.thread_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
@@ -135,7 +137,7 @@ namespace Birdie.Widgets {
 
             this.avatar_event.button_release_event.connect ((event) => {
                 this.birdie.user = tweet.user_screen_name;
-                new Thread<void*> (null, this.birdie.show_user);
+                this.birdie.show_user.begin ();
                 return false;
             });
 
@@ -161,30 +163,7 @@ namespace Birdie.Widgets {
             }
 
             // user label
-            this.username_label = new Gtk.Label ("");
-            this.username_label.set_halign (Gtk.Align.START);
-            this.username_label.set_valign (Gtk.Align.START);
-            this.username_label.set_selectable (false);
-            this.username_label.set_markup (
-                "<span underline='none' font_weight='bold' size='large'>" +
-                tweet.user_name.chomp () +
-                "</span> <span font_weight='light' color='#999'>@" +
-                tweet.user_screen_name + "</span>"
-                );
-
-            this.username_event = new Gtk.EventBox ();
-            this.username_event.add (this.username_label);
-
-            this.username_event.button_release_event.connect ((event) => {
-                this.birdie.user = tweet.user_screen_name;
-                new Thread<void*> (null, this.birdie.show_user);
-                return false;
-            });
-
-            this.username_event.enter_notify_event.connect ((event) => {
-                on_mouse_enter (this, event);
-                return false;
-            });
+            this.set_username_label ();
 
             //FIXME: Set ellipsis mode
             this.header_box.pack_start (this.username_event, false, true, 0);
@@ -212,79 +191,17 @@ namespace Birdie.Widgets {
             ctx.add_class("tweet");
 
             // media
-            if (tweet.media_url != "" || tweet.youtube_video != "") {
-                if (tweet.youtube_video != "")
-                    try {
-                        media_pixbuf =
-                            new Gdk.Pixbuf.from_file_at_scale (
-                            Environment.get_home_dir () +
-                            "/.cache/birdie/media/youtube_" +
-                            tweet.youtube_video + ".jpg",
-                            60, 60, true
-                            );
-                    } catch (Error e) {
-                        debug ("Error creating pixbuf: " + e.message + " - using fallback thumbnail.");
-                        try {
-                            media_pixbuf = new Gdk.Pixbuf.from_file_at_scale (
-                                Constants.PKGDATADIR + "/media.png",
-                                60, 60, true);
-                            } catch (Error e) {
-                                debug ("fallback thumbnail not readable. giving up...");
-                        }
-                    }
-                else if (tweet.media_url != "")
-                    try {
-                        media_pixbuf = new Gdk.Pixbuf.from_file_at_scale (Environment.get_home_dir () + "/.cache/birdie/media/" + tweet.media_url, 40, 40, true);
-                    } catch (Error e) {
-                        debug ("Error creating pixbuf: " + e.message + " - using fallback thumbnail.");
-                        try {
-                            media_pixbuf = new Gdk.Pixbuf.from_file_at_scale (
-                                Constants.PKGDATADIR + "/media.png",
-                                60, 60, true);
-                            } catch (Error e) {
-                                debug ("fallback thumbnail not readable. giving up...");
-                        }
-                    }
+            this.set_media ();
 
-                if (media_pixbuf != null) {
-                    this.media = new Gtk.Image.from_pixbuf (media_pixbuf);
-                    this.media.set_halign (Gtk.Align.START);
-                    this.media_box = new Gtk.EventBox ();
-
-                    this.media_alignment = new Gtk.Alignment (0, 0, 0, 1);
-                    this.media_alignment.set_halign (Gtk.Align.START);
-                    this.media_alignment.set_valign (Gtk.Align.START);
-                    this.media_alignment.top_padding = 6;
-                    this.media_box.add (this.media);
-                    this.media_alignment.add (this.media_box);
-                    this.content_box.pack_start (this.media_alignment, false, false, 0);
-
-                    set_events (Gdk.EventMask.BUTTON_RELEASE_MASK);
-
-                    this.media_box.enter_notify_event.connect ((event) => {
-                        on_mouse_enter (this, event);
-                        return false;
-                    });
-
-                    this.media_box.button_release_event.connect ((event) => {
-                        if (tweet.youtube_video != "")
-                            this.show_youtube_video (tweet.youtube_video);
-                        else
-                            this.show_media (tweet.media_url);
-                        return false;
-                    });
-                }
-            }
-            
             // rightclick menu
-            var rightclick_menu = new Gtk.Menu ();
-            
+            this.rightclick_menu = new Gtk.Menu ();
+
             var browser_menu_item = new Gtk.MenuItem.with_label (_("Open in browser"));
-            rightclick_menu.append (browser_menu_item);
+            this.rightclick_menu.append (browser_menu_item);
             browser_menu_item.show ();
-            
+
             var link_menu_item = new Gtk.MenuItem.with_label (_("Copy link"));
-            rightclick_menu.append (link_menu_item);
+            this.rightclick_menu.append (link_menu_item);
             link_menu_item.show ();
 
             browser_menu_item.activate.connect (() => {
@@ -322,8 +239,149 @@ namespace Birdie.Widgets {
             this.buttons_box.set_no_show_all (true);
             this.buttons_box.hide ();
 
-            // FIXME: Split this button crap into a method like the info header
+            // set buttons
+            this.set_thread_btn (inside_thread);
+            this.set_favorite_btn ();
+            this.set_retweet_btn ();
+            this.set_delete_btn ();
+        }
 
+        public virtual void on_mouse_enter (Gtk.Widget widget, Gdk.EventCrossing event) {
+            event.window.set_cursor (
+                new Gdk.Cursor.from_name (Gdk.Display.get_default(), "hand2")
+            );
+        }
+
+        private void* thread_thread () {
+            var spinner = new Gtk.Spinner ();
+
+            Idle.add ( () => {
+                this.thread_box.pack_start (spinner, false, false, 0);
+                spinner.start ();
+                spinner.show ();
+                return false;
+            });
+
+            string parsing_id = this.tweet.in_reply_to_status_id;
+
+            List<Tweet> tweets = new List<Tweet> ();
+
+            for (int i = 0; i < 5; i++) {
+                var tweet = this.birdie.api.get_single_tweet (parsing_id);
+
+                tweets.append (tweet);
+
+                if (tweet.in_reply_to_status_id != "")
+                    parsing_id = tweet.in_reply_to_status_id;
+                else
+                    break;
+            }
+
+            tweets.reverse ();
+            tweets.foreach ((tweet) => {
+                var tweet_box = new TweetBox (tweet, this.birdie, true);
+                Media.get_single_avatar.begin (tweet_box);
+
+                Idle.add ( () => {
+                    this.thread_box.pack_start (tweet_box, false, false, 0);
+                    tweet_box.show_all ();
+                    return false;
+                });
+            });
+
+            Idle.add ( () => {
+                spinner.stop ();
+                spinner.hide ();
+                this.thread_box.remove (spinner);
+                spinner.destroy ();
+                return false;
+            });
+
+            return null;
+        }
+
+        private void* favorite_thread () {
+            int code;
+
+            if (this.tweet.favorited) {
+                Idle.add( () => {
+                    if (this.tweet.retweeted) {
+                        this.status_img.set_from_icon_name("twitter-ret-banner",  Gtk.IconSize.LARGE_TOOLBAR);
+                    } else {
+                        this.context_overlay.remove (this.status_img);
+                    }
+
+                    this.tweet.favorited = false;
+                    this.birdie.favorites.remove (this.tweet);
+
+                    this.birdie.db.remove_status (this.tweet.actual_id, this.birdie.default_account_id, "favorites");
+                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 0, "tweets");
+                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 0, "own");
+                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 0, "mentions");
+
+                    return false;
+                });
+                code = this.birdie.api.favorite_destroy (this.tweet.actual_id);
+
+                if (code == 1) {
+                    this.tweet.favorited = true;
+                    this.birdie.db.add_tweet.begin (this.tweet, "favorites", this.birdie.default_account_id);
+                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 1, "tweets");
+                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 1, "own");
+                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 1, "mentions");
+                }
+            } else {
+                Idle.add( () => {
+                    if (this.tweet.retweeted) {
+                        this.status_img.set_from_icon_name ("twitter-favret-banner", Gtk.IconSize.LARGE_TOOLBAR);
+                    } else {
+                        this.context_overlay.remove (this.buttons_alignment);
+                        this.status_img.set_from_icon_name("twitter-fav-banner",  Gtk.IconSize.LARGE_TOOLBAR);
+                        this.context_overlay.add_overlay (this.status_img);
+                        this.context_overlay.add_overlay (this.buttons_alignment);
+                        this.status_img.show ();
+                    }
+
+                    this.tweet.favorited = true;
+
+                    this.birdie.favorites.append (this.tweet, this.birdie);
+
+                    this.birdie.db.add_tweet.begin (this.tweet, "favorites", this.birdie.default_account_id);
+                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 1, "tweets");
+                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 1, "own");
+                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 1, "mentions");
+                    Media.get_avatar (this.birdie.favorites);
+
+                    return false;
+                });
+                code = this.birdie.api.favorite_create (this.tweet.actual_id);
+
+                if (code == 1) {
+                    this.birdie.favorites.remove (this.tweet);
+                    this.tweet.favorited = false;
+                    this.birdie.db.remove_status (this.tweet.actual_id, this.birdie.default_account_id, "favorites");
+                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 0, "tweets");
+                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 0, "own");
+                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 0, "mentions");
+                }
+            }
+
+            Idle.add( () => {
+                this.favorite_button.set_sensitive (true);
+                // update this timeline ui
+                this.birdie.home_list.update_display (this.tweet, true);
+                this.birdie.mentions_list.update_display (this.tweet, true);
+                this.birdie.own_list.update_display (this.tweet, true);
+
+                //TODO: update other timelines boxes ui to reflect favorite status changes on the current one
+
+                return false;
+            });
+
+            return null;
+        }
+
+        private void set_thread_btn (bool inside_thread) {
             // thread button
             if (!this.tweet.dm) {
                 if (this.tweet.in_reply_to_status_id != "" && !inside_thread) {
@@ -341,7 +399,74 @@ namespace Birdie.Widgets {
                     });
                 }
             }
+        }
 
+        private void* retweet_thread () {
+            int code;
+
+            Idle.add( () => {
+                if (this.tweet.favorited) {
+                    this.status_img.set_from_icon_name("twitter-favret-banner",  Gtk.IconSize.LARGE_TOOLBAR);
+                } else {
+                    this.context_overlay.remove (this.buttons_alignment);
+
+                    this.status_img.set_from_icon_name("twitter-ret-banner",  Gtk.IconSize.LARGE_TOOLBAR);
+
+                    this.context_overlay.add_overlay (this.status_img);
+                    this.context_overlay.add_overlay (this.buttons_alignment);
+                    this.status_img.show ();
+                }
+
+                this.retweet_icon.set_from_icon_name ("twitter-retweeted", Gtk.IconSize.SMALL_TOOLBAR);
+                this.tweet.retweeted = true;
+                return false;
+            });
+            code = this.birdie.api.retweet (this.tweet.id);
+            return null;
+        }
+
+        private void* delete_thread () {
+            if (this.list_id != "") {
+                this.birdie.api.remove_from_list (this.list_id, this.tweet.user_screen_name);
+
+                Idle.add( () => {
+                    this.birdie.list_list.remove_by_user (this.tweet.user_screen_name);
+                    return false;
+                });
+            } else {
+                int code;
+
+                Idle.add( () => {
+                    this.birdie.home_list.remove (this.tweet);
+                    this.birdie.mentions_list.remove (this.tweet);
+                    this.birdie.own_list.remove (this.tweet);
+                    this.birdie.db.remove_status (this.tweet.actual_id, this.birdie.default_account_id, "own");
+                    this.birdie.db.remove_status (this.tweet.actual_id, this.birdie.default_account_id, "tweets");
+                    this.birdie.db.remove_status (this.tweet.actual_id, this.birdie.default_account_id, "mentions");
+                    return false;
+                });
+
+                code = this.birdie.api.destroy (this.tweet.actual_id);
+            }
+
+            return null;
+        }
+
+        private void* delete_dm_thread () {
+            int code;
+
+            Idle.add( () => {
+                this.birdie.dm_list.remove (this.tweet);
+                this.birdie.dm_sent_list.remove (this.tweet);
+                this.birdie.db.remove_status (this.tweet.actual_id, this.birdie.default_account_id, "dm_inbox");
+                this.birdie.db.remove_status (this.tweet.actual_id, this.birdie.default_account_id, "dm_outbox");
+                return false;
+            });
+            code = this.birdie.api.destroy_dm (this.tweet.actual_id);
+            return null;
+        }
+
+        private void set_favorite_btn () {
             // favorite button
             if (!this.tweet.dm) {
                 this.favorite_button = new Gtk.Button ();
@@ -362,7 +487,9 @@ namespace Birdie.Widgets {
                     this.status_img.set_from_icon_name("twitter-fav-banner",  Gtk.IconSize.LARGE_TOOLBAR);
                 }
             }
+        }
 
+        private void set_retweet_btn () {
             // retweet button
             if (this.tweet.user_screen_name != this.birdie.api.account.screen_name) {
                 if (!this.tweet.dm) {
@@ -387,7 +514,7 @@ namespace Birdie.Widgets {
 
                     // show more options when right clicking the button
                     var retweet_quote_menu_item = new Gtk.MenuItem.with_label (_("Retweet with quote"));
-                    rightclick_menu.append (retweet_quote_menu_item);
+                    this.rightclick_menu.append (retweet_quote_menu_item);
                     retweet_quote_menu_item.show ();
 
                     retweet_quote_menu_item.activate.connect (() => {
@@ -440,7 +567,9 @@ namespace Birdie.Widgets {
                     this.buttons_box.pack_start (this.dm_delete_button, false, true, 0);
                 }
             }
-            
+        }
+
+        private void set_delete_btn () {
             if (this.tweet.user_screen_name == this.birdie.api.account.screen_name ||
                 (this.list_id != "" && this.birdie.api.account.screen_name == this.list_owner)) {
                 // delete button
@@ -454,7 +583,7 @@ namespace Birdie.Widgets {
                 this.delete_button.clicked.connect (() => {
                     // confirm deletion
                     Widgets.AlertDialog confirm;
-                    
+
                     if (this.list_id != "") {
                         confirm = new Widgets.AlertDialog (this.birdie.m_window,
                         Gtk.MessageType.QUESTION, _("Remove user from list?"),
@@ -464,7 +593,7 @@ namespace Birdie.Widgets {
                         Gtk.MessageType.QUESTION, _("Delete this tweet?"),
                         _("Delete"), _("Cancel"));
                     }
-                    
+
                     Gtk.ResponseType response = confirm.run ();
                     if (response == Gtk.ResponseType.OK) {
                         this.delete_button.set_sensitive (false);
@@ -482,7 +611,7 @@ namespace Birdie.Widgets {
 
             this.button_press_event.connect ((e) => {
                 if (e.button == Gdk.BUTTON_SECONDARY)
-                    rightclick_menu.popup (null, null, null, e.button, e.time);
+                    this.rightclick_menu.popup (null, null, null, e.button, e.time);
 
                 return false;
             });
@@ -504,52 +633,6 @@ namespace Birdie.Widgets {
             });
         }
 
-        private void show_media (string media_file) {
-            var light_window = new LightWindow ();
-
-            Gdk.Pixbuf pixbuf = Utils.fit_user_screen (Environment.get_home_dir ()
-                + "/.cache/birdie/media/" + media_file, light_window);
-
-            this.full_image = new Gtk.Image ();
-            this.full_image.set_from_pixbuf (pixbuf);
-            this.full_image.set_halign (Gtk.Align.CENTER);
-            this.full_image.set_valign (Gtk.Align.CENTER);
-            light_window.add (this.full_image);
-            light_window.set_position (Gtk.WindowPosition.CENTER);
-
-            light_window.add_events (Gdk.EventMask.KEY_PRESS_MASK);
-
-            // connect signal to handle key events
-            light_window.key_press_event.connect ((event, key) => {
-                // if Space or Esc pressed, destroy dialog
-                if (key.keyval == Gdk.Key.space) {
-                    Idle.add (() => {
-                        light_window.destroy ();
-                        return false;
-                    });
-                }
-                return false;
-            });
-
-            light_window.show_all ();
-        }
-
-        private void show_youtube_video (string youtube_video_id) {
-            var light_window = new LightWindow ();
-            this.web_view = new WebKit.WebView ();
-            this.web_view.load_html_string ("<iframe width='640' height='390' style='margin-left: -10px; margin-top: -10px; margin-bottom: -10px;' src='http://www.youtube.com/embed/" +
-                youtube_video_id + "?version=3&autohide=1&controls=2&modestbranding=1&showinfo=0&showsearch=0&vq=hd720&autoplay=1' frameborder='0'</iframe>", "http://www.youtube.com/embed/");
-            light_window.add (this.web_view);
-            light_window.set_position (Gtk.WindowPosition.CENTER);
-            light_window.show_all ();
-        }
-
-        public virtual void on_mouse_enter (Gtk.Widget widget, Gdk.EventCrossing event) {
-            event.window.set_cursor (
-                new Gdk.Cursor.from_name (Gdk.Display.get_default(), "hand2")
-            );
-        }
-
         public void hide_buttons () {
             this.buttons_box.hide ();
             this.time_label.show ();
@@ -562,198 +645,78 @@ namespace Birdie.Widgets {
             this.time_label.hide ();
         }
 
-        private void* thread_thread () {
-            var spinner = new Gtk.Spinner ();
+        private void set_username_label () {
+            this.username_label = new Gtk.Label ("");
+            this.username_label.set_halign (Gtk.Align.START);
+            this.username_label.set_valign (Gtk.Align.START);
+            this.username_label.set_selectable (false);
+            this.username_label.set_markup (
+                "<span underline='none' font_weight='bold' size='large'>" +
+                tweet.user_name.chomp () +
+                "</span> <span font_weight='light' color='#999'>@" +
+                tweet.user_screen_name + "</span>"
+                );
 
-            Idle.add ( () => {
-                this.thread_box.pack_start (spinner, false, false, 0);
-                spinner.start ();
-                spinner.show ();
+            this.username_event = new Gtk.EventBox ();
+            this.username_event.add (this.username_label);
+
+            this.username_event.button_release_event.connect ((event) => {
+                this.birdie.user = tweet.user_screen_name;
+                this.birdie.show_user.begin ();
                 return false;
             });
 
-            string parsing_id = this.tweet.in_reply_to_status_id;
-
-            List<Tweet> tweets = new List<Tweet> ();
-
-            for (int i = 0; i < 5; i++) {
-                var tweet = this.birdie.api.get_single_tweet (parsing_id);
-
-                tweets.append (tweet);
-
-                if (tweet.in_reply_to_status_id != "")
-                    parsing_id = tweet.in_reply_to_status_id;
-                else
-                    break;
-            }
-
-            tweets.reverse ();
-            tweets.foreach ((tweet) => {
-                var tweet_box = new TweetBox (tweet, this.birdie, true);
-                get_single_avatar (tweet_box);
-
-                Idle.add ( () => {
-                    this.thread_box.pack_start (tweet_box, false, false, 0);
-                    tweet_box.show_all ();
-                    return false;
-                });
-            });
-
-            Idle.add ( () => {
-                spinner.stop ();
-                spinner.hide ();
-                this.thread_box.remove (spinner);
-                spinner.destroy ();
+            this.username_event.enter_notify_event.connect ((event) => {
+                on_mouse_enter (this, event);
                 return false;
             });
-
-            return null;
         }
 
-        private void* favorite_thread () {
-            int code;
+        private void set_media () {
+            if (tweet.media_url != "" || tweet.youtube_video != "") {
+                string filename;
+                bool placeholder = false;
 
-            if (this.tweet.favorited) {
-                Idle.add( () => {
-                    if (this.tweet.retweeted) {
-                        this.status_img.set_from_icon_name("twitter-ret-banner",  Gtk.IconSize.LARGE_TOOLBAR);
-                    } else {
-                        this.context_overlay.remove (this.status_img);
-                    }
-
-                    this.tweet.favorited = false;
-                    this.birdie.favorites.remove (this.tweet);
-
-                    this.birdie.db.remove_status (this.tweet.actual_id, this.birdie.default_account_id, "favorites");
-                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 0, "tweets");
-                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 0, "own");
-                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 0, "mentions");
-
-                    return false;
-                });
-                code = this.birdie.api.favorite_destroy (this.tweet.actual_id);
-
-                if (code == 1) {
-                    this.tweet.favorited = true;
-                    this.birdie.db.add_tweet (this.tweet, "favorites", this.birdie.default_account_id);
-                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 1, "tweets");
-                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 1, "own");
-                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 1, "mentions");
-                }
-            } else {
-                Idle.add( () => {
-                    if (this.tweet.retweeted) {
-                        this.status_img.set_from_icon_name ("twitter-favret-banner", Gtk.IconSize.LARGE_TOOLBAR);
-                    } else {
-                        this.context_overlay.remove (this.buttons_alignment);
-                        this.status_img.set_from_icon_name("twitter-fav-banner",  Gtk.IconSize.LARGE_TOOLBAR);
-                        this.context_overlay.add_overlay (this.status_img);
-                        this.context_overlay.add_overlay (this.buttons_alignment);
-                        this.status_img.show ();
-                    }
-
-                    this.tweet.favorited = true;
-
-                    this.birdie.favorites.append (this.tweet, this.birdie);
-
-                    this.birdie.db.add_tweet (this.tweet, "favorites", this.birdie.default_account_id);
-                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 1, "tweets");
-                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 1, "own");
-                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 1, "mentions");
-                    get_avatar (this.birdie.favorites);
-
-                    return false;
-                });
-                code = this.birdie.api.favorite_create (this.tweet.actual_id);
-
-                if (code == 1) {
-                    this.birdie.favorites.remove (this.tweet);
-                    this.tweet.favorited = false;
-                    this.birdie.db.remove_status (this.tweet.actual_id, this.birdie.default_account_id, "favorites");
-                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 0, "tweets");
-                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 0, "own");
-                    this.birdie.db.set_favorite (this.tweet.actual_id, this.birdie.default_account_id, 0, "mentions");
-                }
-            }
-
-            Idle.add( () => {
-                this.favorite_button.set_sensitive (true);
-                // update this timeline ui
-                this.birdie.home_list.update_display (this.tweet);
-                this.birdie.mentions_list.update_display (this.tweet);
-                this.birdie.own_list.update_display (this.tweet);
-                
-                //TODO: update other timelines boxes ui to reflect favorite status changes on the current one
-
-                return false;
-            });
-
-            return null;
-        }
-
-        private void* retweet_thread () {
-            int code;
-
-            Idle.add( () => {
-                if (this.tweet.favorited) {
-                    this.status_img.set_from_icon_name("twitter-favret-banner",  Gtk.IconSize.LARGE_TOOLBAR);
+                if (tweet.media_url != "") {
+                    filename = this.tweet.media_url;
                 } else {
-                    this.context_overlay.remove (this.buttons_alignment);
-
-                    this.status_img.set_from_icon_name("twitter-ret-banner",  Gtk.IconSize.LARGE_TOOLBAR);
-
-                    this.context_overlay.add_overlay (this.status_img);
-                    this.context_overlay.add_overlay (this.buttons_alignment);
-                    this.status_img.show ();
+                    filename = "youtube_" + this.tweet.youtube_video + ".jpg";
                 }
 
-                this.retweet_icon.set_from_icon_name ("twitter-retweeted", Gtk.IconSize.SMALL_TOOLBAR);
-                this.tweet.retweeted = true;
-                return false;
-            });
-            code = this.birdie.api.retweet (this.tweet.id);
-            return null;
-        }
+                GLib.File file = File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/media/" + filename);
 
-        private void* delete_thread () {
-            if (this.list_id != "") {
-                this.birdie.api.remove_from_list (this.list_id, this.tweet.user_screen_name);
-                
-                Idle.add( () => {
-                    this.birdie.list_list.remove_by_user (this.tweet.user_screen_name);
-                    return false;
-                });
-            } else {
-                int code;
+                if (file.query_exists ()) {
+                    try {
+                        media_pixbuf = new Gdk.Pixbuf.from_file_at_scale (
+                            Environment.get_home_dir () + "/.cache/birdie/media/" + filename,
+                            325, 325, true);
+                    } catch (Error e) { placeholder = true; }
+                } else {
+                    placeholder = true;
 
-                Idle.add( () => {
-                    this.birdie.home_list.remove (this.tweet);
-                    this.birdie.mentions_list.remove (this.tweet);
-                    this.birdie.own_list.remove (this.tweet);
-                    this.birdie.db.remove_status (this.tweet.actual_id, this.birdie.default_account_id, "own");
-                    this.birdie.db.remove_status (this.tweet.actual_id, this.birdie.default_account_id, "tweets");
-                    this.birdie.db.remove_status (this.tweet.actual_id, this.birdie.default_account_id, "mentions");
-                    return false;
-                });
+                    try {
+                    media_pixbuf = new Gdk.Pixbuf.from_file_at_scale (
+                        Constants.PKGDATADIR + "/media.png",
+                        325, 325, true);
+                    } catch (Error e) { }
+                }
 
-                code = this.birdie.api.destroy (this.tweet.actual_id);
+                this.media = new Gtk.Image.from_pixbuf (media_pixbuf);
+                this.media.set_halign (Gtk.Align.START);
+                this.media_box = new Gtk.EventBox ();
+
+                this.media_alignment = new Gtk.Alignment (0, 0, 0, 1);
+                this.media_alignment.set_halign (Gtk.Align.START);
+                this.media_alignment.set_valign (Gtk.Align.START);
+                this.media_alignment.top_padding = 6;
+                this.media_box.add (this.media);
+                this.media_alignment.add (this.media_box);
+                this.content_box.pack_start (this.media_alignment, false, false, 0);
+                this.set_media_events ();
+
+                if (placeholder)
+                    this.media_box.set_no_show_all (true);
             }
-            
-            return null;
-        }
-
-        private void* delete_dm_thread () {
-            int code;
-
-            Idle.add( () => {
-                this.birdie.dm_list.remove (this.tweet);
-                this.birdie.dm_sent_list.remove (this.tweet);
-                this.birdie.db.remove_status (this.tweet.actual_id, this.birdie.default_account_id, "dm_inbox");
-                this.birdie.db.remove_status (this.tweet.actual_id, this.birdie.default_account_id, "dm_outbox");
-                return false;
-            });
-            code = this.birdie.api.destroy_dm (this.tweet.actual_id);
-            return null;
         }
 
         public void update_date () {
@@ -792,14 +755,78 @@ namespace Birdie.Widgets {
             });
         }
 
-        public void update_display () {
+        public void update_favorites () {
             if (this.tweet.favorited) {
-                this.favorite_icon.set_from_icon_name ("twitter-favd", Gtk.IconSize.SMALL_TOOLBAR);
-                this.favorite_button.set_tooltip_text (_("Unfavorite"));
+                Idle.add (() => {
+                    this.favorite_icon.set_from_icon_name ("twitter-favd", Gtk.IconSize.SMALL_TOOLBAR);
+                    this.favorite_button.set_tooltip_text (_("Unfavorite"));
+                    return false;
+                });
             } else {
-                this.favorite_icon.set_from_icon_name ("twitter-fav", Gtk.IconSize.SMALL_TOOLBAR);
-                this.favorite_button.set_tooltip_text (_("Favorite"));
+                Idle.add (() => {
+                    this.favorite_icon.set_from_icon_name ("twitter-fav", Gtk.IconSize.SMALL_TOOLBAR);
+                    this.favorite_button.set_tooltip_text (_("Favorite"));
+                    return false;
+                });
             }
+        }
+
+        public void update_media () {
+            if (this.tweet.youtube_video != "") {
+                var file = File.new_for_path (Environment.get_home_dir () +
+                                "/.cache/birdie/media/youtube_" +
+                                this.tweet.youtube_video + ".jpg");
+
+                if (file.query_exists ()) {
+                    Idle.add (() => {
+                        try {
+                            this.media.set_from_pixbuf (new Gdk.Pixbuf.from_file_at_scale (
+                                    Environment.get_home_dir () +
+                                    "/.cache/birdie/media/youtube_" +
+                                    this.tweet.youtube_video + ".jpg",
+                                    325, 325, true
+                                    ));
+                            this.media_box.set_no_show_all (false);
+                            this.media_box.show_all ();
+                        } catch {}
+                    return false;
+                    });
+                }
+            }
+            else if (this.tweet.media_url != "") {
+                var file = File.new_for_path (Environment.get_home_dir () + "/.cache/birdie/media/" + this.tweet.media_url);
+
+                if (file.query_exists ()) {
+                    Idle.add (() => {
+
+                        try {
+                            this.media.set_from_pixbuf (new Gdk.Pixbuf.from_file_at_scale (
+                                    Environment.get_home_dir () + "/.cache/birdie/media/" + this.tweet.media_url,
+                                    325, 325, true
+                                    ));
+                            this.media_box.set_no_show_all (false);
+                            this.media_box.show_all ();
+                        } catch {}
+                    return false;
+                    });
+                }
+            }
+            this.avatar_img.set_from_file (Environment.get_home_dir () + "/.cache/birdie/" + this.tweet.profile_image_file);
+        }
+
+        private void set_media_events () {
+            this.media_box.enter_notify_event.connect ((event) => {
+                on_mouse_enter (this, event);
+                return false;
+            });
+
+            this.media_box.button_release_event.connect ((event) => {
+                if (this.tweet.youtube_video != "")
+                    Media.show_youtube_video (this.tweet.youtube_video);
+                else
+                    Media.show_media (this.tweet.media_url);
+                return false;
+            });
         }
 
         private void set_info_header () {
@@ -847,14 +874,13 @@ namespace Birdie.Widgets {
         }
 
         public void set_avatar (string avatar_file) {
-            var file = File.new_for_path (avatar_file);
+            Idle.add (() => {
+                var file = File.new_for_path (avatar_file);
 
-            if (file.query_exists ()) {
-                Idle.add (() => {
+                if (file.query_exists ())
                     this.avatar_img.set_from_file (avatar_file);
-                    return false;
-                });
-            }
+                return false;
+            });
         }
     }
 }

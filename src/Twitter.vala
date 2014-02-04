@@ -101,14 +101,20 @@ namespace Birdie {
             if (id != "")
                 call.add_param ("in_reply_to_status_id", id);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return 1;
+                }
 
                 var root = parser.get_root ();
                 var userobject = root.get_object ();
@@ -127,12 +133,12 @@ namespace Birdie {
             string id, string media_uri, out string media_out) {
 
             string link = "";
-            var imgur = new Imgur ();
+            var imgur = new Media.Imgur ();
 
             try {
                 link = imgur.upload (media_uri);
             } catch (Error e) {
-                warning ("Error uploading image to imgur: %s", e.message);
+                critical ("Error uploading image to imgur: %s", e.message);
             }
 
             media_out = link;
@@ -149,15 +155,20 @@ namespace Birdie {
             if (id != "")
                 call.add_param ("in_reply_to_status_id", id);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
 
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return 1;
+                }
                 var root = parser.get_root ();
                 var userobject = root.get_object ();
 
@@ -179,7 +190,7 @@ namespace Birdie {
             call.set_method ("POST");
             call.add_param ("id", id);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
@@ -198,7 +209,7 @@ namespace Birdie {
                 api_mutex.unlock ();
                 if (e.message == "Forbidden")
                     return 0;
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 return 1;
             }
             api_mutex.unlock ();
@@ -213,7 +224,7 @@ namespace Birdie {
             call.set_method ("POST");
             call.add_param ("id", id);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
@@ -230,7 +241,7 @@ namespace Birdie {
             call.set_method ("POST");
             call.add_param ("id", id);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
@@ -247,7 +258,7 @@ namespace Birdie {
             call.add_param ("screen_name", recipient);
             call.add_param ("text", status);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
@@ -259,12 +270,12 @@ namespace Birdie {
             string media_uri, out string media_out) {
 
             string link = "";
-            var imgur = new Imgur ();
+            var imgur = new Media.Imgur ();
 
             try {
                 link = imgur.upload (media_uri);
             } catch (Error e) {
-                warning ("Error uploading image to imgur: %s", e.message);
+                critical ("Error uploading image to imgur: %s", e.message);
             }
 
             media_out = link;
@@ -280,15 +291,20 @@ namespace Birdie {
             call.add_param ("screen_name", recipient);
             call.add_param ("text", status + " " + link);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
 
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return 1;
+                }
                 var root = parser.get_root ();
                 var userobject = root.get_object ();
 
@@ -324,14 +340,18 @@ namespace Birdie {
             bool verified = false;
 
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 return 1;
             }
 
             try {
                 var parser = new Json.Parser ();
 
-                parser.load_from_data ((string) call.get_payload (), -1);
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else
+                    return 1;
+
                 var root = parser.get_root ();
                 var userobject = root.get_object ();
 
@@ -395,7 +415,7 @@ namespace Birdie {
             name = tweetobject.get_object_member ("user").get_string_member ("name");
             screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
             profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
-            profile_image_file = parse_profile_image_file (profile_image_url);
+            profile_image_file = Media.parse_profile_image_file (profile_image_url);
 
             if (tweetobject.get_object_member ("user").has_member("location") &&
                  tweetobject.get_object_member ("user").get_string_member ("location") != null) {
@@ -424,7 +444,7 @@ namespace Birdie {
             );
         }
 
-        public override Tweet get_tweet (Json.Node tweetnode) {
+        public override Tweet get_tweet (Json.Node tweetnode, Widgets.TweetList? tweetlist = null) {
 
             string id = "";
             string user_name = "";
@@ -472,14 +492,20 @@ namespace Birdie {
                 in_reply_to_status_id = "";
 
             Json.Object entitiesobject = tweetobject.get_object_member ("entities");
-            parse_media_url (ref entitiesobject, ref text, ref media_url, ref youtube_video);
 
-            profile_image_file = parse_profile_image_file (profile_image_url);
+            profile_image_file = Media.parse_profile_image_file (profile_image_url);
 
-            return new Tweet (id, actual_id, user_name, user_screen_name,
+            var tweet =  new Tweet (id, actual_id, user_name, user_screen_name,
                 Utils.highlight_all (text), created_at, profile_image_url, profile_image_file,
                 retweeted, favorited, false, in_reply_to_screen_name,
                 retweeted_by, retweeted_by_name, media_url, youtube_video, verified, in_reply_to_status_id);
+
+            Media.parse_media_url (ref entitiesobject, ref text, ref media_url, ref youtube_video, tweetlist, tweet);
+
+            tweet.youtube_video = youtube_video;
+            tweet.media_url = media_url;
+            tweet.text = Utils.highlight_all (text);
+            return tweet;
         }
 
         public TwitterList get_list (Json.Node listnode) {
@@ -509,14 +535,21 @@ namespace Birdie {
             call.add_param ("id", tweet_id);
 
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return tweet;
             }
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return tweet;
+                }
+
                 var node = parser.get_root ();
                 tweet = this.get_tweet (node);
             } catch (Error e) {
@@ -541,7 +574,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -550,7 +583,14 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return;
+                }
+
                 var root = parser.get_root ();
 
                 // clear since_id list
@@ -559,9 +599,9 @@ namespace Birdie {
                 });
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
-                    var tweet = this.get_tweet (tweetnode);
+                    var tweet = this.get_tweet (tweetnode, this.birdie.home_list);
                     home_timeline.append (tweet);
-                    this.db.add_tweet (tweet, "tweets", this.account_id);
+                    this.db.add_tweet.begin (tweet, "tweets", this.account_id);
                 }
 
                 this.home_timeline.reverse ();
@@ -593,7 +633,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -602,7 +642,14 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return;
+                }
+
                 var root = parser.get_root ();
 
                 this.home_timeline.foreach ((tweet) => {
@@ -610,7 +657,7 @@ namespace Birdie {
                 });
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
-                    var tweet = this.get_tweet (tweetnode);
+                    var tweet = this.get_tweet (tweetnode, this.birdie.home_list);
                     home_timeline.append (tweet);
                 }
 
@@ -638,7 +685,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -647,7 +694,14 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return;
+                }
+
                 var root = parser.get_root ();
 
                 this.mentions_timeline.foreach ((tweet) => {
@@ -655,7 +709,7 @@ namespace Birdie {
                 });
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
-                    var tweet = this.get_tweet (tweetnode);
+                    var tweet = this.get_tweet (tweetnode, this.birdie.mentions_list);
                     mentions_timeline.append (tweet);
                 }
 
@@ -682,7 +736,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -694,7 +748,13 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return;
+                }
 
                 var root = parser.get_root ();
 
@@ -702,7 +762,7 @@ namespace Birdie {
                 var statuses_member = tweetobject.get_array_member ("statuses");
 
                 foreach (var tweetnode in statuses_member.get_elements ()) {
-                    var tweet = this.get_tweet (tweetnode);
+                    var tweet = this.get_tweet (tweetnode, this.birdie.search_list);
                     search_timeline.append (tweet);
                 }
 
@@ -730,7 +790,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -739,7 +799,13 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return;
+                }
 
                 var root = parser.get_root ();
 
@@ -749,9 +815,9 @@ namespace Birdie {
                 });
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
-                    var tweet = this.get_tweet (tweetnode);
+                    var tweet = this.get_tweet (tweetnode, this.birdie.mentions_list);
                     mentions_timeline.append (tweet);
-                    this.db.add_tweet (tweet, "mentions", this.account_id);
+                    this.db.add_tweet.begin (tweet, "mentions", this.account_id);
                 }
 
                 this.mentions_timeline.reverse ();
@@ -782,7 +848,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -794,7 +860,13 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return;
+                }
 
                 var root = parser.get_root ();
 
@@ -813,18 +885,23 @@ namespace Birdie {
                     text = Utils.highlight_all(text);
                     var created_at = tweetobject.get_string_member ("created_at");
                     var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
-                    var profile_image_file = parse_profile_image_file (profile_image_url);
+                    var profile_image_file = Media.parse_profile_image_file (profile_image_url);
 
                     Json.Object entitiesobject = tweetobject.get_object_member ("entities");
-                    parse_media_url (ref entitiesobject, ref text, ref media_url, ref youtube_video);
 
                     var tweet = new Tweet (id, id, user_name,
                         user_screen_name, text, created_at,
                         profile_image_url, profile_image_file,
                         false, false, true, "", "", "", media_url, youtube_video);
 
+                    Media.parse_media_url (ref entitiesobject, ref text, ref media_url, ref youtube_video, this.birdie.dm_list, tweet);
+
+                    tweet.youtube_video = youtube_video;
+                    tweet.media_url = media_url;
+                    tweet.text = Utils.highlight_all (text);
+
                     dm_timeline.append (tweet);
-                    this.db.add_tweet (tweet, "dm_inbox", this.account_id);
+                    this.db.add_tweet.begin (tweet, "dm_inbox", this.account_id);
                 }
 
                 this.dm_timeline.reverse ();
@@ -854,7 +931,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -863,7 +940,13 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return;
+                }
 
                 var root = parser.get_root ();
 
@@ -877,7 +960,7 @@ namespace Birdie {
                     text = Utils.highlight_all(text);
                     var created_at = tweetobject.get_string_member ("created_at");
                     var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
-                    var profile_image_file = parse_profile_image_file (profile_image_url);
+                    var profile_image_file = Media.parse_profile_image_file (profile_image_url);
 
                     var tweet = new Tweet (id, id, user_name,
                         user_screen_name, text, created_at,
@@ -885,7 +968,7 @@ namespace Birdie {
                         false, false, true);
 
                     dm_sent_timeline.append (tweet);
-                    this.db.add_tweet (tweet, "dm_outbox", this.account_id);
+                    this.db.add_tweet.begin (tweet, "dm_outbox", this.account_id);
                 }
 
                 this.dm_sent_timeline.reverse ();
@@ -912,7 +995,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -920,19 +1003,25 @@ namespace Birdie {
             Rest.ProxyCall call, Error? error, Object? obj) {
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return;
+                }
 
                 var root = parser.get_root ();
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
-                    var tweet = this.get_tweet (tweetnode);
+                    var tweet = this.get_tweet (tweetnode, this.birdie.own_list);
 
                     if (tweet.retweeted_by != "") {
                         tweet.retweeted = true;
                     }
 
                     own_timeline.append (tweet);
-                    this.db.add_tweet (tweet, "own", this.account_id);
+                    this.db.add_tweet.begin (tweet, "own", this.account_id);
                 }
                 own_timeline.reverse ();
                 this.db.purge_tweets ("own");
@@ -956,7 +1045,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -964,19 +1053,25 @@ namespace Birdie {
             Rest.ProxyCall call, Error? error, Object? obj) {
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return;
+                }
 
                 var root = parser.get_root ();
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
-                    var tweet = this.get_tweet (tweetnode);
+                    var tweet = this.get_tweet (tweetnode, this.birdie.favorites);
 
                     if (tweet.retweeted_by != "") {
                         tweet.retweeted = true;
                     }
 
                     favorites.append (tweet);
-                    this.db.add_tweet (tweet, "favorites", this.account_id);
+                    this.db.add_tweet.begin (tweet, "favorites", this.account_id);
                 }
                 this.db.purge_tweets ("favorites");
                 favorites.reverse ();
@@ -997,12 +1092,19 @@ namespace Birdie {
             call.add_param ("screen_name", screen_name);
 
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return new Array<string> ();
+                }
+
                 var root = parser.get_root ();
                 var userobject = root.get_object ();
                 var ids = userobject.get_object_member ("ids");
@@ -1029,12 +1131,19 @@ namespace Birdie {
             call.add_param ("target_screen_name", target_user);
 
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return new Array<string> ();
+                }
+
                 var root = parser.get_root ();
                 var userobject = root.get_object ();
                 var usermember = userobject.get_object_member ("relationship");
@@ -1063,7 +1172,7 @@ namespace Birdie {
             call.set_method ("POST");
             call.add_param ("screen_name", screen_name);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
@@ -1078,7 +1187,7 @@ namespace Birdie {
             call.set_method ("POST");
             call.add_param ("screen_name", screen_name);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
@@ -1093,7 +1202,7 @@ namespace Birdie {
             call.set_method ("POST");
             call.add_param ("screen_name", screen_name);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
@@ -1108,7 +1217,7 @@ namespace Birdie {
             call.set_method ("POST");
             call.add_param ("screen_name", screen_name);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
@@ -1123,7 +1232,7 @@ namespace Birdie {
             call.set_method ("POST");
             call.add_param ("id", id);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
@@ -1142,7 +1251,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -1154,12 +1263,18 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return;
+                }
 
                 var root = parser.get_root ();
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
-                    var tweet = this.get_tweet (tweetnode);
+                    var tweet = this.get_tweet (tweetnode, this.birdie.user_list);
                     user_timeline.append (tweet);
                     this.get_user (tweetnode);
                 }
@@ -1183,7 +1298,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -1195,7 +1310,13 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return;
+                }
 
                 var root = parser.get_root ();
 
@@ -1203,7 +1324,7 @@ namespace Birdie {
                 var statuses_member = tweetobject.get_array_member ("statuses");
 
                 foreach (var tweetnode in statuses_member.get_elements ()) {
-                    var tweet = this.get_tweet (tweetnode);
+                    var tweet = this.get_tweet (tweetnode, this.birdie.search_list);
                     search_timeline.append (tweet);
                 }
 
@@ -1225,7 +1346,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -1239,7 +1360,13 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return;
+                }
 
                 var root = parser.get_root ();
 
@@ -1267,7 +1394,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -1279,12 +1406,18 @@ namespace Birdie {
 
             try {
                 var parser = new Json.Parser ();
-                parser.load_from_data ((string) call.get_payload (), -1);
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    api_mutex.unlock ();
+                    return;
+                }
 
                 var root = parser.get_root ();
 
                 foreach (var tweetnode in root.get_array ().get_elements ()) {
-                    var tweet = this.get_tweet (tweetnode);
+                    var tweet = this.get_tweet (tweetnode, this.birdie.list_list);
                     list_timeline.append (tweet);
                 }
 
@@ -1303,14 +1436,14 @@ namespace Birdie {
             call.set_method ("POST");
             call.add_param ("list_id", id);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
             api_mutex.unlock ();
             return 0;
         }
-        
+
         public override int destroy_list (string id) {
             api_mutex.lock ();
             Rest.ProxyCall call = proxy.new_call ();
@@ -1318,14 +1451,14 @@ namespace Birdie {
             call.set_method ("POST");
             call.add_param ("list_id", id);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
             api_mutex.unlock ();
             return 0;
         }
-        
+
         public override void create_list (string name, string description) {
             api_mutex.lock ();
             Rest.ProxyCall call = proxy.new_call ();
@@ -1338,7 +1471,7 @@ namespace Birdie {
             try {
                 call.run_async (callback);
             } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
             }
         }
 
@@ -1347,7 +1480,7 @@ namespace Birdie {
             api_mutex.unlock ();
             this.get_lists ();
         }
-        
+
         public override int add_to_list (string list_id, string screen_name) {
             api_mutex.lock ();
             Rest.ProxyCall call = proxy.new_call ();
@@ -1356,14 +1489,14 @@ namespace Birdie {
             call.add_param ("list_id", list_id);
             call.add_param ("screen_name", screen_name);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }
             api_mutex.unlock ();
             return 0;
         }
-        
+
         public override int remove_from_list (string list_id, string screen_name) {
             api_mutex.lock ();
             Rest.ProxyCall call = proxy.new_call ();
@@ -1372,7 +1505,7 @@ namespace Birdie {
             call.add_param ("list_id", list_id);
             call.add_param ("screen_name", screen_name);
             try { call.sync (); } catch (Error e) {
-                stderr.printf ("Cannot make call: %s\n", e.message);
+                critical (e.message);
                 api_mutex.unlock ();
                 return 1;
             }

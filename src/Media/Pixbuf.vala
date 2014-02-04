@@ -14,7 +14,7 @@
  *              Vasco Nunes <vascomfnunes@gmail.com>
  */
 
-namespace Birdie.Utils {
+namespace Birdie.Media {
 
     // returns a resized pixbuf to fit the current user's screen resolution
     public Gdk.Pixbuf fit_user_screen (string image_path, Gtk.Widget widget) {
@@ -31,6 +31,9 @@ namespace Birdie.Utils {
             pixbuf = new Gdk.Pixbuf.from_file (image_path);
         } catch (Error e) {
             warning ("Error resizing image: %s", e.message);
+            try {
+                pixbuf = new Gdk.Pixbuf.from_file (Constants.PKGDATADIR + "/media.png");
+            } catch {}
         }
 
         // get screen resolution height
@@ -56,10 +59,11 @@ namespace Birdie.Utils {
         return pixbuf;
     }
 
-    public void generate_rounded_avatar (string avatar_path,
+    public async void generate_rounded_avatar (string avatar_path,
         int width = 50, int height = 50, int roundness = 7,
         double line_width = 0, double border_color_r = 0.5,
-        double border_color_g = 0.5, double border_color_b = 0.5) {
+        double border_color_g = 0.5, double border_color_b = 0.5) throws GLib.Error {
+
         Gdk.Pixbuf pixbuf;
 
         try {
@@ -67,7 +71,7 @@ namespace Birdie.Utils {
             var surface = new Cairo.ImageSurface (Cairo.Format.ARGB32, width, height);
             var ctx = new Cairo.Context (surface);
 
-            Utils.draw_rounded_path (ctx, 0, 0, width, height, roundness);
+            draw_rounded_path (ctx, 0, 0, width, height, roundness);
             ctx.set_line_width (line_width);
             ctx.set_source_rgb (border_color_r, border_color_g, border_color_b);
             ctx.stroke_preserve ();

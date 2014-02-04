@@ -19,8 +19,8 @@ namespace Birdie.Utils {
     string highlight_all (owned string text) {
         text = unescape_html (text);
         text = escape_markup (text);
-        text = highlight_urls (text);
         text = highlight_hashtags (text);
+        text = highlight_urls (text);
         text = highlight_users (text);
         return text;
     }
@@ -29,7 +29,7 @@ namespace Birdie.Utils {
         Regex hashtags;
 
         try {
-            try { 
+            try {
                 hashtags = new Regex("\\B([#][[:alpha:]0-9_.-\\p{Latin}\\p{Greek}]+)");
             } catch (RegexError e) {
                 hashtags = new Regex("\\B([#][[:alpha:]0-9_]+)");
@@ -47,7 +47,7 @@ namespace Birdie.Utils {
         Regex? hashtags = null;
 
         try {
-            try { 
+            try {
                 hashtags = new Regex("\\B([#][[:alpha:]0-9_.-\\p{Latin}\\p{Greek}]+)");
             } catch (RegexError e) {
                 hashtags = new Regex("\\B([#][[:alpha:]0-9_]+)");

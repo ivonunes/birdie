@@ -126,7 +126,7 @@ namespace Birdie.Widgets {
             this.unfollow_button.clicked.connect (() => {
                 new Thread<void*> (null, this.unfollow_thread);
             });
-            
+
             // lists button
             this.lists_button = new Gtk.Button.with_label (_("Add"));
             this.lists_button.set_halign (Gtk.Align.CENTER);
@@ -193,7 +193,7 @@ namespace Birdie.Widgets {
                 } else {
                     this.follow_button.show ();
                 }
-                
+
                 this.lists_button.show ();
 
                 if (friendship.index (1) == "true") {

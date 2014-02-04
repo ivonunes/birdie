@@ -182,7 +182,7 @@ namespace Birdie {
                 debug ("account added: " + service);
         }
 
-        public void add_user (string screen_name, string name,
+        public async void add_user (string screen_name, string name,
                 int account_id) {
             new Thread<void*> (null, () => {
                 Sqlite.Statement stmt;
@@ -211,7 +211,7 @@ namespace Birdie {
             });
         }
 
-        public void add_hashtag (string hashtag, int account_id) {
+        public async void add_hashtag (string hashtag, int account_id) {
             new Thread<void*> (null, () => {
                 Sqlite.Statement stmt;
 
@@ -236,59 +236,62 @@ namespace Birdie {
             });
         }
 
-        public void add_tweet (Tweet tweet, string table, int account_id) {
+        public async void add_tweet (Tweet tweet, string table, int account_id) {
             new Thread<void*> (null, () => {
                 Sqlite.Statement stmt;
 
-                int res = db.prepare_v2("INSERT INTO " + table + " (tweet_id, " +
-                    "actual_id, user_name, user_screen_name, text, created_at, " +
-                    "profile_image_url, profile_image_file, retweeted, favorited, dm, " +
-                    "in_reply_to_screen_name, retweeted_by, retweeted_by_name, media_url, " +
-                    "youtube_video, verified, account_id) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", -1, out stmt);
-                assert(res == Sqlite.OK);
+                if (!tweet_exists (tweet.id, account_id, table)) {
 
-                res = stmt.bind_text (1, tweet.id);
-                assert(res == Sqlite.OK);
-                res = stmt.bind_text (2, tweet.actual_id);
-                assert(res == Sqlite.OK);
-                res = stmt.bind_text (3, tweet.user_name);
-                assert(res == Sqlite.OK);
-                res = stmt.bind_text (4, tweet.user_screen_name);
-                assert(res == Sqlite.OK);
-                res = stmt.bind_text (5, tweet.text);
-                assert(res == Sqlite.OK);
-                res = stmt.bind_text (6, tweet.created_at);
-                assert(res == Sqlite.OK);
-                res = stmt.bind_text (7, tweet.profile_image_url);
-                assert(res == Sqlite.OK);
-                res = stmt.bind_text (8, tweet.profile_image_file);
-                assert(res == Sqlite.OK);
-                res = stmt.bind_int (9, tweet.retweeted ? 1 : 0);
-                assert(res == Sqlite.OK);
-                res = stmt.bind_int (10, tweet.favorited ? 1 : 0);
-                assert(res == Sqlite.OK);
-                res = stmt.bind_int (11, tweet.dm ? 1 : 0);
-                assert(res == Sqlite.OK);
-                res = stmt.bind_text (12, tweet.in_reply_to_screen_name);
-                assert(res == Sqlite.OK);
-                res = stmt.bind_text (13, tweet.retweeted_by);
-                assert(res == Sqlite.OK);
-                res = stmt.bind_text (14, tweet.retweeted_by_name);
-                assert(res == Sqlite.OK);
-                res = stmt.bind_text (15, tweet.media_url);
-                assert(res == Sqlite.OK);
-                res = stmt.bind_text (16, tweet.youtube_video);
-                assert(res == Sqlite.OK);
-                res = stmt.bind_int (17, tweet.verified ? 1 : 0);
-                assert(res == Sqlite.OK);
-                res = stmt.bind_int (18, account_id);
-                assert(res == Sqlite.OK);
+                    int res = db.prepare_v2("INSERT INTO " + table + " (tweet_id, " +
+                        "actual_id, user_name, user_screen_name, text, created_at, " +
+                        "profile_image_url, profile_image_file, retweeted, favorited, dm, " +
+                        "in_reply_to_screen_name, retweeted_by, retweeted_by_name, media_url, " +
+                        "youtube_video, verified, account_id) " +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", -1, out stmt);
+                    assert(res == Sqlite.OK);
 
-                res = stmt.step ();
+                    res = stmt.bind_text (1, tweet.id);
+                    assert(res == Sqlite.OK);
+                    res = stmt.bind_text (2, tweet.actual_id);
+                    assert(res == Sqlite.OK);
+                    res = stmt.bind_text (3, tweet.user_name);
+                    assert(res == Sqlite.OK);
+                    res = stmt.bind_text (4, tweet.user_screen_name);
+                    assert(res == Sqlite.OK);
+                    res = stmt.bind_text (5, tweet.text);
+                    assert(res == Sqlite.OK);
+                    res = stmt.bind_text (6, tweet.created_at);
+                    assert(res == Sqlite.OK);
+                    res = stmt.bind_text (7, tweet.profile_image_url);
+                    assert(res == Sqlite.OK);
+                    res = stmt.bind_text (8, tweet.profile_image_file);
+                    assert(res == Sqlite.OK);
+                    res = stmt.bind_int (9, tweet.retweeted ? 1 : 0);
+                    assert(res == Sqlite.OK);
+                    res = stmt.bind_int (10, tweet.favorited ? 1 : 0);
+                    assert(res == Sqlite.OK);
+                    res = stmt.bind_int (11, tweet.dm ? 1 : 0);
+                    assert(res == Sqlite.OK);
+                    res = stmt.bind_text (12, tweet.in_reply_to_screen_name);
+                    assert(res == Sqlite.OK);
+                    res = stmt.bind_text (13, tweet.retweeted_by);
+                    assert(res == Sqlite.OK);
+                    res = stmt.bind_text (14, tweet.retweeted_by_name);
+                    assert(res == Sqlite.OK);
+                    res = stmt.bind_text (15, tweet.media_url);
+                    assert(res == Sqlite.OK);
+                    res = stmt.bind_text (16, tweet.youtube_video);
+                    assert(res == Sqlite.OK);
+                    res = stmt.bind_int (17, tweet.verified ? 1 : 0);
+                    assert(res == Sqlite.OK);
+                    res = stmt.bind_int (18, account_id);
+                    assert(res == Sqlite.OK);
 
-                if (res == Sqlite.DONE)
-                    debug ("tweet added to cache: " + tweet.actual_id);
+                    res = stmt.step ();
+
+                    if (res == Sqlite.DONE)
+                        debug ("tweet added to cache: " + tweet.actual_id);
+                }
 
                 return null;
             });
@@ -297,11 +300,30 @@ namespace Birdie {
         public bool user_exists (string screen_name, int account_id) {
             Sqlite.Statement stmt;
 
-            int res = db.prepare_v2 ("SELECT id FROM  users " +
+            int res = db.prepare_v2 ("SELECT id FROM users " +
                 "WHERE screen_name LIKE ? AND account_id = ?", -1, out stmt);
             assert(res == Sqlite.OK);
 
             res = stmt.bind_text (1, screen_name);
+            assert(res == Sqlite.OK);
+            res = stmt.bind_int (2, account_id);
+            assert(res == Sqlite.OK);
+
+            if (stmt.step() == Sqlite.ROW) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        public bool tweet_exists (string tweet_id, int account_id, string table) {
+            Sqlite.Statement stmt;
+
+            int res = db.prepare_v2 ("SELECT tweet_id FROM " + table +
+                " WHERE tweet_id LIKE ? AND account_id = ?", -1, out stmt);
+            assert(res == Sqlite.OK);
+
+            res = stmt.bind_text (1, tweet_id);
             assert(res == Sqlite.OK);
             res = stmt.bind_int (2, account_id);
             assert(res == Sqlite.OK);
@@ -600,7 +622,7 @@ namespace Birdie {
 
             return stmt.column_text (0);
         }
-        
+
         public int get_row_count (string table) {
             Sqlite.Statement stmt;
 
