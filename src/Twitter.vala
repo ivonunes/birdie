@@ -882,7 +882,7 @@ namespace Birdie {
                     var user_name = tweetobject.get_object_member ("sender").get_string_member ("name");
                     var user_screen_name = tweetobject.get_object_member ("sender").get_string_member ("screen_name");
                     var text = tweetobject.get_string_member ("text");
-                    text = Utils.highlight_all(text);
+                    //text = Utils.highlight_all(text);
                     var created_at = tweetobject.get_string_member ("created_at");
                     var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
                     var profile_image_file = Media.parse_profile_image_file (profile_image_url);

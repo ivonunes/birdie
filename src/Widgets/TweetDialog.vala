@@ -255,7 +255,7 @@ namespace Birdie.Widgets {
             this.file_chooser = new Gtk.FileChooserDialog (_("Select a Picture"), this,
             Gtk.FileChooserAction.OPEN,
             _("Cancel"), Gtk.ResponseType.CANCEL,
-            _("Open"), Gtk.ResponseType.ACCEPT);
+            _("Open"), Gtk.ResponseType.OK);
 
             // filter to jpg, png and gif:
             Gtk.FileFilter filter = new Gtk.FileFilter ();
@@ -286,7 +286,7 @@ namespace Birdie.Widgets {
                 }
             });
 
-            if (this.file_chooser.run () == Gtk.ResponseType.ACCEPT) {
+            if (this.file_chooser.run () == Gtk.ResponseType.OK) {
                 SList<string> uris = file_chooser.get_uris ();
                 foreach (unowned string uri in uris) {
                     this.media_uri = uri;

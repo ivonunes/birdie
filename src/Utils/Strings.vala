@@ -19,8 +19,8 @@ namespace Birdie.Utils {
     string highlight_all (owned string text) {
         text = unescape_html (text);
         text = escape_markup (text);
-        text = highlight_hashtags (text);
         text = highlight_urls (text);
+        text = highlight_hashtags (text);
         text = highlight_users (text);
         return text;
     }
