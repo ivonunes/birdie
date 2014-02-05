@@ -22,14 +22,12 @@ namespace Birdie.Widgets {
 
         private bool first;
         public bool load_more;
-        private int count;
         public string list_id;
         public string list_owner;
 
         public TweetList () {
             GLib.Object (valign: Gtk.Align.START);
             this.first = true;
-            this.count = 0;
             this.load_more = false;
 
             this.list_id = "";
@@ -51,13 +49,6 @@ namespace Birdie.Widgets {
                 box = new TweetBox(tweet, birdie);
             }
 
-            if (this.count > 100) {
-                this.boxes.remove ((TweetBox) this.get_row_at_index ((int) this.get_children ().length () - 1).get_child ());
-                base.remove (this.get_row_at_index ((int) this.get_children ().length () - 1));
-                base.remove (this.get_row_at_index ((int) this.get_children ().length () - 1));
-                count--;
-            }
-
             boxes.append (box);
 
             Idle.add( () => {
@@ -72,8 +63,6 @@ namespace Birdie.Widgets {
                     this.first = false;
 
                 this.show_all ();
-
-                this.count++;
 
                 return false;
             });
@@ -111,7 +100,7 @@ namespace Birdie.Widgets {
             bool separator_next = false;
 
             this.get_children ().foreach ((row) => {
-                if (row is Gtk.ListBoxRow) {
+                if (row is Gtk.ListBoxRow && row != null) {
                     var box = ((Gtk.ListBoxRow) row).get_child ();
 
                     if ((box is TweetBox)) {
@@ -120,7 +109,6 @@ namespace Birdie.Widgets {
 
                             Idle.add( () => {
                                 base.remove (row);
-                                this.count--;
                                 return false;
                             });
                         }
@@ -136,7 +124,7 @@ namespace Birdie.Widgets {
             bool separator_next = false;
 
             this.get_children ().foreach ((row) => {
-                if (row is Gtk.ListBoxRow) {
+                if (row is Gtk.ListBoxRow && row != null) {
                     var box = ((Gtk.ListBoxRow) row).get_child ();
 
                     if ((box is TweetBox)) {
@@ -145,7 +133,6 @@ namespace Birdie.Widgets {
 
                             Idle.add( () => {
                                 base.remove (row);
-                                this.count--;
                                 return false;
                             });
                         }
@@ -159,7 +146,7 @@ namespace Birdie.Widgets {
 
         public void update_date () {
             this.get_children ().foreach ((row) => {
-                if (row is Gtk.ListBoxRow) {
+                if (row is Gtk.ListBoxRow && row != null) {
                     var box = ((Gtk.ListBoxRow) row).get_child ();
 
                     if ((box is TweetBox)) {
@@ -173,7 +160,7 @@ namespace Birdie.Widgets {
             Idle.add( () => {
                 this.get_children ().foreach ((row) => {
 
-                    if (row is Gtk.ListBoxRow) {
+                    if (row is Gtk.ListBoxRow && row != null) {
                         var box = ((Gtk.ListBoxRow) row).get_child ();
 
                         if ((box is TweetBox)) {
@@ -205,7 +192,7 @@ namespace Birdie.Widgets {
 
         public Gtk.ListBoxRow? get_row_for_widget (Gtk.Widget find) {
             foreach (Gtk.Widget w in this.get_children()) {
-                if (((Gtk.ListBoxRow) w).get_child () == find) {
+                if (((Gtk.ListBoxRow) w).get_child () == find && (w is Gtk.ListBoxRow)) {
                     return (Gtk.ListBoxRow) w;
                 }
             }

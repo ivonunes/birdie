@@ -39,7 +39,7 @@ namespace Birdie.Media {
             return;
         }
 
-        yield Utils.dl_avatar (profile_image_url, cached, tweetbox);
+        Utils.dl_avatar.begin (profile_image_url, cached, tweetbox);
     }
 
     public void get_userbox_avatar (Widgets.UserBox userbox, bool own = false) {

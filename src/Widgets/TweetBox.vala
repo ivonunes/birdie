@@ -372,9 +372,6 @@ namespace Birdie.Widgets {
                 this.birdie.home_list.update_display (this.tweet, true);
                 this.birdie.mentions_list.update_display (this.tweet, true);
                 this.birdie.own_list.update_display (this.tweet, true);
-
-                //TODO: update other timelines boxes ui to reflect favorite status changes on the current one
-
                 return false;
             });
 
@@ -483,8 +480,11 @@ namespace Birdie.Widgets {
                 });
 
                 if (this.tweet.favorited) {
-                    this.favorite_icon.set_from_icon_name ("twitter-favd", Gtk.IconSize.SMALL_TOOLBAR);
-                    this.status_img.set_from_icon_name("twitter-fav-banner",  Gtk.IconSize.LARGE_TOOLBAR);
+                    Idle.add( () => {
+                        this.favorite_icon.set_from_icon_name ("twitter-favd", Gtk.IconSize.SMALL_TOOLBAR);
+                        this.status_img.set_from_icon_name("twitter-fav-banner",  Gtk.IconSize.LARGE_TOOLBAR);
+                        return false;
+                    });
                 }
             }
         }
