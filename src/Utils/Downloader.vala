@@ -117,7 +117,11 @@ namespace Birdie.Utils {
             yield;
             if (msg.status_code != Soup.KnownStatusCode.OK)
                 debug (msg.reason_phrase);
-            yield download.cached_file.replace_contents_async (msg.response_body.data, null, false, 0, null, null);
+            try {
+                yield download.cached_file.replace_contents_async (msg.response_body.data, null, false, 0, null, null);
+            } catch (Error e) {
+                debug (e.message);
+            }
         }
 
         private async File? await_download (Download download,

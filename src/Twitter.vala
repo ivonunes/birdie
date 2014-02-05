@@ -882,7 +882,6 @@ namespace Birdie {
                     var user_name = tweetobject.get_object_member ("sender").get_string_member ("name");
                     var user_screen_name = tweetobject.get_object_member ("sender").get_string_member ("screen_name");
                     var text = tweetobject.get_string_member ("text");
-                    //text = Utils.highlight_all(text);
                     var created_at = tweetobject.get_string_member ("created_at");
                     var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
                     var profile_image_file = Media.parse_profile_image_file (profile_image_url);
@@ -938,6 +937,9 @@ namespace Birdie {
         protected void get_dm_sent_response (
             Rest.ProxyCall call, Error? error, Object? obj) {
 
+            string media_url = "";
+            string youtube_video = "";
+
             try {
                 var parser = new Json.Parser ();
 
@@ -957,15 +959,22 @@ namespace Birdie {
                     var user_name = tweetobject.get_object_member ("sender").get_string_member ("name");
                     var user_screen_name = tweetobject.get_object_member ("recipient").get_string_member ("screen_name");
                     var text = tweetobject.get_string_member ("text");
-                    text = Utils.highlight_all(text);
                     var created_at = tweetobject.get_string_member ("created_at");
                     var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url");
                     var profile_image_file = Media.parse_profile_image_file (profile_image_url);
 
+                    Json.Object entitiesobject = tweetobject.get_object_member ("entities");
+
                     var tweet = new Tweet (id, id, user_name,
                         user_screen_name, text, created_at,
                         profile_image_url, profile_image_file,
-                        false, false, true);
+                        false, false, true, "", "", "", media_url, youtube_video);
+
+                    Media.parse_media_url (ref entitiesobject, ref text, ref media_url, ref youtube_video, this.birdie.dm_sent_list, tweet);
+
+                    tweet.youtube_video = youtube_video;
+                    tweet.media_url = media_url;
+                    tweet.text = Utils.highlight_all (text);
 
                     dm_sent_timeline.append (tweet);
                     this.db.add_tweet.begin (tweet, "dm_outbox", this.account_id);

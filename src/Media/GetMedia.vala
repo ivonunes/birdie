@@ -56,7 +56,7 @@ namespace Birdie.Media {
 
         var d = new Utils.Downloader ();
         d.download.begin (File.new_for_uri ("http://i.imgur.com/" + imgur_id + ".jpg"),
-                Environment.get_home_dir () + "/.cache/birdie/media/" + imgur_id, false, null, tweetlist);
+                Environment.get_home_dir () + "/.cache/birdie/media/" + imgur_id, false, null, tweetlist, tweet);
         return imgur_id;
     }
 
