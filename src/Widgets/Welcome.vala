@@ -27,7 +27,7 @@ namespace Birdie.Widgets
             welcome.activated.connect ((index) => {
                 switch (index) {
                     case 0:
-                        new Thread<void*> (null, birdie.request);
+                        birdie.request.begin ();
                         break;
                     case 1:
                         try {
