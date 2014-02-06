@@ -4,14 +4,15 @@
 # 
 # Translators:
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013
+# Piotrek290 <piotrek290@gmail.com>, 2014
 # wojtekk Krawczyk <wojtekk@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: Birdie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-24 18:46+0000\n"
-"PO-Revision-Date: 2014-01-24 18:49+0000\n"
-"Last-Translator: vascomfnunes <vascomfnunes@gmail.com>\n"
+"PO-Revision-Date: 2014-01-29 10:09+0000\n"
+"Last-Translator: Piotrek290 <piotrek290@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/birdie/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,11 +53,11 @@ msgstr "Przestań obserwować użytkownika"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:131
 msgid "Add"
-msgstr ""
+msgstr "Dodaj"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:133
 msgid "Add user to list"
-msgstr ""
+msgstr "Dodaj użytkownika do listy"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:145
 msgid "Block"
@@ -93,7 +94,7 @@ msgstr "Usuń"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/ListBox.vala:162
 msgid "Delete this list?"
-msgstr ""
+msgstr "Usunąć listę?"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/ListBox.vala:163
 #: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:50
@@ -161,16 +162,16 @@ msgstr "Witaj w Birdie"
 #: /home/vasco/Code/birdie/po/../src/Widgets/MoreButton.vala:23
 #: /home/vasco/Code/birdie/po/../src/Widgets/MoreButton.vala:24
 msgid "Get older entries"
-msgstr ""
+msgstr "Pobierz starsze wpisy"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/MoreButton.vala:36
 #: /home/vasco/Code/birdie/po/../src/Widgets/MoreButton.vala:37
 msgid "Create a new list"
-msgstr ""
+msgstr "Stwórz nową listę"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:57
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:81
 msgid "Preview"
@@ -178,19 +179,19 @@ msgstr "Podgląd"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:106
 msgid "New List"
-msgstr ""
+msgstr "Nowa Lista"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:115
 msgid "Name:"
-msgstr ""
+msgstr "Nazwa:"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:119
 msgid "Description:"
-msgstr ""
+msgstr "Opis:"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:136
 msgid "Create"
-msgstr ""
+msgstr "Stwórz"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:71
 #: /home/vasco/Code/birdie/po/../src/Utils/StatusIcon.vala:41
@@ -207,11 +208,11 @@ msgstr "Nowa wiadomość"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:147
 msgid "Suggestions"
-msgstr ""
+msgstr "Sugestie"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:169
 msgid "New Message in reply to @"
-msgstr ""
+msgstr "Nowa wiadomość w odpowiedzi na @%s"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:216
 msgid "Send"
@@ -231,15 +232,15 @@ msgstr "Wybierz obrazek"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:258
 msgid "Open"
-msgstr ""
+msgstr "Otwórz"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:282
 msgid "Open in browser"
-msgstr ""
+msgstr "Otwórz w przeglądarce"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:286
 msgid "Copy link"
-msgstr ""
+msgstr "Kopiuj link"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:335
 msgid "Thread"
@@ -264,11 +265,11 @@ msgstr "Odpowiedz"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:432
 msgid "Delete this direct message?"
-msgstr ""
+msgstr "Usunąć bezpośrednią wiadomość?"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:460
 msgid "Remove user from list?"
-msgstr ""
+msgstr "Usunąć użytkownika z listy?"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:461
 #: /home/vasco/Code/birdie/po/../src/Birdie.vala:347
@@ -417,11 +418,11 @@ msgstr "Ulubione"
 
 #: /home/vasco/Code/birdie/po/../src/Birdie.vala:541
 msgid "Lists"
-msgstr ""
+msgstr "Listy"
 
 #: /home/vasco/Code/birdie/po/../src/Birdie.vala:665
 msgid "You must select a list you own."
-msgstr ""
+msgstr "Musisz wybrać listę którą posiadasz."
 
 #: /home/vasco/Code/birdie/po/../src/Birdie.vala:734
 msgid "Sign in"

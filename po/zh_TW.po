@@ -4,13 +4,14 @@
 # 
 # Translators:
 # taijuin lee <taijuin@gmail.com>, 2013
+# kaxing <kaxing@ymail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Birdie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-24 18:46+0000\n"
-"PO-Revision-Date: 2014-01-24 18:49+0000\n"
-"Last-Translator: vascomfnunes <vascomfnunes@gmail.com>\n"
+"PO-Revision-Date: 2014-01-27 21:26+0000\n"
+"Last-Translator: kaxing <kaxing@ymail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/birdie/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +27,7 @@ msgstr "推文"
 #: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:62
 #: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:217
 msgid "FOLLOWING"
-msgstr "正在關注"
+msgstr "跟隨中"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:64
 #: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:219
@@ -35,51 +36,51 @@ msgstr "跟隨者"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:111
 msgid "Follow"
-msgstr "關注"
+msgstr "跟隨"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:113
 msgid "Follow user"
-msgstr "關注使用者"
+msgstr "跟隨使用者"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:121
 msgid "Unfollow"
-msgstr "取消關注"
+msgstr "取消跟隨"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:123
 msgid "Unfollow user"
-msgstr "取消關注使用者"
+msgstr "取消跟隨使用者"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:131
 msgid "Add"
-msgstr ""
+msgstr "新增"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:133
 msgid "Add user to list"
-msgstr ""
+msgstr "新增使用者至列表"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:145
 msgid "Block"
-msgstr ""
+msgstr "封鎖"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:147
 msgid "Block user"
-msgstr ""
+msgstr "封鎖使用者"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:155
 msgid "Unblock"
-msgstr ""
+msgstr "解除封鎖"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:157
 msgid "Unblock user"
-msgstr ""
+msgstr "解除使用者封鎖"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:206
 msgid "Following you."
-msgstr "正在關注您。"
+msgstr "正在跟隨你。"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:208
 msgid "Not following you."
-msgstr "沒有正在關注您。"
+msgstr "沒在跟隨你。"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/ListBox.vala:157
 #: /home/vasco/Code/birdie/po/../src/Widgets/ListBox.vala:163
@@ -92,7 +93,7 @@ msgstr "刪除"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/ListBox.vala:162
 msgid "Delete this list?"
-msgstr ""
+msgstr "刪除此列表嗎？"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/ListBox.vala:163
 #: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:50
@@ -160,16 +161,16 @@ msgstr "歡迎使用 Birdie"
 #: /home/vasco/Code/birdie/po/../src/Widgets/MoreButton.vala:23
 #: /home/vasco/Code/birdie/po/../src/Widgets/MoreButton.vala:24
 msgid "Get older entries"
-msgstr ""
+msgstr "抓取舊訊息"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/MoreButton.vala:36
 #: /home/vasco/Code/birdie/po/../src/Widgets/MoreButton.vala:37
 msgid "Create a new list"
-msgstr ""
+msgstr "建立新的列表"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:57
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:81
 msgid "Preview"
@@ -177,19 +178,19 @@ msgstr "預覽"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:106
 msgid "New List"
-msgstr ""
+msgstr "新增列表"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:115
 msgid "Name:"
-msgstr ""
+msgstr "名稱："
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:119
 msgid "Description:"
-msgstr ""
+msgstr "敘述："
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:136
 msgid "Create"
-msgstr ""
+msgstr "建立"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:71
 #: /home/vasco/Code/birdie/po/../src/Utils/StatusIcon.vala:41
@@ -206,11 +207,11 @@ msgstr "新訊息"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:147
 msgid "Suggestions"
-msgstr ""
+msgstr "建議"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:169
 msgid "New Message in reply to @"
-msgstr ""
+msgstr "回覆新訊息給 @"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:216
 msgid "Send"
@@ -230,19 +231,19 @@ msgstr "選取一張圖片"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:258
 msgid "Open"
-msgstr ""
+msgstr "開啟"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:282
 msgid "Open in browser"
-msgstr ""
+msgstr "在瀏覽器中開啟"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:286
 msgid "Copy link"
-msgstr ""
+msgstr "開啟連結"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:335
 msgid "Thread"
-msgstr ""
+msgstr "討論串"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:352
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:801
@@ -263,11 +264,11 @@ msgstr "回覆"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:432
 msgid "Delete this direct message?"
-msgstr ""
+msgstr "刪除此私人訊息嗎？"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:460
 msgid "Remove user from list?"
-msgstr ""
+msgstr "從列表中移除使用者嗎？"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:461
 #: /home/vasco/Code/birdie/po/../src/Birdie.vala:347
@@ -285,7 +286,7 @@ msgstr "取消收藏"
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:809
 #, c-format
 msgid "retweeted by %s"
-msgstr ""
+msgstr "被 %s 轉推"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:834
 #, c-format
@@ -416,11 +417,11 @@ msgstr "我的最愛"
 
 #: /home/vasco/Code/birdie/po/../src/Birdie.vala:541
 msgid "Lists"
-msgstr ""
+msgstr "列表"
 
 #: /home/vasco/Code/birdie/po/../src/Birdie.vala:665
 msgid "You must select a list you own."
-msgstr ""
+msgstr "你非得選屬於自己的列表"
 
 #: /home/vasco/Code/birdie/po/../src/Birdie.vala:734
 msgid "Sign in"

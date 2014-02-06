@@ -5,14 +5,14 @@
 # Translators:
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013
 # Mohamad Hasan Al Banna, 2013
-# rezafaiza <ylpmiskrad@gmail.com>, 2013
+# Reza Faiz A Rahman <ylpmiskrad@gmail.com>, 2013-2014
 msgid ""
 msgstr ""
 "Project-Id-Version: Birdie\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-01-24 18:46+0000\n"
-"PO-Revision-Date: 2014-01-24 18:49+0000\n"
-"Last-Translator: vascomfnunes <vascomfnunes@gmail.com>\n"
+"PO-Revision-Date: 2014-01-30 04:29+0000\n"
+"Last-Translator: Reza Faiz A Rahman <ylpmiskrad@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/birdie/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,11 +53,11 @@ msgstr "Jangan follow user..."
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:131
 msgid "Add"
-msgstr ""
+msgstr "Tambah"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:133
 msgid "Add user to list"
-msgstr ""
+msgstr "Tambahkan pengguna ke dalam daftar"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:145
 msgid "Block"
@@ -94,7 +94,7 @@ msgstr "Hapus"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/ListBox.vala:162
 msgid "Delete this list?"
-msgstr ""
+msgstr "Hapus daftar ini?"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/ListBox.vala:163
 #: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:50
@@ -162,16 +162,16 @@ msgstr "Selamat datang di Birdie"
 #: /home/vasco/Code/birdie/po/../src/Widgets/MoreButton.vala:23
 #: /home/vasco/Code/birdie/po/../src/Widgets/MoreButton.vala:24
 msgid "Get older entries"
-msgstr ""
+msgstr "Dapatkan entri lebih lama"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/MoreButton.vala:36
 #: /home/vasco/Code/birdie/po/../src/Widgets/MoreButton.vala:37
 msgid "Create a new list"
-msgstr ""
+msgstr "Buat list baru"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:57
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:81
 msgid "Preview"
@@ -179,19 +179,19 @@ msgstr "Pratinjau"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:106
 msgid "New List"
-msgstr ""
+msgstr "List Baru"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:115
 msgid "Name:"
-msgstr ""
+msgstr "Nama:"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:119
 msgid "Description:"
-msgstr ""
+msgstr "Deskripsi:"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:136
 msgid "Create"
-msgstr ""
+msgstr "Buat"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:71
 #: /home/vasco/Code/birdie/po/../src/Utils/StatusIcon.vala:41
@@ -208,11 +208,11 @@ msgstr "Pesan Baru"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:147
 msgid "Suggestions"
-msgstr ""
+msgstr "Anjuran"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:169
 msgid "New Message in reply to @"
-msgstr ""
+msgstr "Pesan Baru sebagai balasan ke @"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:216
 msgid "Send"
@@ -232,15 +232,15 @@ msgstr "Pilih Gambar"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:258
 msgid "Open"
-msgstr ""
+msgstr "Buka"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:282
 msgid "Open in browser"
-msgstr ""
+msgstr "Buka di peramban"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:286
 msgid "Copy link"
-msgstr ""
+msgstr "Salin tautan"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:335
 msgid "Thread"
@@ -265,11 +265,11 @@ msgstr "Balas"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:432
 msgid "Delete this direct message?"
-msgstr ""
+msgstr "Hapus pesan langsung ini?"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:460
 msgid "Remove user from list?"
-msgstr ""
+msgstr "Hapus pengguna dari list?"
 
 #: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:461
 #: /home/vasco/Code/birdie/po/../src/Birdie.vala:347
@@ -418,11 +418,11 @@ msgstr "Favorit"
 
 #: /home/vasco/Code/birdie/po/../src/Birdie.vala:541
 msgid "Lists"
-msgstr ""
+msgstr "Daftar"
 
 #: /home/vasco/Code/birdie/po/../src/Birdie.vala:665
 msgid "You must select a list you own."
-msgstr ""
+msgstr "Anda harus memilih daftar anda sendiri."
 
 #: /home/vasco/Code/birdie/po/../src/Birdie.vala:734
 msgid "Sign in"
