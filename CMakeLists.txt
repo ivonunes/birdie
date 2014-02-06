@@ -13,8 +13,8 @@ set (DATADIR "${CMAKE_INSTALL_PREFIX}/share")
 set (PKGDATADIR "${DATADIR}/birdie")
 set (GETTEXT_PACKAGE "birdie")
 add_definitions(-DGETTEXT_PACKAGE=\"${GETTEXT_PACKAGE}\")
-set (RELEASE_NAME "Roko")
-set (VERSION "1.1pre")
+set (RELEASE_NAME "Flugas")
+set (VERSION "1.1")
 
 configure_file (${CMAKE_SOURCE_DIR}/src/config.vala.cmake ${CMAKE_SOURCE_DIR}/src/config.vala)
 
