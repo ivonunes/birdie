@@ -190,7 +190,7 @@ namespace Birdie.Utils {
             double scale_x = 48.0 / pixbuf.get_width ();
             double scale_y = 48.0 / pixbuf.get_height ();
             var scaled_pixbuf = new Gdk.Pixbuf (Gdk.Colorspace.RGB, pixbuf.has_alpha, 8, 48, 48);
-            pixbuf.scale (scaled_pixbuf, 0, 0, 48, 48, 0, 0, scale_x, scale_y, Gdk.InterpType.HYPER);
+            pixbuf.scale (scaled_pixbuf, 0, 0, 48, 48, 0, 0, scale_x, scale_y, Gdk.InterpType.BILINEAR);
             scaled_pixbuf.save (cached, "png");
             yield Media.generate_rounded_avatar (cached);
             tweetbox.set_avatar.begin (cached);
