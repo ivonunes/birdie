@@ -35,11 +35,12 @@ namespace Birdie.Media {
         var file = File.new_for_path (cached);
 
         if (file.query_exists ()) {
-            tweetbox.set_avatar (cached);
+            tweetbox.set_avatar.begin (cached);
             return;
+        } else {
+            Utils.dl_avatar.begin (profile_image_url, cached, tweetbox);
         }
 
-        Utils.dl_avatar.begin (profile_image_url, cached, tweetbox);
     }
 
     public void get_userbox_avatar (Widgets.UserBox userbox, bool own = false) {

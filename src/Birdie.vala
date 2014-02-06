@@ -1571,14 +1571,19 @@ namespace Birdie {
                 Media.get_userbox_avatar (this.user_box_info);
 
                 this.switch_timeline ("user");
-                this.spinner.stop ();
+
 
                 this.api.user_timeline.foreach ((tweet) => {
                     this.user_list.append (tweet, this);
                 });
 
-                if (this.ready)
+                if (this.ready) {
                     Media.get_avatar (this.user_list);
+                    Idle.add (() => {
+                        this.spinner.stop ();
+                        return false;
+                    });
+                }
 
                 return false;
             });
@@ -1587,15 +1592,20 @@ namespace Birdie {
         public void update_search_ui () {
             Idle.add (() => {
                 this.switch_timeline ("search");
-                this.spinner.stop ();
+
                 search_entry.text = search_term;
 
                 this.api.search_timeline.foreach ((tweet) => {
                     this.search_list.append (tweet, this);
                 });
 
-                if (this.ready)
+                if (this.ready) {
                     Media.get_avatar (this.search_list);
+                    Idle.add (() => {
+                        this.spinner.stop ();
+                        return false;
+                    });
+                }
 
                 return false;
             });

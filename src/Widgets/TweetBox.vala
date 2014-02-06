@@ -873,14 +873,22 @@ namespace Birdie.Widgets {
             this.tweet_label.set_selectable (select);
         }
 
-        public void set_avatar (string avatar_file) {
-            Idle.add (() => {
+        public async void set_avatar (string avatar_file) throws ThreadError {
+            SourceFunc callback = set_avatar.callback;
+
+            ThreadFunc<void*> run = () => {
                 var file = File.new_for_path (avatar_file);
 
                 if (file.query_exists ())
-                    this.avatar_img.set_from_file (avatar_file);
-                return false;
-            });
+                    Idle.add (() => {
+                        this.avatar_img.set_from_file (avatar_file);
+                    return false;
+                });
+                Idle.add((owned) callback);
+                return null;
+            };
+            Thread.create<void*>(run, false);
+            yield;
         }
     }
 }

@@ -115,12 +115,14 @@ namespace Birdie.Utils {
                 download_from_http.callback ();
             });
             yield;
-            if (msg.status_code != Soup.KnownStatusCode.OK)
+            if (msg.status_code != Soup.KnownStatusCode.OK) {
                 debug (msg.reason_phrase);
-            try {
-                yield download.cached_file.replace_contents_async (msg.response_body.data, null, false, 0, null, null);
-            } catch (Error e) {
-                debug (e.message);
+            } else {
+                try {
+                    yield download.cached_file.replace_contents_async (msg.response_body.data, null, false, 0, null, null);
+                } catch (Error e) {
+                    debug (e.message);
+                }
             }
         }
 
@@ -174,7 +176,9 @@ namespace Birdie.Utils {
         }
     }
 
-    public async void dl_avatar (string url, string cached, Widgets.TweetBox? tweetbox = null, Widgets.UserBox? userbox = null) {
+    public async void dl_avatar (string url,
+                                 string cached, Widgets.TweetBox? tweetbox = null,
+                                 Widgets.UserBox? userbox = null) {
         var session = new Soup.Session ();
         var msg = new Soup.Message ("GET", url);
         session.send_message (msg);
@@ -189,9 +193,10 @@ namespace Birdie.Utils {
             pixbuf.scale (scaled_pixbuf, 0, 0, 48, 48, 0, 0, scale_x, scale_y, Gdk.InterpType.HYPER);
             scaled_pixbuf.save (cached, "png");
             yield Media.generate_rounded_avatar (cached);
-            tweetbox.set_avatar (cached);
+            tweetbox.set_avatar.begin (cached);
         } catch (GLib.Error e) {
-            critical (e.message);
+            debug (e.message);
         }
+        yield;
     }
 }
