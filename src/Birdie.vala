@@ -1116,7 +1116,8 @@ namespace Birdie {
 
                         if (this.tweet_notification && this.api.home_timeline.length () <=
                             this.limit_notifications  &&
-                            this.api.home_timeline.length () > 0) {
+                            this.api.home_timeline.length () > 0 &&
+                            (this.api.account.screen_name != tweet.user_screen_name)) {
                                 this.notification.notify (this,
                                                           notify_header,
                                                           notify_text,
@@ -1236,12 +1237,15 @@ namespace Birdie {
                                 notify_text = tweet.text;
                                 avatar = tweet.profile_image_file;
                             }
-                        this.unread_mentions++;
-                        new_mentions = true;
+                            if (this.api.account.screen_name != tweet.user_screen_name) {
+                                this.unread_mentions++;
+                                new_mentions = true;
+                            }
 
                         if (this.tweet_notification && this.api.mentions_timeline.length () <=
                             this.limit_notifications &&
-                            this.api.mentions_timeline.length () > 0) {
+                            this.api.mentions_timeline.length () > 0 &&
+                            (this.api.account.screen_name != tweet.user_screen_name)) {
                                 this.notification.notify (this, notify_header, notify_text, "mentions", false, Environment.get_home_dir () + "/.cache/birdie/" + avatar);
                         }
                     }
@@ -1287,12 +1291,15 @@ namespace Birdie {
                             notify_text = tweet.text;
                             avatar = tweet.profile_image_file;
                         }
-                        this.unread_dm++;
-                        new_dms = true;
+                        if (this.api.account.screen_name != tweet.user_screen_name) {
+                            this.unread_dm++;
+                            new_dms = true;
+                        }
 
                         if (this.tweet_notification && this.api.dm_timeline.length () <=
                             this.limit_notifications  &&
-                            this.api.dm_timeline.length () > 0) {
+                            this.api.dm_timeline.length () > 0 &&
+                            (this.api.account.screen_name != tweet.user_screen_name)) {
                                 this.notification.notify (this, notify_header, notify_text, "dm", true, Environment.get_home_dir () + "/.cache/birdie/" + avatar);
                         }
                     }
