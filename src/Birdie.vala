@@ -981,6 +981,7 @@ namespace Birdie {
                 }
 
                 this.changing_tab = false;
+                this.set_widgets_sensitive (true);
 
                 switch (new_timeline) {
                     case "loading":
