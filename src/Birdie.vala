@@ -775,9 +775,10 @@ namespace Birdie {
 
             this.switch_timeline ("loading");
 
-            ThreadFunc<void*> run = () => {
+            if (this.check_internet_connection ()) {
 
-                if (this.check_internet_connection ()) {
+                ThreadFunc<void*> run = () => {
+
                     if (this.ready)
                         this.ready = false;
 
@@ -836,17 +837,18 @@ namespace Birdie {
 
                     this.initialized = true;
                     this.appmenu.set_sensitive (true);
-                } else {
-                    this.switch_timeline ("error");
-                }
-                Idle.add((owned) callback);
-                return null;
-            };
 
-            Thread.create<void*>(run, false);
+                    Idle.add((owned) callback);
+                    return null;
+                };
 
-            // Wait for background thread to schedule our callback
-            yield;
+                Thread.create<void*>(run, false);
+
+                // Wait for background thread to schedule our callback
+                yield;
+            } else {
+                this.switch_timeline ("error");
+            }
         }
 
         /*
