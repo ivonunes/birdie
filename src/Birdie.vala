@@ -230,7 +230,7 @@ namespace Birdie {
                 this.launcher = new Utils.Launcher (this);
                 #endif
 
-                if (settings.get_boolean ("status-icon"))
+                if (settings.get_boolean ("status-icon") && !Utils.is_gnome ())
                     this.statusIcon = new Utils.StatusIcon (this);
 
                 // initialize notifications
@@ -611,7 +611,6 @@ namespace Birdie {
                 }
             } else {
                 this.m_window.show_all ();
-                this.m_window.present ();
                 #if HAVE_LIBUNITY
                 if (get_total_unread () > 0)
                     this.launcher.clean_launcher_count ();
@@ -630,7 +629,7 @@ namespace Birdie {
                         clean_dm_indicator ();
                         break;
                 }
-
+                this.m_window.present ();
                 check_timeout_health ();
             }
         }
