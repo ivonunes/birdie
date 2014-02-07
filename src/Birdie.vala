@@ -762,6 +762,7 @@ namespace Birdie {
         */
 
         private void init_api () {
+            this.api = null;
             this.api = new Twitter (this);
         }
 
@@ -1153,12 +1154,11 @@ namespace Birdie {
 
                     this.current_timeline = "home";
                     this.switch_timeline ("home");
-
-                    this.spinner.stop ();
                     this.set_widgets_sensitive (true);
                 } else {
                     Media.get_avatar (this.home_list);
                 }
+                this.spinner.stop ();
                 return false;
             });
         }
@@ -1612,6 +1612,7 @@ namespace Birdie {
                     Media.get_avatar (this.search_list);
                     Idle.add (() => {
                         this.spinner.stop ();
+                        this.scrolled_search.get_vadjustment().set_value(0);
                         return false;
                     });
                 }
@@ -1653,7 +1654,6 @@ namespace Birdie {
         public void update_list_ui () {
             Idle.add (() => {
                 this.switch_timeline ("list");
-                this.spinner.stop ();
 
                 this.api.list_timeline.foreach ((tweet) => {
                     this.list_list.append (tweet, this);
@@ -1661,6 +1661,8 @@ namespace Birdie {
 
                 if (this.ready)
                     Media.get_avatar (this.list_list);
+
+                this.spinner.stop ();
 
                 return false;
             });

@@ -20,9 +20,13 @@ namespace Birdie.Utils {
 
         private Notify.Notification notification;
         private Birdie birdie_app;
+        private static Canberra.Context? sound_context = null;
+        private List<string> caps;
 
         public void init () {
             Notify.init ("Birdie");
+            init_sound ();
+            caps = Notify.get_server_caps ();
         }
 
         public void notify (Birdie birdie,
@@ -70,6 +74,21 @@ namespace Birdie.Utils {
             } catch (GLib.Error e) {
                 warning ("Failed to show notification: %s", e.message);
             }
+
+            if (caps.find ("message") != null)
+                this.notification.set_hint_string ("sound-name", "message");
+            else
+                play_sound ("message");
+        }
+
+        private static void init_sound() {
+            if (sound_context == null)
+                Canberra.Context.create (out sound_context);
+        }
+
+        public static void play_sound(string sound) {
+            init_sound ();
+            sound_context.play (0, Canberra.PROP_EVENT_ID, sound);
         }
 
         public void uninit() {

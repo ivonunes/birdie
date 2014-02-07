@@ -248,6 +248,7 @@ namespace Birdie.Widgets {
             this.container.add (top);
             this.container.add (bottom);
             this.show_all ();
+            this.buffer_changed ();
             this.restore_window ();
         }
 

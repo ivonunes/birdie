@@ -811,7 +811,10 @@ namespace Birdie.Widgets {
                     });
                 }
             }
-            this.avatar_img.set_from_file (Environment.get_home_dir () + "/.cache/birdie/" + this.tweet.profile_image_file);
+            Idle.add (() => {
+                this.avatar_img.set_from_file (Environment.get_home_dir () + "/.cache/birdie/" + this.tweet.profile_image_file);
+                return false;
+            });
         }
 
         private void set_media_events () {
