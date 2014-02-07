@@ -411,37 +411,40 @@ namespace Birdie {
 
             var tweetobject = tweetnode.get_object();
 
-            id = tweetobject.get_object_member ("user").get_string_member ("id_str");
-            name = tweetobject.get_object_member ("user").get_string_member ("name");
-            screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
-            profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
-            profile_image_file = Media.parse_profile_image_file (profile_image_url);
+            if (tweetobject != null) {
 
-            if (tweetobject.get_object_member ("user").has_member("location") &&
-                 tweetobject.get_object_member ("user").get_string_member ("location") != null) {
-                location = Utils.escape_markup (tweetobject.get_object_member ("user").get_string_member ("location"));
+                id = tweetobject.get_object_member ("user").get_string_member ("id_str");
+                name = tweetobject.get_object_member ("user").get_string_member ("name");
+                screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
+                profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url");
+                profile_image_file = Media.parse_profile_image_file (profile_image_url);
+
+                if (tweetobject.get_object_member ("user").has_member("location") &&
+                     tweetobject.get_object_member ("user").get_string_member ("location") != null) {
+                    location = Utils.escape_markup (tweetobject.get_object_member ("user").get_string_member ("location"));
+                }
+
+                if (tweetobject.get_object_member ("user").has_member("url") &&
+                     tweetobject.get_object_member ("user").get_string_member ("url") != null) {
+                    website = tweetobject.get_object_member ("user").get_object_member ("entities").get_object_member ("url").
+                               get_array_member ("urls").get_object_element (0).get_string_member ("display_url");
+                }
+
+                if (tweetobject.get_object_member ("user").has_member("description") &&
+                     tweetobject.get_object_member ("user").get_string_member ("description") != null) {
+                    description = Utils.escape_markup (tweetobject.get_object_member ("user").get_string_member ("description"));
+                }
+
+                friends_count = tweetobject.get_object_member ("user").get_int_member ("friends_count");
+                followers_count = tweetobject.get_object_member ("user").get_int_member ("followers_count");
+                statuses_count = tweetobject.get_object_member ("user").get_int_member ("statuses_count");
+                verified =  tweetobject.get_object_member ("user").get_boolean_member ("verified");
+
+                this.user = new User (id, name, screen_name,
+                    profile_image_url, profile_image_file, location, website, description,
+                    friends_count, followers_count, statuses_count, verified
+                );
             }
-
-            if (tweetobject.get_object_member ("user").has_member("url") &&
-                 tweetobject.get_object_member ("user").get_string_member ("url") != null) {
-                website = tweetobject.get_object_member ("user").get_object_member ("entities").get_object_member ("url").
-                           get_array_member ("urls").get_object_element (0).get_string_member ("display_url");
-            }
-
-            if (tweetobject.get_object_member ("user").has_member("description") &&
-                 tweetobject.get_object_member ("user").get_string_member ("description") != null) {
-                description = Utils.escape_markup (tweetobject.get_object_member ("user").get_string_member ("description"));
-            }
-
-            friends_count = tweetobject.get_object_member ("user").get_int_member ("friends_count");
-            followers_count = tweetobject.get_object_member ("user").get_int_member ("followers_count");
-            statuses_count = tweetobject.get_object_member ("user").get_int_member ("statuses_count");
-            verified =  tweetobject.get_object_member ("user").get_boolean_member ("verified");
-
-            this.user = new User (id, name, screen_name,
-                profile_image_url, profile_image_file, location, website, description,
-                friends_count, followers_count, statuses_count, verified
-            );
         }
 
         public override Tweet get_tweet (Json.Node tweetnode, Widgets.TweetList? tweetlist = null) {
