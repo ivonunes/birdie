@@ -15,6 +15,9 @@
 # FEDORA
 # yum install gcc gcc-c++ cmake vala libgee06-devel rest-devel libcanberra-devel libsqlite3x-devel libXtst-devel libpurple-devel libdbusmenu-devel json-glib-devel libnotify-devel webkitgtk3-devel libwnck3-devel
 
+# GENTOO
+# emerge birdie
+
 # -----------------------------------------------------------------------------
 # BUILDING
 # -----------------------------------------------------------------------------
