@@ -72,6 +72,24 @@ namespace Birdie.Utils {
         return text;
     }
 
+    string[] get_users_list (string text) {
+        Regex? users = null;
+
+        try {
+           users = new Regex("\\B([@][[:alpha:]0-9_]+)");
+        } catch (RegexError e) {
+            warning ("regex error: %s", e.message);
+        }
+
+        string[] usernames = {};
+        foreach(string user in users.split (text)){
+            if(user.has_prefix("@") && !(user in usernames)){
+                usernames += user;
+            }
+        }
+        return usernames;
+    }
+
     string highlight_urls (owned string text) {
         text = Purple.markup_linkify (text);
         text = text.replace ("<A HREF", "<span underline='none'><a href");

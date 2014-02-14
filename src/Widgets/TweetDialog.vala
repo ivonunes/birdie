@@ -36,6 +36,7 @@ namespace Birdie.Widgets {
         Gtk.ListStore list_store;
         string id;
         string user_screen_name;
+        string[] mentioned_users;
         bool dm;
         bool has_media;
         private string filler;
@@ -51,7 +52,7 @@ namespace Birdie.Widgets {
         private Gtk.Box container;
 
         public TweetDialog (Birdie birdie, string id = "",
-            string user_screen_name = "", bool dm = false) {
+            string user_screen_name = "", bool dm = false, string[] mentioned_users = {}) {
 
             this.birdie = birdie;
             this.id = id;
@@ -60,6 +61,7 @@ namespace Birdie.Widgets {
             this.deletable = false;
             this.count_remaining = 140;
             this.has_media = false;
+            this.mentioned_users = mentioned_users;
 
             // connect signal to handle key events
             this.key_press_event.connect ((event) => {
@@ -181,6 +183,10 @@ namespace Birdie.Widgets {
                     } else {
                         this.view.buffer.insert_at_cursor ("@" + user_screen_name + " ", -1);
                     }
+                }
+
+                foreach(string username in mentioned_users) {
+                    this.view.buffer.insert_at_cursor (username + " ", -1);
                 }
             }
 
