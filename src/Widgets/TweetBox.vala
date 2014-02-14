@@ -538,7 +538,8 @@ namespace Birdie.Widgets {
                     this.reply_button.set_tooltip_text (_("Reply"));
 
                     this.reply_button.clicked.connect (() => {
-                        Widgets.TweetDialog dialog = new TweetDialog (this.birdie, this.tweet.id, this.tweet.user_screen_name, this.tweet.dm);
+                        string[] mentioned_users = Utils.get_users_list(this.tweet.text);
+                        Widgets.TweetDialog dialog = new TweetDialog (this.birdie, this.tweet.id, this.tweet.user_screen_name, this.tweet.dm, mentioned_users);
                         dialog.show_all ();
                     });
 
