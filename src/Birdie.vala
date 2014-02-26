@@ -100,6 +100,7 @@ namespace Birdie {
         private bool mention_notification;
         private bool dm_notification;
         private int update_interval;
+        private bool use_dark_theme;
 
         public Settings settings;
 
@@ -207,7 +208,12 @@ namespace Birdie {
                 this.dm_notification = settings.get_boolean ("dm-notification");
                 this.update_interval = settings.get_int ("update-interval");
                 this.limit_notifications = settings.get_int ("limit-notifications");
+                this.use_dark_theme = settings.get_boolean ("use-dark-theme");
 
+                if (this.use_dark_theme) {
+                    Gtk.Settings gtksettings = Gtk.Settings.get_default ();
+                    gtksettings.gtk_application_prefer_dark_theme = true;
+                }
                 Gtk.Window.set_default_icon_name ("birdie");
                 this.m_window = new Widgets.UnifiedWindow ();
 
