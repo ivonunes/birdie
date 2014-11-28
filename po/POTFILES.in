@@ -1,0 +1,11 @@
+birdie
+lib/gui/mainwindow.py
+lib/gui/aboutdialog.py
+lib/gui/dialogs.py
+lib/gui/tweetdialog.py
+lib/gui/tweetbox.py
+lib/gui/tweetlist.py
+lib/gui/activitybox.py
+lib/gui/userbox.py
+lib/gui/welcome.py
+lib/utils/timecalc.py

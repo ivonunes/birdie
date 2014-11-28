@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Birdie
+_GenericName=Twitter Client
+_Comment=Twitter client for Linux
+Categories=GNOME;GTK;Network;X-SuSE-Core-Internet;
+Exec=birdie %u
+Icon=birdie
+Terminal=false
+Type=Application
+MimeType=x-scheme-handler/birdie;
+X-GNOME-Gettext-Domain=birdie
+StartupNotify=true
