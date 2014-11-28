@@ -95,5 +95,11 @@
       <description>Global keyboard shortcut to initiate a new tweet.</description>
     </key>
 
+    <key name="use-dark-theme" type="b">
+      <default>false</default>
+      <summary>Use Dark Theme</summary>
+      <description>Use the GTK dark theme</description>
+    </key>
+
   </schema>
 </schemalist>
