@@ -18,7 +18,7 @@
 import os
 import urllib
 import threading
-import Image, ImageDraw
+from PIL import Image, ImageDraw
 from Queue import Queue
 from gi.repository import GLib
 from birdieapp.utils.media import cropped_thumbnail, simple_resize
