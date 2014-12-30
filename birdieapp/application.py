@@ -392,8 +392,9 @@ class Application(Gtk.Application):
             self.twitter_error(e)
             return
 
-        index = len(data) - 1
-        self.home_tweet_list.oldest_id = data[index]['id']
+        if len(data) > 0:
+            index = len(data) - 1
+            self.home_tweet_list.oldest_id = data[index]['id']
         cb(data)
 
     def get_home_timeline_cb(self, data):
@@ -423,9 +424,9 @@ class Application(Gtk.Application):
         except TwythonError as e:
             self.twitter_error(e)
             return
-
-        index = len(data) - 1
-        self.activity_list.oldest_id = data[index]['id']
+        if len(data) > 0:
+            index = len(data) - 1
+            self.activity_list.oldest_id = data[index]['id']
         cb(data)
 
     def get_mentions_cb(self, data):
@@ -456,8 +457,9 @@ class Application(Gtk.Application):
             self.twitter_error(e)
             return
 
-        index = len(data) - 1
-        self.dm_inbox_list.oldest_id = data[index]['id']
+        if len(data) > 0:
+            index = len(data) - 1
+            self.dm_inbox_list.oldest_id = data[index]['id']
         cb(data)
 
     def get_dm_cb(self, data):
@@ -488,8 +490,8 @@ class Application(Gtk.Application):
             self.twitter_error(e)
             return
 
-        index = len(data) - 1
-        if index > 0 and index < len(data):
+        if len(data) > 0:
+            index = len(data) - 1
             self.dm_outbox_list.oldest_id = data[index]['id']
         cb(data)
 
@@ -524,8 +526,9 @@ class Application(Gtk.Application):
             self.twitter_error(e)
             return
 
-        index = len(data) - 1
-        list.oldest_id = data[index]['id']
+        if len(data) > 0:
+            index = len(data) - 1
+            list.oldest_id = data[index]['id']
         cb(data, list)
 
     def get_tweets_cb(self, data, list=None):
@@ -560,8 +563,9 @@ class Application(Gtk.Application):
             self.twitter_error(e)
             return
 
-        index = len(data) - 1
-        self.favorites_list.oldest_id = data[index]['id']
+        if len(data) > 0:
+            index = len(data) - 1
+            self.favorites_list.oldest_id = data[index]['id']
         cb(data)
 
     def get_favorites_cb(self, data):
