@@ -18,6 +18,7 @@
 
 from datetime import datetime, timedelta
 import gettext
+import pytz
 
 _ = gettext.gettext
 
@@ -57,4 +58,5 @@ def pretty_time(otherdate):
 def twitter_date_to_datetime(tweet_date):
     """Convert string to datetime"""
     created_at = datetime.strptime(tweet_date, "%a %b %d %H:%M:%S +0000 %Y")
+    created_at.tzinfo = pytz.UTC
     return created_at
