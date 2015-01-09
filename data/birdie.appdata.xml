@@ -10,7 +10,7 @@ Birdie is fast, easy to use and works great. It provides all the essential Twitt
   </p>
  </description>
  <screenshots>
-  <screenshot type="default" width="432" height="777">http://www.birdieapp.eu/screenshot.png</screenshot>
+  <screenshot width="432" type="default" height="777">http://www.birdieapp.eu/screenshot.png</screenshot>
  </screenshots>
  <url type="homepage">http://www.birdieapp.eu/</url>
  <updatecontact>ivoavnunes@gmail.com</updatecontact>

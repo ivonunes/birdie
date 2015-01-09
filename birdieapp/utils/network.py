@@ -20,7 +20,10 @@ from birdieapp.signalobject import SignalObject
 import urllib2
 import threading
 import time
-
+import sys
+import socks
+import socket
+import argparse
 
 class Network(threading.Thread, SignalObject):
 
@@ -30,6 +33,19 @@ class Network(threading.Thread, SignalObject):
     def __init__(self):
         super(Network, self).__init__()
         super(Network, self).init_signals()
+
+        if "--enable-socks5" in sys.argv:
+            socks5url = ""
+            socks5port = ""
+            parser = argparse.ArgumentParser(description='Proxy options.')
+            parser.add_argument('--socks5-port', type=int, action="store", dest="socksport")
+            parser.add_argument('--socks5-url', action="store", dest="socksurl")
+            args = parser.parse_known_args()
+            socks5url = args[0].socksurl
+            socks5port = args[0].socksport
+
+            socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, socks5url, socks5port)
+            socket.socket = socks.socksocket
 
         self.daemon = True
 

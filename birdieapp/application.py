@@ -93,7 +93,7 @@ class Application(Gtk.Application):
         # add an option
         #parser.add_argument('-c', '--color', action='store_true')
         parser.add_argument('url', default=[], nargs='*')
-        self.args = parser.parse_args(args.get_arguments()[1:])
+        self.args = parser.parse_known_args(args.get_arguments()[1:])
         self.do_activate(None)
 
     def do_activate(self, _):
