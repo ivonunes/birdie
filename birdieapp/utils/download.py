@@ -18,6 +18,7 @@
 import os
 import urllib
 import threading
+import traceback
 from PIL import Image, ImageDraw
 from Queue import Queue
 from gi.repository import GLib
@@ -43,8 +44,8 @@ class Download(threading.Thread):
             obj = self.queue.get()
             try:
                 self.process_task(obj);
-            except Exception, e:
-                print "Exc, %s", e
+            except Exception:
+                traceback.print_exc()
             finally:
                 self.queue.task_done()
 
