@@ -16,8 +16,9 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import os
-import urllib
 import threading
+import traceback
+import requests
 from PIL import Image, ImageDraw
 from Queue import Queue
 from gi.repository import GLib
@@ -41,55 +42,77 @@ class Download(threading.Thread):
     def run(self):
         while True:
             obj = self.queue.get()
-
-            if not os.path.exists(self.destfolder
-                                  + os.path.basename(obj['url'])):
-                try:
-                    self.download_url(obj['url'].replace('_normal.', '_bigger.'))
-                except Exception, e:
-                    print "Error: %s" % e
+            try:
+                self.process_task(obj);
+            except Exception:
+                traceback.print_exc()
+            finally:
                 self.queue.task_done()
 
-                if obj['type'] != 'media' and obj['type'] != 'youtube':
-                    def add_corners(im, rad):
-                        circle = Image.new('L', (rad * 2, rad * 2), 0)
-                        draw = ImageDraw.Draw(circle)
-                        draw.ellipse((0, 0, rad * 2, rad * 2), fill=255)
-                        alpha = Image.new('L', im.size, 255)
-                        w, h = im.size
-                        alpha.paste(circle.crop((0, 0, rad, rad)), (0, 0))
-                        alpha.paste(circle.crop((0, rad, rad, rad * 2)), (0, h - rad))
-                        alpha.paste(circle.crop((rad, 0, rad * 2, rad)), (w - rad, 0))
-                        alpha.paste(circle.crop((rad, rad, rad * 2, rad * 2)), (w - rad, h - rad))
-                        im.putalpha(alpha)
-                        im = im.resize((48,48), Image.ANTIALIAS)
-                        return im
-
-                    im = Image.open(self.destfolder + os.path.basename(obj['url']).replace('_normal.', '_bigger.'))
-                    im = add_corners(im, 10)
-                    im.save(self.destfolder + os.path.basename(obj['url']) + '.png')   
-                    try:
-                        os.remove(self.destfolder + os.path.basename(obj['url']).replace('_normal.', '_bigger.'))
-                        os.rename(self.destfolder + os.path.basename(obj['url']) + '.png', self.destfolder + os.path.basename(obj['url']))
-                    except:
-                        pass
-
-            if obj['type'] == 'avatar':
-                self.update_avatar(os.path.basename(obj['url']), obj['box'])
-            elif obj['type'] == 'media':
-                self.update_media(os.path.basename(obj['url']), obj['box'])
-            elif obj['type'] == 'youtube':
-                os.rename(self.destfolder + os.path.basename(obj['url']),
-                          self.destfolder + obj['id'] + ".jpg")
-                self.update_media(obj['id'] + ".jpg", obj['box'])
-            elif obj['type'] == 'user':
-                self.update_user_avatar(
-                    os.path.basename(obj['url']), obj['box'])
-            elif obj['type'] == 'own':
-                self.update_menu_btn_avatar(
-                    os.path.basename(obj['url']), obj['box'])
+    def process_task(self, obj):
+        url = obj['url']
+        url_bigger = url.replace('_normal.', '_bigger.')
+        content_type = obj['type']
+        
+        if not os.path.exists(self.destfolder
+                              + os.path.basename(url)):
+            if content_type != 'media' and content_type != 'youtube':
+                self.fetch_content(url_bigger, content_type)
+                self.transform_image(url)
             else:
-                pass
+                self.fetch_content(url, content_type)
+
+        if content_type == 'avatar':
+            self.update_avatar(os.path.basename(url), obj['box'])
+        elif content_type == 'media':
+            self.update_media(os.path.basename(url), obj['box'])
+        elif content_type == 'youtube':
+            os.rename(self.destfolder + os.path.basename(url),
+                      self.destfolder + obj['id'] + ".jpg")
+            self.update_media(obj['id'] + ".jpg", obj['box'])
+        elif content_type == 'user':
+            self.update_user_avatar(
+                os.path.basename(url), obj['box'])
+        elif content_type == 'own':
+            self.update_menu_btn_avatar(
+                os.path.basename(url), obj['box'])
+        else:
+            pass
+    
+    def transform_image(self,url):
+        def add_corners(im, rad):
+            circle = Image.new('L', (rad * 2, rad * 2), 0)
+            draw = ImageDraw.Draw(circle)
+            draw.ellipse((0, 0, rad * 2, rad * 2), fill=255)
+            alpha = Image.new('L', im.size, 255)
+            w, h = im.size
+            alpha.paste(circle.crop((0, 0, rad, rad)), (0, 0))
+            alpha.paste(circle.crop((0, rad, rad, rad * 2)), (0, h - rad))
+            alpha.paste(circle.crop((rad, 0, rad * 2, rad)), (w - rad, 0))
+            alpha.paste(circle.crop((rad, rad, rad * 2, rad * 2)), (w - rad, h - rad))
+            im.putalpha(alpha)
+            im = im.resize((48,48), Image.ANTIALIAS)
+            return im
+
+        file_bigger = self.destfolder + os.path.basename(url).replace('_normal.', '_bigger.')
+        file_normal = self.destfolder + os.path.basename(url)
+        file_tmp = file_normal + '.png'
+        
+        im = Image.open(file_bigger)
+        im = add_corners(im, 10)
+        im.save(file_tmp)
+        try:
+            os.remove(file_bigger)
+            os.rename(file_tmp, file_normal)
+        except:
+            pass
+    
+    def fetch_content(self, url, content_type):
+        try:
+            self.download_url(url)
+        except Exception:
+            print "Can't fetch url: %s" % url
+            raise
 
     def add(self, obj):
         """Enqueue a new object - a dict with 'url',
@@ -99,7 +122,13 @@ class Download(threading.Thread):
     def download_url(self, url):
         name = url.split('/')[-1]
         dest = os.path.join(self.destfolder, name)
-        urllib.urlretrieve(url, dest)
+        #urllib.urlretrieve(url, dest)
+        r = requests.get(url, stream=True)
+        with open(dest, 'wb') as f:
+            for chunk in r.iter_content(chunk_size=1024): 
+                if chunk: # filter out keep-alive new chunks
+                    f.write(chunk)
+                    f.flush()
 
     def update_avatar(self, basefile, box):
         """update avatar in tweetbox for timelines"""
