@@ -191,22 +191,23 @@ class Application(Gtk.Application):
         # if birdie is already activated
         self.window.present()
 
-        for arg in self.args.url:
-            if arg:
-                if "birdie://user/" in arg:
-                    user = arg.replace("birdie://user/", "")
-                    if "/" in user:
-                        user = user.replace("/", "")
-                    if "@" in user:
-                        user = user.replace("@", "")
-                    self.show_profile(user)
-                elif "birdie://hashtag/" in arg:
-                    hashtag = arg.replace("birdie://hashtag/", "")
-                    if "/" in hashtag:
-                        hashtag = hashtag.replace("/", "")
-                    if "" in hashtag:
-                        hashtag = hashtag.replace("%23", "")
-                    self.on_search(None, "#" + hashtag)
+        for argl in self.args:
+            for arg in argl.url:
+                if arg:
+                    if "birdie://user/" in arg:
+                        user = arg.replace("birdie://user/", "")
+                        if "/" in user:
+                            user = user.replace("/", "")
+                        if "@" in user:
+                            user = user.replace("@", "")
+                        self.show_profile(user)
+                    elif "birdie://hashtag/" in arg:
+                        hashtag = arg.replace("birdie://hashtag/", "")
+                        if "/" in hashtag:
+                            hashtag = hashtag.replace("/", "")
+                        if "" in hashtag:
+                            hashtag = hashtag.replace("%23", "")
+                        self.on_search(None, "#" + hashtag)
 
     def on_initialized(self, oauth_token,
                        oauth_token_secret, connect_signals=True):
