@@ -16,9 +16,9 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import os
-import urllib
 import threading
 import traceback
+import requests
 from PIL import Image, ImageDraw
 from Queue import Queue
 from gi.repository import GLib
@@ -122,7 +122,13 @@ class Download(threading.Thread):
     def download_url(self, url):
         name = url.split('/')[-1]
         dest = os.path.join(self.destfolder, name)
-        urllib.urlretrieve(url, dest)
+        #urllib.urlretrieve(url, dest)
+        r = requests.get(url, stream=True)
+        with open(dest, 'wb') as f:
+            for chunk in r.iter_content(chunk_size=1024): 
+                if chunk: # filter out keep-alive new chunks
+                    f.write(chunk)
+                    f.flush()
 
     def update_avatar(self, basefile, box):
         """update avatar in tweetbox for timelines"""
