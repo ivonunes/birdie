@@ -97,7 +97,7 @@ class Download(threading.Thread):
         file_normal = self.destfolder + os.path.basename(url)
         file_tmp = file_normal + '.png'
         
-        im = Image.open()
+        im = Image.open(file_bigger)
         im = add_corners(im, 10)
         im.save(file_tmp)
         try:
@@ -110,7 +110,7 @@ class Download(threading.Thread):
         try:
             self.download_url(url)
         except Exception, e:
-            print "Error: %s" % e
+            traceback.print_exc()
 
     def add(self, obj):
         """Enqueue a new object - a dict with 'url',
