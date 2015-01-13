@@ -23,7 +23,7 @@ _ = gettext.gettext
 
 
 def pretty_time(otherdate):
-    now = datetime.now()
+    now = datetime.utcnow()
     dt = now - otherdate
     offset = dt.seconds + (dt.days * 60 * 60 * 24)
     delta_s = offset % 60
