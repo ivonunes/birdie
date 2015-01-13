@@ -56,10 +56,11 @@ class Download(threading.Thread):
         
         if not os.path.exists(self.destfolder
                               + os.path.basename(url)):
-            self.fetch_content(url_bigger, content_type);
-
-        if content_type != 'media' and content_type != 'youtube':
-            self.transform_image(url)
+            if content_type != 'media' and content_type != 'youtube':
+                self.fetch_content(url_bigger, content_type)
+                self.transform_image(url)
+            else:
+                self.fetch_content(url, content_type)
 
         if content_type == 'avatar':
             self.update_avatar(os.path.basename(url), obj['box'])
