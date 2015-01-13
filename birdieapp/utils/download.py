@@ -93,7 +93,7 @@ class Download(threading.Thread):
             im = im.resize((48,48), Image.ANTIALIAS)
             return im
 
-        file_bigger = self.destfolder + os.path.basename(url).replace('_normal.', '_bigger.');
+        file_bigger = self.destfolder + os.path.basename(url).replace('_normal.', '_bigger.')
         file_normal = self.destfolder + os.path.basename(url)
         file_tmp = file_normal + '.png'
         
@@ -109,8 +109,9 @@ class Download(threading.Thread):
     def fetch_content(self, url, content_type):
         try:
             self.download_url(url)
-        except Exception, e:
-            traceback.print_exc()
+        except Exception:
+            print "Can't fetch url: %s" % url
+            raise
 
     def add(self, obj):
         """Enqueue a new object - a dict with 'url',
