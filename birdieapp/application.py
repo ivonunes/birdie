@@ -192,6 +192,8 @@ class Application(Gtk.Application):
         self.window.present()
 
         for argl in self.args:
+            if not hasattr(argl, 'url'):
+                continue
             for arg in argl.url:
                 if arg:
                     if "birdie://user/" in arg:
