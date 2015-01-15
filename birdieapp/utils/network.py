@@ -20,10 +20,13 @@ from birdieapp.signalobject import SignalObject
 import urllib2
 import threading
 import time
+
 import sys
-import socks
-import socket
-import argparse
+
+if "--enable-socks5" in sys.argv:
+    import socks
+    import socket
+    import argparse
 
 class Network(threading.Thread, SignalObject):
 
