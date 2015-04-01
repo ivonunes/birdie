@@ -6,7 +6,7 @@ A Twitter client for Linux
 Please consult the `INSTALL` and `COPYING` files for more information.
 
 * **Website**  
-Projects's oficial website at http://birdieapp.github.io
+Projects's oficial website at http://www.birdieapp.eu
 
 * **IRC**  
 You can find us in #birdie (freenode).
@@ -18,7 +18,7 @@ To report bugs, please use our Git repository at http://github.com/birdieapp/bir
 To contribute for translations, please use our Transifex repository at http://www.transifex.com/projects/p/birdie/.
 
 * **Donations**  
-If you want to support the project, please consider to donate a small ammount using our donations page at http://birdieapp.github.io/donate.html.
+If you want to support the project, please consider to donate a small ammount using our donations page at http://www.birdieapp.eu/donate.
 
 * **Further documentation**  
 Please, visit our GitHub wiki at http://github.com/birdieapp/birdie/wiki.
