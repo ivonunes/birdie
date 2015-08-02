@@ -1,5 +1,12 @@
-gir1.2-gtksource-3.0
-python-requests
-python-requests-oauthlib
-yelp-tools
-gir1.2-messagingmenu-1.0 soon?
+apt-get -y install \
+  gir1.2-gtksource-3.0 \
+  python-requests \
+  python-requests-oauthlib \
+  yelp-tools \
+  gnome-common \
+  libgirepository1.0-dev \
+  yelp-tools \
+  libgtk-3-dev \
+  gir1.2-webkit-3.0 \
+  python-pil.imagetk
+#gir1.2-messagingmenu-1.0 soon?
