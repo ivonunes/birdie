@@ -83,6 +83,8 @@ def get_input(parent, message, default=''):
                           message)
     entry = Gtk.Entry()
     entry.set_text(default)
+    entry.set_margin_left(20)
+    entry.set_margin_right(20)
     entry.show()
     d.vbox.pack_end(entry, True, True, 0)
     entry.connect('activate', lambda _: d.response(Gtk.ResponseType.OK))
