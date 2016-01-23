@@ -91,9 +91,9 @@ namespace Birdie.Widgets {
             this.view.set_wrap_mode (Gtk.WrapMode.WORD_CHAR);
             this.view.set_size_request(300, 80);
             this.view.set_accepts_tab (false);
-            this.view.top_margin = 5;
+            //this.view.top_margin = 5;
             this.view.left_margin = 5;
-            this.view.bottom_margin = 5;
+            //this.view.bottom_margin = 5;
             this.view.right_margin = 5;
             this.view.cursor_visible = true;
 
