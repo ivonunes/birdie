@@ -134,7 +134,7 @@ namespace Birdie.Widgets {
             Gdk.Geometry geo = new Gdk.Geometry();
             geo.min_width = 575;
             geo.min_height = 200;
-            geo.max_width = 640;
+            geo.max_width = 775;
             geo.max_height = 2048;
 
             this.set_geometry_hints(null, geo, Gdk.WindowHints.MIN_SIZE | Gdk.WindowHints.MAX_SIZE);
@@ -148,6 +148,7 @@ namespace Birdie.Widgets {
                                                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
             this.set_title ("Birdie");
+            this.set_default_size(575, 200);
         }
 
         private bool on_delete_event () {

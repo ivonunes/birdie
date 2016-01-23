@@ -40,13 +40,13 @@
     </key>
 
     <key name="window-width" type="i">
-      <default>450</default>
+      <default>575</default>
       <summary>Window Width</summary>
       <description>Saves the window width for restoring it later.</description>
     </key>
 
     <key name="window-height" type="i">
-      <default>600</default>
+      <default>300</default>
       <summary>Window Height</summary>
       <description>Saves the window height for restoring it later.</description>
     </key>
@@ -87,12 +87,6 @@
       <description>
         Show a status icon in system tray, if supported
       </description>
-    </key>
-    
-    <key name="tweet-shortcut" type="s">
-      <default><![CDATA["<Mod4>T"]]></default>
-      <summary>Tweet shortcut</summary>
-      <description>Global keyboard shortcut to initiate a new tweet.</description>
     </key>
 
   </schema>

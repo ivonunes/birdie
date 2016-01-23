@@ -446,20 +446,23 @@ namespace Birdie {
                 accounts_revealer.set_transition_type(Gtk.RevealerTransitionType.SLIDE_LEFT);
                 accounts_revealer.halign = Gtk.Align.END;
 
-                accounts_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 20);
-                accounts_box.expand = true;
+                accounts_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
+                accounts_box.expand = false;
                 accounts_box.get_style_context().add_class("account-box");
-                accounts_box.halign = Gtk.Align.END;
+                accounts_box.halign = Gtk.Align.FILL;
 
+                this.default_account = this.db.get_default_account ();
+                this.default_account_id = this.db.get_account_id ();
                 set_user_menu();
 
                 accounts_revealer.add(accounts_box);
-                this.m_box.pack_start(this.accounts_revealer, true, true, 0);
+                this.m_box.pack_end(accounts_revealer, false, false, 0);
 
                 avatar_button.clicked.connect(() => {
                     if(accounts_revealer.child_revealed) {
                         accounts_revealer.reveal_child = false;
                     } else {
+                        accounts_revealer.visible = true;
                         accounts_revealer.reveal_child = true;
                     }
                 });
@@ -487,13 +490,11 @@ namespace Birdie {
                 });
 
                 this.m_window.show_all ();
+                accounts_revealer.visible = false;
 
                 if (Option.START_HIDDEN) {
                     this.m_window.hide ();
                 }
-
-                this.default_account = this.db.get_default_account ();
-                this.default_account_id = this.db.get_account_id ();
 
                 if (this.default_account == null) {
                     this.switch_timeline ("welcome");
@@ -504,6 +505,7 @@ namespace Birdie {
                 }
             } else {
                 this.m_window.show_all ();
+                accounts_revealer.visible = false;
                 #if HAVE_LIBUNITY
                 if (get_total_unread () > 0)
                     this.launcher.clean_launcher_count ();
@@ -724,7 +726,6 @@ namespace Birdie {
                     Media.get_userbox_avatar (this.own_box_info, true);
                     this.db.update_account (this.api.account);
 
-                    this.set_user_menu ();
                     this.set_account_avatar (this.api.account);
 
                     this.initialized = true;
@@ -749,6 +750,10 @@ namespace Birdie {
         */
 
         private void set_user_menu () {
+
+            foreach(var w in accounts_box.get_children()) {
+                accounts_box.remove(w);
+            }
 
             // get all accounts
             List<User?> all_accounts = new List<User?> ();
@@ -779,6 +784,12 @@ namespace Birdie {
                     accounts_revealer.reveal_child = false;
                 });
 
+                avatar_switch_button.set_tooltip_text(_("Switch to the %s account".printf(account.name)));
+                
+                if(account.screen_name == this.default_account.screen_name) {
+                    avatar_switch_button.set_tooltip_text(_("View your Twitter profile"));
+                }
+                
                 accounts_box.add(avatar_switch_button);
             }
 
