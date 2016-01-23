@@ -1,0 +1,430 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-01-23 09:35-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/ListBox.vala:158
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/ListBox.vala:164
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetBox.vala:558
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetBox.vala:564
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetBox.vala:585
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetBox.vala:598
+msgid "Delete"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/ListBox.vala:163
+msgid "Delete this list?"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/ListBox.vala:164
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetDialog.vala:196
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetDialog.vala:247
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetBox.vala:564
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetBox.vala:594
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetBox.vala:598
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/Dialogs.vala:51
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/Dialogs.vala:136
+msgid "Cancel"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/Welcome.vala:23
+#: /home/nathan/Workspace/birdie/po/../src/Utils/StatusIcon.vala:32
+msgid "Birdie"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/Welcome.vala:23
+#: /home/nathan/Workspace/birdie/po/../src/config.vala:24
+msgid "Twitter Client"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/Welcome.vala:25
+msgid "Sign In"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/Welcome.vala:25
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/Welcome.vala:68
+msgid "Add an existing Twitter account."
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/Welcome.vala:26
+msgid "Sign Up"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/Welcome.vala:26
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/Welcome.vala:74
+msgid "Create a new Twitter account."
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/Welcome.vala:50
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/Welcome.vala:109
+msgid "Unable to connect"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/Welcome.vala:50
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/Welcome.vala:111
+msgid "Please check your Internet Connection"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/Welcome.vala:52
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/Welcome.vala:100
+msgid "Retry"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/Welcome.vala:52
+msgid "Try to connect again"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/Welcome.vala:87
+msgid "Welcome to Birdie"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/ConversationView.vala:36
+msgid "Conversations"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/ConversationView.vala:51
+msgid "New Message"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetDialog.vala:128
+msgid "Suggestions"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetDialog.vala:166
+msgid "Send a DM to "
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetDialog.vala:172
+msgid "Send a DM to @"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetDialog.vala:203
+msgid "Send"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetDialog.vala:205
+msgid "Tweet"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetDialog.vala:217
+msgid "Add a picture"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetDialog.vala:245
+msgid "Select a Picture"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetDialog.vala:248
+msgid "Open"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/MoreButton.vala:24
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/MoreButton.vala:25
+msgid "Get older entries"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/MoreButton.vala:37
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/MoreButton.vala:38
+msgid "Create a new list"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/ConversationsList.vala:96
+msgid "New Conversation…"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetBox.vala:197
+msgid "Open in browser"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetBox.vala:201
+msgid "Copy link"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetBox.vala:388
+msgid "Thread"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetBox.vala:473
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetBox.vala:797
+msgid "Favorite"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetBox.vala:503
+msgid "Retweet"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetBox.vala:518
+msgid "Retweet with quote"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetBox.vala:541
+msgid "Reply"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetBox.vala:563
+msgid "Delete this direct message?"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetBox.vala:593
+msgid "Remove user from list?"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetBox.vala:594
+msgid "Remove"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetBox.vala:597
+msgid "Delete this tweet?"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetBox.vala:790
+msgid "Unfavorite"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetBox.vala:865
+#, c-format
+msgid "retweeted by %s"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/TweetBox.vala:890
+#, c-format
+msgid "in reply to @%s"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/UserBox.vala:59
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/UserBox.vala:220
+msgid "TWEETS"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/UserBox.vala:64
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/UserBox.vala:225
+msgid "FOLLOWING"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/UserBox.vala:66
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/UserBox.vala:227
+msgid "FOLLOWERS"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/UserBox.vala:113
+msgid "Follow"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/UserBox.vala:115
+msgid "Follow user"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/UserBox.vala:123
+msgid "Unfollow"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/UserBox.vala:125
+msgid "Unfollow user"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/UserBox.vala:133
+msgid "Add"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/UserBox.vala:135
+msgid "Add user to list"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/UserBox.vala:147
+msgid "Block"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/UserBox.vala:149
+msgid "Block user"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/UserBox.vala:157
+msgid "Unblock"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/UserBox.vala:159
+msgid "Unblock user"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/UserBox.vala:214
+msgid "Following you."
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/UserBox.vala:216
+msgid "Not following you."
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/Dialogs.vala:58
+msgid "OK"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/Dialogs.vala:82
+msgid "Preview"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/Dialogs.vala:107
+msgid "New List"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/Dialogs.vala:116
+msgid "Name:"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/Dialogs.vala:120
+msgid "Description:"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Widgets/Dialogs.vala:137
+msgid "Create"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Utils/StatusIcon.vala:42
+#: /home/nathan/Workspace/birdie/po/../src/Utils/Launcher.vala:41
+#: /home/nathan/Workspace/birdie/po/../src/Utils/Indicator.vala:116
+#: /home/nathan/Workspace/birdie/po/../src/Birdie.vala:251
+#: /home/nathan/Workspace/birdie/po/../src/Birdie.vala:252
+msgid "New Tweet"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Utils/StatusIcon.vala:47
+msgid "New Direct Message"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Utils/StatusIcon.vala:56
+msgid "Quit"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Utils/Launcher.vala:47
+#: /home/nathan/Workspace/birdie/po/../src/Utils/Indicator.vala:79
+msgid "Tweets"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Utils/Launcher.vala:53
+#: /home/nathan/Workspace/birdie/po/../src/Utils/Indicator.vala:92
+msgid "Mentions"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Utils/Launcher.vala:59
+msgid "Messages"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Utils/Launcher.vala:65
+msgid "Profile"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Utils/Indicator.vala:105
+msgid "Direct Messages"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Utils/Date.vala:66
+#, c-format
+msgid "%d y"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Utils/Date.vala:69
+#, c-format
+msgid "%d mo"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Utils/Date.vala:72
+#, c-format
+msgid "%d w"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Utils/Date.vala:75
+#, c-format
+msgid "%d d"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Utils/Date.vala:77
+#, c-format
+msgid "%d h"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Utils/Date.vala:79
+#, c-format
+msgid "%d m"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Utils/Date.vala:82
+msgid "now"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Utils/Notifications.vala:68
+msgid "View"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/config.vala:25
+msgid "Twitter client for Linux"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Birdie.vala:314
+msgid "Search"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Birdie.vala:380
+msgid "Received"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Birdie.vala:381
+msgid "Sent"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Birdie.vala:414
+#: /home/nathan/Workspace/birdie/po/../src/Birdie.vala:423
+msgid "Timeline"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Birdie.vala:415
+msgid "Favorites"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Birdie.vala:416
+msgid "Lists"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Birdie.vala:571
+msgid "You must select a list you own."
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Birdie.vala:633
+msgid "Sign in"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Birdie.vala:1006
+msgid "New tweet from"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Birdie.vala:1029
+msgid "new tweets"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Birdie.vala:1129
+msgid "New mention from"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Birdie.vala:1148
+msgid "new mentions"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Birdie.vala:1182
+msgid "New direct message from"
+msgstr ""
+
+#: /home/nathan/Workspace/birdie/po/../src/Birdie.vala:1205
+msgid "new direct messages"
+msgstr ""

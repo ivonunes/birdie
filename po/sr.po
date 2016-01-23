@@ -1,0 +1,456 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013
+# Zlatan Vasović <legospace9876@gmail.com>, 2013-2014
+msgid ""
+msgstr ""
+"Project-Id-Version: Birdie\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-01-24 18:46+0000\n"
+"PO-Revision-Date: 2014-01-24 18:52+0000\n"
+"Last-Translator: Zlatan Vasović <legospace9876@gmail.com>\n"
+"Language-Team: Serbian (http://www.transifex.com/projects/p/birdie/language/sr/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sr\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:57
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:212
+msgid "TWEETS"
+msgstr "ТВИТОВИ"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:62
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:217
+msgid "FOLLOWING"
+msgstr "ПРАТИ"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:64
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:219
+msgid "FOLLOWERS"
+msgstr "ПРАТИОЦИ"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:111
+msgid "Follow"
+msgstr "Прати"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:113
+msgid "Follow user"
+msgstr "Прати корисника"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:121
+msgid "Unfollow"
+msgstr "Опозови праћење"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:123
+msgid "Unfollow user"
+msgstr "Опозови праћење корисника"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:131
+msgid "Add"
+msgstr "Додај"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:133
+msgid "Add user to list"
+msgstr "Додај корисника на листу"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:145
+msgid "Block"
+msgstr "Блокирај"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:147
+msgid "Block user"
+msgstr "Блокирај корисника"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:155
+msgid "Unblock"
+msgstr "Одблокирај"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:157
+msgid "Unblock user"
+msgstr "Одблокирај корисника"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:206
+msgid "Following you."
+msgstr "Прати вас."
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/UserBox.vala:208
+msgid "Not following you."
+msgstr "Не прати вас."
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/ListBox.vala:157
+#: /home/vasco/Code/birdie/po/../src/Widgets/ListBox.vala:163
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:427
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:433
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:452
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:465
+msgid "Delete"
+msgstr "Обриши"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/ListBox.vala:162
+msgid "Delete this list?"
+msgstr "Обриши листу?"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/ListBox.vala:163
+#: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:50
+#: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:135
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:208
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:257
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:433
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:461
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:465
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:347
+msgid "Cancel"
+msgstr "Откажи"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:22
+#: /home/vasco/Code/birdie/po/../src/Utils/StatusIcon.vala:31
+msgid "Birdie"
+msgstr "Birdie"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:22
+#: /home/vasco/Code/birdie/po/../src/config.vala:24
+msgid "Twitter Client"
+msgstr "Твитер клијент"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:24
+msgid "Sign In"
+msgstr "Пријави се"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:24
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:67
+msgid "Add an existing Twitter account."
+msgstr "Додај постојећи Tвитер налог"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:25
+msgid "Sign Up"
+msgstr "Направи налог"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:25
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:73
+msgid "Create a new Twitter account."
+msgstr "Направи нови Tвитер налог"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:49
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:108
+msgid "Unable to connect"
+msgstr "Не могу да се повежем"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:49
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:110
+msgid "Please check your Internet Connection"
+msgstr "Молимо проверите вашу Интернет конекцију"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:51
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:99
+msgid "Retry"
+msgstr "Покушај поново"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:51
+msgid "Try to connect again"
+msgstr "Покушај да се поново повежеш"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Welcome.vala:86
+msgid "Welcome to Birdie"
+msgstr "Добродошли у Birdie"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/MoreButton.vala:23
+#: /home/vasco/Code/birdie/po/../src/Widgets/MoreButton.vala:24
+msgid "Get older entries"
+msgstr "Учитај старије"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/MoreButton.vala:36
+#: /home/vasco/Code/birdie/po/../src/Widgets/MoreButton.vala:37
+msgid "Create a new list"
+msgstr "Направи нову листу"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:57
+msgid "OK"
+msgstr "ОК"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:81
+msgid "Preview"
+msgstr "Прегледај"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:106
+msgid "New List"
+msgstr "Нова листа"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:115
+msgid "Name:"
+msgstr "Име:"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:119
+msgid "Description:"
+msgstr "Опис:"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/Dialogs.vala:136
+msgid "Create"
+msgstr "Направи"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:71
+#: /home/vasco/Code/birdie/po/../src/Utils/StatusIcon.vala:41
+#: /home/vasco/Code/birdie/po/../src/Utils/Indicator.vala:115
+#: /home/vasco/Code/birdie/po/../src/Utils/Launcher.vala:40
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:239
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:240
+msgid "New Tweet"
+msgstr "Нови твит"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:73
+msgid "New Message"
+msgstr "Нова порука"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:147
+msgid "Suggestions"
+msgstr "Предлози"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:169
+msgid "New Message in reply to @"
+msgstr "Нова порука у одговору за @"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:216
+msgid "Send"
+msgstr "Пошаљи"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:218
+msgid "Tweet"
+msgstr "Твитуј"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:230
+msgid "Add a picture"
+msgstr "Додај слику"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:255
+msgid "Select a Picture"
+msgstr "Одабери слику"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetDialog.vala:258
+msgid "Open"
+msgstr "Отвори"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:282
+msgid "Open in browser"
+msgstr "Отвори у прегледачу"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:286
+msgid "Copy link"
+msgstr "Копирај линк"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:335
+msgid "Thread"
+msgstr "Тема"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:352
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:801
+msgid "Favorite"
+msgstr "Означи као омиљено"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:374
+msgid "Retweet"
+msgstr "Ретвитуј"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:389
+msgid "Retweet with quote"
+msgstr "Ретвитуј са цитатом"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:411
+msgid "Reply"
+msgstr "Одговори"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:432
+msgid "Delete this direct message?"
+msgstr "Обриши ову директну поруку?"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:460
+msgid "Remove user from list?"
+msgstr "Уклони корисника са листе?"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:461
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:347
+msgid "Remove"
+msgstr "Уклони"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:464
+msgid "Delete this tweet?"
+msgstr "Обриши овај твит?"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:798
+msgid "Unfavorite"
+msgstr "Уклони ознаку омиљеног"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:809
+#, c-format
+msgid "retweeted by %s"
+msgstr "ретвитовано од %s"
+
+#: /home/vasco/Code/birdie/po/../src/Widgets/TweetBox.vala:834
+#, c-format
+msgid "in reply to @%s"
+msgstr "у одговору за @%s"
+
+#: /home/vasco/Code/birdie/po/../src/Utils/StatusIcon.vala:50
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:412
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:454
+msgid "Quit"
+msgstr "Изађи"
+
+#: /home/vasco/Code/birdie/po/../src/Utils/Notifications.vala:66
+msgid "View"
+msgstr "Погледај"
+
+#: /home/vasco/Code/birdie/po/../src/Utils/Indicator.vala:78
+#: /home/vasco/Code/birdie/po/../src/Utils/Launcher.vala:46
+msgid "Tweets"
+msgstr "Твитови"
+
+#: /home/vasco/Code/birdie/po/../src/Utils/Indicator.vala:91
+#: /home/vasco/Code/birdie/po/../src/Utils/Launcher.vala:52
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:270
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:271
+msgid "Mentions"
+msgstr "Помињања"
+
+#: /home/vasco/Code/birdie/po/../src/Utils/Indicator.vala:104
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:281
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:282
+msgid "Direct Messages"
+msgstr "Директне поруке"
+
+#: /home/vasco/Code/birdie/po/../src/Utils/Launcher.vala:58
+msgid "Messages"
+msgstr "Поруке"
+
+#: /home/vasco/Code/birdie/po/../src/Utils/Launcher.vala:64
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:292
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:293
+msgid "Profile"
+msgstr "Налог"
+
+#: /home/vasco/Code/birdie/po/../src/Utils/Date.vala:65
+#, c-format
+msgid "%d y"
+msgstr "%d y"
+
+#: /home/vasco/Code/birdie/po/../src/Utils/Date.vala:68
+#, c-format
+msgid "%d mo"
+msgstr "%d mo"
+
+#: /home/vasco/Code/birdie/po/../src/Utils/Date.vala:71
+#, c-format
+msgid "%d w"
+msgstr "%d w"
+
+#: /home/vasco/Code/birdie/po/../src/Utils/Date.vala:74
+#, c-format
+msgid "%d d"
+msgstr "%d d"
+
+#: /home/vasco/Code/birdie/po/../src/Utils/Date.vala:76
+#, c-format
+msgid "%d h"
+msgstr "%d h"
+
+#: /home/vasco/Code/birdie/po/../src/Utils/Date.vala:78
+#, c-format
+msgid "%d m"
+msgstr "%d m"
+
+#: /home/vasco/Code/birdie/po/../src/Utils/Date.vala:81
+msgid "now"
+msgstr "сада"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:259
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:260
+msgid "Home"
+msgstr "Почетна"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:304
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:321
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:322
+msgid "Search"
+msgstr "Претрага"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:336
+msgid "Add Account"
+msgstr "Додај налог"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:342
+msgid "Remove Account"
+msgstr "Уклони налог"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:346
+msgid "Remove this account?"
+msgstr "Уклони овај налог?"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:369
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:452
+msgid "About"
+msgstr "О програму"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:405
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:453
+msgid "Donate"
+msgstr "Донирај"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:515
+msgid "Received"
+msgstr "Примљено"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:516
+msgid "Sent"
+msgstr "Послато"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:539
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:548
+msgid "Timeline"
+msgstr "Временска линија"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:540
+msgid "Favorites"
+msgstr "Омиљено"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:541
+msgid "Lists"
+msgstr "Листе"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:665
+msgid "You must select a list you own."
+msgstr "Морате одабрати листу коју поседујете."
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:734
+msgid "Sign in"
+msgstr "Пријави ме"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:1112
+msgid "New tweet from"
+msgstr "Нови твит од"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:1127
+msgid "new tweets"
+msgstr "нови твитови"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:1230
+msgid "New mention from"
+msgstr "Ново помињање од"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:1246
+msgid "new mentions"
+msgstr "нова помињања"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:1281
+msgid "New direct message from"
+msgstr "Нова директна порука од"
+
+#: /home/vasco/Code/birdie/po/../src/Birdie.vala:1301
+msgid "new direct messages"
+msgstr "нове директне поруке"
+
+#: /home/vasco/Code/birdie/po/../src/config.vala:25
+msgid "Twitter client for Linux"
+msgstr "Твитер клијент за Линукс"
