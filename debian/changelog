@@ -1,0 +1,56 @@
+birdie (2.0.0) trusty; urgency=low
+
+  * A massive redesign
+  * Infinite scrolling
+  * Native Instagram viewing
+  * Direct Messages with conversation views
+  * A more simple, more elegant account switcher
+  * and much more! 
+
+ -- Nathan Dyer <mail@nathandyer.me>  Sat, 22 Feb 2016 13:30:00 -0500
+
+birdie (1.1.0) trusty; urgency=low
+
+  * Bug fixes
+  * ARM support
+  * Async media retrieve
+  * Updated translations
+
+ -- Vasco Nunes <vascomfnunes@gmail.com>  Fri, 7 Feb 2014 23:58:00 +0300
+
+birdie (1.0.0) trusty; urgency=low
+
+  * Lists
+  * Autocomplete
+  * Improvements
+  * Bug fixes
+  * Updated translations
+
+ -- Ivo Nunes <ivoavnunes@gmail.com>  Sun, 26 Jan 2014 12:30:00 +0300
+
+birdie (0.3.0) precise; urgency=low
+
+  * Cache tweets
+  * Threaded messages
+  * Asynchronous API calls
+  * Bug fixes
+  * Updated translations
+
+ -- Ivo Nunes <ivoavnunes@gmail.com>  Sun, 7 Jul 2013 13:36:00 +0300
+
+birdie (0.2.0) precise; urgency=low
+
+  * Added previews for images and YouTube videos
+  * New interface
+  * Added image attachments when tweeting
+  * Fixed some bugs
+  * Fixed some crashes
+
+ -- Ivo Nunes <ivo@elementaryos.org>  Thu, 9 May 2013 20:36:00 +0300
+
+birdie (0.1.0) precise; urgency=low
+
+  * Initial release
+
+ -- Ivo Nunes <ivo@elementaryos.org>  Thu, 14 Mar 2013 12:24:23 +0300
+

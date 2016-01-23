@@ -1,0 +1,33 @@
+Source: birdie
+Section: misc
+Priority: optional
+Maintainer: Nathan Dyer <mail@nathandyer.me>
+Build-Depends: cmake (>= 2.8),
+               debhelper (>= 7.0.50~),
+               libcanberra-dev,
+               libgee-dev,
+               libglib2.0-dev,
+               libgtk-3-dev (>= 3.9),
+               libgranite-dev (>= 0.3.1),
+               libgtksourceview-3.0-dev,
+               libdbusmenu-gtk-dev,
+               libmessaging-menu-dev,
+               libjson-glib-dev,
+               libnotify-dev,
+               librest-dev,
+               libunity-dev,
+               libwebkitgtk-3.0-dev,
+               libsqlite3-dev,
+               libxtst-dev,
+               libpurple-dev,
+               valac-0.22 | valac (>= 0.22)
+Standards-Version: 3.9.3
+Homepage: https://birdieapp.github.io
+
+Package: birdie
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Conflicts: birdie-granite
+Pre-Depends: dpkg (>= 1.15.6)
+Description: Twitter client for elementary OS
+ Birdie is a fast and simple Twitter client for elementary OS
