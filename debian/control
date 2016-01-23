@@ -31,3 +31,16 @@ Conflicts: birdie-granite
 Pre-Depends: dpkg (>= 1.15.6)
 Description: Twitter client for elementary OS
  Birdie is a fast and simple Twitter client for elementary OS
+
+Package: birdie-granite-dbg
+Architecture: any
+Section: debug
+Priority: extra
+Depends: birdie (= ${binary:Version}), ${misc:Depends}
+Conflicts: birdie-dbg
+Pre-Depends: dpkg (>= 1.15.6)
+Enhances: birdie-granite
+Description: Twitter client for elementary OS (debugging symbols)
+ Birdie is a Twitter client for elementary OS
+ .
+ This package contains debugging symbols for birdie.
