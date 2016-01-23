@@ -1,6 +1,6 @@
 # Birdie
 
-A Twitter client for Linux
+A Twitter client for [elementary OS](http://elementary.io)
 
 * **Installation and Licensing**  
 Please consult the `INSTALL` and `COPYING` files for more information.
