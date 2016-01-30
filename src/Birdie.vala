@@ -694,7 +694,6 @@ namespace Birdie {
                     // get cached tweets, avatars and media
 
                     this.cache.set_default_account (this.default_account_id);
-
                     this.cache.load_cached_tweets ("tweets", this.home_list);
                     this.cache.load_cached_tweets ("mentions", this.mentions_list);
                     this.cache.load_cached_tweets ("dm_inbox", this.dm_list);
@@ -730,6 +729,13 @@ namespace Birdie {
 
                     this.initialized = true;
 
+                    this.home_list.show_all();
+                    this.mentions_list.show_all();
+                    this.dm_list.show_all();
+                    this.dm_sent_list.show_all();
+                    this.own_list.show_all();
+                    this.favorites.show_all();
+
                     Idle.add((owned) callback);
                     return null;
                 };
@@ -761,36 +767,40 @@ namespace Birdie {
 
             foreach (var account in all_accounts) {
 
-                var pixbuf = new Gdk.Pixbuf.from_file (Environment.get_home_dir () +
-                    "/.local/share/birdie/avatars/" + account.profile_image_file);
+                try {
+                    var pixbuf = new Gdk.Pixbuf.from_file (Environment.get_home_dir () +
+                        "/.local/share/birdie/avatars/" + account.profile_image_file);
 
-                var avatar_switch_temp = new Granite.Widgets.Avatar();
-                avatar_switch_temp.pixbuf = pixbuf.scale_simple(50, 50, Gdk.InterpType.BILINEAR);
+                    var avatar_switch_temp = new Granite.Widgets.Avatar();
+                    avatar_switch_temp.pixbuf = pixbuf.scale_simple(50, 50, Gdk.InterpType.BILINEAR);
 
-                var avatar_switch_button = new Gtk.Button();
-                avatar_switch_button.image = avatar_switch_temp;
-                avatar_switch_button.relief = Gtk.ReliefStyle.NONE;
-                avatar_switch_button.set_tooltip_text(account.name + "\n@" + account.screen_name);
+                    var avatar_switch_button = new Gtk.Button();
+                    avatar_switch_button.image = avatar_switch_temp;
+                    avatar_switch_button.relief = Gtk.ReliefStyle.NONE;
+                    avatar_switch_button.set_tooltip_text(account.name + "\n@" + account.screen_name);
 
-                avatar_switch_button.clicked.connect (() => {
+                    avatar_switch_button.clicked.connect (() => {
 
-                    // If you click on the account that you're already on, view your profile
-                    if(default_account.screen_name == account.screen_name) {
-                        switch_timeline("own");
-                    } else {
-                        switch_account (account);
+                        // If you click on the account that you're already on, view your profile
+                        if(default_account.screen_name == account.screen_name) {
+                            switch_timeline("own");
+                        } else {
+                            switch_account (account);
+                        }
+
+                        accounts_revealer.reveal_child = false;
+                    });
+
+                    avatar_switch_button.set_tooltip_text(_("Switch to the %s account".printf(account.name)));
+                    
+                    if(account.screen_name == this.default_account.screen_name) {
+                        avatar_switch_button.set_tooltip_text(_("View your Twitter profile"));
                     }
-
-                    accounts_revealer.reveal_child = false;
-                });
-
-                avatar_switch_button.set_tooltip_text(_("Switch to the %s account".printf(account.name)));
-                
-                if(account.screen_name == this.default_account.screen_name) {
-                    avatar_switch_button.set_tooltip_text(_("View your Twitter profile"));
+                    
+                    accounts_box.add(avatar_switch_button);
+                } catch (Error e) {
+                    stderr.printf("Error adding account to sidebar: %s\n", e.message);
                 }
-                
-                accounts_box.add(avatar_switch_button);
             }
 
             new_button = new Gtk.Button.from_icon_name("list-add-symbolic", Gtk.IconSize.DIALOG);
@@ -980,6 +990,9 @@ namespace Birdie {
                 this.api.get_home_timeline ();
                 this.api.get_mentions_timeline ();
                 this.api.get_direct_messages ();
+
+                this.home_list.show_all();
+                this.mentions_list.show_all();
             } else {
                 this.switch_timeline ("error");
             }
