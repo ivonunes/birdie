@@ -21,7 +21,7 @@ Build-Depends: cmake (>= 2.8),
                libsqlite3-dev,
                libxtst-dev,
                libpurple-dev,
-               valac-0.22 | valac (>= 0.22)
+               valac (>= 0.24)
 Standards-Version: 3.9.3
 Homepage: https://birdieapp.github.io
 
