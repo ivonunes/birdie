@@ -556,9 +556,17 @@ namespace Birdie {
         public List<Tweet?> get_tweets (string table, int account_id) {
             Sqlite.Statement stmt;
 
-            int res = db.prepare_v2 ("SELECT * FROM " + table +
-                " WHERE account_id = ? ORDER BY tweet_id DESC LIMIT 20",
-                -1, out stmt);
+            string sql;
+
+            if(table == "dm_inbox" || table == "dm_outbox") {
+                sql = "SELECT * FROM " + table +
+                " WHERE account_id = ? ORDER BY tweet_id DESC";
+            } else {
+                sql = "SELECT * FROM " + table +
+                " WHERE account_id = ? ORDER BY tweet_id DESC LIMIT 20";
+            }
+
+            int res = db.prepare_v2 (sql, -1, out stmt);
             assert (res == Sqlite.OK);
 
             res = stmt.bind_int (1, account_id);
