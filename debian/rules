@@ -11,7 +11,7 @@
 # build-arch and build-indep targets  by Bill Allombert 2001
 
 # Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
+export DH_VERBOSE=1
 
 # This has to be exported to make some magic below work.
 export DH_OPTIONS
@@ -23,8 +23,5 @@ export DH_OPTIONS
 override_dh_builddeb:
 	dh_builddeb -- -Zxz
 
-override_dh_strip:
-	dh_strip --dbg-package=birdie-granite-dbg
-
 override_dh_auto_install:
-	dh_auto_install --destdir=debian/birdie-granite
+	dh_auto_install --destdir=debian/birdie

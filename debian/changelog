@@ -2,12 +2,13 @@ birdie (2.0.0) trusty; urgency=low
 
   * A massive redesign
   * Infinite scrolling
-  * Native Instagram viewing
-  * Direct Messages with conversation views
-  * A more simple, more elegant account switcher
-  * and much more! 
+  * Native Instagram photo viewer
+  * Direct Messaging with conversation views
+  * A more simple, elegant account switcher
+  * and much more!
 
- -- Nathan Dyer <mail@nathandyer.me>  Sat, 22 Jan 2016 13:30:00 -0500
+ -- Nathan Dyer <mail@nathandyer.me>  Sat, 30 Jan 2016 13:00:00 -0500
+
 
 birdie (1.1.0) trusty; urgency=low
 
