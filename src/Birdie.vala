@@ -660,11 +660,6 @@ namespace Birdie {
         public async void init () throws ThreadError {
             SourceFunc callback = init.callback;
 
-            Idle.add (() => {
-                //this.appmenu.set_sensitive (false);
-                return false;
-            });
-
             this.switch_timeline ("loading");
 
             if (this.check_internet_connection ()) {
@@ -728,13 +723,6 @@ namespace Birdie {
                     this.set_account_avatar (this.api.account);
 
                     this.initialized = true;
-
-                    this.home_list.show_all();
-                    this.mentions_list.show_all();
-                    this.dm_list.show_all();
-                    this.dm_sent_list.show_all();
-                    this.own_list.show_all();
-                    this.favorites.show_all();
 
                     Idle.add((owned) callback);
                     return null;
@@ -853,16 +841,9 @@ namespace Birdie {
         }
 
         public void set_widgets_sensitive (bool sensitive) {
-            /*
             this.new_tweet.set_sensitive (sensitive);
-            this.home.set_sensitive (sensitive);
-            this.mentions.set_sensitive (sensitive);
-            this.dm.set_sensitive (sensitive);
-            this.profile.set_sensitive (sensitive);
-            
-            this.account_appmenu.set_sensitive (sensitive);
-            this.remove_appmenu.set_sensitive (sensitive);
-            */
+            this.switcher.set_sensitive (sensitive);
+            this.avatar_button.set_sensitive (sensitive);
             this.search.set_sensitive (sensitive);
         }
 
@@ -883,6 +864,12 @@ namespace Birdie {
 
                 this.changing_tab = false;
                 this.set_widgets_sensitive (true);
+
+                if(new_timeline == "welcome") {
+                    set_widgets_sensitive (false);
+                } else {
+                    set_widgets_sensitive (true);
+                }
 
                 switch (new_timeline) {
                     case "loading":
@@ -990,9 +977,6 @@ namespace Birdie {
                 this.api.get_home_timeline ();
                 this.api.get_mentions_timeline ();
                 this.api.get_direct_messages ();
-
-                this.home_list.show_all();
-                this.mentions_list.show_all();
             } else {
                 this.switch_timeline ("error");
             }
@@ -1340,8 +1324,6 @@ namespace Birdie {
                 if (this.ready)
                     Media.get_avatar (this.search_list);
 
-                this.search_list.show_all();
-
                 return false;
             });
         }
@@ -1516,8 +1498,6 @@ namespace Birdie {
                         return false;
                     });
                 }
-
-                this.search_list.show_all();
 
                 return false;
             });

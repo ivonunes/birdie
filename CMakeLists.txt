@@ -94,6 +94,7 @@ set(BIRDIE_PACKAGES
 
 set(VALAC_OPTIONS
     --vapidir=${CMAKE_SOURCE_DIR}/vapi
+    --disable-warnings
     --target-glib=${TARGET_GLIB}
     --thread
     --enable-deprecated

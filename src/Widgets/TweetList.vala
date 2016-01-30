@@ -49,13 +49,19 @@ namespace Birdie.Widgets {
 
             boxes.append (box);
 
-            if (!this.first)
-                base.prepend (separator);
+            Idle.add( () => {
+                if (!this.first)
+                    base.prepend (separator);
 
-            base.prepend (box);
+                base.prepend (box);
 
-            if (this.first)
-                this.first = false;
+                this.show_all();
+
+                if (this.first)
+                    this.first = false;
+
+                return false;
+            });
         }
 
         public new void prepend (Tweet tweet, Birdie birdie) {
