@@ -1340,6 +1340,8 @@ namespace Birdie {
                 if (this.ready)
                     Media.get_avatar (this.search_list);
 
+                this.search_list.show_all();
+
                 return false;
             });
         }
@@ -1514,6 +1516,8 @@ namespace Birdie {
                         return false;
                     });
                 }
+
+                this.search_list.show_all();
 
                 return false;
             });
