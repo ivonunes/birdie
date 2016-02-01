@@ -284,6 +284,25 @@ namespace Birdie {
                 switcher.append_icon("twitter-mentions-symbolic", Gtk.IconSize.LARGE_TOOLBAR);
                 switcher.append_icon("twitter-dm-symbolic", Gtk.IconSize.LARGE_TOOLBAR);
 
+                var switcher_buttons = switcher.get_children();
+                int child_pos = 0;
+                switcher_buttons.foreach((child) => {
+                    switch (child_pos) {
+                        case 0:
+                            child.set_tooltip_text(_("Home"));
+                            break;
+                        case 1:
+                            child.set_tooltip_text(_("Mentions"));
+                            break;
+                        case 2:
+                            child.set_tooltip_text(_("Direct Messages"));
+                            break;
+                        default:
+                            assert_not_reached();
+                    }
+                    child_pos++;
+                });
+
                 switcher.mode_changed.connect((widget) => {
                     switch(switcher.selected) {
                         case 0:
@@ -311,6 +330,7 @@ namespace Birdie {
                 search_popover.add(search_entry);
                 
                 avatar_button = new Gtk.Button();
+                avatar_button.set_tooltip_text(_("Accounts"));
                 this.m_window.header.pack_end(avatar_button);
                 this.m_window.header.pack_end(search);
 
