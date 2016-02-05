@@ -303,6 +303,8 @@ namespace Birdie {
                     child_pos++;
                 });
 
+                switcher.button_release_event.connect(on_switcher_clicked);
+
                 switcher.mode_changed.connect((widget) => {
                     switch(switcher.selected) {
                         case 0:
@@ -555,6 +557,26 @@ namespace Birdie {
             search_entry.visible = true;
             search_entry.grab_focus();
         }  
+
+        public bool on_switcher_clicked(Gdk.EventButton e) {
+            int current_widget = switcher.selected;
+            switch (current_widget) {
+
+                // Scroll home to top
+                case 0:
+                    scrolled_home.scroll_child(Gtk.ScrollType.START, false);
+                    break;
+
+                // Scroll mentions to top
+                case 1:
+                    scrolled_mentions.scroll_child(Gtk.ScrollType.START, false);
+                    break;
+
+                default:
+                    break;
+            }
+            return false;
+        }
 
         protected override void open (File[] files, string hint) {
             foreach (File file in files) {
