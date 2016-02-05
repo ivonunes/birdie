@@ -905,9 +905,8 @@ namespace Birdie {
                     active = true;
 
                 this.changing_tab = false;
-                this.set_widgets_sensitive (true);
 
-                if(new_timeline == "welcome") {
+                if(new_timeline == "welcome" && this.default_account == null) {
                     set_widgets_sensitive (false);
                 } else {
                     set_widgets_sensitive (true);
