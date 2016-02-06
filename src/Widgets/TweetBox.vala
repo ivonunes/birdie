@@ -170,7 +170,7 @@ namespace Birdie.Widgets {
             this.header_box.pack_start (this.time_label, true, true, 0);
 
             // tweet
-            this.tweet_label = new Gtk.Label (tweet.text);
+            this.tweet_label = new Gtk.Label (tweet.text.replace("LINK_COLOR", "#0088CC"));
             this.tweet_label.set_use_markup (true);
             this.tweet_label.set_selectable (true);
             this.tweet_label.set_line_wrap (true);

@@ -37,7 +37,7 @@ namespace Birdie.Utils {
             }
 
             text = hashtags.replace(text, -1, 0,
-                "<span underline='none'><a href='birdie://search/\\0'>\\0</a></span>");
+                "<span underline='none' color='LINK_COLOR'><a href='birdie://search/\\0'>\\0</a></span>");
         } catch (RegexError e) {
             warning ("regex error: %s", e.message);
         }
@@ -66,7 +66,7 @@ namespace Birdie.Utils {
         try {
             users = new Regex("\\B([@][[:alpha:]0-9_]+)");
             text = users.replace(text, -1, 0,
-                "<span underline='none'><a href='birdie://user/\\0'>\\0</a></span>");
+                "<span underline='none' color='LINK_COLOR'><a href='birdie://user/\\0'>\\0</a></span>");
         } catch (RegexError e) {
             warning ("regex error: %s", e.message);
         }
@@ -75,7 +75,7 @@ namespace Birdie.Utils {
 
     string highlight_urls (owned string text) {
         text = Purple.markup_linkify (text);
-        text = text.replace ("<A HREF", "<span underline='none'><a href");
+        text = text.replace ("<A HREF", """<span underline='none' color='LINK_COLOR'><a href""");
         text = text.replace ("</A>", "</a></span>");
 
         var text_split = text.split ("<a href=\"");
