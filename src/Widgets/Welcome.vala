@@ -21,7 +21,7 @@ namespace Birdie.Widgets
         public Welcome (Birdie birdie) {
             Granite.Widgets.Welcome welcome = new Granite.Widgets.Welcome (_("Birdie"), _("Twitter Client"));
 
-            welcome.append ("add", _("Sign In"), _("Add an existing Twitter account."));
+            welcome.append ("list-add", _("Sign In"), _("Add an existing Twitter account."));
             welcome.append ("edit", _("Sign Up"), _("Create a new Twitter account."));
 
             welcome.activated.connect ((index) => {
