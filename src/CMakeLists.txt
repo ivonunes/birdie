@@ -23,6 +23,7 @@ vala_precompile(VALA_C
     Widgets/CompletionProvider.vala
     Widgets/ConversationsList.vala
     Widgets/ConversationView.vala
+    Widgets/AccountsPopover.vala
     Media/Avatar.vala
     Media/GetMedia.vala
     Media/Parsing.vala

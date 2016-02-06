@@ -31,6 +31,8 @@ namespace Birdie {
         public Widgets.ListsView lists;
         public Widgets.TweetList list_list;
 
+        private Widgets.AccountsPopover accounts_popover;
+
         public Gtk.ToolButton new_tweet;
         public Gtk.ToggleToolButton home;
         public Gtk.ToggleToolButton mentions;
@@ -125,8 +127,6 @@ namespace Birdie {
 
         private int limit_notifications;
 
-        private Gtk.Revealer accounts_revealer;
-        private Gtk.Box accounts_box;
         private signal void exit();
 
         public static const OptionEntry[] app_options = {
@@ -336,6 +336,32 @@ namespace Birdie {
                 this.m_window.header.pack_end(avatar_button);
                 this.m_window.header.pack_end(search);
 
+                accounts_popover = new Widgets.AccountsPopover();
+                accounts_popover.set_relative_to(avatar_button);
+
+                avatar_button.clicked.connect(() => {
+                    accounts_popover.show_all();
+                });
+
+                accounts_popover.view_profile.connect(() => {
+                    this.switch_timeline("own");
+                    accounts_popover.hide();
+                });
+
+                accounts_popover.add_account.connect(() => {
+                    this.switch_timeline("welcome");
+                    accounts_popover.hide();
+                });
+
+                accounts_popover.switch_account.connect((user) => {
+                    if(user.name != this.default_account.name)
+                        this.switch_account (user);
+                    else 
+                        switch_timeline("home");
+                    accounts_popover.hide();
+                });
+
+
                 /*==========  tweets lists  ==========*/
 
                 this.home_list = new Widgets.TweetList ();
@@ -463,31 +489,9 @@ namespace Birdie {
 
                 this.m_box.pack_start (this.notebook, true, true, 0);
 
-                // Create the accounts switcher / revealer
-                accounts_revealer = new Gtk.Revealer();
-                accounts_revealer.set_transition_type(Gtk.RevealerTransitionType.SLIDE_LEFT);
-                accounts_revealer.halign = Gtk.Align.END;
-
-                accounts_box = new Gtk.Box(Gtk.Orientation.VERTICAL, 0);
-                accounts_box.expand = false;
-                accounts_box.get_style_context().add_class("account-box");
-                accounts_box.halign = Gtk.Align.FILL;
-
                 this.default_account = this.db.get_default_account ();
                 this.default_account_id = this.db.get_account_id ();
                 set_user_menu();
-
-                accounts_revealer.add(accounts_box);
-                this.m_box.pack_end(accounts_revealer, false, false, 0);
-
-                avatar_button.clicked.connect(() => {
-                    if(accounts_revealer.child_revealed) {
-                        accounts_revealer.reveal_child = false;
-                    } else {
-                        accounts_revealer.visible = true;
-                        accounts_revealer.reveal_child = true;
-                    }
-                });
 
                 this.m_window.add(this.m_box);
 
@@ -512,7 +516,6 @@ namespace Birdie {
                 });
 
                 this.m_window.show_all ();
-                accounts_revealer.visible = false;
 
                 if (Option.START_HIDDEN) {
                     this.m_window.hide ();
@@ -527,7 +530,6 @@ namespace Birdie {
                 }
             } else {
                 this.m_window.show_all ();
-                accounts_revealer.visible = false;
                 #if HAVE_LIBUNITY
                 if (get_total_unread () > 0)
                     this.launcher.clean_launcher_count ();
@@ -787,57 +789,12 @@ namespace Birdie {
 
         private void set_user_menu () {
 
-            foreach(var w in accounts_box.get_children()) {
-                accounts_box.remove(w);
-            }
-
             // get all accounts
             List<User?> all_accounts = new List<User?> ();
             all_accounts = this.db.get_all_accounts ();
 
-            foreach (var account in all_accounts) {
-
-                try {
-                    var pixbuf = new Gdk.Pixbuf.from_file (Environment.get_home_dir () +
-                        "/.local/share/birdie/avatars/" + account.profile_image_file);
-
-                    var avatar_switch_temp = new Granite.Widgets.Avatar();
-                    avatar_switch_temp.pixbuf = pixbuf.scale_simple(50, 50, Gdk.InterpType.BILINEAR);
-
-                    var avatar_switch_button = new Gtk.Button();
-                    avatar_switch_button.image = avatar_switch_temp;
-                    avatar_switch_button.relief = Gtk.ReliefStyle.NONE;
-                    avatar_switch_button.set_tooltip_text(account.name + "\n@" + account.screen_name);
-
-                    avatar_switch_button.clicked.connect (() => {
-
-                        // If you click on the account that you're already on, view your profile
-                        if(default_account.screen_name == account.screen_name) {
-                            switch_timeline("own");
-                        } else {
-                            switch_account (account);
-                        }
-
-                        accounts_revealer.reveal_child = false;
-                    });
-
-                    avatar_switch_button.set_tooltip_text(_("Switch to the %s account".printf(account.name)));
-                    
-                    if(account.screen_name == this.default_account.screen_name) {
-                        avatar_switch_button.set_tooltip_text(_("View your Twitter profile"));
-                    }
-                    
-                    accounts_box.add(avatar_switch_button);
-                } catch (Error e) {
-                    stderr.printf("Error adding account to sidebar: %s\n", e.message);
-                }
-            }
-
-            new_button = new Gtk.Button.from_icon_name("list-add-symbolic", Gtk.IconSize.DIALOG);
-            new_button.relief = Gtk.ReliefStyle.NONE;
-            new_button.clicked.connect(() => { this.switch_timeline ("welcome"); });
-            accounts_box.add(new_button);
-
+            accounts_popover.set_accounts(all_accounts);
+            accounts_popover.set_current_account(this.default_account);
         }
 
         private void set_account_avatar (User account) {
@@ -871,6 +828,8 @@ namespace Birdie {
             this.db.set_default_account (account);
             this.default_account = account;
             this.default_account_id = this.db.get_account_id ();
+
+            this.accounts_popover.set_current_account(account);
 
             this.set_widgets_sensitive (false);
 
