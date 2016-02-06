@@ -1,84 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="16"
    version="1.1"
-   width="22"
-   height="22"
-   id="svg3810"
-   inkscape:version="0.48.3.1 r9886"
-   sodipodi:docname="twitter-retweeted.svg">
-  <sodipodi:namedview
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1"
-     objecttolerance="10"
-     gridtolerance="10"
-     guidetolerance="10"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:window-width="1680"
-     inkscape:window-height="1000"
-     id="namedview7"
-     showgrid="false"
-     inkscape:zoom="10.727273"
-     inkscape:cx="-36.682204"
-     inkscape:cy="11"
-     inkscape:window-x="0"
-     inkscape:window-y="28"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
-  <defs
-     id="defs3812">
-    <linearGradient
-       id="linearGradient3752">
-      <stop
-         style="stop-color:#0bbc7b;stop-opacity:1;"
-         offset="0"
-         id="stop3754" />
-      <stop
-         style="stop-color:#0bbc59;stop-opacity:1;"
-         offset="1"
-         id="stop3756" />
-    </linearGradient>
-    <radialGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3752"
-       id="radialGradient3768"
-       cx="11"
-       cy="5.5"
-       fx="11"
-       fy="5.5"
-       r="10.5"
-       gradientTransform="matrix(1,0,0,0.52380952,0,2.6190476)"
-       gradientUnits="userSpaceOnUse" />
-  </defs>
+   id="svg7384"
+   height="16">
   <metadata
-     id="metadata3815">
+     id="metadata90">
     <rdf:RDF>
       <cc:Work
          rdf:about="">
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title>elementary Symbolic Icon Theme</dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <g
-     transform="translate(0,6)"
-     id="layer1">
-    <path
-       d="M 5.5,0 0.5,5 4,5 4,11 13.5,11 11,8 7,8 7,5 10.5,5 5.5,0 z m 3,0 2.5,3 4,0 0,3 -3.5,0 5,5 5,-5 L 18,6 18,0 8.5,0 z"
-       id="path2999"
-       style="fill:url(#radialGradient3768);fill-opacity:1;stroke:none" />
-  </g>
+  <title
+     id="title9167">elementary Symbolic Icon Theme</title>
+  <defs
+     id="defs7386" />
+  <path
+     id="rect4176"
+     d="M 3 1 C 1.892 1 1 1.892 1 3 L 1 13 C 1 14.108 1.892 15 3 15 L 13 15 C 14.108 15 15 14.108 15 13 L 15 3 C 15 1.892 14.108 1 13 1 L 3 1 z M 4.5 5 L 6.7734375 8 L 5 8 L 5 10 L 8.75 10 L 9.5 11 L 4 11 L 4 8 L 2 8 L 4.5 5 z M 6.5 5 L 12 5 L 12 8 L 14 8 L 11.5 11 L 9.2265625 8 L 11 8 L 11 6 L 7.25 6 L 6.5 5 z "
+     style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#77b255;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
 </svg>

@@ -10,7 +10,7 @@ install(FILES twitter-new-tweet-symbolic.svg DESTINATION ${CMAKE_INSTALL_PREFIX}
 install(FILES twitter-search.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/24x24/actions)
 install(FILES twitter-reply.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/22x22/actions)
 install(FILES twitter-retweet.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/22x22/actions)
-install(FILES twitter-retweeted.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/22x22/actions)
+install(FILES twitter-retweeted.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/16x16/actions)
 install(FILES twitter-fav.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/22x22/actions)
 install(FILES twitter-favd.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/22x22/actions)
 install(FILES twitter-thread.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/22x22/actions)

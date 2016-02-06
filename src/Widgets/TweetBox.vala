@@ -854,13 +854,13 @@ namespace Birdie.Widgets {
             var retweeted_by_label = "";
 
             retweeted_by_label = ("<span color='#999'>" +
-                _("retweeted by %s").printf ("<span underline='none'><a href='birdie://user/" +
+                _("%s Retweeted").printf ("<span underline='none'><a href='birdie://user/" +
                 this.tweet.retweeted_by + "'>" + this.tweet.retweeted_by_name +
                 "</a></span>") + "</span>");
 
             if (this.tweet.retweeted_by != "") {
                 var retweeted_img = new Gtk.Image ();
-                retweeted_img.set_from_icon_name ("twitter-retweet", Gtk.IconSize.MENU);
+                retweeted_img.set_from_icon_name ("twitter-retweeted", Gtk.IconSize.MENU);
                 retweeted_img.set_halign (Gtk.Align.END);
                 retweeted_img.margin_bottom = 6;
                 this.info_label = new Gtk.Label ("");
