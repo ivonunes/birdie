@@ -209,9 +209,8 @@ namespace Birdie {
 
                 Gtk.Window.set_default_icon_name ("birdie");
                 this.m_window = new Widgets.UnifiedWindow ();
- 
-                this.m_window.set_default_size (700, 500);
-                this.m_window.set_size_request (700, 50);
+                this.m_window.save_state.connect(save_state);
+
                 this.m_window.set_application (this);
 
                 // restore main window size and position
@@ -1588,7 +1587,7 @@ namespace Birdie {
             return true;
         }
 
-        private void on_exit() {
+        public void save_state() {
             // save window size and position
             int x, y, w, h;
             m_window.get_position (out x, out y);
@@ -1597,6 +1596,11 @@ namespace Birdie {
             this.settings.set_int ("opening-y", y);
             this.settings.set_int ("window-width", w);
             this.settings.set_int ("window-height", h);
+        }
+
+        private void on_exit() {
+            // save window size and position
+            save_state();
 
             // destroy notifications
             this.notification.uninit ();

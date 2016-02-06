@@ -18,6 +18,8 @@
 namespace Birdie.Widgets {
     public class UnifiedWindow : Gtk.ApplicationWindow
     {
+
+        public signal void save_state();
         public int opening_x;
         public int opening_y;
         public int window_width;
@@ -133,7 +135,7 @@ namespace Birdie.Widgets {
             // Set up geometry
             Gdk.Geometry geo = new Gdk.Geometry();
             geo.min_width = 575;
-            geo.min_height = 200;
+            geo.min_height = 300;
             geo.max_width = 775;
             geo.max_height = 2048;
 
@@ -148,11 +150,12 @@ namespace Birdie.Widgets {
                                                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
             this.set_title ("Birdie");
-            this.set_default_size(575, 200);
+            this.set_default_size(575, 300);
         }
 
         private bool on_delete_event () {
             this.save_window ();
+            this.save_state();
             base.hide_on_delete ();
             return true;
         }
