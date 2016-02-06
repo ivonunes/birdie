@@ -111,7 +111,6 @@ namespace Birdie.Widgets {
                     stderr.printf("Error adding account to popover: %s\n", e.message);
                 }
             }
-
     	}
 
     	public void set_current_account(User account) {

@@ -484,7 +484,6 @@ namespace Birdie {
 
                 this.default_account = this.db.get_default_account ();
                 this.default_account_id = this.db.get_account_id ();
-                set_user_menu();
 
                 this.m_window.add(this.m_box);
 
@@ -645,7 +644,6 @@ namespace Birdie {
                                 int code = this.new_api.get_tokens (pin[0]);
 
                                 if (code == 0) {
-
                                     this.api = this.new_api;
                                     this.init.begin ();
                                 } else {
@@ -754,6 +752,7 @@ namespace Birdie {
                     this.db.update_account (this.api.account);
 
                     this.set_account_avatar (this.api.account);
+                    set_user_menu();
 
                     this.initialized = true;
 
@@ -817,8 +816,6 @@ namespace Birdie {
             this.db.set_default_account (account);
             this.default_account = account;
             this.default_account_id = this.db.get_account_id ();
-
-            this.accounts_popover.set_current_account(account);
 
             this.set_widgets_sensitive (false);
 
