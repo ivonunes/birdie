@@ -18,6 +18,7 @@
 namespace Birdie {
 
     public class Birdie : Granite.Application {
+
 		private Gtk.Box m_box;
         public Widgets.UnifiedWindow m_window;
         public Widgets.TweetList home_list;
@@ -73,6 +74,7 @@ namespace Birdie {
         private Widgets.ConversationView conversation_view;
         private Gtk.Popover search_popover;
         private Widgets.TweetDialog new_tweet_popover = null;
+        private Gtk.SearchEntry search_entry;
 
         private Gtk.Spinner spinner;
 
@@ -130,34 +132,30 @@ namespace Birdie {
 
         private signal void exit();
 
-        public static const OptionEntry[] app_options = {
-            { "debug", 'd', 0, OptionArg.NONE, out Option.DEBUG, "Enable debug logging", null },
-            { "start-hidden", 's', 0, OptionArg.NONE, out Option.START_HIDDEN, "Start hidden", null },
-            { null }
-        };
-
         construct {
             program_name        = "Birdie";
             exec_name           = "birdie";
+
             build_version       = Constants.VERSION;
             app_years           = "2013-2016";
             app_icon            = "birdie";
             app_launcher        = "birdie.desktop";
             application_id      = "org.birdieapp.birdie";
+
             main_url            = "http://birdieapp.github.io/";
             bug_url             = "https://github.com/birdieapp/birdie/issues";
             help_url            = "https://github.com/birdieapp/birdie/wiki";
             translate_url       = "http://www.transifex.com/projects/p/birdie/";
+
             about_authors       = {"Ivo Nunes <ivo@elementaryos.org>", "Vasco Nunes <vascomfnunes@gmail.com>", "Nathan Dyer <mail@nathandyer.me>"};
-            about_artists       = {"Daniel Foré <daniel@elementaryos.org>", "Mustapha Asbbar"};
-            about_comments      = null;
-            about_documenters   = {};
-            about_translators   = null;
+            about_documenters   = { "Nathan Dyer <mail@nathandyer.me>" };
+            about_artists       = {"Daniel Foré <daniel@elementaryos.org>", "Nathan Dyer <mail@nathandyer.me>", "Sam Hewitt", "Mustapha Asbbar"};
+            about_comments      = "Fast, beautiful, and powerful Twitter client for elementary OS";
+            about_translators   = _("translator-credits");
             about_license_type  = Gtk.License.GPL_3_0;
+
+            set_options();
         }
-
-        private Gtk.SearchEntry search_entry;
-
 
         public Birdie () {
             GLib.Object(application_id: "org.birdie", flags: ApplicationFlags.HANDLES_OPEN);
@@ -186,17 +184,10 @@ namespace Birdie {
         */
 
         public override void activate (){
+
             if (get_windows () == null) {
                 Utils.Logger.initialize ("birdie");
                 Utils.Logger.DisplayLevel = Utils.LogLevel.INFO;
-                message ("Birdie version: %s", Constants.VERSION);
-                var un = Posix.utsname ();
-                message ("Kernel version: %s", (string) un.release);
-
-                if (Option.DEBUG)
-                    Utils.Logger.DisplayLevel = Utils.LogLevel.DEBUG;
-                else
-                    Utils.Logger.DisplayLevel = Utils.LogLevel.WARN;
 
                 // settings
                 this.settings = new Settings ("org.birdieapp.birdie");
@@ -518,10 +509,6 @@ namespace Birdie {
                 });
 
                 this.m_window.show_all ();
-
-                if (Option.START_HIDDEN) {
-                    this.m_window.hide ();
-                }
 
                 if (this.default_account == null) {
                     this.switch_timeline ("welcome");

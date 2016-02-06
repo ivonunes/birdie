@@ -9,3 +9,8 @@ Terminal=false
 Type=Application
 MimeType=x-scheme-handler/birdie;
 X-GNOME-Gettext-Domain=birdie
+Actions=AboutDialog;
+
+[Desktop Action AboutDialog]
+Exec=birdie --about
+Name=About Birdie

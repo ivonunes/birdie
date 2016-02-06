@@ -17,27 +17,10 @@
 
 namespace Birdie {
 
-    namespace Option {
-        private static bool DEBUG = false;
-        private static bool START_HIDDEN = false;
-    }
-
     public static int main (string[] args) {
         X.init_threads ();
 
-        var context = new OptionContext ("Birdie");
-        context.add_main_entries (Birdie.app_options, "birdie");
-        context.add_group (Gtk.get_option_group(true));
-
-        try {
-            context.parse (ref args);
-        } catch (Error e) {
-            warning (e.message);
-        }
-
-        Gtk.init (ref args);
-        var app = new Birdie ();
-
+        Granite.Application app = new Birdie ();
         return app.run (args);
     }
 }
