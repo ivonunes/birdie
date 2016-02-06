@@ -72,6 +72,7 @@ namespace Birdie {
         private Widgets.ConversationsList conversations_list;
         private Widgets.ConversationView conversation_view;
         private Gtk.Popover search_popover;
+        private Widgets.TweetDialog new_tweet_popover = null;
 
         private Gtk.Spinner spinner;
 
@@ -261,11 +262,13 @@ namespace Birdie {
                     return false;
                 });
 
+                
                 new_tweet.clicked.connect (() => {
-                    Widgets.TweetDialog dialog = new Widgets.TweetDialog (this, "", "", false);
-
-                    dialog.set_relative_to(new_tweet);
-                    dialog.show_all ();
+                    if(new_tweet_popover == null) {
+                        new_tweet_popover = new Widgets.TweetDialog (this, "", "", false);
+                        new_tweet_popover.set_relative_to(new_tweet);
+                    }
+                    new_tweet_popover.show_all ();
                 });
 
                 this.m_window.header.pack_start (new_tweet);

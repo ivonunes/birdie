@@ -59,22 +59,11 @@ namespace Birdie.Widgets {
             this.count_remaining = 140;
             this.has_media = false;
 
-            // connect signal to handle key events
-            this.key_press_event.connect ((event) => {
-                this.handle_key_events (this, event);
-                return false;
-            });
-
             this.container = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
 
             this.media_uri = "";
 
             this.set_modal (true);
-
-            this.birdie.m_window.configure_event.connect ((w, e) => {
-                return true;
-            });
-
 
             this.avatar = new Granite.Widgets.Avatar();
 
@@ -91,9 +80,7 @@ namespace Birdie.Widgets {
             this.view.set_wrap_mode (Gtk.WrapMode.WORD_CHAR);
             this.view.set_size_request(300, 80);
             this.view.set_accepts_tab (false);
-            //this.view.top_margin = 5;
             this.view.left_margin = 5;
-            //this.view.bottom_margin = 5;
             this.view.right_margin = 5;
             this.view.cursor_visible = true;
 
@@ -196,7 +183,7 @@ namespace Birdie.Widgets {
             this.cancel = new Gtk.Button.with_label (_("Cancel"));
             this.cancel.set_size_request (100, -1);
             this.cancel.clicked.connect (() => {
-                this.destroy ();
+                this.hide ();
             });
 
             if (this.dm)
@@ -311,7 +298,8 @@ namespace Birdie.Widgets {
                 this.id, this.user_screen_name, this.dm, this.media_uri);
 
             Idle.add (() => {
-                this.destroy ();
+                // Clear the buffer once the Tweet has been sent
+                this.view.buffer.delete(ref start, ref end);
                 return false;
             });
 
@@ -365,27 +353,6 @@ namespace Birdie.Widgets {
                 this.tweet.set_sensitive (true);
                 this.tweet_disabled = false;
             }
-        }
-
-        private void handle_key_events (Gtk.Widget source, Gdk.EventKey key) {
-            // if Esc pressed, destroy dialog
-            if (key.keyval == Gdk.Key.Escape) {
-                Idle.add (() => {
-                this.destroy ();
-                return false;
-                });
-            } else
-              if (key.keyval == Gdk.Key.Tab) {
-                //
-            }
-        }
-
-
-        public override bool button_press_event (Gdk.EventButton e) {
-            if (this.birdie.m_window.get_visible ())
-                return false;
-            else
-                return base.button_press_event (e);
         }
     }
 }
