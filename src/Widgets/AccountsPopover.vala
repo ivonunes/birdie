@@ -86,7 +86,7 @@ namespace Birdie.Widgets {
 
                     // Labels
                     var name_label = new Gtk.Label(account.name);
-                    name_label.get_style_context().add_class("h3");
+                    name_label.get_style_context().add_class("h4");
                     var handle_label = new Gtk.Label("@" + account.screen_name);
                     name_label.halign = Gtk.Align.START;
                     handle_label.halign = Gtk.Align.START;
