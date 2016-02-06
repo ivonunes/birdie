@@ -18,7 +18,6 @@
 namespace Birdie.Media {
 
     public string parse_profile_image_file (string profile_image_url) {
-        info("Profile image URL: %s".printf(profile_image_url));
         string profile_image_file = profile_image_url;
 
         if ("/" in profile_image_file)

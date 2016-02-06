@@ -1147,11 +1147,61 @@ namespace Birdie {
                     #endif
                 }
 
+                // Set the icon for the mention
+                if(new_mentions) {
+                    set_switcher_button("mentions", "notification-new-symbolic");
+                }
+
                 if (this.ready)
                     Media.get_avatar (this.mentions_list);
 
                 return false;
             });
+        }
+
+        private void set_switcher_button(string button, string icon_name) {
+
+            var switcher_buttons = switcher.get_children();
+            int child_pos = 0;
+
+            Gtk.Button mention_child = null;
+            Gtk.Button dm_child = null;
+
+            switcher_buttons.foreach((child) => {
+                switch (child_pos) {
+                    case 0:
+                        break;
+                    case 1:
+                        mention_child = child as Gtk.Button;
+                        break;
+                    case 2:
+                        dm_child = child as Gtk.Button;
+                        break;
+                    default:
+                        assert_not_reached();
+                }
+                child_pos++;
+            });
+
+            if(button == "mentions" && mention_child != null) {
+                var mentions_button_children = mention_child.get_children();
+                mentions_button_children.foreach((child) => {
+                    if(child is Gtk.Image) {
+                        var image = child as Gtk.Image;
+                        image.icon_name = icon_name;
+                    }
+                });
+            } else if (button == "dms" && dm_child != null) {
+                var dm_button_children = dm_child.get_children();
+                dm_button_children.foreach((child) => {
+                    if(child is Gtk.Image) {
+                        var image = child as Gtk.Image;
+                        image.icon_name = icon_name;
+                    }
+                });
+            }
+
+            switcher.show_all();
         }
 
         public void update_dm_ui () {
@@ -1162,7 +1212,6 @@ namespace Birdie {
 
             Idle.add (() => {
                 this.api.dm_timeline.foreach ((tweet) => {
-                    info("New DM: %s".printf(tweet.text));
                     this.conversations_list.set_dm_lists(dm_list, dm_sent_list);
                     this.dm_list.append (tweet, this);
                     this.db.add_user.begin (tweet.user_screen_name,
@@ -1202,6 +1251,11 @@ namespace Birdie {
                     #if HAVE_LIBUNITY
                     this.launcher.set_count (get_total_unread ());
                     #endif
+                }
+
+                // Set the icon for the mention
+                if(new_dms) {
+                    set_switcher_button("dms", "twitter-dm-new-symbolic");
                 }
 
                 return false;
@@ -1331,6 +1385,7 @@ namespace Birdie {
         }
 
         private void clean_mentions_indicator () {
+            set_switcher_button("mentions", "twitter-mentions-symbolic");
             this.unread_mentions = 0;
             #if HAVE_LIBUNITY
             this.launcher.set_count (get_total_unread ());
@@ -1338,6 +1393,7 @@ namespace Birdie {
         }
 
         private void clean_dm_indicator () {
+            set_switcher_button("dms", "twitter-dm-symbolic");
             this.unread_dm = 0;
             #if HAVE_LIBUNITY
             this.launcher.set_count (get_total_unread ());

@@ -64,12 +64,9 @@ namespace Birdie.Media {
     public string get_instagram_media(string url, Widgets.TweetBox? tweetbox = null,
                                      Widgets.TweetList? tweetlist = null, Tweet? tweet = null) {
 
-        stdout.printf("Instragram found. URL: %s\n", url);
-
         string instagram_id = url.replace("https://www.instagram.com/p/", "").replace("/", "");
 
         string uri = "https://api.instagram.com/oembed/?url=%s".printf(url);
-        stdout.printf("Search URI: %s\n", uri);
 
         var session = new Soup.Session ();
         var message = new Soup.Message ("GET", uri);
