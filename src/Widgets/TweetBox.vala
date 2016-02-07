@@ -380,7 +380,8 @@ namespace Birdie.Widgets {
                     this.thread_button = new Gtk.Button ();
                     this.thread_button.set_halign (Gtk.Align.END);
                     this.thread_button.set_relief (Gtk.ReliefStyle.NONE);
-                    this.thread_icon = new Gtk.Image.from_icon_name ("twitter-thread", Gtk.IconSize.SMALL_TOOLBAR);
+                    this.thread_icon = new Gtk.Image.from_icon_name ("twitter-thread-symbolic", Gtk.IconSize.SMALL_TOOLBAR);
+                    this.reset_thread_icon();
                     this.thread_button.child = this.thread_icon;
                     this.thread_button.set_tooltip_text (_("Thread"));
                     this.buttons_box.pack_start (thread_button, false, true, 0);
@@ -388,6 +389,10 @@ namespace Birdie.Widgets {
                     this.thread_button.clicked.connect (() => {
                         this.thread_button.set_sensitive (false);
                         new Thread<void*> (null, this.thread_thread);
+                        this.reset_thread_icon();
+                        this.thread_icon = new Gtk.Image.from_icon_name ("twitter-thread-symbolic", Gtk.IconSize.SMALL_TOOLBAR);
+                        this.thread_icon.get_style_context().remove_class("icon-grey");
+                        this.thread_icon.get_style_context().add_class("icon-blue");
                     });
                 }
             }
@@ -464,7 +469,7 @@ namespace Birdie.Widgets {
                 this.favorite_button = new Gtk.Button ();
                 this.favorite_button.set_halign (Gtk.Align.END);
                 this.favorite_button.set_relief (Gtk.ReliefStyle.NONE);
-                this.favorite_icon = new Gtk.Image.from_icon_name ("emblem-favorite-symbolic", Gtk.IconSize.SMALL_TOOLBAR);
+                this.favorite_icon = new Gtk.Image.from_icon_name ("twitter-like-symbolic", Gtk.IconSize.SMALL_TOOLBAR);
                 this.reset_favorite_icon();
                 this.favorite_button.child = this.favorite_icon;
                 this.favorite_button.set_tooltip_text (_("Favorite"));
@@ -478,8 +483,8 @@ namespace Birdie.Widgets {
                 if (this.tweet.favorited) {
                     Idle.add( () => {
                         this.reset_favorite_icon();
-                        this.favorite_icon.set_from_icon_name ("emblem-favorite-symbolic", Gtk.IconSize.SMALL_TOOLBAR);
-                        this.favorite_icon.get_style_context().remove_class("favorite-grey");
+                        this.favorite_icon.set_from_icon_name ("twitter-like-symbolic", Gtk.IconSize.SMALL_TOOLBAR);
+                        this.favorite_icon.get_style_context().remove_class("icon-grey");
                         this.favorite_icon.get_style_context().add_class("favorite-pink");
                         //this.status_img.set_from_icon_name("twitter-fav-banner",  Gtk.IconSize.LARGE_TOOLBAR);
                         return false;
@@ -495,15 +500,18 @@ namespace Birdie.Widgets {
                     this.retweet_button = new Gtk.Button ();
                     this.retweet_button.set_halign (Gtk.Align.END);
                     this.retweet_button.set_relief (Gtk.ReliefStyle.NONE);
-                    this.retweet_icon = new Gtk.Image.from_icon_name ("twitter-retweet", Gtk.IconSize.SMALL_TOOLBAR);
+                    this.retweet_icon = new Gtk.Image.from_icon_name ("twitter-retweet-symbolic", Gtk.IconSize.SMALL_TOOLBAR);
+                    this.reset_retweet_icon();
                     this.retweet_button.child = this.retweet_icon;
                     this.retweet_button.set_tooltip_text (_("Retweet"));
                     this.buttons_box.pack_start (retweet_button, false, true, 0);
 
                     if (this.tweet.retweeted) {
                         this.retweet_button.set_sensitive (false);
-                        this.retweet_icon.set_from_icon_name ("twitter-retweeted", Gtk.IconSize.SMALL_TOOLBAR);
-                        //this.status_img.set_from_icon_name ("twitter-ret-banner",  Gtk.IconSize.LARGE_TOOLBAR);
+                        this.reset_retweet_icon();
+                        this.retweet_icon = new Gtk.Image.from_icon_name ("twitter-retweet-symbolic", Gtk.IconSize.SMALL_TOOLBAR);
+                        this.favorite_icon.get_style_context().remove_class("icon-grey");
+                        this.retweet_icon.get_style_context().add_class("retweet-green");
                     }
 
                     this.retweet_button.clicked.connect (() => {
@@ -533,7 +541,8 @@ namespace Birdie.Widgets {
                     this.reply_button = new Gtk.Button ();
                     this.reply_button.set_halign (Gtk.Align.END);
                     this.reply_button.set_relief (Gtk.ReliefStyle.NONE);
-                    this.reply_icon = new Gtk.Image.from_icon_name ("twitter-reply", Gtk.IconSize.SMALL_TOOLBAR);
+                    this.reply_icon = new Gtk.Image.from_icon_name ("twitter-reply-symbolic", Gtk.IconSize.SMALL_TOOLBAR);
+                    this.reset_reply_icon();
                     this.reply_button.child = this.reply_icon;
                     this.reply_button.set_tooltip_text (_("Reply"));
 
@@ -541,10 +550,15 @@ namespace Birdie.Widgets {
                         Widgets.TweetDialog dialog = new TweetDialog (this.birdie, this.tweet.id, this.tweet.user_screen_name, this.tweet.dm);
                         dialog.set_relative_to(this.birdie.new_tweet);
                         dialog.show_all();
+                        this.reset_reply_icon();
+                        this.reply_icon = new Gtk.Image.from_icon_name ("twitter-reply-symbolic", Gtk.IconSize.SMALL_TOOLBAR);
+                        this.reply_icon.get_style_context().remove_class("icon-grey");
+                        this.reply_icon.get_style_context().add_class("icon-blue");
                     });
 
                     this.buttons_box.pack_start (this.reply_button, false, true, 0);
                 }
+
                 if (this.tweet.dm) {
                     // dm delete button
                     this.dm_delete_button = new Gtk.Button ();
@@ -760,8 +774,8 @@ namespace Birdie.Widgets {
             if (this.tweet.favorited) {
                 Idle.add (() => {
                     this.reset_favorite_icon();
-                    this.favorite_icon.set_from_icon_name ("emblem-favorite-symbolic", Gtk.IconSize.SMALL_TOOLBAR);
-                    this.favorite_icon.get_style_context().remove_class("favorite-grey");
+                    this.favorite_icon.set_from_icon_name ("twitter-like-symbolic", Gtk.IconSize.SMALL_TOOLBAR);
+                    this.favorite_icon.get_style_context().remove_class("icon-grey");
                     this.favorite_icon.get_style_context().add_class("favorite-pink");
                     this.favorite_button.set_tooltip_text (_("Unfavorite"));
                     return false;
@@ -769,7 +783,7 @@ namespace Birdie.Widgets {
             } else {
                 Idle.add (() => {
                     this.reset_favorite_icon();
-                    this.favorite_icon.set_from_icon_name ("emblem-favorite-symbolic", Gtk.IconSize.SMALL_TOOLBAR);
+                    this.favorite_icon.set_from_icon_name ("twitter-like-symbolic", Gtk.IconSize.SMALL_TOOLBAR);
                     this.favorite_button.set_tooltip_text (_("Favorite"));
                     return false;
                 });
@@ -779,8 +793,29 @@ namespace Birdie.Widgets {
         public void reset_favorite_icon() {
             if(this.favorite_icon.get_style_context().has_class("favorite-pink"))
                 this.favorite_icon.get_style_context().remove_class("favorite-pink");
-            if(!this.favorite_icon.get_style_context().has_class("favorite-grey"))
-                this.favorite_icon.get_style_context().add_class("favorite-grey");
+            if(!this.favorite_icon.get_style_context().has_class("icon-grey"))
+                this.favorite_icon.get_style_context().add_class("icon-grey");
+        }
+
+        public void reset_retweet_icon() {
+            if(this.retweet_icon.get_style_context().has_class("retweet-green"))
+                this.retweet_icon.get_style_context().remove_class("retweet-green");
+            if(!this.retweet_icon.get_style_context().has_class("icon-grey"))
+                this.retweet_icon.get_style_context().add_class("icon-grey");
+        }
+
+        public void reset_reply_icon() {
+            if(this.reply_icon.get_style_context().has_class("icon-blue"))
+                this.reply_icon.get_style_context().remove_class("icon-blue");
+            if(!this.reply_icon.get_style_context().has_class("icon-grey"))
+                this.reply_icon.get_style_context().add_class("icon-grey");
+        }
+
+        public void reset_thread_icon() {
+            if(this.thread_icon.get_style_context().has_class("icon-blue"))
+                this.thread_icon.get_style_context().remove_class("icon-blue");
+            if(!this.thread_icon.get_style_context().has_class("icon-grey"))
+                this.thread_icon.get_style_context().add_class("icon-grey");
         }
 
         public void update_media () {
