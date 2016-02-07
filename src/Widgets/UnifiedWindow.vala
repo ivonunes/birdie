@@ -32,14 +32,6 @@ namespace Birdie.Widgets {
 
             @define-color colorPrimary #55ACEE;
 
-            .account-box {
-                background-color: #292f33;
-            }
-
-            .account-box .button {
-                color: white;
-            }
-
             BirdieWidgetsConversationsList .avatar,
             BirdieWidgetsTweetList .avatar {
                 border:none;
@@ -67,12 +59,6 @@ namespace Birdie.Widgets {
             .titlebar .linked .button:last-child,
             .titlebar .linked button:last-child {
                 border-right-width:1px;
-            }
-            
-
-            .titlebar .button.image-button {
-                border-radius: 3px;
-                padding: 0;
             }
 
             .titlebar .button:active:backdrop {
@@ -123,11 +109,6 @@ namespace Birdie.Widgets {
                 color: @text_color;
 
                 padding: 4px;
-            }
-
-            .tweet-entry:selected {
-                color: #fff;
-                background: #55ACEE;
             }
 
             .white-box {
