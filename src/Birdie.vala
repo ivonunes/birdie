@@ -201,6 +201,7 @@ namespace Birdie {
                 Gtk.Window.set_default_icon_name ("birdie");
                 this.m_window = new Widgets.UnifiedWindow ();
                 this.m_window.save_state.connect(save_state);
+                //this.m_window.type_hint = Gdk.WindowTypeHint.DIALOG;
 
                 this.m_window.set_application (this);
 
@@ -329,6 +330,9 @@ namespace Birdie {
                 this.m_window.header.pack_end(avatar_button);
                 this.m_window.header.pack_end(search);
 
+                // Hide maximize since we don't allow the window to grow that large
+                this.m_window.header.set_decoration_layout("close:");
+
                 accounts_popover = new Widgets.AccountsPopover();
                 accounts_popover.set_relative_to(avatar_button);
 
@@ -353,7 +357,6 @@ namespace Birdie {
                         switch_timeline("home");
                     accounts_popover.hide();
                 });
-
 
                 /*==========  tweets lists  ==========*/
 
