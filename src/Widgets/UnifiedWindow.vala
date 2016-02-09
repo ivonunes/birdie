@@ -32,54 +32,36 @@ namespace Birdie.Widgets {
 
             @define-color colorPrimary #55ACEE;
 
-            .account-box {
-                background-color: #292f33;
+            BirdieWidgetsConversationsList .avatar,
+            BirdieWidgetsTweetList .avatar {
+                border:none;
+                box-shadow: inset 0 0 0 1px alpha(#000, 0.15),
+                            0 1px 0 0 alpha( #fff, 0.45);
             }
 
-            .account-box .button {
-                color: white;
-            }
-
-            .header-bar {
+            .titlebar {
                 padding: 0 6px;
-
                 box-shadow: inset 0 0 0 1px alpha (#fff, 0.20),
                 inset 0 1px 0 0 alpha (#fff, 0.30);
-
             }
 
-            .header-bar:backdrop {
-                background-image: linear-gradient(to bottom,
-                                  #9ecef3,
-                                  #61b0df
-                                  );
-
-                border-color: #457c9d;
-            }
-
-            .header-bar .button {
+            .titlebar .button {
                 border-radius: 0;
                 padding: 11px 10px;
                 border-width: 0 1px 0 1px;
             }
 
-            .header-bar .button.image-button {
-                border-radius: 3px;
-                padding: 0;
+            .titlebar .linked .button,
+            .titlebar .linked button {
+                border-right-width:0px;
+            }
+            
+            .titlebar .linked .button:last-child,
+            .titlebar .linked button:last-child {
+                border-right-width:1px;
             }
 
-            .header-bar .button:active {
-                color: white;
-                border-color: #4182aa;
-                background-image: linear-gradient(to bottom,
-                                  #83bee3,
-                                  #3292cb
-                                  );
-                box-shadow: inset 0 0 0 1px alpha (#000, 0.05),
-                            inset 0 1px 0 0 alpha (#fff, 0.30);
-            }
-
-            .header-bar .button:active:backdrop {
+            .titlebar .button:active:backdrop {
                 border-color: #4182aa;
                 background-image: none;
                 background-color: alpha (#000, 0.01);
@@ -98,28 +80,40 @@ namespace Birdie.Widgets {
                 border-image: none;
             }
 
-            .favorite-pink {
-                color: #E32550;
+            .icon-grey {
+                color: #b8b8b8;
             }
 
-            .favorite-grey {
-                color: #B0B0B0;
+            .favorite-pink {
+                color: #e81c4f;
+            }
+
+            .retweet-green {
+                color: #19cf86;
+            }
+
+            .icon-blue {
+                color: #009DB0;
             }
 
             .tweet-entry {
-                background: white;
-                border-style: solid;
-                border-width: 0.25px;
+                background-color: #fff;
+
+                border: 1px solid @border_color;
+                border-radius: 2.5px;
+
+                box-shadow: inset 0 1px 0 0 alpha (@inset_dark_color, 0.7),
+                            inset 0 0 0 1px alpha (@inset_dark_color, 0.3),
+                            0 1px 0 0 alpha (@bg_highlight_color, 0.30);
+
+                color: @text_color;
+
+                padding: 4px;
             }
 
-             .titlebar .titlebutton:active {
-                box-shadow: inset 0 0 0 1px alpha (#000, 0.05);
-             }
-
-             .white-box {
+            .white-box {
                 background: white;
-             }
-         """;
+            }""";
 
         public UnifiedWindow () {
             this.opening_x = -1;
