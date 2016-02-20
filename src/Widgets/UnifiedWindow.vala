@@ -31,72 +31,20 @@ namespace Birdie.Widgets {
         private const string ELEMENTARY_STYLESHEET = """
 
             @define-color colorPrimary #55ACEE;
-
-            .account-box {
-                background-color: #292f33;
-            }
-
-            .account-box .button {
-                color: white;
-            }
-
-            .header-bar {
+            .titlebar {
                 padding: 0 6px;
-
-                box-shadow: inset 0 0 0 1px alpha (#fff, 0.20),
-                inset 0 1px 0 0 alpha (#fff, 0.30);
-
             }
 
-            .header-bar:backdrop {
-                background-image: linear-gradient(to bottom,
-                                  #9ecef3,
-                                  #61b0df
-                                  );
-
-                border-color: #457c9d;
-            }
-
-            .header-bar .button {
+            .titlebar .linked .button {
                 border-radius: 0;
-                padding: 11px 10px;
-                border-width: 0 1px 0 1px;
+                padding: 12px 10px;
+                border-top-width: 0;
+                box-shadow: none;
             }
 
-            .header-bar .button.image-button {
-                border-radius: 3px;
-                padding: 0;
-            }
-
-            .header-bar .button:active {
-                color: white;
-                border-color: #4182aa;
-                background-image: linear-gradient(to bottom,
-                                  #83bee3,
-                                  #3292cb
-                                  );
-                box-shadow: inset 0 0 0 1px alpha (#000, 0.05),
-                            inset 0 1px 0 0 alpha (#fff, 0.30);
-            }
-
-            .header-bar .button:active:backdrop {
-                border-color: #4182aa;
-                background-image: none;
-                background-color: alpha (#000, 0.01);
-                border-color: alpha (#000, 0.15);
-                box-shadow: inset 0 0 0 1px alpha (#000, 0.05);
-            }
-
-            .titlebar .titlebutton {
-                background: none;
-                padding: 3px;
-
-                border-radius: 3px;
-                border-width: 1px;
-                border-color: transparent;
-                border-style: solid;
-                border-image: none;
-            }
+            .titlebar .linked .button:checked {
+                 box-shadow: inset 0 0 0 1px alpha (#000, 0.05);
+             }
 
             .favorite-pink {
                 color: #E32550;
@@ -111,10 +59,6 @@ namespace Birdie.Widgets {
                 border-style: solid;
                 border-width: 0.25px;
             }
-
-             .titlebar .titlebutton:active {
-                box-shadow: inset 0 0 0 1px alpha (#000, 0.05);
-             }
 
              .white-box {
                 background: white;
