@@ -50,7 +50,7 @@ namespace Birdie.Widgets {
         private Gtk.Image reply_icon;
         private Gtk.Image delete_icon;
         private Gtk.Image dm_delete_icon;
-        
+
         private Gtk.Image status_img;
         private Gtk.EventBox media_box;
         private Gtk.Image media;
@@ -179,6 +179,35 @@ namespace Birdie.Widgets {
             this.tweet_label.set_halign (Gtk.Align.START);
             this.tweet_label.set_valign (Gtk.Align.START);
             this.tweet_label.set_property("xalign", 0);
+
+            // Set up a signal handler for clicked links
+            this.tweet_label.activate_link.connect((link) => {
+                try {
+
+                    string protocol = "http";
+
+                    // Figure out if the link is http or https
+                    // (one or the other must be specified for xdg-open to work)
+
+                    // Find the index of the link in the tweet
+                    int index = tweet.text.index_of(link);
+
+                    // ://
+                    index -= 4;
+                    if(tweet.text[index] == 's' || tweet.text[index] == 'S') {
+                        protocol += "s";
+                    }
+
+                    protocol += "://";
+
+                    GLib.Process.spawn_command_line_async ("xdg-open " + protocol + link);
+
+                } catch (Error e) {
+                }
+
+                return true;
+            });
+
             this.content_box.pack_start (this.tweet_label, false, true, 0);
 
             // css
