@@ -6,7 +6,7 @@ A Twitter client for [elementary OS](http://elementary.io)
 Please consult the `INSTALL` and `COPYING` files for more information.
 
 * **Website**  
-Projects's oficial website at http://birdieapp.github.io
+Projects's official website at http://birdieapp.github.io
 
 * **Bugs**  
 To report bugs, please use our Git repository at http://github.com/birdieapp/birdie.
