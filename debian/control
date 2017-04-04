@@ -23,8 +23,7 @@ Build-Depends: cmake (>= 2.8),
                libpurple-dev,
                valac (>= 0.24)
 Standards-Version: 3.9.3
-Homepage: https://birdieapp.github.io
-
+Homepage: https://needleandthread.co/birdie
 Package: birdie
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}
