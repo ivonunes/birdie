@@ -514,6 +514,8 @@ namespace Birdie {
                 this.m_window.show_all ();
 
                 if (this.default_account == null) {
+                    switcher.no_show_all = true;
+                    switcher.hide();
                     this.switch_timeline ("welcome");
                 } else {
                     this.api.token = this.default_account.token;
@@ -859,6 +861,11 @@ namespace Birdie {
                     set_widgets_sensitive (false);
                 } else {
                     set_widgets_sensitive (true);
+                }
+                
+                if (new_timeline != "welcome") {
+                    switcher.no_show_all = false;
+                    switcher.show_all();
                 }
 
                 switch (new_timeline) {
