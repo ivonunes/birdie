@@ -1,5 +1,5 @@
 <schemalist>
-  <schema id="org.birdieapp.birdie" path="/org/birdieapp/birdie/" gettext-domain="birdie">
+  <schema id="com.github.needle-and-thread.birdie" path="/com/github/needle-and-thread/birdie/" gettext-domain="birdie">
 
     <key name="update-interval" type="i">
       <default>2</default>

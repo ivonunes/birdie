@@ -1,2 +1,2 @@
 include(GSettings)
-add_schema("org.birdieapp.birdie.gschema.xml")
+add_schema("com.github.needle-and-thread.birdie.gschema.xml")

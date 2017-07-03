@@ -139,12 +139,12 @@ namespace Birdie {
             build_version       = Constants.VERSION;
             app_years           = "2013-2016";
             app_icon            = "birdie";
-            app_launcher        = "birdie.desktop";
-            application_id      = "org.birdieapp.birdie";
+            app_launcher        = "com.github.needle-and-thread.birdie.desktop";
+            application_id      = "com.github.needle-and-thread.birdie";
 
-            main_url            = "http://birdieapp.github.io/";
-            bug_url             = "https://github.com/birdieapp/birdie/issues";
-            help_url            = "https://github.com/birdieapp/birdie/wiki";
+            main_url            = "http://needleandthread.co/birdie";
+            bug_url             = "https://github.com/needle-and-thread/birdie/issues";
+            help_url            = "http://needleandthread.co/birdie";
             translate_url       = "http://www.transifex.com/projects/p/birdie/";
 
             about_authors       = {"Ivo Nunes <ivo@elementaryos.org>", "Vasco Nunes <vascomfnunes@gmail.com>", "Nathan Dyer <mail@nathandyer.me>"};
@@ -158,7 +158,7 @@ namespace Birdie {
         }
 
         public Birdie () {
-            GLib.Object(application_id: "org.birdie", flags: ApplicationFlags.HANDLES_OPEN);
+            GLib.Object(application_id: "com.github.needle-and-thread.birdie", flags: ApplicationFlags.HANDLES_OPEN);
 
             Intl.bindtextdomain ("birdie", Constants.DATADIR + "/locale");
 
@@ -190,7 +190,7 @@ namespace Birdie {
                 Utils.Logger.DisplayLevel = Utils.LogLevel.INFO;
 
                 // settings
-                this.settings = new Settings ("org.birdieapp.birdie");
+                this.settings = new Settings ("com.github.needle-and-thread.birdie");
                 this.tweet_notification = settings.get_boolean ("tweet-notification");
                 this.mention_notification = settings.get_boolean ("mention-notification");
                 this.dm_notification = settings.get_boolean ("dm-notification");
@@ -212,6 +212,7 @@ namespace Birdie {
                 this.m_window.window_height = settings.get_int ("window-height");
                 this.m_window.restore_window ();
                 this.m_window.set_size_request(settings.get_int ("window-width"), settings.get_int ("window-height"));
+               
 
                 #if HAVE_LIBUNITY
                 this.launcher = new Utils.Launcher (this);
@@ -445,7 +446,7 @@ namespace Birdie {
                 spinner_box.pack_start (new Gtk.Label (""), true, true, 0);
 
                 this.init_api ();
-
+                
                 this.own_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
                 this.own_box_info = new Widgets.UserBox ();
                 this.own_box.pack_start (this.own_box_info, false, false, 0);

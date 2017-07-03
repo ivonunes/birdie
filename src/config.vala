@@ -17,7 +17,7 @@
 namespace Constants {
     public const string DATADIR = "/usr/share";
     public const string PKGDATADIR = "/usr/share/birdie";
-    public const string VERSION = "1.1";
+    public const string VERSION = "2.0";
     public const string GETTEXT_PACKAGE = "birdie";
     
     // translatable strings for the .desktop file
