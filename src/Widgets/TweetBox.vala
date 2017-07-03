@@ -579,7 +579,7 @@ namespace Birdie.Widgets {
                     this.dm_delete_button = new Gtk.Button ();
                     this.dm_delete_button.set_halign (Gtk.Align.END);
                     this.dm_delete_button.set_relief (Gtk.ReliefStyle.NONE);
-                    this.dm_delete_icon = new Gtk.Image.from_icon_name ("twitter-delete", Gtk.IconSize.SMALL_TOOLBAR);
+                    this.dm_delete_icon = new Gtk.Image.from_icon_name ("edit-delete-symbolic", Gtk.IconSize.SMALL_TOOLBAR);
                     this.dm_delete_button.child = this.dm_delete_icon;
                     this.dm_delete_button.set_tooltip_text (_("Delete"));
 
@@ -606,7 +606,7 @@ namespace Birdie.Widgets {
                 this.delete_button = new Gtk.Button ();
                 this.delete_button.set_halign (Gtk.Align.END);
                 this.delete_button.set_relief (Gtk.ReliefStyle.NONE);
-                this.delete_icon = new Gtk.Image.from_icon_name ("twitter-delete", Gtk.IconSize.SMALL_TOOLBAR);
+                this.delete_icon = new Gtk.Image.from_icon_name ("edit-delete-symbolic", Gtk.IconSize.SMALL_TOOLBAR);
                 this.delete_button.child = this.delete_icon;
                 this.delete_button.set_tooltip_text (_("Delete"));
 
