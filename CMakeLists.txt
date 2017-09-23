@@ -68,7 +68,7 @@ pkg_check_modules(DEPS REQUIRED
 	libnotify
 	libcanberra
 	gdk-x11-3.0
-	webkitgtk-3.0
+	webkit2gtk-4.0
 	sqlite3
 	xtst
     purple
@@ -89,7 +89,7 @@ set(CFLAGS
 )
 
 set(BIRDIE_PACKAGES
-    gtk+-3.0 gtksourceview-3.0 granite libsoup-2.4 gee-0.8 rest-0.7 json-glib-1.0 libnotify>=0.7.5 libcanberra>=0.28 gdk-x11-3.0 webkitgtk-3.0 sqlite3 xtst purple posix ${EXTRA_PACKAGES}
+    gtk+-3.0 gtksourceview-3.0 granite libsoup-2.4 gee-0.8 rest-0.7 json-glib-1.0 libnotify>=0.7.5 libcanberra>=0.28 gdk-x11-3.0 webkit2gtk-4.0 sqlite3 xtst purple posix ${EXTRA_PACKAGES}
 )
 
 set(VALAC_OPTIONS
