@@ -64,7 +64,7 @@ namespace Birdie.Media {
         var webview_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
 
         WebKit.WebView web_view = new WebKit.WebView ();
-        web_view.load_html_string ("<iframe width='640' height='390' style='margin-left: -10px; margin-top: -10px; margin-bottom: -10px;' src='http://www.youtube.com/embed/" +
+        web_view.load_html ("<iframe width='640' height='390' style='margin-left: -10px; margin-top: -10px; margin-bottom: -10px;' src='http://www.youtube.com/embed/" +
             youtube_video_id + "?version=3&autohide=1&controls=2&modestbranding=1&showinfo=0&showsearch=0&vq=hd720&autoplay=1' frameborder='0'</iframe>", "http://www.youtube.com/embed/");
         
         webview_box.add(web_view);
@@ -82,7 +82,7 @@ namespace Birdie.Media {
         var webview_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
 
         WebKit.WebView web_view = new WebKit.WebView ();
-        web_view.load_html_string ("<iframe src='" + vine_url + "/embed/simple' width='600'height='600' frameborder='0'> " +
+        web_view.load_html ("<iframe src='" + vine_url + "/embed/simple' width='600'height='600' frameborder='0'> " +
             "</iframe><script src='https://platform.vine.co/static/scripts/embed.js'></script>", "http://www.vine.co/");
         
         webview_box.add(web_view);

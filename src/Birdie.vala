@@ -637,20 +637,30 @@ namespace Birdie {
                     var dialog = new Gtk.Dialog ();
 
                     var web_view = new WebKit.WebView ();
-                    web_view.document_load_finished.connect (() => {
-                        web_view.execute_script ("oldtitle=document.title;document.title=document.documentElement.innerHTML;");
-                        var html = web_view.get_main_frame ().get_title ();
-                        web_view.execute_script ("document.title=oldtitle;");
+                    web_view.get_settings ().set_enable_javascript (true);
+                    web_view.load_changed.connect ((load_event) => {
+                        if (load_event != WebKit.LoadEvent.FINISHED) {
+                            return;
+                        }
 
-                        if ("<code>" in html) {
-                            var pin = html.split ("<code>");
-                            pin = pin[1].split ("</code>");
+                        var loop = new GLib.MainLoop ();
+                        web_view.run_javascript.begin ("oldtitle=document.title;elems=document.body.getElementsByTagName('code');(elems.length>0)?document.title=elems[0].innerHTML:document.title='null';", null, (obj, res) => {
+                            loop.quit ();
+                        });
+                        loop.run ();
+                        var pin = web_view.get_title ();
+                        web_view.run_javascript.begin ("document.title=oldtitle;", null, (obj, res) => {
+                            loop.quit ();
+                        });
+                        loop.run ();
+
+                        if (pin != "null") {
                             dialog.destroy ();
 
                             new Thread<void*> (null, () => {
                                 this.switch_timeline ("loading");
 
-                                int code = this.new_api.get_tokens (pin[0]);
+                                int code = this.new_api.get_tokens (pin);
 
                                 if (code == 0) {
                                     this.api = this.new_api;
@@ -668,10 +678,8 @@ namespace Birdie {
                         this.set_widgets_sensitive (window_active);
                     });
                     web_view.load_uri (this.new_api.get_request ());
-                    var scrolled_webview = new Gtk.ScrolledWindow (null, null);
-                    scrolled_webview.add_with_viewport (web_view);
                     dialog.set_title (_("Sign in"));
-                    dialog.get_content_area().pack_start (scrolled_webview, true, true, 0);
+                    dialog.get_content_area().pack_start (web_view, true, true, 0);
                     dialog.set_transient_for (this.m_window);
                     dialog.set_modal (true);
                     dialog.set_size_request (600, 600);
