@@ -50,7 +50,7 @@ namespace Birdie.Widgets {
             this.pack_start (this.user_box, true, true, 0);
 
             // avatar image
-            this.avatar = new Granite.Widgets.Avatar.from_file (Constants.PKGDATADIR + "/default.png", Gtk.IconSize.LARGE_TOOLBAR);
+            this.avatar = new Granite.Widgets.Avatar.with_default_icon (Gtk.IconSize.LARGE_TOOLBAR);
             this.avatar.set_halign (Gtk.Align.CENTER);
             this.avatar.set_valign (Gtk.Align.START);
             this.avatar.margin_top = 12;

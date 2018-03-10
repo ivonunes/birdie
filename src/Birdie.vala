@@ -44,6 +44,7 @@ namespace Birdie {
         private Gtk.Button new_button;
 
         private Granite.Widgets.ModeButton switcher;
+        private Granite.Widgets.Avatar avatar_image;
 
         private Widgets.UserBox own_box_info;
         private Gtk.Box own_box;
@@ -331,6 +332,10 @@ namespace Birdie {
                 
                 avatar_button = new Gtk.Button();
                 avatar_button.set_tooltip_text(_("Accounts"));
+                avatar_image = new Granite.Widgets.Avatar.with_default_icon(32);
+                avatar_image.show ();
+                avatar_button.image = avatar_image;                
+                avatar_button.visible = true;
                 this.m_window.header.pack_end(avatar_button);
                 this.m_window.header.pack_end(search);
 
@@ -803,21 +808,10 @@ namespace Birdie {
         }
 
         private void set_account_avatar (User account) {
-
-            Granite.Widgets.Avatar avatar = null;
-
             try {
-
-                avatar = new Granite.Widgets.Avatar();
                 var pixbuf = new Gdk.Pixbuf.from_file (Environment.get_home_dir () +
                     "/.local/share/birdie/avatars/" + account.profile_image_file);
-                avatar.pixbuf = pixbuf.scale_simple(32, 32, Gdk.InterpType.BILINEAR);
-
-                avatar.show ();
-
-                avatar_button.image = avatar;
-                avatar_button.visible = true;
-            
+                avatar_image.pixbuf = pixbuf.scale_simple(32, 32, Gdk.InterpType.BILINEAR);
             } catch (Error e) {
                 // TODO: Show default menu icon if failed 
                 debug ("Error loading avatar image: " + e.message);

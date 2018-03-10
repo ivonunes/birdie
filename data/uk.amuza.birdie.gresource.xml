@@ -16,7 +16,6 @@
     <file alias="twitter-ret-banner.svg">icons/twitter-ret-banner.svg</file>
     <file alias="twitter-favret-banner.svg">icons/twitter-favret-banner.svg</file>
     <file alias="twitter-verified.png">icons/twitter-verified.png</file>
-    <file alias="default.png">default.png</file>
     <file alias="media.png">media.png</file>
   </gresource>
 </gresources>

@@ -129,7 +129,7 @@ namespace Birdie.Widgets {
             this.set_info_header ();
 
             // avatar image
-            this.avatar = new Granite.Widgets.Avatar();
+            this.avatar = new Granite.Widgets.Avatar.with_default_icon(50);
 
             this.avatar.set_halign (Gtk.Align.START);
             this.avatar.set_valign (Gtk.Align.START);
