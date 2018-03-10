@@ -17,13 +17,13 @@
 
 namespace Birdie.Widgets
 {
-    public class Notebook : Granite.Widgets.StaticNotebook {
+    public class Notebook : Gtk.Stack {
         public Notebook () {
         	this.get_style_context ().add_class (Granite.StyleClass.CONTENT_VIEW);
         }
 
         public void set_tabs (bool show) {
-        	this.set_switcher_visible (show);
+        	//this.set_switcher_visible (show);
         }
 
         public void set_border (bool show) {

@@ -16,11 +16,11 @@
 
 namespace Constants {
     public const string DATADIR = "/usr/share";
-    public const string PKGDATADIR = "/usr/share/birdie";
+    public const string PKGDATADIR = "resource:///uk/amuza/birdie";
     public const string VERSION = "2.0";
     public const string GETTEXT_PACKAGE = "birdie";
     
     // translatable strings for the .desktop file
     private const string GENERIC_NAME = _("Twitter Client");
-    private const string COMMENT = _("Twitter client for Linux");
+    private const string COMMENT = _("Twitter client for elementary OS");
 }

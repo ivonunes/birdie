@@ -3,12 +3,12 @@ Name=Birdie
 GenericName=Twitter Client
 Comment=Twitter client for Linux
 Categories=GTK;Network;X-SuSE-Core-Internet;
-Exec=birdie %U
-Icon=birdie
+Exec=uk.amuza.birdie %U
+Icon=uk.amuza.birdie
 Terminal=false
 Type=Application
 MimeType=x-scheme-handler/birdie;
-X-GNOME-Gettext-Domain=birdie
+X-GNOME-Gettext-Domain=uk.amuza.birdie
 Actions=AboutDialog;
 
 [Desktop Action AboutDialog]

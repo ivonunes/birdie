@@ -4,16 +4,14 @@
 # INSTALL REQUIRED DEPENDENCIES
 
 # elementary OS
-# sudo apt-get install cmake valac libgtk-3-dev libgranite-dev librest-dev libjson-glib-dev libnotify-dev libcanberra-dev libx11-dev libwebkitgtk-3.0-dev libsqlite3-dev libxtst-dev libpurple-dev libgee-dev libdbusmenu-gtk-dev libgtksourceview-3.0-dev
+# sudo apt-get install cmake valac libgtk-3-dev libgranite-dev librest-dev libjson-glib-dev libpurple-dev libnotify-dev libcanberra-dev libx11-dev libwebkitgtk-3.0-dev libsqlite3-dev libxtst-dev libpurple-dev libgee-0.8-dev libdbusmenu-gtk-dev libgtksourceview-3.0-dev
 
 # -----------------------------------------------------------------------------
 # BUILDING
 # -----------------------------------------------------------------------------
 
-git clone https://github.com/birdieapp/birdie.git
+git clone https://github.com/amuza/birdie.git
 cd birdie
-mkdir build
-cd build
-cmake .. -DCMAKE_INSTALL_PREFIX=/usr
-make
-sudo make install
+meson build --prefix=/usr
+ninja test
+sudo ninja install

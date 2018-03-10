@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+ <id>uk.amuza.birdie.desktop</id>
+ <metadata_license>CC0-1.0</metadata_license>
+ <project_license>GPL-3.0+</project_license>
+ <name>Birdie</name>
+ <summary>Birdie is a beautiful Twitter client for elementary OS</summary>
+ <description>
+  <p>
+    Birdie is fast, easy to use and works great. It provides all the essential Twitter features and allows you to enjoy Twitter right on your desktop.
+  </p>
+ </description>
+ <provides>
+    <binary>uk.amuza.birdie</binary>
+ </provides>
+ <screenshots>
+    <screenshot type="default">
+        <image>https://oss.amuza.uk/birdie/images/screenshot.png</image>
+    </screenshot>
+ </screenshots>
+ <url type="homepage">https://oss.amuza.uk/birdie</url>
+ <developer_name>Amuza Limited</developer_name>
+ <url type="bugtracker">https://github.com/amuza/birdie/issues</url>
+ <translation type="gettext">uk.amuza.birdie</translation>
+</component>

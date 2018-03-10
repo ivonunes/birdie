@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/uk/amuza/birdie">
+    <file alias="uk.amuza.birdie.svg">icons/uk.amuza.birdie.svg</file>
+    <file alias="twitter-dm-symbolic.svg">icons/twitter-dm-symbolic.svg</file>
+    <file alias="twitter-dm-new-symbolic.svg">icons/twitter-dm-new-symbolic.svg</file>
+    <file alias="twitter-home-symbolic.svg">icons/twitter-home-symbolic.svg</file>
+    <file alias="twitter-mentions-symbolic.svg">icons/twitter-mentions-symbolic.svg</file>
+    <file alias="twitter-reply.svg">icons/twitter-reply.svg</file>
+    <file alias="twitter-retweet.svg">icons/twitter-retweet.svg</file>
+    <file alias="twitter-retweeted.svg">icons/twitter-retweeted.svg</file>
+    <file alias="twitter-favd.svg">icons/twitter-favd.svg</file>
+    <file alias="twitter-thread.svg">icons/twitter-thread.svg</file>
+    <file alias="twitter-fav-banner.svg">icons/twitter-fav-banner.svg</file>
+    <file alias="twitter-ret-banner.svg">icons/twitter-ret-banner.svg</file>
+    <file alias="twitter-favret-banner.svg">icons/twitter-favret-banner.svg</file>
+    <file alias="twitter-verified.png">icons/twitter-verified.png</file>
+    <file alias="default.png">default.png</file>
+    <file alias="media.png">media.png</file>
+  </gresource>
+</gresources>

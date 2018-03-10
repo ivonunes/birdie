@@ -134,20 +134,20 @@ namespace Birdie {
 
         construct {
             program_name        = "Birdie";
-            exec_name           = "birdie";
+            exec_name           = "uk.amuza.birdie";
 
             build_version       = Constants.VERSION;
-            app_years           = "2013-2016";
-            app_icon            = "birdie";
-            app_launcher        = "com.github.needle-and-thread.birdie.desktop";
-            application_id      = "com.github.needle-and-thread.birdie";
+            app_years           = "2013-2018";
+            app_icon            = "uk.amuza.birdie";
+            app_launcher        = "uk.amuza.birdie.desktop";
+            application_id      = "uk.amuza.birdie";
 
-            main_url            = "http://needleandthread.co/birdie";
-            bug_url             = "https://github.com/needle-and-thread/birdie/issues";
-            help_url            = "http://needleandthread.co/birdie";
-            translate_url       = "http://www.transifex.com/projects/p/birdie/";
+            main_url            = "https://oss.amuza.uk/birdie";
+            bug_url             = "https://github.com/amuza/birdie/issues";
+            help_url            = "https://oss.amuza.uk/birdie";
+            translate_url       = "https://www.transifex.com/projects/p/birdie/";
 
-            about_authors       = {"Ivo Nunes <ivo@elementaryos.org>", "Vasco Nunes <vascomfnunes@gmail.com>", "Nathan Dyer <mail@nathandyer.me>"};
+            about_authors       = {"Ivo Nunes <ivo@amuza.uk>", "Vasco Nunes <vasco@amuza.uk>", "Nathan Dyer <mail@nathandyer.me>"};
             about_documenters   = { "Nathan Dyer <mail@nathandyer.me>" };
             about_artists       = {"Daniel Foré <daniel@elementaryos.org>", "Nathan Dyer <mail@nathandyer.me>", "Sam Hewitt", "Mustapha Asbbar"};
             about_comments      = "Fast, beautiful, and powerful Twitter client for elementary OS";
@@ -158,7 +158,7 @@ namespace Birdie {
         }
 
         public Birdie () {
-            GLib.Object(application_id: "com.github.needle-and-thread.birdie", flags: ApplicationFlags.HANDLES_OPEN);
+            GLib.Object(application_id: "uk.amuza.birdie", flags: ApplicationFlags.HANDLES_OPEN);
 
             Intl.bindtextdomain ("birdie", Constants.DATADIR + "/locale");
 
@@ -190,7 +190,7 @@ namespace Birdie {
                 Utils.Logger.DisplayLevel = Utils.LogLevel.INFO;
 
                 // settings
-                this.settings = new Settings ("com.github.needle-and-thread.birdie");
+                this.settings = new Settings ("uk.amuza.birdie");
                 this.tweet_notification = settings.get_boolean ("tweet-notification");
                 this.mention_notification = settings.get_boolean ("mention-notification");
                 this.dm_notification = settings.get_boolean ("dm-notification");
@@ -198,7 +198,10 @@ namespace Birdie {
                 this.limit_notifications = settings.get_int ("limit-notifications");
                 this.exit.connect(on_exit);
 
-                Gtk.Window.set_default_icon_name ("birdie");
+                weak Gtk.IconTheme default_theme = Gtk.IconTheme.get_default ();
+                default_theme.add_resource_path ("/uk/amuza/birdie");
+
+                Gtk.Window.set_default_icon_name ("uk.amuza.birdie");
                 this.m_window = new Widgets.UnifiedWindow ();
                 this.m_window.save_state.connect(save_state);
                 //this.m_window.type_hint = Gdk.WindowTypeHint.DIALOG;
@@ -420,8 +423,8 @@ namespace Birdie {
                 this.error_page = new Widgets.ErrorPage (this);
 
                 this.notebook_dm = new Widgets.Notebook ();
-                this.notebook_dm.append_page (this.scrolled_dm, new Gtk.Label (_("Received")));
-                this.notebook_dm.append_page (this.scrolled_dm_sent, new Gtk.Label (_("Sent")));
+                this.notebook_dm.add_titled (this.scrolled_dm, "0", _("Received"));
+                this.notebook_dm.add_titled (this.scrolled_dm_sent, "1", _("Sent"));
 
                 this.conversations_list = new Widgets.ConversationsList(dm_list, dm_sent_list);
                 this.conversations_list.conversation_selected.connect(on_conversation_selected);
@@ -454,16 +457,16 @@ namespace Birdie {
                 this.scrolled_own.add_with_viewport (this.own_list);
 
                 this.notebook_own = new Widgets.Notebook ();
-                this.notebook_own.append_page (this.scrolled_own, new Gtk.Label (_("Timeline")));
-                this.notebook_own.append_page (this.scrolled_favorites, new Gtk.Label (_("Favorites")));
-                this.notebook_own.append_page (this.scrolled_lists, new Gtk.Label (_("Lists")));
+                this.notebook_own.add_titled (this.scrolled_own, "0", _("Timeline"));
+                this.notebook_own.add_titled (this.scrolled_favorites, "1", _("Favorites"));
+                this.notebook_own.add_titled (this.scrolled_lists, "2", _("Lists"));
                 this.own_box.pack_start (this.notebook_own, true, true, 0);
 
                 this.user_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
                 this.user_box_info = new Widgets.UserBox ();
                 this.notebook_user = new Widgets.Notebook ();
                 this.notebook_user.set_tabs (false);
-                this.notebook_user.append_page (this.scrolled_user, new Gtk.Label (_("Timeline")));
+                this.notebook_user.add_titled (this.scrolled_user, "0", _("Timeline"));
                 this.user_box.pack_start (this.user_box_info, false, false, 0);
 
                 // separator
@@ -848,7 +851,7 @@ namespace Birdie {
 
                 if (this.adding_to_list) {
                     this.notebook_own.set_tabs (true);
-                    this.notebook_own.page = 0;
+                    this.notebook_own.set_visible_child_name("0");
                     this.adding_to_list = false;
                 }
 
@@ -1456,7 +1459,7 @@ namespace Birdie {
                         this.dm_sent_list.append (tweet_tmp, this);
                         this.switch_timeline ("dm");
                         Idle.add (() => {
-                            this.notebook_dm.page = 1;
+                            this.notebook_dm.set_visible_child_name("1");
                             Media.get_avatar (this.dm_sent_list);
                             //Media.get_imgur_media (media_uri, null, this.dm_sent_list, tweet_tmp);
                             return false;
