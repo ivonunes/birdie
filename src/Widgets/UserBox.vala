@@ -24,6 +24,7 @@ namespace Birdie.Widgets {
 
         private Gtk.Box user_box;
         private Gtk.Box buttons_box;
+        private Gtk.Box avatar_box;
 
         private Granite.Widgets.Avatar avatar;
 
@@ -44,17 +45,20 @@ namespace Birdie.Widgets {
         public void init (User user, Birdie birdie) {
             this.birdie = birdie;
             this.user = user;
+            this.margin_bottom = 12;
 
             // tweet box
             this.user_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             this.pack_start (this.user_box, true, true, 0);
 
             // avatar image
-            this.avatar = new Granite.Widgets.Avatar.with_default_icon (Gtk.IconSize.LARGE_TOOLBAR);
+            this.avatar_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+            this.avatar = new Granite.Widgets.Avatar.with_default_icon (50);
             this.avatar.set_halign (Gtk.Align.CENTER);
             this.avatar.set_valign (Gtk.Align.START);
             this.avatar.margin_top = 12;
-            this.user_box.pack_start (this.avatar, true, true, 0);
+            this.avatar_box.pack_start (this.avatar, true, true, 0);
+            this.user_box.pack_start (this.avatar_box, true, true, 0);
 
             string tweets_txt = _("TWEETS");
 
@@ -105,8 +109,6 @@ namespace Birdie.Widgets {
             this.buttons_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 10);
             this.buttons_box.set_valign (Gtk.Align.CENTER);
             this.buttons_box.set_halign (Gtk.Align.CENTER);
-            this.buttons_box.margin_top = 6;
-            this.buttons_box.margin_bottom = 6;
             this.user_box.pack_start (this.buttons_box, true, true, 0);
 
             // follow button
@@ -185,16 +187,18 @@ namespace Birdie.Widgets {
             Array<string> friendship = new Array<string> ();
             this.hide_buttons ();
 
-            this.user_box.remove(this.avatar);
-            this.avatar = new Granite.Widgets.Avatar.from_file (Environment.get_home_dir () + "/.cache/birdie/" + user.profile_image_file, Gtk.IconSize.LARGE_TOOLBAR);
+            this.avatar_box.remove(this.avatar);
+            this.avatar = new Granite.Widgets.Avatar.from_file (Environment.get_home_dir () + "/.cache/birdie/" + user.profile_image_file, 50);
             this.avatar.set_halign (Gtk.Align.CENTER);
             this.avatar.set_valign (Gtk.Align.START);
             this.avatar.margin_top = 12;
-            this.user_box.pack_start (this.avatar, true, true, 0);
+            this.avatar_box.pack_start (this.avatar, true, true, 0);
 
             string followed_by = "";
 
             if (user.screen_name != this.birdie.api.account.screen_name) {
+                this.buttons_box.margin_top = 12;
+
                 friendship = this.birdie.api.get_friendship (this.birdie.api.account.screen_name, user.screen_name);
                 if (friendship.index (0) == "true") {
                     this.unfollow_button.show ();
@@ -320,12 +324,13 @@ namespace Birdie.Widgets {
 
         public void set_avatar (string avatar_file) {
             Idle.add(() => {
-                this.user_box.remove(this.avatar);
-                this.avatar = new Granite.Widgets.Avatar.from_file (avatar_file, Gtk.IconSize.LARGE_TOOLBAR);
+                this.avatar_box.remove(this.avatar);
+                this.avatar = new Granite.Widgets.Avatar.from_file (avatar_file, 50);
                 this.avatar.set_halign (Gtk.Align.CENTER);
                 this.avatar.set_valign (Gtk.Align.START);
                 this.avatar.margin_top = 12;
-                this.user_box.pack_start (this.avatar, true, true, 0);
+                this.avatar_box.pack_start (this.avatar, true, true, 0);
+                this.show_all();
                 return false;
             });
         }
