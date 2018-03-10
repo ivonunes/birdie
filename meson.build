@@ -70,7 +70,7 @@ executable(
     dependency('libnotify'),
     dependency('libcanberra'),
     dependency('gdk-x11-3.0'),
-    dependency('webkitgtk-3.0'),
+    dependency('webkit2gtk-4.0'),
     dependency('sqlite3'),
     dependency('xtst'),
     dependency('purple'),
