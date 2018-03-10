@@ -2,6 +2,7 @@
 <gresources>
   <gresource prefix="/uk/amuza/birdie">
     <file alias="uk.amuza.birdie.svg">icons/uk.amuza.birdie.svg</file>
+    <file alias="twitter-new-tweet-symbolic.svg">icons/twitter-new-tweet-symbolic.svg</file>
     <file alias="twitter-dm-symbolic.svg">icons/twitter-dm-symbolic.svg</file>
     <file alias="twitter-dm-new-symbolic.svg">icons/twitter-dm-new-symbolic.svg</file>
     <file alias="twitter-home-symbolic.svg">icons/twitter-home-symbolic.svg</file>
