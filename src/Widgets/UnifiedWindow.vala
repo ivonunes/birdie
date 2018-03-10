@@ -40,11 +40,16 @@ namespace Birdie.Widgets {
                 padding: 12px 10px;
                 border-top-width: 0;
                 box-shadow: none;
+                background: transparent;
+                border-left-width: 0;
+                border-right-width: 0;
             }
 
             .titlebar .linked .button:checked {
-                 box-shadow: inset 0 0 0 1px alpha (#000, 0.05);
-             }
+                box-shadow: inset 0 0 0 1px alpha (#000, 0.05);
+                border-left-width: 1px;
+                border-right-width: 1px;
+            }
 
             .favorite-pink {
                 color: #E32550;
