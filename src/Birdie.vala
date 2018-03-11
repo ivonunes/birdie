@@ -52,6 +52,9 @@ namespace Birdie {
         private Widgets.UserBox user_box_info;
         private Gtk.Box user_box;
 
+        private Gtk.Label search_label;
+        private Gtk.Box search_box;
+
         private Gtk.ScrolledWindow scrolled_home;
         private Gtk.ScrolledWindow scrolled_mentions;
         private Gtk.ScrolledWindow scrolled_dm;
@@ -474,6 +477,12 @@ namespace Birdie {
                 this.notebook_user.add_titled (this.scrolled_user, "0", _("Timeline"));
                 this.user_box.pack_start (this.user_box_info, false, false, 0);
 
+                this.search_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+                this.search_label = new Gtk.Label ("");
+                this.search_label.set_padding (0, 12);
+                this.search_box.pack_start (this.search_label, false, false, 0);
+                this.search_box.pack_start (this.scrolled_search, true, true, 0);
+
                 // separator
                 this.user_box.pack_start (new Gtk.Separator (Gtk.Orientation.HORIZONTAL), false, false, 0);
                 this.user_box.pack_start (new Gtk.Separator (Gtk.Orientation.HORIZONTAL), false, false, 0);
@@ -489,7 +498,7 @@ namespace Birdie {
                 this.notebook.add_named (this.own_box, "own");
                 this.notebook.add_named (this.user_box, "user");
                 this.notebook.add_named (this.scrolled_list, "list");
-                this.notebook.add_named (this.scrolled_search, "search");
+                this.notebook.add_named (this.search_box, "search");
                 this.notebook.add_named (this.error_page, "error");
 
                 this.m_box.pack_start (this.notebook, true, true, 0);
@@ -560,7 +569,7 @@ namespace Birdie {
             search_visible = true;
             search_entry.visible = true;
             search_entry.grab_focus();
-        }  
+        }
 
         public bool on_switcher_clicked(Gdk.EventButton e) {
             int current_widget = switcher.selected;
@@ -1576,6 +1585,7 @@ namespace Birdie {
 
                 if (this.check_internet_connection ()) {
                     this.search_list.clear ();
+                    this.search_label.set_markup(_("Searching for %s").printf("<b>" + search_term + "</b>"));
 
                     Idle.add (() => {
                         this.switch_timeline ("loading");
