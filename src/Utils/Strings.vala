@@ -23,6 +23,9 @@ namespace Birdie.Utils {
         text = highlight_urls (text);
         text = highlight_hashtags (text);
         text = highlight_users (text);
+
+        text = text.replace("LINK_COLOR", "#0088CC").replace("https://", "").replace("http://", "").replace("www.", "");
+
         return text;
     }
 

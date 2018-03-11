@@ -170,8 +170,7 @@ namespace Birdie.Widgets {
             this.header_box.pack_start (this.time_label, true, true, 0);
 
             // tweet
-            this.tweet_label = new Gtk.Label (tweet.text.replace("LINK_COLOR", "#0088CC").
-                        replace("https", "").replace("http", "").replace("www.", "").replace("://", ""));
+            this.tweet_label = new Gtk.Label (tweet.text);
             this.tweet_label.set_use_markup (true);
             this.tweet_label.set_selectable (true);
             this.tweet_label.set_line_wrap (true);
@@ -184,21 +183,24 @@ namespace Birdie.Widgets {
             this.tweet_label.activate_link.connect((link) => {
                 try {
 
-                    string protocol = "http";
+                    string protocol = "";
 
-                    // Figure out if the link is http or https
-                    // (one or the other must be specified for xdg-open to work)
+                    if (!("birdie://" in link)) {
+                        // Figure out if the link is http or https
+                        // (one or the other must be specified for xdg-open to work)
+                        protocol = "http";
 
-                    // Find the index of the link in the tweet
-                    int index = tweet.text.index_of(link);
+                        // Find the index of the link in the tweet
+                        int index = tweet.text.index_of(link);
 
-                    // ://
-                    index -= 4;
-                    if(tweet.text[index] == 's' || tweet.text[index] == 'S') {
-                        protocol += "s";
+                        // ://
+                        index -= 4;
+                        if(tweet.text[index] == 's' || tweet.text[index] == 'S') {
+                            protocol += "s";
+                        }
+
+                        protocol += "://";
                     }
-
-                    protocol += "://";
 
                     GLib.Process.spawn_command_line_async ("xdg-open " + protocol + link);
 
