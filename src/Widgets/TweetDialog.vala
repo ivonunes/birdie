@@ -56,7 +56,7 @@ namespace Birdie.Widgets {
             this.id = id;
             this.user_screen_name = user_screen_name;
             this.dm = dm;
-            this.count_remaining = 140;
+            this.count_remaining = 280;
             this.has_media = false;
 
             this.container = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
@@ -311,9 +311,9 @@ namespace Birdie.Widgets {
             Gtk.TextIter end;
 
             if (this.has_media)
-                this.count_remaining = 120;
+                this.count_remaining = 260;
             else
-                this.count_remaining = 140;
+                this.count_remaining = 280;
 
             var tmp_entry = this.entry.get_text ();
 
@@ -342,7 +342,7 @@ namespace Birdie.Widgets {
             this.count = this.count_remaining - virtual_text.char_count ();
             this.count_label.set_markup ("<span color='#777777'>" + this.count.to_string () + "</span>");
 
-            if ((this.count < 0 || this.count >= 140) || (" " in tmp_entry && dm && this.entry.get_visible ()) || (this.entry.get_buffer ().length < 3 && dm && this.entry.get_visible ())) {
+            if ((this.count < 0 || this.count >= 280) || (" " in tmp_entry && dm && this.entry.get_visible ()) || (this.entry.get_buffer ().length < 3 && dm && this.entry.get_visible ())) {
                 // make remaining chars indicator red to warn user
                 if (this.count < 0) {
                     this.count_label.set_markup ("<span color='#FF0000'>" + this.count.to_string () + "</span>");
