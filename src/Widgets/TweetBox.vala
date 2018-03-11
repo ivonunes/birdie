@@ -854,10 +854,13 @@ namespace Birdie.Widgets {
                     });
                 }
             }
+
+            var pixbuf = new Gdk.Pixbuf.from_file (Environment.get_home_dir () + "/.cache/birdie/" + this.tweet.profile_image_file);
+            pixbuf = pixbuf.scale_simple (50, 50, Gdk.InterpType.BILINEAR);
+
             Idle.add (() => {
                 try {
-                    var pixbuf = new Gdk.Pixbuf.from_file (Environment.get_home_dir () + "/.cache/birdie/" + this.tweet.profile_image_file);
-                    this.avatar.pixbuf = pixbuf.scale_simple (50, 50, Gdk.InterpType.BILINEAR);
+                    this.avatar.pixbuf = pixbuf;
                     this.avatar.visible = true;
                 } catch (Error e) {
                     stderr.printf("Error creating avatar pixbuf: %s\n", e.message);

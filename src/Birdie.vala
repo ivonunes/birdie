@@ -1499,75 +1499,59 @@ namespace Birdie {
         public async void show_user () throws ThreadError {
             SourceFunc callback = show_user.callback;
 
+            this.switch_timeline ("loading");
+            this.user_list.clear ();
+
             ThreadFunc<void*> run = () => {
                 if (this.check_internet_connection ()) {
-                    Idle.add (() => {
-                        this.switch_timeline ("loading");
-                        return false;
-                    });
-
-                    this.user_list.clear ();
                     this.api.get_user_timeline (user);
                 } else {
                     this.switch_timeline ("error");
                 }
+
                 Idle.add((owned) callback);
                 return null;
             };
+
             Thread.create<void*>(run, false);
             yield;
         }
 
         public void update_user_timeline_ui () {
-            Idle.add (() => {
-                if (this.api.user_timeline.length () == 0) {
-                    this.switch_timeline ("search");
-                    return false;
-                }
+            if (this.api.user_timeline.length () == 0) {
+                this.switch_timeline ("search");
+            }
 
-                this.user_box_info.update (this.api.user);
-                Media.get_userbox_avatar (this.user_box_info);
+            this.user_box_info.update (this.api.user);
+            Media.get_userbox_avatar (this.user_box_info);
 
-                this.switch_timeline ("user");
+            this.switch_timeline ("user");
 
 
-                this.api.user_timeline.foreach ((tweet) => {
-                    this.user_list.append (tweet, this);
-                });
-
-                if (this.ready) {
-                    Media.get_avatar (this.user_list);
-                    Idle.add (() => {
-                        this.spinner.stop ();
-                        return false;
-                    });
-                }
-
-                return false;
+            this.api.user_timeline.foreach ((tweet) => {
+                this.user_list.append (tweet, this);
             });
+
+            if (this.ready) {
+                Media.get_avatar (this.user_list);
+                this.spinner.stop ();
+            }
         }
 
         public void update_search_ui () {
-            Idle.add (() => {
-                this.switch_timeline ("search");
+            this.switch_timeline ("search");
 
-                search_entry.text = search_term;
+            search_entry.text = search_term;
 
-                this.api.search_timeline.foreach ((tweet) => {
-                    this.search_list.append (tweet, this);
-                });
-
-                if (this.ready) {
-                    Media.get_avatar (this.search_list);
-                    Idle.add (() => {
-                        this.spinner.stop ();
-                        this.scrolled_search.get_vadjustment().set_value(0);
-                        return false;
-                    });
-                }
-
-                return false;
+            this.api.search_timeline.foreach ((tweet) => {
+                this.search_list.append (tweet, this);
             });
+
+            if (this.ready) {
+                Media.get_avatar (this.search_list);
+                this.spinner.stop ();
+                this.scrolled_search.get_vadjustment().set_value(0);
+            }
         }
 
         private async void show_search () throws ThreadError {
@@ -1576,31 +1560,29 @@ namespace Birdie {
             
             SourceFunc callback = show_search.callback;
 
-            ThreadFunc<void*> run = () => {
-                if (search_term != "" && search_term[0] == '@' && !(" " in search_term) && !("%20" in search_term)) {
+            if (search_term != "" && search_term[0] == '@' && !(" " in search_term) && !("%20" in search_term)) {
                     user = search_term.replace ("@", "");
-                    this.show_user.begin ();
+                this.show_user.begin ();
+            } else {
+                this.search_list.clear ();
+                this.search_label.set_markup(_("Searching for %s").printf("<b>" + search_term + "</b>"));
+                this.switch_timeline ("loading");
+                search_entry.text = "";
+
+                ThreadFunc<void*> run = () => {
+                    if (this.check_internet_connection ()) {
+                        this.api.get_search_timeline (search_term);
+                    } else {
+                        this.switch_timeline ("error");
+                    }
+
+                    Idle.add((owned) callback);
                     return null;
-                }
+                };
 
-                if (this.check_internet_connection ()) {
-                    this.search_list.clear ();
-                    this.search_label.set_markup(_("Searching for %s").printf("<b>" + search_term + "</b>"));
+                Thread.create<void*>(run, false);
+            }
 
-                    Idle.add (() => {
-                        this.switch_timeline ("loading");
-                        search_entry.text = search_term;
-                        return false;
-                    });
-
-                    this.api.get_search_timeline (search_term);
-                } else {
-                    this.switch_timeline ("error");
-                }
-                Idle.add((owned) callback);
-                return null;
-            };
-            Thread.create<void*>(run, false);
             yield;
         }
 

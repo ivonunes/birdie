@@ -153,25 +153,22 @@ namespace Birdie.Widgets {
         }
 
         public void update_display (Tweet tweet, bool? favorite = false) {
-            Idle.add( () => {
-                this.get_children ().foreach ((row) => {
+            this.get_children ().foreach ((row) => {
 
-                    if (row is Gtk.ListBoxRow && row != null) {
-                        var box = ((Gtk.ListBoxRow) row).get_child ();
+                if (row is Gtk.ListBoxRow && row != null) {
+                    var box = ((Gtk.ListBoxRow) row).get_child ();
 
-                        if ((box is TweetBox)) {
+                    if ((box is TweetBox)) {
 
-                            if (((TweetBox) box).tweet.actual_id == tweet.actual_id) {
-                                ((TweetBox) box).tweet = tweet;
-                                if (favorite)
-                                    ((TweetBox) box).update_favorites ();
-                                else
-                                    ((TweetBox) box).update_media ();
-                            }
+                        if (((TweetBox) box).tweet.actual_id == tweet.actual_id) {
+                            ((TweetBox) box).tweet = tweet;
+                            if (favorite)
+                                ((TweetBox) box).update_favorites ();
+                            else
+                                ((TweetBox) box).update_media ();
                         }
                     }
-                });
-                return false;
+                }
             });
         }
 
