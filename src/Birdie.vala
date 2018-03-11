@@ -1316,27 +1316,24 @@ namespace Birdie {
         }
 
         public void update_older_home_ui () {
-            Idle.add (() => {
-                this.home_tmp.foreach ((tweet) => {
-                    this.home_list.remove (tweet);
-                    this.home_tmp.remove (tweet);
-                });
-
-                this.api.home_timeline.foreach ((tweet) => {
-                    this.home_list.prepend (tweet, this);
-                    this.db.add_user.begin (tweet.user_screen_name,
-                        tweet.user_name, this.default_account_id);
-                });
-
-                if (!this.ready) {
-                    get_all_avatars.begin ();
-                    this.ready = true;
-                    this.set_widgets_sensitive (true);
-                } else {
-                    Media.get_avatar (this.home_list);
-                }
-                return false;
+            this.home_tmp.foreach ((tweet) => {
+                this.home_list.remove (tweet);
+                this.home_tmp.remove (tweet);
             });
+
+            this.api.home_timeline.foreach ((tweet) => {
+                this.home_list.prepend (tweet, this);
+                this.db.add_user.begin (tweet.user_screen_name,
+                    tweet.user_name, this.default_account_id);
+            });
+
+            if (!this.ready) {
+                get_all_avatars.begin ();
+                this.ready = true;
+                this.set_widgets_sensitive (true);
+            } else {
+                Media.get_avatar (this.home_list);
+            }
         }
 
         private void get_older_mentions ()  {
@@ -1348,26 +1345,23 @@ namespace Birdie {
         }
 
         public void update_older_mentions_ui () {
-            Idle.add (() => {
-                this.home_tmp.foreach ((tweet) => {
-                    this.mentions_list.remove (tweet);
-                });
-
-                this.api.mentions_timeline.foreach ((tweet) => {
-                    this.mentions_list.prepend (tweet, this);
-                    this.db.add_user.begin (tweet.user_screen_name,
-                        tweet.user_name, this.default_account_id);
-                });
-
-                if (!this.ready) {
-                    get_all_avatars.begin ();
-                    this.ready = true;
-                    this.set_widgets_sensitive (true);
-                } else {
-                    Media.get_avatar (this.mentions_list);
-                }
-                return false;
+            this.home_tmp.foreach ((tweet) => {
+                this.mentions_list.remove (tweet);
             });
+
+            this.api.mentions_timeline.foreach ((tweet) => {
+                this.mentions_list.prepend (tweet, this);
+                this.db.add_user.begin (tweet.user_screen_name,
+                    tweet.user_name, this.default_account_id);
+            });
+
+            if (!this.ready) {
+                get_all_avatars.begin ();
+                this.ready = true;
+                this.set_widgets_sensitive (true);
+            } else {
+                Media.get_avatar (this.mentions_list);
+            }
         }
 
         private void get_older_search ()  {
@@ -1379,18 +1373,14 @@ namespace Birdie {
         }
 
         public void update_older_search_ui () {
-            Idle.add (() => {
-                search_entry.text = search_term;
+            search_entry.text = search_term;
 
-                this.api.search_timeline.foreach ((tweet) => {
-                    this.search_list.prepend (tweet, this);
-                });
-
-                if (this.ready)
-                    Media.get_avatar (this.search_list);
-
-                return false;
+            this.api.search_timeline.foreach ((tweet) => {
+                this.search_list.prepend (tweet, this);
             });
+
+            if (this.ready)
+                Media.get_avatar (this.search_list);
         }
 
         /*
