@@ -20,7 +20,6 @@ namespace Birdie {
 
         SqliteDatabase db;
         Birdie birdie;
-        Mutex api_mutex;
 
         public Twitter (Birdie birdie) {
 
@@ -94,7 +93,7 @@ namespace Birdie {
 
         public override int64 update (string status, string id = "") {
             // setup call
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/statuses/update.json");
             call.set_method ("POST");
@@ -103,7 +102,7 @@ namespace Birdie {
                 call.add_param ("in_reply_to_status_id", id);
             try { call.sync (); } catch (Error e) {
                 critical (e.message);
-                api_mutex.unlock ();
+                
                 return 1;
             }
 
@@ -113,7 +112,7 @@ namespace Birdie {
                 if (parser != null)
                     parser.load_from_data ((string) call.get_payload (), -1);
                 else {
-                    api_mutex.unlock ();
+                    
                     return 1;
                 }
 
@@ -121,12 +120,12 @@ namespace Birdie {
                 var userobject = root.get_object ();
 
                 var user_id = userobject.get_int_member ("id");
-                api_mutex.unlock ();
+                
                 return user_id;
             } catch (Error e) {
                 stderr.printf ("Unable to parse update.json\n");
             }
-            api_mutex.unlock ();
+            
             return 0;
         }
 
@@ -148,7 +147,7 @@ namespace Birdie {
                 return 1;
 
             // setup call
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/statuses/update.json");
             call.set_method ("POST");
@@ -157,7 +156,7 @@ namespace Birdie {
                 call.add_param ("in_reply_to_status_id", id);
             try { call.sync (); } catch (Error e) {
                 critical (e.message);
-                api_mutex.unlock ();
+                
                 return 1;
             }
 
@@ -167,75 +166,75 @@ namespace Birdie {
                 if (parser != null)
                     parser.load_from_data ((string) call.get_payload (), -1);
                 else {
-                    api_mutex.unlock ();
+                    
                     return 1;
                 }
                 var root = parser.get_root ();
                 var userobject = root.get_object ();
 
                 var user_id = userobject.get_int_member ("id");
-                api_mutex.unlock ();
+                
                 return user_id;
             } catch (Error e) {
                 stderr.printf ("Unable to parse update.json\n");
             }
-            api_mutex.unlock ();
+            
             return 0;
         }
 
         public override int destroy (string id) {
             // setup call
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/statuses/destroy/" + id + ".json");
             call.set_method ("POST");
             call.add_param ("id", id);
             try { call.sync (); } catch (Error e) {
                 critical (e.message);
-                api_mutex.unlock ();
+                
                 return 1;
             }
-            api_mutex.unlock ();
+            
             return 0;
         }
 
         public override int retweet (string id) {
             // setup call
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/statuses/retweet/" + id + ".json");
             call.set_method ("POST");
             call.add_param ("id", id);
             try { call.sync (); } catch (Error e) {
-                api_mutex.unlock ();
+                
                 if (e.message == "Forbidden")
                     return 0;
                 critical (e.message);
                 return 1;
             }
-            api_mutex.unlock ();
+            
             return 0;
         }
 
         public override int favorite_create (string id) {
             // setup call
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/favorites/create.json");
             call.set_method ("POST");
             call.add_param ("id", id);
             try { call.sync (); } catch (Error e) {
                 critical (e.message);
-                api_mutex.unlock ();
+                
                 return 1;
             }
-            api_mutex.unlock ();
+            
             return 0;
         }
 
         public override int favorite_destroy (string id) {
             // setup call
-            api_mutex.lock ();
+            
             debug (id);
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/favorites/destroy.json");
@@ -243,16 +242,16 @@ namespace Birdie {
             call.add_param ("id", id);
             try { call.sync (); } catch (Error e) {
                 critical (e.message);
-                api_mutex.unlock ();
+                
                 return 1;
             }
-            api_mutex.unlock ();
+            
             return 0;
         }
 
         public override int send_direct_message (string recipient, string status) {
             // setup call
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/direct_messages/new.json");
             call.set_method ("POST");
@@ -260,10 +259,10 @@ namespace Birdie {
             call.add_param ("text", status);
             try { call.sync (); } catch (Error e) {
                 critical (e.message);
-                api_mutex.unlock ();
+                
                 return 1;
             }
-            api_mutex.unlock ();
+            
             return 0;
         }
 
@@ -285,7 +284,7 @@ namespace Birdie {
                 return 1;
 
             // setup call
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/direct_messages/new.json");
             call.set_method ("POST");
@@ -293,7 +292,7 @@ namespace Birdie {
             call.add_param ("text", status + " " + link);
             try { call.sync (); } catch (Error e) {
                 critical (e.message);
-                api_mutex.unlock ();
+                
                 return 1;
             }
 
@@ -303,20 +302,20 @@ namespace Birdie {
                 if (parser != null)
                     parser.load_from_data ((string) call.get_payload (), -1);
                 else {
-                    api_mutex.unlock ();
+                    
                     return 1;
                 }
                 var root = parser.get_root ();
                 var userobject = root.get_object ();
 
                 var user_id = userobject.get_int_member ("id");
-                api_mutex.unlock ();
+                
                 return user_id;
             } catch (Error e) {
                 stderr.printf ("Unable to parse update.json\n");
             }
 
-            api_mutex.unlock ();
+            
             return 0;
         }
 
@@ -529,7 +528,7 @@ namespace Birdie {
         }
 
         public override Tweet get_single_tweet (string tweet_id) {
-            api_mutex.lock ();
+            
             Tweet tweet = new Tweet ();
 
             // setup call
@@ -541,7 +540,7 @@ namespace Birdie {
 
             try { call.sync (); } catch (Error e) {
                 critical (e.message);
-                api_mutex.unlock ();
+                
                 return tweet;
             }
 
@@ -551,7 +550,7 @@ namespace Birdie {
                 if (parser != null)
                     parser.load_from_data ((string) call.get_payload (), -1);
                 else {
-                    api_mutex.unlock ();
+                    
                     return tweet;
                 }
 
@@ -560,14 +559,14 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse show.json\n");
             }
-            api_mutex.unlock ();
+            
 
             return tweet;
         }
 
       public override void get_home_timeline () {
             // setup call
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/statuses/home_timeline.json");
             call.set_method ("GET");
@@ -593,7 +592,7 @@ namespace Birdie {
                 if (parser != null)
                     parser.load_from_data ((string) call.get_payload (), -1);
                 else {
-                    api_mutex.unlock ();
+                    
                     return;
                 }
 
@@ -620,7 +619,7 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse home_timeline.json\n");
             }
-            api_mutex.unlock ();
+            
             this.birdie.update_home_ui ();
         }
 
@@ -628,7 +627,7 @@ namespace Birdie {
 
         public override void get_older_home_timeline () {
             // setup call
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/statuses/home_timeline.json");
             call.set_method ("GET");
@@ -653,7 +652,7 @@ namespace Birdie {
                 if (parser != null)
                     parser.load_from_data ((string) call.get_payload (), -1);
                 else {
-                    api_mutex.unlock ();
+                    
                     return;
                 }
 
@@ -675,13 +674,13 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse home_timeline.json\n");
             }
-            api_mutex.unlock ();
+            
             this.birdie.update_older_home_ui ();
         }
 
         public override void get_older_mentions_timeline () {
             // setup call
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/statuses/mentions_timeline.json");
             call.set_method ("GET");
@@ -706,7 +705,7 @@ namespace Birdie {
                 if (parser != null)
                     parser.load_from_data ((string) call.get_payload (), -1);
                 else {
-                    api_mutex.unlock ();
+                    
                     return;
                 }
 
@@ -728,12 +727,12 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse home_timeline.json\n");
             }
-            api_mutex.unlock ();
+            
             this.birdie.update_older_mentions_ui ();
         }
 
         public override void get_older_search_timeline (string search_term) {
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/search/tweets.json");
             call.set_method ("GET");
@@ -761,7 +760,7 @@ namespace Birdie {
                 if (parser != null)
                     parser.load_from_data ((string) call.get_payload (), -1);
                 else {
-                    api_mutex.unlock ();
+                    
                     return;
                 }
 
@@ -779,7 +778,7 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse tweets.json\n");
             }
-            api_mutex.unlock ();
+            
             this.birdie.update_older_search_ui ();
         }
 
@@ -787,7 +786,7 @@ namespace Birdie {
 
         public override void get_mentions_timeline () {
             // setup call
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/statuses/mentions_timeline.json");
             call.set_method ("GET");
@@ -813,7 +812,7 @@ namespace Birdie {
                 if (parser != null)
                     parser.load_from_data ((string) call.get_payload (), -1);
                 else {
-                    api_mutex.unlock ();
+                    
                     return;
                 }
 
@@ -840,13 +839,13 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse mentions_timeline.json\n");
             }
-            api_mutex.unlock ();
+            
             this.birdie.update_mentions_ui ();
         }
 
         public override void get_direct_messages () {
             // setup call
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/direct_messages.json");
             call.set_method ("GET");
@@ -874,7 +873,7 @@ namespace Birdie {
                 if (parser != null)
                     parser.load_from_data ((string) call.get_payload (), -1);
                 else {
-                    api_mutex.unlock ();
+                    
                     return;
                 }
 
@@ -923,13 +922,13 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse direct_messages.json\n");
             }
-            api_mutex.unlock ();
+            
             this.birdie.update_dm_ui ();
         }
 
         public override void get_direct_messages_sent () {
             // setup call
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/direct_messages/sent.json");
             call.set_method ("GET");
@@ -956,7 +955,7 @@ namespace Birdie {
                 if (parser != null)
                     parser.load_from_data ((string) call.get_payload (), -1);
                 else {
-                    api_mutex.unlock ();
+                    
                     return;
                 }
 
@@ -997,12 +996,12 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse sent.json\n");
             }
-            api_mutex.unlock ();
+            
             this.birdie.update_dm_sent_ui ();
         }
 
         public override void get_own_timeline () {
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/statuses/user_timeline.json");
             call.set_method ("GET");
@@ -1027,7 +1026,7 @@ namespace Birdie {
                 if (parser != null)
                     parser.load_from_data ((string) call.get_payload (), -1);
                 else {
-                    api_mutex.unlock ();
+                    
                     return;
                 }
 
@@ -1048,12 +1047,12 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse user_timeline.json\n");
             }
-            api_mutex.unlock ();
+            
             this.birdie.update_own_timeline_ui ();
         }
 
         public override void get_favorites () {
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/favorites/list.json");
             call.set_method ("GET");
@@ -1078,7 +1077,7 @@ namespace Birdie {
                 if (parser != null)
                     parser.load_from_data ((string) call.get_payload (), -1);
                 else {
-                    api_mutex.unlock ();
+                    
                     return;
                 }
 
@@ -1099,13 +1098,13 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse favorites.json\n");
             }
-            api_mutex.unlock ();
+            
             this.birdie.update_favorites_ui ();
         }
 
         public override Array<string> get_followers (string screen_name) {
             Array<string> followers = new Array<string> ();
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/followers/ids.json");
             call.set_method ("GET");
@@ -1122,7 +1121,7 @@ namespace Birdie {
                 if (parser != null)
                     parser.load_from_data ((string) call.get_payload (), -1);
                 else {
-                    api_mutex.unlock ();
+                    
                     return new Array<string> ();
                 }
 
@@ -1133,7 +1132,7 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse user_timeline.json\n");
             }
-            api_mutex.unlock ();
+            
             return followers;
         }
 
@@ -1144,7 +1143,7 @@ namespace Birdie {
             bool blocking = false;
             bool followed = false;
 
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/friendships/show.json");
             call.set_method ("GET");
@@ -1161,7 +1160,7 @@ namespace Birdie {
                 if (parser != null)
                     parser.load_from_data ((string) call.get_payload (), -1);
                 else {
-                    api_mutex.unlock ();
+                    
                     return new Array<string> ();
                 }
 
@@ -1177,7 +1176,7 @@ namespace Birdie {
                 stderr.printf ("Unable to parse sent.json\n");
             }
 
-            api_mutex.unlock ();
+            
 
             friendship.append_val (following.to_string ());
             friendship.append_val (blocking.to_string ());
@@ -1187,82 +1186,82 @@ namespace Birdie {
         }
 
         public override int create_friendship (string screen_name) {
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/friendships/create.json");
             call.set_method ("POST");
             call.add_param ("screen_name", screen_name);
             try { call.sync (); } catch (Error e) {
                 critical (e.message);
-                api_mutex.unlock ();
+                
                 return 1;
             }
-            api_mutex.unlock ();
+            
             return 0;
         }
 
         public override int destroy_friendship (string screen_name) {
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/friendships/destroy.json");
             call.set_method ("POST");
             call.add_param ("screen_name", screen_name);
             try { call.sync (); } catch (Error e) {
                 critical (e.message);
-                api_mutex.unlock ();
+                
                 return 1;
             }
-            api_mutex.unlock ();
+            
             return 0;
         }
 
         public override int create_block (string screen_name) {
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/blocks/create.json");
             call.set_method ("POST");
             call.add_param ("screen_name", screen_name);
             try { call.sync (); } catch (Error e) {
                 critical (e.message);
-                api_mutex.unlock ();
+                
                 return 1;
             }
-            api_mutex.unlock ();
+            
             return 0;
         }
 
         public override int destroy_block (string screen_name) {
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/blocks/destroy.json");
             call.set_method ("POST");
             call.add_param ("screen_name", screen_name);
             try { call.sync (); } catch (Error e) {
                 critical (e.message);
-                api_mutex.unlock ();
+                
                 return 1;
             }
-            api_mutex.unlock ();
+            
             return 0;
         }
 
         public override int destroy_dm (string id) {
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/direct_messages/destroy.json");
             call.set_method ("POST");
             call.add_param ("id", id);
             try { call.sync (); } catch (Error e) {
                 critical (e.message);
-                api_mutex.unlock ();
+                
                 return 1;
             }
-            api_mutex.unlock ();
+            
             return 0;
         }
 
         public override void get_user_timeline (string screen_name) {
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/statuses/user_timeline.json");
             call.set_method ("GET");
@@ -1289,7 +1288,7 @@ namespace Birdie {
                 if (parser != null)
                     parser.load_from_data ((string) call.get_payload (), -1);
                 else {
-                    api_mutex.unlock ();
+                    
                     return;
                 }
 
@@ -1305,12 +1304,12 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse user_timeline.json\n");
             }
-            api_mutex.unlock ();
+            
             this.birdie.update_user_timeline_ui ();
         }
 
         public override void get_search_timeline (string search_term) {
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/search/tweets.json");
             call.set_method ("GET");
@@ -1337,7 +1336,7 @@ namespace Birdie {
                 if (parser != null)
                     parser.load_from_data ((string) call.get_payload (), -1);
                 else {
-                    api_mutex.unlock ();
+                    
                     return;
                 }
 
@@ -1355,12 +1354,12 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse tweets.json\n");
             }
-            api_mutex.unlock ();
+            
             this.birdie.update_search_ui ();
         }
 
         public override void get_lists () {
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/lists/list.json");
             call.set_method ("GET");
@@ -1387,7 +1386,7 @@ namespace Birdie {
                 if (parser != null)
                     parser.load_from_data ((string) call.get_payload (), -1);
                 else {
-                    api_mutex.unlock ();
+                    
                     return;
                 }
 
@@ -1404,11 +1403,11 @@ namespace Birdie {
                 stderr.printf ("Unable to parse list.json\n");
             }
 
-            api_mutex.unlock ();
+            
         }
 
         public override void get_list_timeline (string id) {
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/lists/statuses.json");
             call.set_method ("GET");
@@ -1434,7 +1433,7 @@ namespace Birdie {
                 if (parser != null)
                     parser.load_from_data ((string) call.get_payload (), -1);
                 else {
-                    api_mutex.unlock ();
+                    
                     return;
                 }
 
@@ -1449,42 +1448,42 @@ namespace Birdie {
             } catch (Error e) {
                 stderr.printf ("Unable to parse statuses.json\n");
             }
-            api_mutex.unlock ();
+            
             this.birdie.update_list_ui ();
         }
 
         public override int unsubscribe_list (string id) {
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/lists/subscribers/destroy.json");
             call.set_method ("POST");
             call.add_param ("list_id", id);
             try { call.sync (); } catch (Error e) {
                 critical (e.message);
-                api_mutex.unlock ();
+                
                 return 1;
             }
-            api_mutex.unlock ();
+            
             return 0;
         }
 
         public override int destroy_list (string id) {
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/lists/destroy.json");
             call.set_method ("POST");
             call.add_param ("list_id", id);
             try { call.sync (); } catch (Error e) {
                 critical (e.message);
-                api_mutex.unlock ();
+                
                 return 1;
             }
-            api_mutex.unlock ();
+            
             return 0;
         }
 
         public override void create_list (string name, string description) {
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/lists/create.json");
             call.set_method ("POST");
@@ -1501,12 +1500,12 @@ namespace Birdie {
 
         protected void create_list_response (
             Rest.ProxyCall call, Error? error, Object? obj) {
-            api_mutex.unlock ();
+            
             this.get_lists ();
         }
 
         public override int add_to_list (string list_id, string screen_name) {
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/lists/members/create.json");
             call.set_method ("POST");
@@ -1514,15 +1513,15 @@ namespace Birdie {
             call.add_param ("screen_name", screen_name);
             try { call.sync (); } catch (Error e) {
                 critical (e.message);
-                api_mutex.unlock ();
+                
                 return 1;
             }
-            api_mutex.unlock ();
+            
             return 0;
         }
 
         public override int remove_from_list (string list_id, string screen_name) {
-            api_mutex.lock ();
+            
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/lists/members/destroy.json");
             call.set_method ("POST");
@@ -1530,10 +1529,10 @@ namespace Birdie {
             call.add_param ("screen_name", screen_name);
             try { call.sync (); } catch (Error e) {
                 critical (e.message);
-                api_mutex.unlock ();
+                
                 return 1;
             }
-            api_mutex.unlock ();
+            
             return 0;
         }
     }
