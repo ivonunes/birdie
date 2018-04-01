@@ -483,7 +483,7 @@ namespace Birdie {
             favorited = tweetobject.get_boolean_member ("favorited");
             user_name = tweetobject.get_object_member ("user").get_string_member ("name");
             user_screen_name = tweetobject.get_object_member ("user").get_string_member ("screen_name");
-            text = tweetobject.get_string_member ("text");
+            text = tweetobject.get_string_member ("full_text");
             created_at = tweetobject.get_string_member ("created_at");
             profile_image_url = tweetobject.get_object_member ("user").get_string_member ("profile_image_url").replace("_normal", "_bigger");
             verified = tweetobject.get_object_member ("user").get_boolean_member ("verified");
@@ -537,6 +537,7 @@ namespace Birdie {
             call.set_function ("1.1/statuses/show.json");
             call.set_method ("GET");
             call.add_param ("id", tweet_id);
+            call.add_param ("tweet_mode", "extended");
 
             try { call.sync (); } catch (Error e) {
                 critical (e.message);
@@ -571,6 +572,7 @@ namespace Birdie {
             call.set_function ("1.1/statuses/home_timeline.json");
             call.set_method ("GET");
             call.add_param ("count", this.retrieve_count);
+            call.add_param ("tweet_mode", "extended");
             if (this.since_id_home != "" && this.since_id_home != null)
                 call.add_param ("since_id", this.since_id_home);
 
@@ -632,6 +634,7 @@ namespace Birdie {
             call.set_method ("GET");
             call.add_param ("count", this.retrieve_count);
             call.add_param ("max_id", this.birdie.home_list.get_oldest ());
+            call.add_param ("tweet_mode", "extended");
 
             Rest.ProxyCallAsyncCallback callback = get_older_home_timeline_response;
             try {
@@ -684,6 +687,7 @@ namespace Birdie {
             call.set_method ("GET");
             call.add_param ("count", this.retrieve_count);
             call.add_param ("max_id", this.birdie.mentions_list.get_oldest ());
+            call.add_param ("tweet_mode", "extended");
 
             Rest.ProxyCallAsyncCallback callback = get_older_mentions_timeline_response;
             try {
@@ -736,6 +740,7 @@ namespace Birdie {
             call.add_param ("count", this.retrieve_count);
             call.add_param ("q", search_term);
             call.add_param ("max_id", this.birdie.search_list.get_oldest ());
+            call.add_param ("tweet_mode", "extended");
             Rest.ProxyCallAsyncCallback callback = get_older_search_timeline_response;
             try {
                 call.run_async (callback);
@@ -787,6 +792,7 @@ namespace Birdie {
             call.set_function ("1.1/statuses/mentions_timeline.json");
             call.set_method ("GET");
             call.add_param ("count", retrieve_count);
+            call.add_param ("tweet_mode", "extended");
             if (this.since_id_mentions != "" && this.since_id_mentions != null)
                 call.add_param ("since_id", this.since_id_mentions);
 
@@ -1001,6 +1007,7 @@ namespace Birdie {
             call.set_function ("1.1/statuses/user_timeline.json");
             call.set_method ("GET");
             call.add_param ("count", this.retrieve_count);
+            call.add_param ("tweet_mode", "extended");
             if (this.since_id_own != "" && this.since_id_own != null)
                 call.add_param ("since_id", this.since_id_own);
             call.add_param ("user_id", this.account.id);
@@ -1051,6 +1058,7 @@ namespace Birdie {
             call.set_function ("1.1/favorites/list.json");
             call.set_method ("GET");
             call.add_param ("count", this.retrieve_count);
+            call.add_param ("tweet_mode", "extended");
             if (this.since_id_favorites != "" && this.since_id_favorites != null)
                 call.add_param ("since_id", this.since_id_favorites);
             call.add_param ("user_id", this.account.id);
@@ -1260,6 +1268,7 @@ namespace Birdie {
             call.set_method ("GET");
             call.add_param ("count", this.retrieve_count);
             call.add_param ("screen_name", screen_name);
+            call.add_param ("tweet_mode", "extended");
             Rest.ProxyCallAsyncCallback callback = get_user_timeline_response;
             try {
                 call.run_async (callback);
@@ -1307,6 +1316,7 @@ namespace Birdie {
             call.set_method ("GET");
             call.add_param ("count", this.retrieve_count);
             call.add_param ("q", search_term);
+            call.add_param ("tweet_mode", "extended");
             Rest.ProxyCallAsyncCallback callback = get_search_timeline_response;
             try {
                 call.run_async (callback);
@@ -1403,6 +1413,7 @@ namespace Birdie {
             call.set_function ("1.1/lists/statuses.json");
             call.set_method ("GET");
             call.add_param ("list_id", id);
+            call.add_param ("tweet_mode", "extended");
             Rest.ProxyCallAsyncCallback callback = get_list_timeline_response;
             try {
                 call.run_async (callback);
