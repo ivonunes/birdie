@@ -1051,7 +1051,7 @@ namespace Birdie {
                 }
 
                 if (!this.ready) {
-                    get_all_avatars.begin ();
+                    get_all_avatars ();
 
                     this.ready = true;
 
@@ -1069,21 +1069,13 @@ namespace Birdie {
             });
         }
 
-        public async void get_all_avatars () throws ThreadError {
-            SourceFunc callback = get_all_avatars.callback;
-
-            ThreadFunc<void*> run = () => {
-                Media.get_avatar (this.home_list);
-                Media.get_avatar (this.mentions_list);
-                Media.get_avatar (this.dm_list);
-                Media.get_avatar (this.dm_sent_list);
-                Media.get_avatar (this.own_list);
-                Media.get_avatar (this.favorites);
-                Idle.add((owned) callback);
-                return null;
-            };
-            Thread.create<void*>(run, false);
-            yield;
+        public void get_all_avatars () {
+            Media.get_avatar (this.home_list);
+            Media.get_avatar (this.mentions_list);
+            Media.get_avatar (this.dm_list);
+            Media.get_avatar (this.dm_sent_list);
+            Media.get_avatar (this.own_list);
+            Media.get_avatar (this.favorites);
         }
 
         public void update_dm_sent_ui () {
@@ -1328,7 +1320,7 @@ namespace Birdie {
             });
 
             if (!this.ready) {
-                get_all_avatars.begin ();
+                get_all_avatars ();
                 this.ready = true;
                 this.set_widgets_sensitive (true);
             } else {
@@ -1356,7 +1348,7 @@ namespace Birdie {
             });
 
             if (!this.ready) {
-                get_all_avatars.begin ();
+                get_all_avatars ();
                 this.ready = true;
                 this.set_widgets_sensitive (true);
             } else {
