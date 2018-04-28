@@ -21,10 +21,7 @@ namespace Birdie.Media {
       timeline.boxes.reverse ();
       timeline.boxes.foreach ((tweetbox) => {
         if (tweetbox.tweet.media_url != "" || tweetbox.tweet.youtube_video != "") {
-          Idle.add (() => {
             timeline.update_display (tweetbox.tweet);
-            return false;
-          });
         }
       });
 

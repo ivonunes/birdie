@@ -42,10 +42,7 @@ namespace Birdie.Media {
         dialog.key_press_event.connect ((event, key) => {
             // if Space or Esc pressed, destroy dialog
             if (key.keyval == Gdk.Key.space) {
-                Idle.add (() => {
-                    dialog.destroy ();
-                    return false;
-                });
+                dialog.destroy ();
             }
             return false;
         });

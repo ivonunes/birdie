@@ -1377,10 +1377,7 @@ namespace Birdie {
         protected void get_lists_response (
             Rest.ProxyCall call, Error? error, Object? obj) {
 
-            Idle.add (() => {
-                this.birdie.lists.clear ();
-                return false;
-            });
+            this.birdie.lists.clear ();
 
             try {
                 var parser = new Json.Parser ();
@@ -1396,10 +1393,7 @@ namespace Birdie {
 
                 foreach (var listnode in root.get_array ().get_elements ()) {
                     var list = get_list (listnode);
-                    Idle.add (() => {
-                        this.birdie.lists.append (list, this.birdie);
-                        return false;
-                    });
+                    this.birdie.lists.append (list, this.birdie);
                 }
             } catch (Error e) {
                 stderr.printf ("Unable to parse list.json\n");

@@ -17,14 +17,23 @@
 
 namespace Birdie.Media {
 
-    public void get_avatar (Widgets.TweetList timeline) {
+    public async void get_avatar (Widgets.TweetList timeline) {
         timeline.boxes.reverse ();
 
-        timeline.boxes.foreach ((tweetbox) => {
-            get_single_avatar.begin (tweetbox, timeline);
-        });
+        ThreadFunc<void*> run = () => {
+            timeline.boxes.foreach ((tweetbox) => {
+                get_single_avatar.begin (tweetbox, timeline);
+            });
 
-        timeline.boxes.reverse ();
+            Idle.add (() => {
+                timeline.boxes.reverse ();
+                return false;
+            });
+
+            return null;
+        };
+
+        Thread.create<void*>(run, false);
     }
 
     public async void get_single_avatar (Widgets.TweetBox tweetbox, Widgets.TweetList? tweetlist = null) {
