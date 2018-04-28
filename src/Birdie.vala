@@ -278,7 +278,12 @@ namespace Birdie {
 
                 search_entry.activate.connect (() => {
                     this.search_term = ((Gtk.Entry)search_entry).get_text ();
-                    this.show_search.begin ();
+                    
+                    if (search_term != "") {
+                        this.show_search.begin ();
+                    } else {
+                        search_popover.hide();
+                    }
                 });
 
                 switcher = new Granite.Widgets.ModeButton();

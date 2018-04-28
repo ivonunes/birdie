@@ -493,6 +493,8 @@ namespace Birdie {
                 in_reply_to_screen_name = "";
             if (in_reply_to_status_id == null)
                 in_reply_to_status_id = "";
+            if (text == null)
+                text = "";
 
             Json.Object entitiesobject = tweetobject.get_object_member ("entities");
 
