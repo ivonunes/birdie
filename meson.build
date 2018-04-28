@@ -27,7 +27,7 @@ executable(
   'src/Cache.vala',
   'src/Widgets/TweetBox.vala',
   'src/Widgets/TweetList.vala',
-  'src/Widgets/UnifiedWindow.vala',
+  'src/Widgets/MainWindow.vala',
   'src/Widgets/TweetDialog.vala',
   'src/Widgets/UserBox.vala',
   'src/Widgets/Dialogs.vala',

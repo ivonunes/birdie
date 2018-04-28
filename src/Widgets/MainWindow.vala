@@ -1,6 +1,6 @@
 // -*- Mode: vala; indent-tabs-mode: nil; tab-width: 4 -*-
 /*-
- * Copyright (c) 2013-2016 Birdie Developers (http://birdieapp.github.io)
+ * Copyright (c) 2013-2018 Amuza Limited
  *
  * This software is licensed under the GNU General Public License
  * (version 3 or later). See the COPYING file in this distribution.
@@ -10,13 +10,13 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Authored by: Ivo Nunes <ivoavnunes@gmail.com>
- *              Vasco Nunes <vascomfnunes@gmail.com>
+ * Authored by: Ivo Nunes <ivo@amuza.uk>
+ *              Vasco Nunes <vasco@amuza.uk>
  *              Nathan Dyer <mail@nathandyer.me>
  */
 
 namespace Birdie.Widgets {
-    public class UnifiedWindow : Gtk.ApplicationWindow
+    public class MainWindow : Gtk.Window
     {
 
         public signal void save_state();
@@ -70,36 +70,34 @@ namespace Birdie.Widgets {
              }
          """;
 
-        public UnifiedWindow () {
-            this.opening_x = -1;
-            this.opening_y = -1;
-            this.window_width = -1;
-            this.window_height = -1;
+        public MainWindow (Gtk.Application application) {
+            Object (
+                application: application,
+                height_request: 575,
+                icon_name: "uk.amuza.birdie",
+                resizable: true,
+                title: _("Birdie"),
+                width_request: 300
+            );
 
             // set smooth scrolling events
             set_events(Gdk.EventMask.SMOOTH_SCROLL_MASK);
 
-            this.delete_event.connect (on_delete_event);
-
-            // Set up geometry
             Gdk.Geometry geo = new Gdk.Geometry();
             geo.min_width = 575;
             geo.min_height = 300;
             geo.max_width = 775;
             geo.max_height = 2048;
-
             this.set_geometry_hints(null, geo, Gdk.WindowHints.MIN_SIZE | Gdk.WindowHints.MAX_SIZE);
 
             header = new Gtk.HeaderBar ();
-
             header.set_show_close_button (true);
             this.set_titlebar (header);
 
-            Granite.Widgets.Utils.set_theming_for_screen (this.get_screen (), ELEMENTARY_STYLESHEET,
-                                               Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+            this.delete_event.connect (on_delete_event);
 
-            this.set_title ("Birdie");
-            this.set_default_size(575, 300);
+            Granite.Widgets.Utils.set_theming_for_screen (this.get_screen (), ELEMENTARY_STYLESHEET,
+                                                          Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
         }
 
         private bool on_delete_event () {

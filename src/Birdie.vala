@@ -1,6 +1,6 @@
 // -*- Mode: vala; indent-tabs-mode: nil; tab-width: 4 -*-
 /*-
- * Copyright (c) 2013-2016 Birdie Developers (http://birdieapp.github.io)
+ * Copyright (c) 2013-2018 Amuza Limited
  *
  * This software is licensed under the GNU General Public License
  * (version 3 or later). See the COPYING file in this distribution.
@@ -10,8 +10,8 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Authored by: Ivo Nunes <ivoavnunes@gmail.com>
- *              Vasco Nunes <vascomfnunes@gmail.com>
+ * Authored by: Ivo Nunes <ivo@amuza.uk>
+ *              Vasco Nunes <vasco@amuza.uk>
  *              Nathan Dyer <mail@nathandyer.me>
  */
 
@@ -20,7 +20,7 @@ namespace Birdie {
     public class Birdie : Granite.Application {
 
 		private Gtk.Box m_box;
-        public Widgets.UnifiedWindow m_window;
+        public Widgets.MainWindow m_window;
         public Widgets.TweetList home_list;
         public Widgets.TweetList mentions_list;
         public Widgets.TweetList dm_list;
@@ -206,7 +206,7 @@ namespace Birdie {
                 default_theme.add_resource_path ("/uk/amuza/birdie");
 
                 Gtk.Window.set_default_icon_name ("uk.amuza.birdie");
-                this.m_window = new Widgets.UnifiedWindow ();
+                this.m_window = new Widgets.MainWindow (this);
                 this.m_window.save_state.connect(save_state);
                 //this.m_window.type_hint = Gdk.WindowTypeHint.DIALOG;
 
@@ -1163,7 +1163,7 @@ namespace Birdie {
 
                 // Set the icon for the mention
                 if(new_mentions) {
-                    set_switcher_button("mentions", "notification-new-symbolic");
+                    set_switcher_button("mentions", "twitter-mentions-new-symbolic");
                 }
 
                 if (this.ready)

@@ -1,6 +1,6 @@
 // -*- Mode: vala; indent-tabs-mode: nil; tab-width: 4 -*-
 /*-
- * Copyright (c) 2013-2016 Birdie Developers (http://birdieapp.github.io)
+ * Copyright (c) 2013-2018 Amuza Limited
  *
  * This software is licensed under the GNU General Public License
  * (version 3 or later). See the COPYING file in this distribution.
@@ -10,8 +10,8 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Authored by: Ivo Nunes <ivoavnunes@gmail.com>
- *              Vasco Nunes <vascomfnunes@gmail.com>
+ * Authored by: Ivo Nunes <ivo@amuza.uk>
+ *              Vasco Nunes <vasco@amuza.uk>
  *              Nathan Dyer <mail@nathandyer.me>
  */
 
@@ -57,18 +57,16 @@ namespace Birdie.Media {
 
     public void show_youtube_video (string youtube_video_id, Gtk.Window main_window) {
         var dialog = new Gtk.Dialog();
-        dialog.set_default_size(650, 400);
+        dialog.set_size_request(780, 600);
         dialog.modal = true;
         dialog.set_transient_for(main_window);
 
-        var webview_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
 
         WebKit.WebView web_view = new WebKit.WebView ();
         web_view.load_html ("<iframe width='640' height='390' style='margin-left: -10px; margin-top: -10px; margin-bottom: -10px;' src='http://www.youtube.com/embed/" +
             youtube_video_id + "?version=3&autohide=1&controls=2&modestbranding=1&showinfo=0&showsearch=0&vq=hd720&autoplay=1' frameborder='0'</iframe>", "http://www.youtube.com/embed/");
         
-        webview_box.add(web_view);
-        dialog.get_content_area().pack_start (webview_box, true, true, 0);
+        dialog.get_content_area().pack_start (web_view, true, true, 0);
         dialog.resizable = false;
         dialog.show_all();
     }
