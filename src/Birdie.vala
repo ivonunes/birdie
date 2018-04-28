@@ -593,6 +593,7 @@ namespace Birdie {
                 default:
                     break;
             }
+            switcher.set_active(current_widget);
             return false;
         }
 

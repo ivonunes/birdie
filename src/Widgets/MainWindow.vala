@@ -41,14 +41,18 @@ namespace Birdie.Widgets {
                 border-top-width: 0;
                 box-shadow: none;
                 background: transparent;
-                border-left-width: 0;
-                border-right-width: 0;
+                border-left-width: 1px;
+                border-right-width: 1px;
             }
 
             .titlebar .linked .button:checked {
                 box-shadow: inset 0 0 0 1px alpha (#000, 0.05);
                 border-left-width: 1px;
                 border-right-width: 1px;
+            }
+
+            .titlebar .linked .button:not(:checked) {
+                border-color: transparent;
             }
 
             .favorite-pink {
