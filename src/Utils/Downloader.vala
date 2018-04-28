@@ -98,10 +98,7 @@ namespace Birdie.Utils {
         }
 
         private void set_media (Widgets.TweetList tweetlist, Tweet tweet) {
-            Idle.add (() => {
-                tweetlist.update_display (tweet);
-                return false;
-            });
+            tweetlist.update_display (tweet);
         }
 
         private async void download_from_http (Download download) throws GLib.Error {
