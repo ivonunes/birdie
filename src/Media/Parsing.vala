@@ -75,11 +75,6 @@ namespace Birdie.Media {
                     media_url = get_instagram_media (expanded, null, tweetlist, tweet);
                 }
 
-                // intercept vine links
-                if (expanded.contains ("vine.co")) {
-                    youtube_video = expanded;
-                }
-
                 // replace short urls by expanded ones in tweet text
                 text = text.replace (url.get_object ().get_string_member ("url"),
                     url.get_object ().get_string_member ("expanded_url"));

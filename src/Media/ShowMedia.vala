@@ -70,22 +70,4 @@ namespace Birdie.Media {
         dialog.resizable = false;
         dialog.show_all();
     }
-
-    public void show_vine_clip (string vine_url, Gtk.Window main_window) {
-        var dialog = new Gtk.Dialog();
-        dialog.set_default_size(610, 610);
-        dialog.modal = true;
-        dialog.set_transient_for(main_window);
-
-        var webview_box = new Gtk.Box(Gtk.Orientation.HORIZONTAL, 0);
-
-        WebKit.WebView web_view = new WebKit.WebView ();
-        web_view.load_html ("<iframe src='" + vine_url + "/embed/simple' width='600'height='600' frameborder='0'> " +
-            "</iframe><script src='https://platform.vine.co/static/scripts/embed.js'></script>", "http://www.vine.co/");
-        
-        webview_box.add(web_view);
-        dialog.get_content_area().pack_start (webview_box, true, true, 0);
-        dialog.resizable = false;
-        dialog.show_all();
-    }
 }
