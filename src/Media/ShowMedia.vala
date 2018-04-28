@@ -57,14 +57,14 @@ namespace Birdie.Media {
 
     public void show_youtube_video (string youtube_video_id, Gtk.Window main_window) {
         var dialog = new Gtk.Dialog();
-        dialog.set_size_request(780, 600);
+        dialog.set_size_request(800, 585);
         dialog.modal = true;
         dialog.set_transient_for(main_window);
 
 
         WebKit.WebView web_view = new WebKit.WebView ();
-        web_view.load_html ("<iframe width='640' height='390' style='margin-left: -10px; margin-top: -10px; margin-bottom: -10px;' src='http://www.youtube.com/embed/" +
-            youtube_video_id + "?version=3&autohide=1&controls=2&modestbranding=1&showinfo=0&showsearch=0&vq=hd720&autoplay=1' frameborder='0'</iframe>", "http://www.youtube.com/embed/");
+        web_view.load_html ("<body style='overflow: hidden'><iframe style='width: 640px; height: 390px; margin-left: -10px; margin-top: -10px; margin-bottom: -10px;' src='http://www.youtube.com/embed/" +
+            youtube_video_id + "?version=3&autohide=1&controls=2&modestbranding=1&showinfo=0&showsearch=0&vq=hd720&autoplay=1' frameborder='0'</iframe></body>", "http://www.youtube.com/embed/");
         
         dialog.get_content_area().pack_start (web_view, true, true, 0);
         dialog.resizable = false;
