@@ -570,7 +570,7 @@ namespace Birdie.Widgets {
 
                     this.reply_button.clicked.connect (() => {
                         Widgets.TweetDialog dialog = new TweetDialog (this.birdie, this.tweet.id, this.tweet.user_screen_name, this.tweet.dm);
-                        dialog.set_relative_to(this.birdie.new_tweet);
+                        dialog.set_relative_to(this.time_label);
                         dialog.show_all();
                     });
 

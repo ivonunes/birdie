@@ -57,7 +57,7 @@ namespace Birdie.Widgets {
             new_message_button.clicked.connect(() => {
                 Widgets.TweetDialog dialog = new TweetDialog (this.birdie, "",
                             other_party_username, true);
-                dialog.set_relative_to(this.birdie.new_tweet);
+                dialog.set_relative_to(new_message_button);
                 dialog.show_all ();
             });
     	}
