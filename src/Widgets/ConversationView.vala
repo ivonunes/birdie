@@ -60,6 +60,11 @@ namespace Birdie.Widgets {
                 dialog.set_relative_to(new_message_button);
                 dialog.show_all ();
             });
+
+            this.draw.connect(() => {
+                this.scroll_to_bottom();
+                return false;
+            });
     	}
 
     	public void set_conversation(string name, Widgets.TweetList received, Widgets.TweetList sent) {
@@ -111,9 +116,6 @@ namespace Birdie.Widgets {
                 }
                 conversation_box.add(new_tb);
             }
-
-            // Scroll to the end of the tweets for the latest message
-            conversation_window.scroll_child(Gtk.ScrollType.END, false);
             
             show_all();
     	}
@@ -121,6 +123,10 @@ namespace Birdie.Widgets {
     	private void on_button_click() {
     		return_to_conversations_list();
     	}
+
+        public void scroll_to_bottom() {
+            conversation_window.scroll_child(Gtk.ScrollType.END, false);
+        }
 
         private Gee.ArrayList<TweetBox> sort(Gee.ArrayList<TweetBox> boxes) {
 

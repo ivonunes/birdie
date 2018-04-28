@@ -184,7 +184,7 @@ namespace Birdie.Widgets {
             this.cancel.set_size_request (100, -1);
             this.cancel.clicked.connect (() => {
                 this.view.get_buffer ().set_text("");
-                this.hide ();
+                this.destroy ();
             });
 
             if (this.dm)

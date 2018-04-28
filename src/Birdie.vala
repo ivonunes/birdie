@@ -263,9 +263,7 @@ namespace Birdie {
 
                 
                 new_tweet.clicked.connect (() => {
-                    if(new_tweet_popover == null) {
-                        new_tweet_popover = new Widgets.TweetDialog (this, "", "", false);
-                    }
+                    new_tweet_popover = new Widgets.TweetDialog (this, "", "", false);
                     new_tweet_popover.set_relative_to(new_tweet);
                     new_tweet_popover.show_all ();
                 });
