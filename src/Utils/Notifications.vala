@@ -40,24 +40,12 @@ namespace Birdie.Utils {
             this.birdie_app = birdie;
 
             string notification_txt;
-            string avatar_path;
 
             notification_txt = Utils.remove_html_tags (message);
             notification_txt = Utils.escape_markup (notification_txt);
 
-            if (avatar != "" && avatar != null) {
-                var file = File.new_for_path (avatar);
-
-                if (file.query_exists ())
-                    avatar_path = avatar;
-                else
-                    avatar_path = "birdie";
-            } else {
-                avatar_path = "birdie";
-            }
-
-            this.notification = new Notify.Notification (header, notification_txt, avatar_path);
-            this.notification.set_hint_string ("desktop-entry", "birdie");
+            this.notification = new Notify.Notification (header, notification_txt, "uk.amuza.birdie");
+            this.notification.set_hint_string ("desktop-entry", "uk.amuza.birdie");
             this.notification.set_urgency (Notify.Urgency.NORMAL);
 
             if (dm) {

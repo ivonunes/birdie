@@ -906,7 +906,7 @@ namespace Birdie {
             // setup call
             
             Rest.ProxyCall call = proxy.new_call ();
-            call.set_function ("1.1/direct_messages/events/list.json");
+            call.set_function ("1.1/direct_messages.json");
             call.set_method ("GET");
             call.add_param ("count", retrieve_count);
             if (this.since_id_dm != "" && this.since_id_dm != null)
