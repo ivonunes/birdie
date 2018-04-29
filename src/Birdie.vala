@@ -1447,11 +1447,11 @@ namespace Birdie {
 
                     if (dm) {
                         this.dm_sent_list.append (tweet_tmp, this);
+                        this.update_dm_ui();
                         this.switch_timeline ("dm");
                         Idle.add (() => {
                             this.notebook_dm.set_visible_child_name("1");
                             Media.get_avatar (this.dm_sent_list);
-                            //Media.get_imgur_media (media_uri, null, this.dm_sent_list, tweet_tmp);
                             return false;
                         });
                     } else {

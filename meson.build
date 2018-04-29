@@ -18,6 +18,7 @@ executable(
   'src/main.vala',
   'src/config.vala',
   'src/Birdie.vala',
+  'src/OAuth.vala',
   'src/API.vala',
   'src/Twitter.vala',
   'src/Tweet.vala',

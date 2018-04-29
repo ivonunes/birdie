@@ -25,6 +25,7 @@ namespace Birdie.Widgets {
     	private Gee.ArrayList<Widgets.TweetBox> tweet_boxes = new Gee.ArrayList<Widgets.TweetBox>();
         private Birdie birdie;
         private string other_party_username = "";
+        private bool scrolled = false;
 
     	public ConversationView(Birdie birdie) {
     	
@@ -62,7 +63,10 @@ namespace Birdie.Widgets {
             });
 
             this.draw.connect(() => {
-                this.scroll_to_bottom();
+                if (!scrolled) {
+                    this.scroll_to_bottom();
+                    scrolled = true;                
+                }
                 return false;
             });
     	}
@@ -75,6 +79,7 @@ namespace Birdie.Widgets {
             }
 
             string screen_name = "";
+            scrolled = false;
 
     		// Go through and find the matching TweetBoxes
             tweet_boxes = new Gee.ArrayList<Widgets.TweetBox>();

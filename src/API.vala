@@ -71,6 +71,7 @@ namespace Birdie {
             string media_uri, out string media_out);
         public abstract int get_account ();
         public abstract Tweet get_single_tweet (string tweet_id);
+        public abstract string get_id_for_screen_name (string screen_name);
 
         public abstract void get_home_timeline ();
         public abstract void get_mentions_timeline ();

@@ -235,7 +235,6 @@ namespace Birdie {
         public override int favorite_destroy (string id) {
             // setup call
             
-            debug (id);
             Rest.ProxyCall call = proxy.new_call ();
             call.set_function ("1.1/favorites/destroy.json");
             call.set_method ("POST");
@@ -252,16 +251,44 @@ namespace Birdie {
         public override int send_direct_message (string recipient, string status) {
             // setup call
             
-            Rest.ProxyCall call = proxy.new_call ();
-            call.set_function ("1.1/direct_messages/new.json");
+            /*Rest.ProxyCall call = proxy.new_call ();
+            call.set_function ("1.1/direct_messages/events/new.json");
             call.set_method ("POST");
-            call.add_param ("screen_name", recipient);
-            call.add_param ("text", status);
+            call.add_header ("Content-Type", "application/json");
+            call.add_param ("", "{\"event\": {\"type\": \"message_create\", \"message_create\": {\"target\": {\"recipient_id\": \"" + recipient + "\"}, \"message_data\": {\"text\": \"" + status + "\"}}}}");
             try { call.sync (); } catch (Error e) {
                 critical (e.message);
                 
                 return 1;
+            }*/
+
+            string user_id = this.get_id_for_screen_name(recipient);
+
+            if (user_id == "-1") {
+                return 1;
             }
+
+            var client = new OAuth.Client(
+                "", 
+                this.CONSUMER_KEY, 
+                new OAuth.HMAC_SHA1(this.CONSUMER_SECRET)
+            );
+
+            client.set_token(this.token, this.token_secret);
+
+            var session = new Soup.SessionSync();
+            var message = new Soup.Message("POST", "https://api.twitter.com/1.1/direct_messages/events/new.json");
+
+            Gee.HashMultiMap<string, string> args = new Gee.HashMultiMap<string, string>();
+            var oauth_headers = client.authenticate("POST", "https://api.twitter.com/1.1/direct_messages/events/new.json", args);
+
+            Soup.MemoryUse buffer = Soup.MemoryUse.STATIC;  
+            string request = "{\"event\": {\"type\": \"message_create\", \"message_create\": {\"target\": {\"recipient_id\": \"" + user_id + "\"}, \"message_data\": {\"text\": \"" + status.escape() + "\"}}}}";
+
+            message.request_headers.append("Authorization", oauth_headers["Authorization"]);
+            message.set_request("application/json", buffer, request.data);
+
+            session.send_message(message);
             
             return 0;
         }
@@ -283,38 +310,33 @@ namespace Birdie {
             if (link == "")
                 return 1;
 
-            // setup call
-            
-            Rest.ProxyCall call = proxy.new_call ();
-            call.set_function ("1.1/direct_messages/new.json");
-            call.set_method ("POST");
-            call.add_param ("screen_name", recipient);
-            call.add_param ("text", status + " " + link);
-            try { call.sync (); } catch (Error e) {
-                critical (e.message);
-                
+            string user_id = this.get_id_for_screen_name(recipient);
+
+            if (user_id == "-1") {
                 return 1;
             }
 
-            try {
-                var parser = new Json.Parser ();
+            var client = new OAuth.Client(
+                "", 
+                this.CONSUMER_KEY, 
+                new OAuth.HMAC_SHA1(this.CONSUMER_SECRET)
+            );
 
-                if (parser != null)
-                    parser.load_from_data ((string) call.get_payload (), -1);
-                else {
-                    
-                    return 1;
-                }
-                var root = parser.get_root ();
-                var userobject = root.get_object ();
+            client.set_token(this.token, this.token_secret);
 
-                var user_id = userobject.get_int_member ("id");
-                
-                return user_id;
-            } catch (Error e) {
-                stderr.printf ("Unable to parse update.json\n");
-            }
+            var session = new Soup.SessionSync();
+            var message = new Soup.Message("POST", "https://api.twitter.com/1.1/direct_messages/events/new.json");
 
+            Gee.HashMultiMap<string, string> args = new Gee.HashMultiMap<string, string>();
+            var oauth_headers = client.authenticate("POST", "https://api.twitter.com/1.1/direct_messages/events/new.json", args);
+
+            Soup.MemoryUse buffer = Soup.MemoryUse.STATIC;  
+            string request = "{\"event\": {\"type\": \"message_create\", \"message_create\": {\"target\": {\"recipient_id\": \"" + user_id + "\"}, \"message_data\": {\"text\": \"" + status.escape() + " " + link.escape() + "\"}}}}";
+
+            message.request_headers.append("Authorization", oauth_headers["Authorization"]);
+            message.set_request("application/json", buffer, request.data);
+
+            session.send_message(message);
             
             return 0;
         }
@@ -564,6 +586,41 @@ namespace Birdie {
             
 
             return tweet;
+        }
+
+        public override string get_id_for_screen_name (string screen_name) {
+            
+            string user_id = "-1";
+
+            // setup call
+            Rest.ProxyCall call = proxy.new_call ();
+            call.set_function ("1.1/users/show.json");
+            call.set_method ("GET");
+            call.add_param ("screen_name", screen_name);
+
+            try { call.sync (); } catch (Error e) {
+                return user_id;
+            }
+
+            try {
+                var parser = new Json.Parser ();
+
+                if (parser != null)
+                    parser.load_from_data ((string) call.get_payload (), -1);
+                else {
+                    return user_id;
+                }
+
+                var node = parser.get_root ();
+                
+                var userobject = node.get_object();
+
+                if (userobject != null) {
+                    user_id = userobject.get_string_member ("id_str");
+                }
+            } catch {}
+
+            return user_id;
         }
 
       public override void get_home_timeline () {
@@ -849,7 +906,7 @@ namespace Birdie {
             // setup call
             
             Rest.ProxyCall call = proxy.new_call ();
-            call.set_function ("1.1/direct_messages.json");
+            call.set_function ("1.1/direct_messages/events/list.json");
             call.set_method ("GET");
             call.add_param ("count", retrieve_count);
             if (this.since_id_dm != "" && this.since_id_dm != null)
