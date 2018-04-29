@@ -134,6 +134,8 @@ namespace Birdie {
 
         private int limit_notifications;
 
+        public bool switching_accounts;
+
         private signal void exit();
 
         construct {
@@ -146,9 +148,9 @@ namespace Birdie {
             app_launcher        = "uk.amuza.birdie.desktop";
             application_id      = "uk.amuza.birdie";
 
-            main_url            = "https://oss.amuza.uk/birdie";
+            main_url            = "https://www.amuza.uk/birdie";
             bug_url             = "https://github.com/amuza/birdie/issues";
-            help_url            = "https://oss.amuza.uk/birdie";
+            help_url            = "https://www.amuza.uk/birdie";
             translate_url       = "https://www.transifex.com/projects/p/birdie/";
 
             about_authors       = {"Ivo Nunes <ivo@amuza.uk>", "Vasco Nunes <vasco@amuza.uk>", "Nathan Dyer <mail@nathandyer.me>"};
@@ -179,6 +181,8 @@ namespace Birdie {
             this.db = new SqliteDatabase ();
             // init cache object
             this.cache = new Cache (this);
+
+            this.switching_accounts = false;
         }
 
         /*
@@ -832,23 +836,12 @@ namespace Birdie {
         }
 
         private void switch_account (User account) {
-            this.set_account_avatar (account);
-
-            this.search_list.clear ();
-            this.search_entry.text = "";
-
             this.db.set_default_account (account);
-            this.default_account = account;
-            this.default_account_id = this.db.get_account_id ();
+            this.switching_accounts = true;
 
-            this.set_widgets_sensitive (false);
-
-            this.init_api ();
-            switch_timeline ("loading");
-
-            this.api.token = this.default_account.token;
-            this.api.token_secret = this.default_account.token_secret;
-            this.init.begin ();
+            this.exit();
+            this.m_window.destroy();
+            this.quit();
         }
 
         public void set_widgets_sensitive (bool sensitive) {

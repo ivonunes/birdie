@@ -20,7 +20,13 @@ namespace Birdie {
     public static int main (string[] args) {
         X.init_threads ();
 
-        Granite.Application app = new Birdie ();
-        return app.run (args);
+        Birdie app = new Birdie ();
+        int code = app.run (args);
+
+        if (app.switching_accounts) {
+            code = main(args);
+        }
+
+        return code;
     }
 }
