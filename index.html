@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Birdie | Twitter Client</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A beautiful & fast Twitter client designed for elementary OS.">
+    <base href="https://birdie.ivonunes.me/">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-89195846-7"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-89195846-7');
+    </script>
+
+    <!-- Facebook OpenGraph -->
+    <meta property="og:title" content="Birdie">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_GB">
+    <meta property="og:url" content="https://birdie.ivonunes.me/">
+    <meta property="og:image" content="https://birdie.ivonunes.me/images/birdie.png">
+    <meta property="og:site_name" content="Birdie - Twitter Client">
+    <meta property="og:description" content="A beautiful & fast Twitter client designed for elementary OS.">
+
+    <!-- stylesheets -->
+    <link href="css/main.css" rel="stylesheet">
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+
+    <!-- fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,300|Raleway:300,200|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" media="all" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    
+    <!-- js -->
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-3.3.4.modified.js"></script>
+    <script type="text/javascript" src="js/init.js"></script>
+
+    <!-- apple touch icons -->
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="57x57" href="images/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="images/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon" sizes="57x57" href="images/apple-touch-icon-60x60.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="images/apple-touch-icon-152x152.png" />
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+<body>
+
+    <!-- row -->
+<div class="row" id="hero">
+    <section>
+    <img class="center" src="images/birdie.png">
+    <h1><b style="color:#2F83E2;">Birdie</b> for elementary</h1>
+    <h4>Birdie is a beautiful &amp; fast Twitter client designed for elementary OS.</h4>
+    <a class="button large" href="download"><span>Download</span></a>
+    </section>
+    <img class="center screenshot" src="images/screenshot-main.png">
+</div>
+
+<!-- row -->
+<div class="row" id="features">
+    <section>
+        <ul class="features">
+            <li class="col half left" id="elementary">
+                <h3>Designed for elementary OS</h3>
+                <p>Birdie feels right at home in elementary OS with its beautiful interface and desktop integration.</p>
+            </li>
+            <li class="col half right" id="open-source">
+                <h3>Open Source</h3>
+                <p>Birdie is completely free and open source. Its source code is available for anyone to download and modify.</p>
+            </li>
+            <li class="col half left" id="infinite-scroll">
+                <h3>Endless Tweets</h3>
+                <p>You can browse your Twitter stream forever in Birdie with its infinitely scrolling interface.</p>
+            </li>
+            <li class="col half right" id="third-party">
+                <h3>3rd Party Integration</h3>
+                <p>Birdie has built-in viewers for Instagram, YouTube, imgur and Vine.</p>
+            </li>
+        </ul>
+    </section>
+</div>
+
+<!-- row -->
+<div class="row" id="contribute">
+    <section>
+    <h1 data-ref="#contribute">Get Involved</h1>
+    <div class="col third">
+        <h3>Translations</h3>
+        <p>Birdie is translated in dozens of languages by people from all around the world. Feel free to contribute at <a href="https://www.transifex.com/projects/p/birdie/">Transifex</a>.</p>
+    </div>
+    <div class="col third">
+        <h3>Code</h3>
+        <p>Our code is available for everyone to check and contribute. If you think you might be able to help, feel free to send us a pull request at <a href="https://github.com/ivonunes/birdie">GitHub</a>.</p>
+    </div>
+    <div class="col third">
+        <h3>Bug Reports</h3>
+        <p>If you have found a bug, we'd appreciate if you could report it over at <a href="https://github.com/ivonunes/birdie/issues">GitHub</a>. If you do so, you're helping us improve Birdie and fix bugs that we might not notice otherwise.</p>
+    </div>
+    </section>
+</div>
+
+
+    <footer>
+        <span>&copy; 2018 Ivo Nunes</span>
+        <span><a href="https://twitter.com/ivonunes"><i class="fa fa-twitter-square"></i>Twitter</a></span>                
+        <span><a href="https://github.com/ivonunes/birdie"><i class="fa fa-github-square"></i>GitHub</a></span>
+    </footer>
+
+    <script>
+        $("[data-ref]").each(function() {
+            $($(this).attr("data-ref")).addClass("active");
+        });
+    </script>
+  </body>
+</html>

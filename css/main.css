@@ -1,0 +1,598 @@
+/*
+DESCRIPTION:Custom stylesheet for birdieapp.eu
+AUTHOR:Sam Hewitt
+AUTHOR URI:http://samuelhewitt.com/
+*/
+
+/*--------BEGINNING OF STYLESHEET--------*/
+
+/*----- Body -----*/
+
+body {
+    height: 100%;
+    margin:0;
+    border:0;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 400;
+    color: #555;
+    background-color: #f6f6f6;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    text-rendering: optimizeLegibility;
+    font-kerning: initial;
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: inherit;
+    image-rendering: optimizeQuality;
+}
+
+a {
+    outline: none;
+    border:none;
+    color:#2F83E2;
+    font-size:1em;
+    cursor:pointer;
+    text-decoration:none;
+    text-shadow:none;
+    transition:ease 200ms;
+    -webkit-transition:ease 200ms;
+}
+
+a:visited {
+    opacity:0.8;
+    transition:ease 200ms;
+    -webkit-transition:ease 200ms;
+}
+
+a:hover {
+	color:rgba(0,0,0,0.5);
+    transition:ease 200ms;
+    -webkit-transition:ease 200ms;
+}
+
+p a:hover {
+	background-color: #2F83E2;
+	color:rgba(0,0,0,0.5);
+    transition:ease 200ms;
+    -webkit-transition:ease 200ms;
+}
+
+
+/*----- Text -----*/
+
+
+h2, h3, h4, h5 {
+    font-family: "Open Sans", sans-serif;
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+}
+
+h1 {
+    font-family: "Raleway", sans-serif;
+    font-weight: 200;
+    font-size: 3em;
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+}
+
+h2 {
+    font-weight: 300;
+    font-size: 2.5em;
+}
+
+h3 {
+    font-weight: 400;
+    font-size: 1.5em;
+    line-height: 1em;
+}
+
+h4 {
+    font-weight: 400;
+    margin: 1em 0;
+    font-size: 1.25em;
+}
+
+h5 {
+    font-weight: 700;
+    font-size: 1em;
+}
+
+.fa {
+    margin-right: 0.5em;
+    margin-left: 0.5em;
+}
+
+
+code {
+	color: #c7254e;
+	background-color: #f9f2f4;
+	border-radius: 4px;
+}
+
+blockquote {
+    border-left: 3px solid #e7e9ec;
+    padding: 0 0 0 16px;
+    margin: 0 0 30px;
+}
+
+/*----- Alerts -----*/
+
+.alert {
+    padding: 15px;
+    margin:20px 0;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.alert-info {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}
+
+/*----- Sections -----*/
+
+section {
+    display: table;
+    position: relative;
+    margin:0 20%;
+    width: 60%;
+    z-index: 15;
+	padding: 3em 0;
+    transition:ease 100ms;
+    -webkit-transition:ease 100ms;
+}
+
+@media only screen and (max-width:1600px) {section{width: 80%; margin:0 10%;}}
+@media only screen and (max-width:1000px) {section{width:92%;margin:0 4%;}}
+
+
+/*----- Rows -----*/
+
+.row {
+    display: table;
+    position: relative;
+    margin:0;
+    width: 100%;
+    z-index: 15;
+    transition:ease 100ms;
+    -webkit-transition:ease 100ms;
+}
+
+.row#hero {
+	padding-top: 40px;
+	text-align: center;
+	background: #fff;
+	/*background: linear-gradient(to bottom,  #0072F3 0%,#ffffff 60%,#ffffff 100%); */
+}
+
+.row#hero h4 {
+	max-width: 400px;
+	margin: 0 auto;
+}
+
+.row#about,
+.row#download,
+.row#news {
+	background-color: #fff;
+}
+
+.row#features {
+	background-color: #2F83E2;
+	color: #fff;
+}
+
+ul.features {
+    float: left;
+    margin: 0;
+	padding: 2em 0;
+}
+
+ul.features li {
+	display: block;
+	float: left;
+	list-style: none;
+	background-position: 0 8px;
+    background-repeat: no-repeat;
+    background-size: 48px,48px;
+    margin-bottom: 60px;
+    margin-left: 16px;
+    padding: 0 65px;
+}
+
+ul.features li#elementary {
+    background-image: url(/birdie/images/elementary.png);
+}
+ul.features li#open-source {
+    background-image: url(/birdie/images/open-source.png);
+}
+ul.features li#third-party {
+    background-image: url(/birdie/images/third-party.png);
+}
+ul.features li#infinite-scroll {
+    background-image: url(/birdie/images/infinite-scroll.png);
+}
+
+
+.row#contribute {
+	background-color: #fff;
+	color: #555;
+}
+
+.post-date {
+	font-family: "Droid Sans Mono", monospace;
+	font-size:0.8em;
+	text-transform: uppercase;
+}
+
+
+/*----- Images -----*/
+
+img.center {
+    margin: 0 auto;
+    max-width: 100%;
+}
+
+
+.center.screenshot {
+	margin-bottom: -8px;
+}
+
+.column-icon {
+	display: block;
+	float: left;
+	margin-left: 1em;
+}
+
+
+/*----- Columns -----*/
+
+.col {
+	vertical-align: top;
+    display: inline-block;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    transition:ease 200ms;
+    -webkit-transition:ease 200ms;
+}
+
+.col > img {
+    vertical-align: middle;
+}
+
+/* Half-width */
+
+.col.half {
+    width: 48%;
+    margin: 1em 0;
+    display: inline-block;
+}
+
+.col.half.left {
+    margin-right: 2%;
+}
+
+.col.half.right {
+    margin-left: 2%;
+}
+
+@media only screen and (max-width:1000px) {
+    .col.half.left,
+    .col.half.right {
+        margin:1em 0;
+    }
+
+    .col.half {
+        float:left;
+        width:100%;
+    }
+}
+
+
+/* Third-width */
+
+.col.third {
+    width: 30%;
+    margin: 0 1%;
+}
+
+@media only screen and (max-width:780px) {.col.third{width:98%;margin:1%}}
+
+/*----- Collapse -----*/
+
+.expand {
+    width: 100%;
+    display: inline-block;
+    border-radius: 0.25em;
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    box-shadow: 0 1px 0 0 rgba(255,255,255,0.8);
+    margin: 1em auto;
+}
+
+.collapse-link {    
+    line-height: 1.2em;
+    font-size: 1em;
+    display: block;
+    padding: 0.5em;
+    margin: 0;
+    color: #555;
+}
+
+.collapse-link:hover {
+	background-color: #f7f7f7;
+    border-radius: 0.2em;
+    color: #555;
+}
+
+.collapse,
+.collapse.in,
+.collapsing {
+    background-color: #fff;
+    box-shadow: 0 0 1px 0 #ddd;
+    border-radius: 0 0 0.2em 0.2em;
+    margin:0;
+    padding:1em;
+}
+
+.collapse > p,
+.collapse.in > p,
+.collapsing > p {
+    margin: 0.25em 0;
+}
+
+.collapse {
+    display:none;
+}
+
+.collapse.in {
+    display:block;
+}
+
+.collapsing {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    -webkit-transition-timing-function: ease;
+       -o-transition-timing-function: ease;
+          transition-timing-function: ease;
+    -webkit-transition-duration: .35s;
+       -o-transition-duration: .35s;
+          transition-duration: .35s;
+    -webkit-transition-property: height, visibility;
+       -o-transition-property: height, visibility;
+          transition-property: height, visibility;
+}
+
+.expand > a > i {
+    -webkit-transition-duration: .35s;
+       -o-transition-duration: .35s;
+          transition-duration: .35s;
+}
+
+.expand > a > i.active {
+    -webkit-transform: rotate(90deg); 
+     -moz-transform: rotate(90deg); 
+      -ms-transform: rotate(90deg); 
+       -o-transform: rotate(90deg); 
+          transform: rotate(90deg);
+    -webkit-transition-duration: .35s;
+       -o-transition-duration: .35s;
+          transition-duration: .35s;
+}
+
+/*----- Dropdown -----*/
+
+.dropdown-toggle {
+
+}
+
+.dropdown-content {
+    height:0px;
+    display: none;
+}
+
+.dropdown.open > .dropdown-content {
+    display: block;
+    height:auto;
+    transition:height 500ms;
+    -webkit-transition:height 500ms;
+}
+
+/*----- Buttons -----*/
+
+.button {
+    display:inline-block;
+    position:relative;
+    height:32px;
+    min-width:248px;
+    margin:8px;
+    border-radius:16px;
+    border: none;
+    outline: none;
+    text-decoration: none;
+    text-align: left;
+    vertical-align: bottom;
+    background-color: #2F83E2;
+    transition:ease none;
+    -webkit-transition:ease none;
+}
+
+@media only screen and (max-width:600px) {.button {display:block;width:95%;margin-left: auto;margin-right: auto;}}
+
+.button:hover {
+    opacity: 0.8;
+    transition:ease none;
+    -webkit-transition:ease none;
+}
+
+.button:focus {
+    transition:ease none;
+    -webkit-transition:ease none;
+}
+
+.button:active {
+    opacity: 1;
+    background-color: #2F83E2;
+    transition:ease none;
+    -webkit-transition:ease none;
+}
+
+/*----- Button Text -----*/
+
+.button span {
+    opacity:1.0;
+    margin-left:1em;
+    margin-right: 1.5em;
+    font-size:14px;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 700;
+    text-decoration:none;
+    border:none;
+    line-height:32px;
+    color: #fff;
+}
+
+.button span .fa {
+    margin-right: 0.5em;
+    margin-left: 2px;
+}
+
+/*----- Fat Buttons -----*/
+
+.button.large {
+    text-transform: uppercase;
+    margin-top: 2em;
+    text-align:center;
+    height:48px;
+    border-radius:24px;
+}
+
+.button.large > span {
+    line-height:49px;
+    font-size: 15px;
+}
+
+.non-priority {
+    background-color: #ccc;
+}
+
+.non-priority span {
+    color: #777;
+}
+
+
+/*----- Navigation -----*/
+
+nav {
+    display: table;
+    position: relative;
+    margin:0;
+    font-size:0.938em;
+    background-color: #f6f6f6;
+    box-shadow: inset 0 -1px 0 0 rgba(0,0,0,0.05);
+    height: 52px;
+    padding:0 20%;
+    width: 60%;
+}
+
+@media only screen and (max-width:1600px) {nav{width: 80%; padding:0 10%;}}
+@media only screen and (max-width:1000px) {nav{width:100%;padding:0;}}
+
+
+nav span,
+nav a {
+	vertical-align: top;
+    font-size: 1em;
+    font-weight: bold;
+    color: rgba(0,0,0,0.5);
+    text-shadow:none;
+    display: inline-block;
+    padding:0 4px;
+    line-height: 52px;
+    padding:0 1.5em;
+}
+
+nav a.active,
+nav span {
+    background-color: transparent;
+	color:#EC8600;
+}
+
+nav a:hover,
+nav a:active {
+	background-color: transparent;
+	color: #2F83E2;
+}
+
+nav a:focus {
+    font-weight: 700;
+}
+
+nav a.home {
+	font-weight: bold;
+	background-color: #2F83E2;
+	font-size: 1.2em;
+    padding:0 1em;
+    color: #fff;
+}
+
+nav a.home:hover {
+	background-color: #EC8600;
+	font-size: 1.2em;
+    color: #fff;
+}
+
+
+/*----- Footer -----*/
+
+footer {
+    padding: 2em 0;
+    display: inline-block;
+    width: 100%;
+    font-size:0.938em;
+    text-align: center;
+    background-color: #f6f6f6;
+    border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+footer p {
+    font-size: 0.813em;
+    line-height: 1.4em;
+    margin-top: 2em;
+    color: rgba(0,0,0,0.2);
+}
+
+footer span,
+footer a {
+    color: rgba(0,0,0,0.5);
+    text-shadow:none;
+    display: inline-block;
+    padding:0 4px;
+}
+
+
+@media only screen and (max-width:600px) {footer span {display:block;width:95%;margin: 1em auto;}}
+
+
+footer a:hover {
+	background-color: none;
+    color: rgba(0,0,0,0.8);
+}
+
+footer a:focus {
+    font-weight: 700;
+    padding: 0 3px;
+}
+
+
+footer span:before {
+    content: "•";
+    padding-right: 0.5em;
+}
+
+footer span:nth-child(1):before {
+    content: "";
+}
+
+@media only screen and (max-width:600px) {footer span:before{content: "";}}
