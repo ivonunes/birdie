@@ -1,6 +1,6 @@
 // -*- Mode: vala; indent-tabs-mode: nil; tab-width: 4 -*-
 /*-
- * Copyright (c) 2013-2014 Birdie Developers (http://birdieapp.github.io)
+ * Copyright (c) 2013-2014 Ivo Nunes (http://birdieapp.github.io)
  *
  * This software is licensed under the GNU General Public License
  * (version 3 or later). See the COPYING file in this distribution.
@@ -10,8 +10,8 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Authored by: Ivo Nunes <ivo@amuza.uk>
- *              Vasco Nunes <vasco@amuza.uk>
+ * Authored by: Ivo Nunes <ivonunes@me.com>
+ *              Vasco Nunes <vasco.m.nunes@me.com>
  */
 
 namespace Constants {

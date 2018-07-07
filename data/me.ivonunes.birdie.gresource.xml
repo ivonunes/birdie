@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
-  <gresource prefix="/uk/amuza/birdie">
-    <file alias="uk.amuza.birdie.svg">icons/uk.amuza.birdie.svg</file>
+  <gresource prefix="/me/ivonunes/birdie">
+    <file alias="me.ivonunes.birdie.svg">icons/me.ivonunes.birdie.svg</file>
     <file alias="twitter-new-tweet-symbolic.svg">icons/twitter-new-tweet-symbolic.svg</file>
     <file alias="twitter-dm-symbolic.svg">icons/twitter-dm-symbolic.svg</file>
     <file alias="twitter-dm-new-symbolic.svg">icons/twitter-dm-new-symbolic.svg</file>

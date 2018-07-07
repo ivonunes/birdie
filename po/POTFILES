@@ -1,5 +1,5 @@
-data/uk.amuza.birdie.appdata.xml.in
-data/uk.amuza.birdie.desktop.in
+data/me.ivonunes.birdie.appdata.xml.in
+data/me.ivonunes.birdie.desktop.in
 src/main.vala
 src/config.vala
 src/Birdie.vala

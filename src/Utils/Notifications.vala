@@ -1,6 +1,6 @@
 // -*- Mode: vala; indent-tabs-mode: nil; tab-width: 4 -*-
 /*-
- * Copyright (c) 2013-2018 Amuza Limited
+ * Copyright (c) 2013-2018 Ivo Nunes
  *
  * This software is licensed under the GNU General Public License
  * (version 3 or later). See the COPYING file in this distribution.
@@ -10,8 +10,8 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Authored by: Ivo Nunes <ivo@amuza.uk>
- *              Vasco Nunes <vasco@amuza.uk>
+ * Authored by: Ivo Nunes <ivonunes@me.com>
+ *              Vasco Nunes <vasco.m.nunes@me.com>
  *              Nathan Dyer <mail@nathandyer.me>
  */
 
@@ -44,8 +44,8 @@ namespace Birdie.Utils {
             notification_txt = Utils.remove_html_tags (message);
             notification_txt = Utils.escape_markup (notification_txt);
 
-            this.notification = new Notify.Notification (header, notification_txt, "uk.amuza.birdie");
-            this.notification.set_hint_string ("desktop-entry", "uk.amuza.birdie");
+            this.notification = new Notify.Notification (header, notification_txt, "me.ivonunes.birdie");
+            this.notification.set_hint_string ("desktop-entry", "me.ivonunes.birdie");
             this.notification.set_urgency (Notify.Urgency.NORMAL);
 
             if (dm) {

@@ -1,6 +1,6 @@
 // -*- Mode: vala; indent-tabs-mode: nil; tab-width: 4 -*-
 /*-
- * Copyright (c) 2013-2018 Amuza Limited
+ * Copyright (c) 2013-2018 Ivo Nunes
  *
  * This software is licensed under the GNU General Public License
  * (version 3 or later). See the COPYING file in this distribution.
@@ -10,8 +10,8 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Authored by: Ivo Nunes <ivo@amuza.uk>
- *              Vasco Nunes <vasco@amuza.uk>
+ * Authored by: Ivo Nunes <ivonunes@me.com>
+ *              Vasco Nunes <vasco.m.nunes@me.com>
  *              Nathan Dyer <mail@nathandyer.me>
  */
 
@@ -37,7 +37,7 @@ namespace Birdie {
 
             this.proxy = new Rest.OAuthProxy (CONSUMER_KEY, CONSUMER_SECRET, URL_FORMAT, false);
 
-            this.settings = new Settings ("uk.amuza.birdie");
+            this.settings = new Settings ("me.ivonunes.birdie");
 
             this.token = "";
             this.token_secret = "";

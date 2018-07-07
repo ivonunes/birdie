@@ -1,4 +1,4 @@
-project('uk.amuza.birdie', 'vala', 'c')
+project('me.ivonunes.birdie', 'vala', 'c')
 
 gnome = import('gnome')
 i18n = import('i18n')

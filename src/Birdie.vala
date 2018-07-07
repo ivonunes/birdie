@@ -1,6 +1,6 @@
 // -*- Mode: vala; indent-tabs-mode: nil; tab-width: 4 -*-
 /*-
- * Copyright (c) 2013-2018 Amuza Limited
+ * Copyright (c) 2013-2018 Ivo Nunes
  *
  * This software is licensed under the GNU General Public License
  * (version 3 or later). See the COPYING file in this distribution.
@@ -10,8 +10,8 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Authored by: Ivo Nunes <ivo@amuza.uk>
- *              Vasco Nunes <vasco@amuza.uk>
+ * Authored by: Ivo Nunes <ivonunes@me.com>
+ *              Vasco Nunes <vasco.m.nunes@me.com>
  *              Nathan Dyer <mail@nathandyer.me>
  */
 
@@ -140,20 +140,20 @@ namespace Birdie {
 
         construct {
             program_name        = "Birdie";
-            exec_name           = "uk.amuza.birdie";
+            exec_name           = "me.ivonunes.birdie";
 
             build_version       = Constants.VERSION;
             app_years           = "2013-2018";
-            app_icon            = "uk.amuza.birdie";
-            app_launcher        = "uk.amuza.birdie.desktop";
-            application_id      = "uk.amuza.birdie";
+            app_icon            = "me.ivonunes.birdie";
+            app_launcher        = "me.ivonunes.birdie.desktop";
+            application_id      = "me.ivonunes.birdie";
 
-            main_url            = "https://www.amuza.uk/birdie";
-            bug_url             = "https://github.com/amuza/birdie/issues";
-            help_url            = "https://www.amuza.uk/birdie";
+            main_url            = "https://birdie.ivonunes.me";
+            bug_url             = "https://github.com/ivonunes/birdie/issues";
+            help_url            = "https://birdie.ivonunes.me";
             translate_url       = "https://www.transifex.com/projects/p/birdie/";
 
-            about_authors       = {"Ivo Nunes <ivo@amuza.uk>", "Vasco Nunes <vasco@amuza.uk>", "Nathan Dyer <mail@nathandyer.me>"};
+            about_authors       = {"Ivo Nunes <ivonunes@me.com>", "Vasco Nunes <vasco.m.nunes@me.com>", "Nathan Dyer <mail@nathandyer.me>"};
             about_documenters   = { "Nathan Dyer <mail@nathandyer.me>" };
             about_artists       = {"Daniel Foré <daniel@elementaryos.org>", "Nathan Dyer <mail@nathandyer.me>", "Sam Hewitt", "Mustapha Asbbar"};
             about_comments      = "Fast, beautiful, and powerful Twitter client for elementary OS";
@@ -164,7 +164,7 @@ namespace Birdie {
         }
 
         public Birdie () {
-            GLib.Object(application_id: "uk.amuza.birdie", flags: ApplicationFlags.HANDLES_OPEN);
+            GLib.Object(application_id: "me.ivonunes.birdie", flags: ApplicationFlags.HANDLES_OPEN);
 
             Intl.bindtextdomain ("birdie", Constants.DATADIR + "/locale");
 
@@ -198,7 +198,7 @@ namespace Birdie {
                 Utils.Logger.DisplayLevel = Utils.LogLevel.INFO;
 
                 // settings
-                this.settings = new Settings ("uk.amuza.birdie");
+                this.settings = new Settings ("me.ivonunes.birdie");
                 this.tweet_notification = settings.get_boolean ("tweet-notification");
                 this.mention_notification = settings.get_boolean ("mention-notification");
                 this.dm_notification = settings.get_boolean ("dm-notification");
@@ -207,9 +207,9 @@ namespace Birdie {
                 this.exit.connect(on_exit);
 
                 weak Gtk.IconTheme default_theme = Gtk.IconTheme.get_default ();
-                default_theme.add_resource_path ("/uk/amuza/birdie");
+                default_theme.add_resource_path ("/me/ivonunes/birdie");
 
-                Gtk.Window.set_default_icon_name ("uk.amuza.birdie");
+                Gtk.Window.set_default_icon_name ("me.ivonunes.birdie");
                 this.m_window = new Widgets.MainWindow (this);
                 this.m_window.save_state.connect(save_state);
                 //this.m_window.type_hint = Gdk.WindowTypeHint.DIALOG;

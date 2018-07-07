@@ -6,10 +6,10 @@ A Twitter client for [elementary OS](http://elementary.io)
 Please consult the `INSTALL` and `COPYING` files for more information.
 
 * **Website**  
-Projects' oficial website at https://www.amuza.uk/birdie
+Projects' official website at https://birdie.ivonunes.me
 
 * **Bugs**  
-To report bugs, please use our Git repository at http://github.com/amuza/birdie.
+To report bugs, please use the Git repository at http://github.com/ivonunes/birdie.
 
 * **Translations**  
 To contribute for translations, please use our Transifex repository at http://www.transifex.com/projects/p/birdie/.

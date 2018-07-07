@@ -1,5 +1,5 @@
 <schemalist>
-  <schema id="uk.amuza.birdie" path="/uk/amuza/birdie/" gettext-domain="uk.amuza.birdie">
+  <schema id="me.ivonunes.birdie" path="/me/ivonunes/birdie/" gettext-domain="me.ivonunes.birdie">
 
     <key name="update-interval" type="i">
       <default>2</default>
