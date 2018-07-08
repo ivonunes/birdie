@@ -200,16 +200,16 @@ ul.features li {
 }
 
 ul.features li#elementary {
-    background-image: url(/birdie/images/elementary.png);
+    background-image: url(/images/elementary.png);
 }
 ul.features li#open-source {
-    background-image: url(/birdie/images/open-source.png);
+    background-image: url(/images/open-source.png);
 }
 ul.features li#third-party {
-    background-image: url(/birdie/images/third-party.png);
+    background-image: url(/images/third-party.png);
 }
 ul.features li#infinite-scroll {
-    background-image: url(/birdie/images/infinite-scroll.png);
+    background-image: url(/images/infinite-scroll.png);
 }
 
 
