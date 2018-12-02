@@ -906,11 +906,9 @@ namespace Birdie {
             // setup call
             
             Rest.ProxyCall call = proxy.new_call ();
-            call.set_function ("1.1/direct_messages.json");
+            call.set_function ("1.1/direct_messages/events/list.json");
             call.set_method ("GET");
             call.add_param ("count", retrieve_count);
-            if (this.since_id_dm != "" && this.since_id_dm != null)
-                call.add_param ("since_id", this.since_id_dm);
 
             Rest.ProxyCallAsyncCallback callback = get_dm_response;
             try {
@@ -925,6 +923,8 @@ namespace Birdie {
 
             string media_url = "";
             string youtube_video = "";
+            int64 tweet_id_old = 1;
+            string account_user_id = ((this.token).split("-"))[0];
 
             try {
                 var parser = new Json.Parser ();
@@ -943,18 +943,58 @@ namespace Birdie {
                     this.dm_timeline.remove(tweet);
                 });
 
-                foreach (var tweetnode in root.get_array ().get_elements ()) {
-                    var tweetobject = tweetnode.get_object();
+                // setup call
+                Rest.ProxyCall call1 = proxy.new_call ();
+                call1.set_function ("1.1/users/show.json");
+                call1.set_method ("GET");
 
-                    var id = tweetobject.get_string_member ("id_str");
-                    var user_name = tweetobject.get_object_member ("sender").get_string_member ("name");
-                    var user_screen_name = tweetobject.get_object_member ("sender").get_string_member ("screen_name");
-                    var text = tweetobject.get_string_member ("text");
-                    var created_at = tweetobject.get_string_member ("created_at");
-                    var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url").replace("_normal", "_bigger");
+	            foreach(var event in root.get_object().get_array_member ("events").get_elements () ) {
+	                var eventobject = event.get_object ();
+
+	                var sender_id = eventobject.get_object_member ("message_create").get_string_member ("sender_id");
+
+	                if (sender_id == account_user_id) {
+	                    continue;
+                    }
+
+                    var id = eventobject.get_string_member ("id");
+                    int64 tweet_id_new = int64.parse(id);
+
+                    if (this.since_id_dm != null) {
+                        tweet_id_old = int64.parse(this.since_id_dm);
+                    }
+
+                    // don't process already cached dm tweets
+	                if (tweet_id_new <= tweet_id_old) {
+	                    continue;
+                    }
+
+                    var text = eventobject.get_object_member ("message_create")
+                                    .get_object_member ("message_data").get_string_member ("text");
+
+                    var created_at_s = ((eventobject.get_string_member ("created_timestamp")).to_int64 ())/1000;
+                    var dt = new DateTime.from_unix_local (created_at_s);
+                    var created_at = dt.format("%a %b %d %H:%M:%S +0000 %Y");  //match the old format
+
+                    Json.Object entitiesobject = eventobject.get_object_member ("message_create")
+                                                    .get_object_member ("message_data").get_object_member ("entities");
+
+                    call1.add_param ("user_id", sender_id);
+
+                    try { call1.sync (); } catch (Error e) {
+                        critical (e.message);
+                    }
+
+                    var parser1 = new Json.Parser ();
+                    parser1.load_from_data ((string) call1.get_payload (), -1);
+
+                    var root1 = parser1.get_root ();
+                    var userobject = root1.get_object();
+
+                    var user_name = userobject.get_string_member("name");
+                    var user_screen_name = userobject.get_string_member("screen_name");
+                    var profile_image_url = userobject.get_string_member ("profile_image_url");
                     var profile_image_file = Media.parse_profile_image_file (profile_image_url);
-
-                    Json.Object entitiesobject = tweetobject.get_object_member ("entities");
 
                     var tweet = new Tweet (id, id, user_name,
                         user_screen_name, text, created_at,
@@ -968,11 +1008,11 @@ namespace Birdie {
                     tweet.text = Utils.highlight_all (text);
 
                     dm_timeline.append (tweet);
-                    this.db.add_tweet.begin (tweet, "dm_inbox", this.account_id);
                 }
 
                 this.dm_timeline.reverse ();
                 this.dm_timeline.foreach ((tweet) => {
+                    this.db.add_tweet.begin (tweet, "dm_inbox", this.account_id);
                     this.since_id_dm = tweet.actual_id;
                 });
 
@@ -989,11 +1029,9 @@ namespace Birdie {
             // setup call
             
             Rest.ProxyCall call = proxy.new_call ();
-            call.set_function ("1.1/direct_messages/sent.json");
+            call.set_function ("1.1/direct_messages/events/list.json");
             call.set_method ("GET");
             call.add_param ("count", this.retrieve_count);
-            if (this.since_id_dm_outbox != "" && this.since_id_dm_outbox != null)
-                call.add_param ("since_id", this.since_id_dm_outbox);
             Rest.ProxyCallAsyncCallback callback = get_dm_sent_response;
             try {
                 call.run_async (callback);
@@ -1007,6 +1045,8 @@ namespace Birdie {
 
             string media_url = "";
             string youtube_video = "";
+            int64 tweet_id_old = 1;
+            string account_user_id = ((this.token).split("-"))[0];
 
             try {
                 var parser = new Json.Parser ();
@@ -1020,18 +1060,57 @@ namespace Birdie {
 
                 var root = parser.get_root ();
 
-                foreach (var tweetnode in root.get_array ().get_elements ()) {
-                    var tweetobject = tweetnode.get_object();
+                // setup call
+                Rest.ProxyCall call1 = proxy.new_call ();
+                call1.set_function ("1.1/users/show.json");
+                call1.set_method ("GET");
 
-                    var id = tweetobject.get_string_member ("id_str");
-                    var user_name = tweetobject.get_object_member ("sender").get_string_member ("name");
-                    var user_screen_name = tweetobject.get_object_member ("recipient").get_string_member ("screen_name");
-                    var text = tweetobject.get_string_member ("text");
-                    var created_at = tweetobject.get_string_member ("created_at");
-                    var profile_image_url = tweetobject.get_object_member ("sender").get_string_member ("profile_image_url").replace("_normal", "_bigger");
+                foreach(var event in root.get_object().get_array_member ("events").get_elements () ) {
+                    var eventobject = event.get_object ();
+                    var sender_id = eventobject.get_object_member ("message_create").get_string_member ("sender_id");
+
+                    if (sender_id != account_user_id) {
+                        continue;
+                    }
+
+                    var id = eventobject.get_string_member ("id");
+                    int64 tweet_id_new = int64.parse(id);
+
+                    if (this.since_id_dm != null) {
+                        tweet_id_old = int64.parse(this.since_id_dm_outbox);
+                    }
+
+                    // don't process already cached dm tweets
+                    if (tweet_id_new <= tweet_id_old) {
+                        continue;
+                    }
+
+                    var text = eventobject.get_object_member ("message_create")
+                                    .get_object_member ("message_data").get_string_member ("text");
+
+                    var created_at_s = ((eventobject.get_string_member ("created_timestamp")).to_int64 ())/1000;
+                    var dt = new DateTime.from_unix_local (created_at_s);
+                    var created_at = dt.format("%a %b %d %H:%M:%S +0000 %Y");  //match the old format
+
+                    Json.Object entitiesobject = eventobject.get_object_member ("message_create")
+                                                    .get_object_member ("message_data").get_object_member ("entities");
+
+                    call1.add_param ("user_id", sender_id);
+
+                    try { call1.sync (); } catch (Error e) {
+                        critical (e.message);
+                    }
+
+                    var parser1 = new Json.Parser ();
+                    parser1.load_from_data ((string) call1.get_payload (), -1);
+
+                    var root1 = parser1.get_root ();
+                    var userobject = root1.get_object();
+
+                    var user_name = userobject.get_string_member("name");
+                    var user_screen_name = userobject.get_string_member("screen_name");
+                    var profile_image_url = userobject.get_string_member ("profile_image_url");
                     var profile_image_file = Media.parse_profile_image_file (profile_image_url);
-
-                    Json.Object entitiesobject = tweetobject.get_object_member ("entities");
 
                     var tweet = new Tweet (id, id, user_name,
                         user_screen_name, text, created_at,
@@ -1045,10 +1124,11 @@ namespace Birdie {
                     tweet.text = Utils.highlight_all (text);
 
                     dm_sent_timeline.append (tweet);
-                    this.db.add_tweet.begin (tweet, "dm_outbox", this.account_id);
                 }
 
-                this.dm_sent_timeline.reverse ();
+                this.dm_sent_timeline.foreach ((tweet) => {
+                    this.db.add_tweet.begin (tweet, "dm_outbox", this.account_id);
+                });
 
                 this.db.purge_tweets ("dm_outbox");
 
