@@ -8,7 +8,7 @@ We love your input! We want to make contributing to this project as easy and tra
 - Proposing new features.
 - Becoming a maintainer.
 
-## Reporting issues
+## Reporting Issues
 
 We use GitHub to track public issues. Report a bug by [opening a new issue](https://github.com/ivonunes/birdie/issues). It's that easy!
 
@@ -22,7 +22,7 @@ Great reports tend to have:
 
 We *love* thorough reports.
 
-## Pull requests
+## Pull Requests
 
 When submitting a pull request, please first discuss the change you wish to make with us.
 
