@@ -267,6 +267,10 @@ namespace Birdie {
 
                 
                 new_tweet.clicked.connect (() => {
+                    if (new_tweet_popover != null) {
+                        new_tweet_popover.destroy();
+                    }
+
                     new_tweet_popover = new Widgets.TweetDialog (this, "", "", false);
                     new_tweet_popover.set_relative_to(new_tweet);
                     new_tweet_popover.show_all ();
@@ -275,7 +279,7 @@ namespace Birdie {
                 this.m_window.header.pack_start (new_tweet);
 
                 search_entry = new Gtk.SearchEntry ();
-                search_entry.set_width_chars(5);
+                search_entry.set_width_chars(20);
                 search_entry.margin = 12;
 
                 search_entry.activate.connect (() => {
@@ -679,20 +683,17 @@ namespace Birdie {
                         if (pin != "null") {
                             dialog.destroy ();
 
-                            new Thread<void*> (null, () => {
-                                this.switch_timeline ("loading");
+                            this.switch_timeline ("loading");
 
-                                int code = this.new_api.get_tokens (pin);
+                            int code = this.new_api.get_tokens (pin);
 
-                                if (code == 0) {
-                                    this.api = this.new_api;
-                                    this.init.begin ();
-                                } else {
-                                    this.switch_timeline ("welcome");
-                                }
-
-                                return null;
-                            });
+                            if (code == 0) {
+                                this.new_api.auth ();
+                                this.new_api.get_account ();
+                                this.switch_account (this.new_api.account);
+                            } else {
+                                this.switch_timeline ("welcome");
+                            }
                         }
                     });
 

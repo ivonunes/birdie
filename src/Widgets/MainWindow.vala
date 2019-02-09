@@ -35,7 +35,7 @@ namespace Birdie.Widgets {
                 padding: 0 6px;
             }
 
-            .titlebar .linked .button {
+            .titlebar .linked .button, .titlebar .linked .toggle {
                 border-radius: 0;
                 padding: 12px 10px;
                 border-top-width: 0;
@@ -45,13 +45,13 @@ namespace Birdie.Widgets {
                 border-right-width: 1px;
             }
 
-            .titlebar .linked .button:checked {
+            .titlebar .linked .button:checked, .titlebar .linked .toggle:checked {
                 box-shadow: inset 0 0 0 1px alpha (#000, 0.05);
                 border-left-width: 1px;
                 border-right-width: 1px;
             }
 
-            .titlebar .linked .button:not(:checked) {
+            .titlebar .linked .button:not(:checked), .titlebar .linked .toggle:not(:checked) {
                 border-color: transparent;
             }
 
@@ -107,7 +107,7 @@ namespace Birdie.Widgets {
         private bool on_delete_event () {
             this.save_window ();
             this.save_state();
-            base.hide_on_delete ();
+            this.destroy();
             return true;
         }
 

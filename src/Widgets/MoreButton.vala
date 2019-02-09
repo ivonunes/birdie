@@ -34,7 +34,7 @@ public class AddButton : Gtk.Box {
 		
 	public AddButton () {
 		GLib.Object (orientation: Gtk.Orientation.HORIZONTAL, valign: Gtk.Align.START);
-		button = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("add", Gtk.IconSize.LARGE_TOOLBAR), _("Create a new list"));
+		button = new Gtk.ToolButton (new Gtk.Image.from_icon_name ("list-add-symbolic", Gtk.IconSize.LARGE_TOOLBAR), _("Create a new list"));
 		button.set_tooltip_text (_("Create a new list"));
 		button.set_size_request (40, 40);
 		//this.pack_start(button, true, true, 0);

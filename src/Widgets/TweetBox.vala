@@ -60,6 +60,8 @@ namespace Birdie.Widgets {
 
         public Granite.Widgets.Avatar avatar;
 
+        private Widgets.TweetDialog dialog;
+
         private int year;
         private int month;
         private int day;
@@ -548,7 +550,11 @@ namespace Birdie.Widgets {
                     retweet_quote_menu_item.show ();
 
                     retweet_quote_menu_item.activate.connect (() => {
-                        Widgets.TweetDialog dialog = new TweetDialog (this.birdie, this.tweet.id,
+                        if (dialog != null) {
+                            dialog.destroy();
+                        }
+
+                        dialog = new TweetDialog (this.birdie, this.tweet.id,
                             "RT @" + this.tweet.user_screen_name + ": \"" + Utils.remove_html_tags (this.tweet.text) + "\"", this.tweet.dm);
                         dialog.set_relative_to(this.birdie.new_tweet);
                         dialog.show_all ();
@@ -569,7 +575,11 @@ namespace Birdie.Widgets {
                     this.reply_button.set_tooltip_text (_("Reply"));
 
                     this.reply_button.clicked.connect (() => {
-                        Widgets.TweetDialog dialog = new TweetDialog (this.birdie, this.tweet.id, this.tweet.user_screen_name, this.tweet.dm);
+                        if (dialog != null) {
+                            dialog.destroy();
+                        }
+
+                        dialog = new TweetDialog (this.birdie, this.tweet.id, this.tweet.user_screen_name, this.tweet.dm);
                         dialog.set_relative_to(this.time_label);
                         dialog.show_all();
                     });

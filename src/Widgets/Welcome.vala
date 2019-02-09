@@ -19,7 +19,7 @@ namespace Birdie.Widgets
 {
     public class Welcome : Gtk.Box {
         public Welcome (Birdie birdie) {
-            Granite.Widgets.Welcome welcome = new Granite.Widgets.Welcome (_("Birdie"), _("Twitter Client"));
+            Granite.Widgets.Welcome welcome = new Granite.Widgets.Welcome (_("Welcome to Birdie"), _("Let's get started."));
 
             welcome.append ("list-add", _("Sign In"), _("Add an existing Twitter account."));
             welcome.append ("edit", _("Sign Up"), _("Create a new Twitter account."));
