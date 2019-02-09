@@ -26,6 +26,7 @@ namespace Birdie.Widgets {
         private Birdie birdie;
         private string other_party_username = "";
         private bool scrolled = false;
+        Widgets.TweetDialog dialog;
 
     	public ConversationView(Birdie birdie) {
     	
@@ -56,7 +57,11 @@ namespace Birdie.Widgets {
             this.add(new_message_button);
 
             new_message_button.clicked.connect(() => {
-                Widgets.TweetDialog dialog = new TweetDialog (this.birdie, "",
+                if (dialog != null) {
+                    dialog.destroy();
+                }
+
+                dialog = new TweetDialog (this.birdie, "",
                             other_party_username, true);
                 dialog.set_relative_to(new_message_button);
                 dialog.show_all ();
@@ -111,14 +116,17 @@ namespace Birdie.Widgets {
                 TweetBox tb = tweet_boxes[i];
                 TweetBox new_tb = new TweetBox(tb.tweet, tb.birdie);
 
-                try {
-                    var pixbuf = new Gdk.Pixbuf.from_file (Environment.get_home_dir () +
-                        "/.cache/birdie/" + tb.tweet.profile_image_file);
+                Idle.add(() => {
+                    try {
+                        var new_avatar = new Granite.Widgets.Avatar.from_file (Environment.get_home_dir () +
+                            "/.cache/birdie/" + tb.tweet.profile_image_file, 50);
 
-                    new_tb.avatar.pixbuf = pixbuf.scale_simple(50, 50, Gdk.InterpType.BILINEAR);
-                } catch (Error e) {
-                    stderr.printf("Error creating avatar: %s\n", e.message);
-                }
+                        new_tb.avatar.pixbuf = new_avatar.pixbuf;
+                    } catch (Error e) {
+                        stderr.printf("Error creating avatar: %s\n", e.message);
+                    }
+                    return false;
+                });
                 conversation_box.add(new_tb);
             }
             

@@ -937,13 +937,15 @@ namespace Birdie.Widgets {
                 var file = File.new_for_path (avatar_file);
 
                 if (file.query_exists ())
+                    Idle.add(() => {  
                     try {
-                        Idle.add(() => {        
+                              
                         var new_avatar = new Granite.Widgets.Avatar.from_file (Environment.get_home_dir () + "/.cache/birdie/" + this.tweet.profile_image_file, 50);                
-                        this.avatar.pixbuf = new_avatar.pixbuf;return false;});
+                        this.avatar.pixbuf = new_avatar.pixbuf;
                     } catch (Error e) {
                         stderr.printf("Error setting avatar: %s\n", e.message);
                     }
+                    return false;});
                 Idle.add((owned) callback);
                 return null;
             };

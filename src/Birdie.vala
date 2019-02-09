@@ -826,17 +826,17 @@ namespace Birdie {
         }
 
         private void set_account_avatar (User account) {
-            try {
-                Idle.add(() => {
+            Idle.add(() => {
+                try {
                     var new_avatar = new Granite.Widgets.Avatar.from_file (Environment.get_home_dir () +
                         "/.local/share/birdie/avatars/" + account.profile_image_file, 32);
                     avatar_image.pixbuf = new_avatar.pixbuf;
-                    return false;
-                });
-            } catch (Error e) {
-                // TODO: Show default menu icon if failed 
-                debug ("Error loading avatar image: " + e.message);
-            }
+                } catch (Error e) {
+                    // TODO: Show default menu icon if failed 
+                    debug ("Error loading avatar image: " + e.message);
+                }
+                return false;
+            });
         }
 
         private void switch_account (User account) {
@@ -1152,19 +1152,17 @@ namespace Birdie {
                     }
                 });
 
-                if (this.mention_notification && this.api.mentions_timeline.length () > this.limit_notifications) {
-                    this.notification.notify (this, this.unread_mentions.to_string () + " " + _("new mentions"), "", "mentions");
-                }
+                if (this.api.mentions_timeline.length () < this.limit_notifications) {
+                    if (this.mention_notification && new_mentions) {
+                        #if HAVE_LIBUNITY
+                        this.launcher.set_count (get_total_unread ());
+                        #endif
+                    }
 
-                if (this.mention_notification && new_mentions) {
-                    #if HAVE_LIBUNITY
-                    this.launcher.set_count (get_total_unread ());
-                    #endif
-                }
-
-                // Set the icon for the mention
-                if(new_mentions) {
-                    set_switcher_button("mentions", "twitter-mentions-new-symbolic");
+                    // Set the icon for the mention
+                    if(new_mentions) {
+                        set_switcher_button("mentions", "twitter-mentions-new-symbolic");
+                    }
                 }
 
                 if (this.ready)

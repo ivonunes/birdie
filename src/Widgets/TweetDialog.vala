@@ -67,14 +67,8 @@ namespace Birdie.Widgets {
 
             this.avatar = new Granite.Widgets.Avatar();
 
-            avatar = new Granite.Widgets.Avatar();
-            try {
-                var pixbuf = new Gdk.Pixbuf.from_file (Environment.get_home_dir () +
-                "/.cache/birdie/" + this.birdie.api.account.profile_image_file);
-                avatar.pixbuf = pixbuf.scale_simple(64, 64, Gdk.InterpType.BILINEAR);
-            } catch (Error e) {
-                stderr.printf("Error setting avatar in dialog: %s\n", e.message);
-            }
+            avatar = new Granite.Widgets.Avatar.from_file (Environment.get_home_dir () +
+                "/.cache/birdie/" + this.birdie.api.account.profile_image_file, 64);
 
             this.view = new Gtk.SourceView ();
             this.view.set_wrap_mode (Gtk.WrapMode.WORD_CHAR);
@@ -281,6 +275,7 @@ namespace Birdie.Widgets {
                 }
             }
             this.file_chooser.destroy ();
+            this.show_all ();
         }
 
         private void* tweet_thread () {

@@ -72,6 +72,14 @@ namespace Birdie.Widgets {
              .white-box {
                 background: white;
              }
+
+            .white-box .activatable:selected {
+                background: white;
+            }
+
+            .white-box .activatable {
+                margin: 6px 0;
+            }
          """;
 
         public MainWindow (Gtk.Application application) {

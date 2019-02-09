@@ -85,14 +85,7 @@ namespace Birdie.Widgets {
             names.sort(compare);
 
             // Set up the new conversation button
-            var generic_avatar = new Granite.Widgets.Avatar();
-
-            try {
-                var temp_pb = new Gdk.Pixbuf.from_file ("/usr/share/icons/elementary/status/64/avatar-default.svg");
-                generic_avatar.pixbuf = temp_pb.scale_simple(50, 50, Gdk.InterpType.BILINEAR);
-            } catch (Error e) {
-                stderr.printf("Error setting avatar in conversation list: %s\n", e.message);
-            }
+            var generic_avatar = new Granite.Widgets.Avatar.from_file ("/usr/share/icons/elementary/status/64/avatar-default.svg", 50);
 
             string new_conv_name = _("New Conversation…");
             people.set(new_conv_name, generic_avatar);
