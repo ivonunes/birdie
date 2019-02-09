@@ -90,10 +90,8 @@ namespace Birdie.Widgets {
                 	account_box.set_tooltip_text(_("Switch to the %s account".printf(account.name)));
 
                 	// Avatar
-                    var pixbuf = new Gdk.Pixbuf.from_file (Environment.get_home_dir () +
-                        "/.local/share/birdie/avatars/" + account.profile_image_file);
-                    var avatar = new Granite.Widgets.Avatar();
-                    avatar.pixbuf = pixbuf.scale_simple(32, 32, Gdk.InterpType.BILINEAR);
+                    var avatar = new Granite.Widgets.Avatar.from_file (Environment.get_home_dir () +
+                        "/.local/share/birdie/avatars/" + account.profile_image_file, 32);
                     account_box.add(avatar);
 
                     // Labels

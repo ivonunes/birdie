@@ -827,9 +827,12 @@ namespace Birdie {
 
         private void set_account_avatar (User account) {
             try {
-                var pixbuf = new Gdk.Pixbuf.from_file (Environment.get_home_dir () +
-                    "/.local/share/birdie/avatars/" + account.profile_image_file);
-                avatar_image.pixbuf = pixbuf.scale_simple(32, 32, Gdk.InterpType.BILINEAR);
+                Idle.add(() => {
+                    var new_avatar = new Granite.Widgets.Avatar.from_file (Environment.get_home_dir () +
+                        "/.local/share/birdie/avatars/" + account.profile_image_file, 32);
+                    avatar_image.pixbuf = new_avatar.pixbuf;
+                    return false;
+                });
             } catch (Error e) {
                 // TODO: Show default menu icon if failed 
                 debug ("Error loading avatar image: " + e.message);

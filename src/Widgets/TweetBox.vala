@@ -869,14 +869,6 @@ namespace Birdie.Widgets {
                     });
                 }
             }
-
-            try {
-                var pixbuf = new Gdk.Pixbuf.from_file (Environment.get_home_dir () + "/.cache/birdie/" + this.tweet.profile_image_file);
-                pixbuf = pixbuf.scale_simple (50, 50, Gdk.InterpType.BILINEAR);
-
-                this.avatar.pixbuf = pixbuf;
-                this.avatar.visible = true;
-            } catch {};
         }
 
         private void set_media_events () {
@@ -946,9 +938,9 @@ namespace Birdie.Widgets {
 
                 if (file.query_exists ())
                     try {
-                        var pixbuf = new Gdk.Pixbuf.from_file (Environment.get_home_dir () + "/.cache/birdie/" + this.tweet.profile_image_file);
-                        Idle.add(() => {                        
-                        this.avatar.pixbuf = pixbuf.scale_simple (50, 50, Gdk.InterpType.BILINEAR);return false;});
+                        Idle.add(() => {        
+                        var new_avatar = new Granite.Widgets.Avatar.from_file (Environment.get_home_dir () + "/.cache/birdie/" + this.tweet.profile_image_file, 50);                
+                        this.avatar.pixbuf = new_avatar.pixbuf;return false;});
                     } catch (Error e) {
                         stderr.printf("Error setting avatar: %s\n", e.message);
                     }
