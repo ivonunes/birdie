@@ -137,7 +137,7 @@ namespace Birdie {
         public bool switching_accounts;
 
         private signal void exit();
-igin
+
         construct {
             program_name        = "Birdie";
             exec_name           = "me.ivonunes.birdie";
