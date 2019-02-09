@@ -1,6 +1,6 @@
 // -*- Mode: vala; indent-tabs-mode: nil; tab-width: 4 -*-
 /*-
- * Copyright (c) 2013-2018 Ivo Nunes
+ * Copyright (c) 2013-2019 Ivo Nunes
  *
  * This software is licensed under the GNU General Public License
  * (version 3 or later). See the COPYING file in this distribution.

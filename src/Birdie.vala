@@ -1,6 +1,6 @@
 // -*- Mode: vala; indent-tabs-mode: nil; tab-width: 4 -*-
 /*-
- * Copyright (c) 2013-2018 Ivo Nunes
+ * Copyright (c) 2013-2019 Ivo Nunes
  *
  * This software is licensed under the GNU General Public License
  * (version 3 or later). See the COPYING file in this distribution.
@@ -137,13 +137,13 @@ namespace Birdie {
         public bool switching_accounts;
 
         private signal void exit();
-
+igin
         construct {
             program_name        = "Birdie";
             exec_name           = "me.ivonunes.birdie";
 
             build_version       = Constants.VERSION;
-            app_years           = "2013-2018";
+            app_years           = "2013-2019";
             app_icon            = "me.ivonunes.birdie";
             app_launcher        = "me.ivonunes.birdie.desktop";
             application_id      = "me.ivonunes.birdie";
