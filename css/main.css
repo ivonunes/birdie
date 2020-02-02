@@ -225,6 +225,12 @@ ul.features li#infinite-scroll {
 }
 
 
+.collective {
+    margin: 0 50px 50px;
+    text-align: center;
+}
+
+
 /*----- Images -----*/
 
 img.center {
